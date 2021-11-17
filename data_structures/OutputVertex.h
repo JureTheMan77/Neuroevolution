@@ -8,7 +8,7 @@
 #include "Vertex.h"
 
 namespace data_structures {
-    class OutputVertex : public data_structures::Vertex {
+    class OutputVertex : public data_structures::Vertex, public data_structures::IDeepCloneable<OutputVertex> {
     private:
         std::string label;
 
@@ -22,6 +22,8 @@ namespace data_structures {
                 Vertex(index, false, 0, 0), label(std::move(label)) {}
 
         static std::shared_ptr<OutputVertex> createOutputVertex(unsigned int index, std::string label);
+
+        std::shared_ptr<OutputVertex> deepClone() override;
 
         /**
          * Destroys this object.
@@ -39,6 +41,8 @@ namespace data_structures {
          * @return this object's information
          */
         std::string toString() override;
+
+        enums::VertexType getType() override;
     };
 }
 

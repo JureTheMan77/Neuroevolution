@@ -6,9 +6,10 @@
 #define NEUROEVOLUTION_AGENT_H
 
 #include "../data_structures/Graph.h"
+#include "../data_structures/IDeepCloneable.h"
 
 namespace evolution {
-    class Agent {
+    class Agent : public data_structures::IDeepCloneable<Agent> {
     private:
         std::shared_ptr<data_structures::Graph> graph{};
         double fitness = 0;
@@ -35,7 +36,11 @@ namespace evolution {
 
         static std::shared_ptr<Agent> create(const std::shared_ptr<data_structures::Graph> &graphArg);
 
-        static std::shared_ptr<Agent> copy(std::shared_ptr<Agent> agent);
+        /**
+         * Deep clones this object.
+         * @return a new instance
+         */
+        std::shared_ptr<Agent> deepClone() override;
 
         /**
          * Construct a new agent with fitness 0.

@@ -23,3 +23,11 @@ data_structures::OutputVertex::createOutputVertex(unsigned int index, std::strin
 void data_structures::OutputVertex::addOutputEdge(const std::shared_ptr<data_structures::Edge> &edge) {
     // ignored
 }
+
+std::shared_ptr<data_structures::OutputVertex> data_structures::OutputVertex::deepClone() {
+    return std::make_shared<data_structures::OutputVertex>(this->getIndex(), this->label);
+}
+
+enums::VertexType data_structures::OutputVertex::getType() {
+    return enums::VertexType::Output;
+}

@@ -30,6 +30,7 @@ evolution::Agent::create(const std::shared_ptr<data_structures::Graph> &graphArg
     return std::make_shared<evolution::Agent>(graphArg);
 }
 
-std::shared_ptr<evolution::Agent> evolution::Agent::copy(std::shared_ptr<Agent> agent) {
-    return std::make_shared<evolution::Agent>(agent);
+std::shared_ptr<evolution::Agent> evolution::Agent::deepClone() {
+    // keep fitness at 0
+    return std::make_shared<evolution::Agent>(this->getGraph()->deepClone());
 }

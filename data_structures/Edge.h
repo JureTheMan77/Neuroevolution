@@ -51,6 +51,18 @@ namespace data_structures {
         std::shared_ptr<data_structures::Vertex> getOutput();
 
         /**
+         * Get the weight.
+         * @return weight
+         */
+        double getWeight();
+
+        /**
+         * Get the number of times this edge can be traversed.
+         * @return traverse limit
+         */
+        unsigned int getTraverseLimit();
+
+        /**
          * Combines the current weight with the new one. By default, the operation is addition.
          * x*w1 + x*w2 = y
          * x * (w1 + w2) = y

@@ -9,7 +9,7 @@
 #include "Vertex.h"
 
 namespace data_structures {
-    class InputVertex : public data_structures::Vertex {
+    class InputVertex : public data_structures::Vertex, public data_structures::IDeepCloneable<InputVertex> {
     private:
         std::string label{};
 
@@ -26,6 +26,8 @@ namespace data_structures {
         static std::shared_ptr<InputVertex>
         createInputVertex(unsigned int index, bool dominant, double chanceToGetDominated, unsigned int maxChildren,
                           std::string &labelArg);
+
+        std::shared_ptr<InputVertex> deepClone() override;
 
         /**
          * Destroys this object.
@@ -49,6 +51,8 @@ namespace data_structures {
          * @return this object's information
          */
         std::string toString() override;
+
+        enums::VertexType getType() override;
     };
 }
 

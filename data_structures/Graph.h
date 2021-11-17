@@ -13,9 +13,10 @@
 #include "UniqueVertexQueue.h"
 #include "DataInstance.h"
 #include "../enums/VertexType.h"
+#include "IDeepCloneable.h"
 
 namespace data_structures {
-    class Graph {
+    class Graph : public data_structures::IDeepCloneable<Graph> {
     private:
         std::vector<std::shared_ptr<data_structures::InputVertex>> inputVertices{};
         std::vector<std::shared_ptr<data_structures::OutputVertex>> outputVertices{};
@@ -45,6 +46,8 @@ namespace data_structures {
                                                   unsigned int deepVertices, unsigned int outputVertices,
                                                   std::vector<std::string> &outputLabels);
 
+        std::shared_ptr<Graph> deepClone() override;
+
         /**
          * Calls destructors on all edges and vertices.
          */
@@ -68,6 +71,8 @@ namespace data_structures {
          */
         void addOutputVertices(unsigned int numberOfOutputVertices, std::vector<std::string> &labels);
 
+        void addOutputVertex(const std::shared_ptr<data_structures::OutputVertex>& outputVertex);
+
         std::vector<std::shared_ptr<data_structures::OutputVertex>> getOutputVertices();
 
         /**
@@ -75,6 +80,8 @@ namespace data_structures {
          * @param numberOfDeepVertices number of deep vertices to add
          */
         void addDeepVertices(unsigned int numberOfDeepVertices);
+
+        void addDeepVertex(const std::shared_ptr<data_structures::DeepVertex>& deepVertex);
 
         /**
          * Adds an edge between the input and output vertex.

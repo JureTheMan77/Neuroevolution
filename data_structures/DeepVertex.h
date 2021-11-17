@@ -8,8 +8,7 @@
 #include "Vertex.h"
 
 namespace data_structures {
-    class DeepVertex
-            : public data_structures::Vertex {
+    class DeepVertex : public data_structures::Vertex, public data_structures::IDeepCloneable<DeepVertex> {
     public:
         /**
          * Creates a new deep vertex object without edges, calls the parent constructor.
@@ -32,6 +31,8 @@ namespace data_structures {
         static std::shared_ptr<data_structures::DeepVertex>
         createDeepVertex(unsigned int index, bool dominant, double chanceToGetDominated, unsigned int maxChildren);
 
+        std::shared_ptr<DeepVertex> deepClone() override;
+
         /**
          * Deletes the input and output vertex vectors.
          */
@@ -42,6 +43,8 @@ namespace data_structures {
          * @return this object's information
          */
         std::string toString() override;
+
+        enums::VertexType getType() override;
     };
 }
 

@@ -53,3 +53,11 @@ void data_structures::Edge::reset() {
 void data_structures::Edge::combineWeight(double argWeight) {
     this->weight += argWeight;
 }
+
+double data_structures::Edge::getWeight() {
+    return weight;
+}
+
+unsigned int data_structures::Edge::getTraverseLimit() {
+    return traverseLimit;
+}

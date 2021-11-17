@@ -10,9 +10,11 @@
 #include "Edge.fwd.h"
 #include "InputEdges.h"
 #include "OutputEdges.h"
+#include "IDeepCloneable.h"
+#include "IVertexType.h"
 
 namespace data_structures {
-    class Vertex : public data_structures::InputEdges, public data_structures::OutputEdges {
+    class Vertex : public data_structures::InputEdges, public data_structures::OutputEdges, public data_structures::IVertexType{
     private:
         unsigned int index;
         double value{};
@@ -103,6 +105,8 @@ namespace data_structures {
          * @return this object's information
          */
         virtual std::string toString();
+
+        enums::VertexType getType() override = 0;
     };
 }
 

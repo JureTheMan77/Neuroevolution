@@ -20,4 +20,14 @@ std::string data_structures::DeepVertex::toString() {
     return stream.str();
 }
 
+std::shared_ptr<data_structures::DeepVertex> data_structures::DeepVertex::deepClone() {
+    return std::make_shared<data_structures::DeepVertex>(this->getIndex(), this->isDominant(),
+                                                         this->getChanceToGetDominated(),
+                                                         this->getMaxChildren());
+}
+
+enums::VertexType data_structures::DeepVertex::getType() {
+    return enums::VertexType::Deep;
+}
+
 

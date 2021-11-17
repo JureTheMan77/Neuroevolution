@@ -34,11 +34,14 @@ void data_structures::Graph::addInputVertex(const std::shared_ptr<data_structure
     this->inputVertices.push_back(inputVertex);
 }
 
-
 void data_structures::Graph::addOutputVertices(unsigned int numberOfOutputVertices, std::vector<std::string> &labels) {
     for (unsigned int i = 0; i < numberOfOutputVertices; i++) {
         this->outputVertices.push_back(data_structures::OutputVertex::createOutputVertex(i, labels.at(i)));
     }
+}
+
+void data_structures::Graph::addOutputVertex(const std::shared_ptr<data_structures::OutputVertex> &outputVertex) {
+    this->outputVertices.push_back(outputVertex);
 }
 
 void data_structures::Graph::addDeepVertices(unsigned int numberOfDeepVertices) {
@@ -48,6 +51,10 @@ void data_structures::Graph::addDeepVertices(unsigned int numberOfDeepVertices) 
                 data_structures::DeepVertex::createDeepVertex(i, util::nextBool(), util::nextDouble(),
                                                               util::nextInt(0, 2)));
     }
+}
+
+void data_structures::Graph::addDeepVertex(const std::shared_ptr<data_structures::DeepVertex> &deepVertex) {
+    this->deepVertices.push_back(deepVertex);
 }
 
 void data_structures::Graph::addEdge(enums::VertexType inputVertexType, unsigned int inputVertexIndex,
@@ -124,13 +131,13 @@ void data_structures::Graph::addEdge(enums::VertexType inputVertexType, unsigned
 }
 
 void data_structures::Graph::traverse(const std::shared_ptr<data_structures::DataInstance> &dataInstance) {
-    if (dataInstance->getValues()->size() != this->inputVertices.size()) {
+    if (dataInstance->getValues().size() != this->inputVertices.size()) {
         throw std::invalid_argument("Number of values in dataInstance does not match the number of input vertices.");
     }
 
     // assign values to input vertices
     for (unsigned int i = 0; i < this->inputVertices.size(); i++) {
-        this->inputVertices.at(i)->combineValue(dataInstance->getValues()->at(i));
+        this->inputVertices.at(i)->combineValue(dataInstance->getValues().at(i));
     }
 
     // add the input vertices to the set of pending vertices
@@ -224,4 +231,65 @@ data_structures::Graph::createGraph(unsigned int inputVertices, std::vector<std:
                                     std::vector<std::string> &outputLabels) {
     return std::make_shared<data_structures::Graph>(inputVertices, inputLabels, deepVertices, outputVertices,
                                                     outputLabels);
+}
+
+std::shared_ptr<data_structures::Graph> data_structures::Graph::deepClone() {
+    /*
+     * unsigned int inputVertices, std::vector<std::string> &inputLabels,
+                              unsigned int deepVertices,
+                              unsigned int outputVertices, std::vector<std::string> &outputLabels
+     */
+    // make a new empty instance
+    auto newGraph = std::make_shared<data_structures::Graph>();
+
+    // clone the input vertices
+    for (const std::shared_ptr<data_structures::InputVertex> &inputVertex: this->inputVertices) {
+        newGraph->addInputVertex(inputVertex->deepClone());
+    }
+    // recreate edges
+    for (const std::shared_ptr<data_structures::InputVertex> &inputVertex: this->inputVertices) {
+        // input vertices have no input edges
+        for (const std::shared_ptr<data_structures::Edge>& edge: inputVertex->getOutputEdges()) {
+            newGraph->addEdge(edge->getInput()->getType(), edge->getInput()->getIndex(),
+                              edge->getOutput()->getType(), edge->getOutput()->getIndex(),
+                              edge->getWeight(), edge->getTraverseLimit());
+        }
+    }
+
+
+    // clone output vertices
+    for (const std::shared_ptr<data_structures::OutputVertex> &outputVertex: this->outputVertices) {
+        newGraph->addOutputVertex(outputVertex->deepClone());
+    }
+    // recreate edges
+    for (const std::shared_ptr<data_structures::OutputVertex> &outputVertex: this->outputVertices) {
+        // output vertices have no output edges
+        for (const std::shared_ptr<data_structures::Edge>& edge: outputVertex->getInputEdges()) {
+            newGraph->addEdge(edge->getInput()->getType(), edge->getInput()->getIndex(),
+                              edge->getOutput()->getType(), edge->getOutput()->getIndex(),
+                              edge->getWeight(), edge->getTraverseLimit());
+        }
+    }
+
+
+    // clone deep vertices
+    for (const std::shared_ptr<data_structures::DeepVertex> &deepVertex: this->deepVertices) {
+        newGraph->addDeepVertex(deepVertex->deepClone());
+    }
+    // recreate edges
+    for (const std::shared_ptr<data_structures::DeepVertex> &deepVertex: this->deepVertices) {
+        for (const std::shared_ptr<data_structures::Edge>& edge: deepVertex->getInputEdges()) {
+            newGraph->addEdge(edge->getInput()->getType(), edge->getInput()->getIndex(),
+                              edge->getOutput()->getType(), edge->getOutput()->getIndex(),
+                              edge->getWeight(), edge->getTraverseLimit());
+        }
+        for (const std::shared_ptr<data_structures::Edge>& edge: deepVertex->getOutputEdges()) {
+            newGraph->addEdge(edge->getInput()->getType(), edge->getInput()->getIndex(),
+                              edge->getOutput()->getType(), edge->getOutput()->getIndex(),
+                              edge->getWeight(), edge->getTraverseLimit());
+        }
+    }
+
+    // pendingVertices stays empty
+    return newGraph;
 }

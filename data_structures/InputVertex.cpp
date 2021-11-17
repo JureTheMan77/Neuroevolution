@@ -28,3 +28,13 @@ void data_structures::InputVertex::addInputEdge(const std::shared_ptr<data_struc
 bool data_structures::InputVertex::allInputEdgesTraversed() {
     return true;
 }
+
+std::shared_ptr<data_structures::InputVertex> data_structures::InputVertex::deepClone() {
+    return std::make_shared<data_structures::InputVertex>(this->getIndex(), this->isDominant(),
+                                                          this->getChanceToGetDominated(),
+                                                          this->getMaxChildren(), this->label);
+}
+
+enums::VertexType data_structures::InputVertex::getType() {
+    return enums::VertexType::Input;
+}

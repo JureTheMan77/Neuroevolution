@@ -33,7 +33,8 @@ evolution::Population::Population(const std::string &pathToDataSet) {
                 this->outputLabels = util::split(line, delimiter);
                 this->numberOfOutputs = this->outputLabels.size();
             } else {
-                auto dataInstance = data_structures::DataInstance::createDataInstance(util::splitDouble(line, delimiter));
+                auto dataInstance = data_structures::DataInstance::createDataInstance(
+                        util::splitDouble(line, delimiter));
                 this->trainingValues.push_back(dataInstance);
             }
 
@@ -93,7 +94,7 @@ evolution::Population::createAgent(unsigned int maxDeepVertices, unsigned int ma
 
     // generate vertices
     auto graph = data_structures::Graph::createGraph(this->numberOfInputs, this->inputLabels, numberOfDeepVertices,
-                                             this->numberOfOutputs, this->outputLabels);
+                                                     this->numberOfOutputs, this->outputLabels);
 
     // generate edges
     unsigned int type1;
@@ -164,11 +165,11 @@ void evolution::Population::calculateFitness() {
     unsigned int numCorrect;
     unsigned int numIncorrect;
 
-    for (const std::shared_ptr<evolution::Agent>& agent : this->population) {
+    for (const std::shared_ptr<evolution::Agent> &agent: this->population) {
         numCorrect = 0;
         numIncorrect = 0;
 
-        for (const std::shared_ptr<data_structures::DataInstance>& di : this->trainingValues) {
+        for (const std::shared_ptr<data_structures::DataInstance> &di: this->trainingValues) {
             agent->getGraph()->traverse(di);
 
             // check if the prediction is correct
@@ -207,19 +208,20 @@ void evolution::Population::sample(enums::SelectionType type, unsigned int agent
         }
     }
 
-    for(unsigned int index : indexesToKeep){
+    for (unsigned int index: indexesToKeep) {
         // indexesToKeep will never be larger that the population
-        this->populationPlaceholder.push_back(evolution::Agent::create(this->population.at(index)));
+        auto temp = this->population.at(index);
+        this->populationPlaceholder.push_back(this->population.at(index)->deepClone());
     }
 
-    this->population->swap(*this->populationPlaceholder);
-    this->populationPlaceholder->clear();
+    this->population.swap(this->populationPlaceholder);
+    this->populationPlaceholder.clear();
 }
 
 std::vector<unsigned int> evolution::Population::stochasticUniversalSampling(unsigned int agentsToKeep) {
     // calculate the total fitness of the population
     double fitnessSum = 0;
-    for (evolution::Agent *agent : *this->population) {
+    for (const std::shared_ptr<evolution::Agent> &agent: this->population) {
         fitnessSum += agent->getFitness();
     }
 
@@ -240,14 +242,14 @@ std::vector<unsigned int> evolution::Population::stochasticUniversalSampling(uns
     // loop until the vector of agents is filled
     double pointer = start;
     int counter = 0;
-    double cumulativeFitness = this->population->at(0)->getFitness();
+    double cumulativeFitness = this->population.at(0)->getFitness();
     while (indexesToKeep.size() < agentsToKeep) {
         if (cumulativeFitness >= pointer) {
             indexesToKeep.push_back(counter);
             pointer += distance;
         } else {
             counter += 1;
-            cumulativeFitness += this->population->at(counter)->getFitness();
+            cumulativeFitness += this->population.at(counter)->getFitness();
         }
     }
 
@@ -261,38 +263,38 @@ void evolution::Population::crossover() {
     // initialize randomness
     std::mt19937 rng(this->seeder());
     // choose the maximum size here since we don't want to do crossover with child agents
-    std::uniform_int_distribution<unsigned int> populationDistribution(0, this->population->size());
+    std::uniform_int_distribution<unsigned int> populationDistribution(0, this->population.size());
 
     // create new agents until the population is full
-    while (this->population->size() <= this->populationSize) {
+    while (this->population.size() <= this->populationSize) {
         // choose 2 random agents
         // the same agent can be rolled twice
-        evolution::Agent *agent1 = this->population->at(populationDistribution(rng));
-        evolution::Agent *agent2 = this->population->at(populationDistribution(rng));
-        auto *childAgent = new evolution::Agent();
+        std::shared_ptr<evolution::Agent> agent1 = this->population.at(populationDistribution(rng));
+        std::shared_ptr<evolution::Agent> agent2 = this->population.at(populationDistribution(rng));
+        auto childAgent = std::make_shared<Agent>();
         // childAgent->getGraph()->addInputVertices()
 
         // output vertices must be fixed, so only do crossover on input and deep vertices
         // only select the dominant vertices from both agents
 
         // input vertices
-        for (int i = 0; i < agent1->getGraph()->getInputVertices()->size(); i++) {
-            data_structures::InputVertex *v1 = agent1->getGraph()->getInputVertices()->at(i);
-            data_structures::InputVertex *v2 = agent2->getGraph()->getInputVertices()->at(i);
+        for (int i = 0; i < agent1->getGraph()->getInputVertices().size(); i++) {
+            std::shared_ptr<data_structures::InputVertex> v1 = agent1->getGraph()->getInputVertices().at(i);
+            std::shared_ptr<data_structures::InputVertex> v2 = agent2->getGraph()->getInputVertices().at(i);
             // get the dominant vertex
-            auto* dominant = (data_structures::DeepVertex *)this->getDominantVertex(v1, v2);
+            std::shared_ptr<data_structures::Vertex> dominant = this->getDominantVertex(v1, v2);
             // add the dominant vertex to the child agent
             //childAgent->getGraph()->addInputVertices();
         }
 
         // deep vertices
-        unsigned int leastDeepVertices = std::min(agent1->getGraph()->getDeepVertices()->size(),
-                                                  agent2->getGraph()->getDeepVertices()->size());
+        unsigned long leastDeepVertices = std::min(agent1->getGraph()->getDeepVertices().size(),
+                                                   agent2->getGraph()->getDeepVertices().size());
         for (int i = 0; i < leastDeepVertices; i++) {
-            data_structures::DeepVertex *v1 = agent1->getGraph()->getDeepVertices()->at(i);
-            data_structures::DeepVertex *v2 = agent2->getGraph()->getDeepVertices()->at(i);
+            std::shared_ptr<data_structures::DeepVertex> v1 = agent1->getGraph()->getDeepVertices().at(i);
+            std::shared_ptr<data_structures::DeepVertex> v2 = agent2->getGraph()->getDeepVertices().at(i);
             // get the dominant vertex
-            auto* dominant = (data_structures::DeepVertex *)this->getDominantVertex(v1, v2);
+            std::shared_ptr<data_structures::Vertex> dominant = this->getDominantVertex(v1, v2);
             // add the dominant vertex to the child agent
             //childAgent->getGraph().add;
         }
@@ -300,7 +302,9 @@ void evolution::Population::crossover() {
     }
 }
 
-data_structures::Vertex * evolution::Population::getDominantVertex(data_structures::Vertex *v1, data_structures::Vertex *v2) {
+std::shared_ptr<data_structures::Vertex>
+evolution::Population::getDominantVertex(std::shared_ptr<data_structures::Vertex> v1,
+                                         std::shared_ptr<data_structures::Vertex> v2) {
     if (v1->isDominant() && v2->isDominant() || !v1->isDominant() && !v2->isDominant()) {
         // if both vertices are dominant or recessive, then choose the one with the least chance to get dominated
         return v1->getChanceToGetDominated() > v2->getChanceToGetDominated() ? v2 : v1;
