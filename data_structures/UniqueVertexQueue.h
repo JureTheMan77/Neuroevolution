@@ -9,6 +9,7 @@
 #include <memory>
 #include <unordered_set>
 #include "Vertex.h"
+#include "InputVertex.h"
 
 namespace data_structures {
     class UniqueVertexQueue {

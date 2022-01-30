@@ -6,34 +6,78 @@ int main() {
     logging::logs("Pozdravljen, svet!");
 
     auto inputLabels = std::vector<std::string>();
-    inputLabels.insert(inputLabels.end(), {"sepal length", "sepal width", "petal length", "petal width"});
+    inputLabels.insert(inputLabels.end(),
+                       {"sepal length in cm", "sepal width in cm", "petal length in cm", "petal width in cm"});
     auto outputLabels = std::vector<std::string>();
     outputLabels.insert(outputLabels.end(), {"Iris Setosa", "Iris Versicolour", "Iris Virginica"});
 
-    auto graph = data_structures::Graph::createGraph(4,inputLabels,5,3,outputLabels);
-    graph->addEdge(enums::VertexType::Input,0,enums::VertexType::Deep,1,2,1);
-    graph->addEdge(enums::VertexType::Deep,1,enums::VertexType::Output,2,1,1);
-    logging::logs(graph->toString());
+    auto pop = evolution::Population("/home/jure/CLionProjects/Neuroevolution/datasets/iris/iris.data");
 
-    auto agent = evolution::Agent::create(graph, 0);
-    logging::logs(agent->toString());
+//    auto graph = data_structures::Graph::createGraph(4,inputLabels,1,3,outputLabels);
+    //graph->addEdge(enums::VertexType::Input,0,enums::VertexType::Deep,0,2,1);
+    //graph->addEdge(enums::VertexType::Deep,0,enums::VertexType::Output,0,0.75,1);
+    //graph->addEdge(enums::VertexType::Input,1,enums::VertexType::Output,1,0.45,1);
+    // recursive
+    //graph->addEdge(enums::VertexType::Input,2,enums::VertexType::Deep,1,1,1);
+    //graph->addEdge(enums::VertexType::Deep,1,enums::VertexType::Deep,1,2,1);
+    //graph->addEdge(enums::VertexType::Deep,1,enums::VertexType::Output,2,1,1);
 
-//    auto *pop = new evolution::Population(10, 4, inputLabels, 15, 3, outputLabels, 10, true);
+//    graph->addEdge(enums::VertexType::Input,0,enums::VertexType::Deep,0,1,1);
+//    graph->addEdge(enums::VertexType::Deep,0,enums::VertexType::Deep,0,2,1);
+//    graph->addEdge(enums::VertexType::Deep,0,enums::VertexType::Output,0,1,1);
+    //logging::logs(graph->toString());
+//    auto agent = evolution::Agent::create(graph, 0);
+//
+//    std::shared_ptr<data_structures::DataInstance> di = data_structures::DataInstance::createDataInstance({5.1,3.5,1.4,0.2,0});
+//    agent->getGraph()->traverse(di);
+//    logging::logs(agent->toString());
+//
+//    logging::logs(agent->toString());
+//    auto clonedAgent = agent->deepClone();
+//
+//    logging::logs(agent->toString());
+//    logging::logs(clonedAgent->toString());
 
+    //auto graph = data_structures::Graph::createGraph(4,inputLabels,0,3,outputLabels);
+    //graph->addEdge(enums::VertexType::Input,1,enums::VertexType::Output,0,0.467950335030075,1);
+    //graph->addEdge(enums::VertexType::Input,3,enums::VertexType::Output,1,1.31808422766154,1);
+
+    //pop.addAgent(evolution::Agent::create(graph));
+    //logging::logs(pop.toString());
+    //pop.calculateFitness(-1, -0.5);
+    //logging::logs(pop.getFittestAgent()->toString());
+    logging::logs("Start");
+    pop.initialisePopulation(200, 20, 40, 2, true);
+    logging::logs("Population initialised.");
+    //logging::logs(pop.toString());
+
+    std::shared_ptr<evolution::Agent> fittestAgent;
+    for (int i = 0; i < 1000; i++) {
+        logging::logs("Generation " + std::to_string(i));
+        pop.calculateFitness(-1, -0.5);
+        //logging::logs("Fitness calculated.");
+        //logging::logs(pop.toString());
+
+        logging::logs("Average fitness: " + std::to_string(pop.getAverageFitness()));
+        logging::logs("Fittest agent: " + std::to_string(pop.getFittestAgent()->getFitness()));
+        //logging::logs(pop.getFittestAgent()->toString());
+        if (i == 999) {
+            fittestAgent = pop.getFittestAgent();
+        }
+
+        pop.sample(enums::SelectionType::StochasticUniversalSampling, 150);
+        //logging::logs("Population sampled.");
+
+        pop.crossover();
+        //logging::logs("Population crossovered.");
+    }
+
+    logging::logs(fittestAgent->toString());
 
     //logging::logs(pop->toString());
-
     //delete pop;
 
-//    auto *pop = new evolution::Population("/home/jure/CLionProjects/Neuroevolution/datasets/iris/iris.data");
-//    pop->initialisePopulation(50,20,50,2,true);
-//    logging::logs("Population initialised.");
-//    pop->calculateFitness();
-//    logging::logs("Fitness calculated.");
-//    pop->sample(enums::SelectionType::StochasticUniversalSampling, 25);
-//    logging::logs("Population sampled.");
-//    //logging::logs(pop->toString());
-//    delete pop;
+
 
 
     logging::logs("done");

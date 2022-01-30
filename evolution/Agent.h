@@ -37,6 +37,14 @@ namespace evolution {
         static std::shared_ptr<Agent> create(const std::shared_ptr<data_structures::Graph> &graphArg);
 
         /**
+         * Create an agent with an empty graph.
+         * @return a new agent
+         */
+        static std::shared_ptr<Agent>
+        create(unsigned int inputVertices, std::vector<std::string> &inputLabels, unsigned int outputVertices,
+               std::vector<std::string> &outputLabels);
+
+        /**
          * Deep clones this object.
          * @return a new instance
          */

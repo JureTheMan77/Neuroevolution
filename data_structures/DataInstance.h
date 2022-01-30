@@ -24,7 +24,7 @@ namespace data_structures {
          * Creates a new DataInstance object with values.
          * @param valuesAndLabelIndex all values are input values, the last one is the correct index
          */
-        explicit DataInstance(std::vector<double> valuesAndLabelIndex) : values(std::move(valuesAndLabelIndex)) {};
+        explicit DataInstance(std::vector<double> valuesAndLabelIndex) : values(valuesAndLabelIndex.begin(),valuesAndLabelIndex.end() - 1), correctIndex(valuesAndLabelIndex.back()) {};
 
         static std::shared_ptr<DataInstance>
         createDataInstance(const std::vector<double> &valuesAndLabelIndex);

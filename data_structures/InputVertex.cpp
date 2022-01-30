@@ -16,9 +16,8 @@ std::string data_structures::InputVertex::toString() {
 }
 
 std::shared_ptr<data_structures::InputVertex>
-data_structures::InputVertex::createInputVertex(unsigned int index, bool dominant, double chanceToGetDominated,
-                                                unsigned int maxChildren, std::string &labelArg) {
-    return std::make_shared<data_structures::InputVertex>(index, dominant, chanceToGetDominated, maxChildren, labelArg);
+data_structures::InputVertex::createInputVertex(unsigned int index, std::string &labelArg) {
+    return std::make_shared<data_structures::InputVertex>(index, labelArg);
 }
 
 void data_structures::InputVertex::addInputEdge(const std::shared_ptr<data_structures::Edge> &edge) {
@@ -30,9 +29,7 @@ bool data_structures::InputVertex::allInputEdgesTraversed() {
 }
 
 std::shared_ptr<data_structures::InputVertex> data_structures::InputVertex::deepClone() {
-    return std::make_shared<data_structures::InputVertex>(this->getIndex(), this->isDominant(),
-                                                          this->getChanceToGetDominated(),
-                                                          this->getMaxChildren(), this->label);
+    return std::make_shared<data_structures::InputVertex>(this->getIndex(), this->label);
 }
 
 enums::VertexType data_structures::InputVertex::getType() {

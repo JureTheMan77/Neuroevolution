@@ -14,21 +14,15 @@
 #include "IVertexType.h"
 
 namespace data_structures {
-    class Vertex : public data_structures::InputEdges, public data_structures::OutputEdges, public data_structures::IVertexType{
+    class Vertex
+            : public data_structures::InputEdges,
+              public data_structures::OutputEdges,
+              public data_structures::IVertexType {
     private:
         unsigned int index;
         double value{};
 
-        bool dominant{};
-        double chanceToGetDominated{};
-        unsigned int maxChildren{};
-
-        /**
-         * Creates a new vertex object.
-         * @param index index of the vertex
-         */
-        explicit Vertex(unsigned int index) : data_structures::InputEdges(), data_structures::OutputEdges(), index(index) {}
-
+        bool visited{};
     public:
         /**
          * Creates a new vertex object.
@@ -44,9 +38,7 @@ namespace data_structures {
          * @param chanceToGetDominated chance to get dominated
          * @param maxChildren maximum amount of children this vertex can produce
          */
-        Vertex(unsigned int index, bool dominant, double chanceToGetDominated, unsigned int maxChildren) :
-                index(index), dominant(dominant), chanceToGetDominated(chanceToGetDominated),
-                maxChildren(maxChildren) {};
+        explicit Vertex(unsigned int index) : index(index){};
 
         /**
          * Copy constructor.
@@ -71,6 +63,8 @@ namespace data_structures {
          */
         double getValue();
 
+        void setValue(double value);
+
         /**
          * Sets the stored value to 0.
          */
@@ -82,23 +76,11 @@ namespace data_structures {
          */
         virtual unsigned int getIndex();
 
-        /**
-         * Returns true if this vertex is dominant.
-         * @return dominance
-         */
-        bool isDominant();
+        void setIndex(unsigned int index);
 
-        /**
-         * Returns the chance of this vertex to be dominated
-         * @return domination chance
-         */
-        double getChanceToGetDominated();
+        bool isVisited() const;
 
-        /**
-         * Returns the maximum number of children this vertex can produce.
-         * @return max children
-         */
-        unsigned int getMaxChildren();
+        void setVisited(bool visited);
 
         /**
          * Get a string with useful information about this object.

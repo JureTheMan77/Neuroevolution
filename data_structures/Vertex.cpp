@@ -28,14 +28,18 @@ unsigned int data_structures::Vertex::getIndex() {
     return this->index;
 }
 
-bool data_structures::Vertex::isDominant() {
-    return this->dominant;
+void data_structures::Vertex::setValue(double value) {
+    this->value = value;
 }
 
-double data_structures::Vertex::getChanceToGetDominated() {
-    return this->chanceToGetDominated;
+bool data_structures::Vertex::isVisited() const {
+    return visited;
 }
 
-unsigned int data_structures::Vertex::getMaxChildren() {
-    return this->maxChildren;
+void data_structures::Vertex::setVisited(bool visited) {
+    this->visited = visited;
+}
+
+void data_structures::Vertex::setIndex(unsigned int index) {
+    this->index = index;
 }

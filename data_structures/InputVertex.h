@@ -19,13 +19,10 @@ namespace data_structures {
          * @param index index of the vertex
          * @param label label of the vertex
          */
-        InputVertex(unsigned int index, bool dominant, double chanceToGetDominated, unsigned int maxChildren,
-                    std::string labelArg) :
-                Vertex(index, dominant, chanceToGetDominated, maxChildren), label(std::move(labelArg)) {}
+        InputVertex(unsigned int index, std::string labelArg) : Vertex(index), label(std::move(labelArg)) {}
 
         static std::shared_ptr<InputVertex>
-        createInputVertex(unsigned int index, bool dominant, double chanceToGetDominated, unsigned int maxChildren,
-                          std::string &labelArg);
+        createInputVertex(unsigned int index,std::string &labelArg);
 
         std::shared_ptr<InputVertex> deepClone() override;
 

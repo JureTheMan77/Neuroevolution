@@ -25,6 +25,9 @@ namespace data_structures {
 
         std::vector<std::shared_ptr<data_structures::Edge>> edges{};
 
+        unsigned int largestDeepVertexIndex{0};
+        unsigned int largestEdgeIndex{0};
+        unsigned int const UINT_MAX = std::numeric_limits<unsigned int>::max();
     public:
         /**
          * Initializes inputVertices, outputVertices, deepVertices and edges vectors.
@@ -71,7 +74,7 @@ namespace data_structures {
          */
         void addOutputVertices(unsigned int numberOfOutputVertices, std::vector<std::string> &labels);
 
-        void addOutputVertex(const std::shared_ptr<data_structures::OutputVertex>& outputVertex);
+        void addOutputVertex(const std::shared_ptr<data_structures::OutputVertex> &outputVertex);
 
         std::vector<std::shared_ptr<data_structures::OutputVertex>> getOutputVertices();
 
@@ -81,7 +84,9 @@ namespace data_structures {
          */
         void addDeepVertices(unsigned int numberOfDeepVertices);
 
-        void addDeepVertex(const std::shared_ptr<data_structures::DeepVertex>& deepVertex);
+        void addDeepVertices(const std::vector<std::shared_ptr<data_structures::DeepVertex>> &deepVertices);
+
+        void addDeepVertex(const std::shared_ptr<data_structures::DeepVertex> &deepVertex);
 
         /**
          * Adds an edge between the input and output vertex.
@@ -94,9 +99,14 @@ namespace data_structures {
          */
         void
         addEdge(enums::VertexType inputVertexType, unsigned int inputVertexIndex, enums::VertexType outputVertexType,
-                unsigned int outputVertexIndex, double weight, unsigned int traversalLimit);
+                unsigned int outputVertexIndex, unsigned int index, double weight, unsigned int traversalLimit);
 
-        /**
+        std::shared_ptr<data_structures::Edge>
+        addEdge(enums::VertexType inputVertexType, unsigned int inputVertexIndex, enums::VertexType outputVertexType,
+                unsigned int outputVertexIndex, unsigned int index, double weight, unsigned int traversalLimit,
+                const data_structures::ICrossoverable &crossoverableData);
+
+        /**B
          * Propagate the values of the @param dataInstance through the graph.
          * @param dataInstance values to propagate
          */
@@ -116,10 +126,43 @@ namespace data_structures {
         std::vector<std::shared_ptr<data_structures::DeepVertex>> getDeepVertices();
 
         /**
+         * Get a vertex with the correct index.
+         * @param index index to search for
+         * @return the vertex
+         */
+        std::shared_ptr<data_structures::DeepVertex> getDeepVertexByIndex(unsigned int index);
+
+        std::vector<std::shared_ptr<data_structures::Edge>> getEdges() const;
+
+        std::shared_ptr<data_structures::Edge>
+        getEdgeByIndexAndType(unsigned int inputVertexIndex, enums::VertexType inputVertexType,
+                              unsigned int outputVertexIndex, enums::VertexType outputVertexType);
+
+        /**
+         * Get the largest deep vertex index.
+         * @return index
+         */
+        unsigned int getLargestDeepVertexIndex();
+
+        void fixIndices();
+
+        /**
          * Get a string with useful information about this object.
          * @return this object's information
          */
         std::string toString();
+
+        bool
+        edgeBeforeAdd(enums::VertexType &inputVertexType, unsigned int inputVertexIndex,
+                      enums::VertexType &outputVertexType,
+                      unsigned int outputVertexIndex, unsigned int traversalLimit,
+                      std::shared_ptr<data_structures::Vertex> &input, std::shared_ptr<data_structures::Vertex> &output,
+                      std::shared_ptr<data_structures::Edge> &commonEdge);
+
+        void addEdgeAfterAdd(const enums::VertexType &inputVertexType, const enums::VertexType &outputVertexType,
+                             std::shared_ptr<data_structures::Vertex> &input,
+                             std::shared_ptr<data_structures::Vertex> &output,
+                             const std::shared_ptr<data_structures::Edge> &newEdge) const;
     };
 }
 

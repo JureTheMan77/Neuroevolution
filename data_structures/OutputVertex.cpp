@@ -31,3 +31,7 @@ std::shared_ptr<data_structures::OutputVertex> data_structures::OutputVertex::de
 enums::VertexType data_structures::OutputVertex::getType() {
     return enums::VertexType::Output;
 }
+
+void data_structures::OutputVertex::combineValue(double argValue) {
+    this->setValue(argValue);
+}

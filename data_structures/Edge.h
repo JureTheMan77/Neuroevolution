@@ -8,12 +8,14 @@
 #include <memory>
 #include "Edge.fwd.h"
 #include "Vertex.fwd.h"
+#include "ICrossoverable.h"
 
 namespace data_structures {
-    class Edge {
+    class Edge : public data_structures::ICrossoverable {
     private:
         std::shared_ptr<data_structures::Vertex> input;
         std::shared_ptr<data_structures::Vertex> output;
+        unsigned int index{};
         double weight;
         unsigned int traverseLimit;
         unsigned int traverseCount{0};
@@ -26,12 +28,21 @@ namespace data_structures {
          * @param traverseLimit how many times can this edge be traversed, minimum is 1
          */
         Edge(std::shared_ptr<data_structures::Vertex> input, std::shared_ptr<data_structures::Vertex> output,
-             double weight, unsigned int traverseLimit) : input(std::move(input)), output(std::move(output)),
-                                                          weight(weight), traverseLimit(traverseLimit) {};
+             unsigned int index, double weight, unsigned int traverseLimit, double mutationChance, bool dominant,
+             double chanceToGetDominated, unsigned int maxChildren) : ICrossoverable(mutationChance, dominant,
+                                                                                     chanceToGetDominated, maxChildren),
+                                                                      input(std::move(input)),
+                                                                      output(std::move(output)),
+                                                                      index(index),
+                                                                      weight(weight),
+                                                                      traverseLimit(traverseLimit) {};
 
-        static std::shared_ptr<data_structures::Edge> createEdge(std::shared_ptr<data_structures::Vertex> input,
-                                                          std::shared_ptr<data_structures::Vertex> output,
-                                                          double weight, unsigned int traverseLimit);
+        static std::shared_ptr<data_structures::Edge> createEdge(const std::shared_ptr<data_structures::Vertex> &input,
+                                                                 const std::shared_ptr<data_structures::Vertex> &output,
+                                                                 unsigned int index,
+                                                                 double weight, unsigned int traverseLimit,
+                                                                 double mutationChance, bool dominant,
+                                                                 double chanceToGetDominated, unsigned int maxChildren);
 
         /**
          * Destroys this object.
@@ -93,6 +104,10 @@ namespace data_structures {
          * Sets the traverseCount to 0.
          */
         void reset();
+
+        unsigned int getIndex() const;
+
+        void setIndex(unsigned int index);
 
         /**
          * Get a string with useful information about this object.

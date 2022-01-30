@@ -70,12 +70,17 @@ namespace util {
         return probabilityDistributionInt(rng) == 1;
     }
 
-    inline int nextInt(int min, int max) {
+    /**
+     * Generates a random int.
+     * @param min bottom limit
+     * @param max top limit
+     * @return a random integer
+     */
+    inline unsigned int nextUnsignedInt(unsigned int min, unsigned int max) {
         std::uniform_int_distribution intDist{min, max};
         std::mt19937 rng(seeder());
         return intDist(rng);
     }
-
 }
 
 
