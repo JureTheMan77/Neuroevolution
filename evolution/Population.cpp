@@ -17,7 +17,7 @@ evolution::Population::Population(const std::string &pathToDataSet) {
     }
 
     std::string delimiter = ",";
-    this->trainingValues = std::vector<std::shared_ptr<data_structures::DataInstance>>();
+    std::vector<std::shared_ptr<data_structures::DataInstance>> fullDataSet;
 
     // read the file line by line
     unsigned int counter = 0;
@@ -38,13 +38,24 @@ evolution::Population::Population(const std::string &pathToDataSet) {
             } else {
                 auto dataInstance = data_structures::DataInstance::createDataInstance(
                         util::splitDouble(line, delimiter));
-                this->trainingValues.push_back(dataInstance);
+                fullDataSet.push_back(dataInstance);
             }
 
             counter++;
         }
         file.close();
     }
+
+    // shuffle fullDataSet
+    auto rng = std::default_random_engine{this->seeder()};
+    std::shuffle(std::begin(fullDataSet), std::end(fullDataSet), rng);
+
+    // split the full dataset into training and testing
+    // use a 70/30 split
+    auto splitMark = (unsigned int) round((double) fullDataSet.size() * 0.7);
+    this->trainingValues.insert(trainingValues.begin(), fullDataSet.begin(), fullDataSet.begin() + splitMark);
+    this->testingValues.insert(testingValues.begin(), fullDataSet.begin() + splitMark, fullDataSet.end());
+
 
     this->population = std::vector<std::shared_ptr<evolution::Agent>>();
     this->populationPlaceholder = std::vector<std::shared_ptr<evolution::Agent>>();
@@ -155,23 +166,23 @@ std::string evolution::Population::toString() {
 
 void evolution::Population::calculateFitness(double vertexContribution, double edgeContribution) {
     // run all data instances on all agents
-    std::vector<std::thread> threads;
+    std::vector<std::future<void>> futures;
     unsigned int i = 0;
     for (const std::shared_ptr<evolution::Agent> &agent: this->population) {
-        std::thread thr(&evolution::Population::calculateAgentFitness, this, vertexContribution, edgeContribution,
-                        agent, i);
-        threads.push_back(std::move(thr));
+        auto ftr = std::async(&evolution::Population::calculateAgentFitness, this, vertexContribution, edgeContribution,
+                              agent);
+        futures.push_back(std::move(ftr));
         i += 1;
         //calculateAgentFitness(vertexContribution, edgeContribution, std::ref(agent));
     }
     // join the created threads
-    for (auto &thr: threads) {
-        thr.join();
+    for (auto &ftr: futures) {
+        ftr.get();
     }
 }
 
 void evolution::Population::calculateAgentFitness(double vertexContribution, double edgeContribution,
-                                                  const std::shared_ptr<evolution::Agent> &agent, unsigned int i) {
+                                                  const std::shared_ptr<evolution::Agent> &agent) {
     unsigned int numCorrect = 0;
     unsigned int numIncorrect = 0;
 
@@ -196,7 +207,6 @@ void evolution::Population::calculateAgentFitness(double vertexContribution, dou
     // calculate the fitness (accuracy)
 // agent->setFitness((double) numCorrect / (double) this->trainingValues.size());
     agent->setFitness((double) numCorrect + sizeContribution);
-    // logging::logs("Calculated for " + std::to_string(i));
 }
 
 void evolution::Population::sample(enums::SelectionType type, unsigned int agentsToKeep) {
@@ -301,8 +311,8 @@ std::shared_ptr<evolution::Agent> evolution::Population::crossoverThreaded() {
     } while (firstAgentIndex == secondAgentIndex);
     // create an empty child agent
     std::shared_ptr<evolution::Agent> childAgent = Agent::create(numberOfInputs, inputLabels,
-                                                      numberOfOutputs,
-                                                      outputLabels);
+                                                                 numberOfOutputs,
+                                                                 outputLabels);
 
     std::shared_ptr<evolution::Agent> agent1 = population.at(firstAgentIndex);
     std::shared_ptr<evolution::Agent> agent2 = population.at(secondAgentIndex);
@@ -587,5 +597,130 @@ void evolution::Population::addNewRandomEdges(std::shared_ptr<evolution::Agent> 
             this->addRandomEdge(UINT_MAX, childAgent->getGraph());
         }
     }
+
+}
+
+std::vector<std::vector<double>>
+evolution::Population::getConfusionMatrix(const std::shared_ptr<evolution::Agent> &agent, bool percentages,
+                                          bool print) {
+    // create the confusion matrix based on the testing data and the provided agent
+    // rows: correct classes
+    // columns: predicted classes
+    // double confusionMatrix[this->numberOfOutputs + 1][this->numberOfOutputs + 1];
+    std::vector<std::vector<double>> confusionMatrix(this->numberOfOutputs + 1);
+    // initialize rows to a fixed size
+    for (int i = 0; i < this->numberOfOutputs + 1; i++) {
+        confusionMatrix.at(i) = std::vector<double>(this->numberOfOutputs + 1);
+    }
+
+    // run through all the testing values
+    for (const std::shared_ptr<data_structures::DataInstance> &di: this->testingValues) {
+        agent->getGraph()->traverse(di);
+
+        // check if the prediction is correct
+        unsigned int predictedIndex = agent->getGraph()->getLargestOutputValueIndex();
+        // increment the correct cell
+        confusionMatrix.at(di->getCorrectIndex()).at(predictedIndex) += 1;
+
+        // reset the agent
+        agent->getGraph()->reset();
+    }
+
+    // sum the rows
+    for (int i = 0; i < this->numberOfOutputs; i++) {
+        //sum the values of each row
+        double sum = 0;
+        for (int j = 0; j < this->numberOfOutputs; j++) {
+            sum += confusionMatrix.at(i).at(j);
+        }
+        // write the sum in the last column
+        confusionMatrix.at(i).at(this->numberOfOutputs) = sum;
+    }
+
+    // sum the columns
+    for (int i = 0; i < this->numberOfOutputs + 1; i++) {
+        double sum = 0;
+        for (int j = 0; j < this->numberOfOutputs; j++) {
+            sum += confusionMatrix.at(j).at(i);
+        }
+        // write the sum in the last row
+        confusionMatrix.at(this->numberOfOutputs).at(i) = sum;
+    }
+
+    // sum the diagonal
+    double accuracy = 0;
+    for (int i = 0; i < this->numberOfOutputs; i++) {
+        accuracy += confusionMatrix.at(i).at(i);
+    }
+    accuracy = accuracy / confusionMatrix.at(this->numberOfOutputs).at(this->numberOfOutputs);
+
+    if (percentages) {
+        // convert raw values into percentages
+        double numTestingValues = this->testingValues.size();
+        for (int i = 0; i < this->numberOfOutputs + 1; i++) {
+            for (int j = 0; j < this->numberOfOutputs + 1; j++) {
+                confusionMatrix.at(i).at(j) /= numTestingValues;
+            }
+        }
+    }
+
+    if (print) {
+        // print the matrix
+        // get the longest output label
+        int longestOutputLabel = 0;
+        for (auto label: this->outputLabels) {
+            if (longestOutputLabel < label.length()) {
+                longestOutputLabel = label.length();
+            }
+        }
+        // extra space
+        longestOutputLabel += 1;
+
+        std::ostringstream stream;
+        stream << "\n";
+
+        for (int i = 0; i < this->numberOfOutputs + 1; i++) {
+            if (i == 0) {
+                // print labels
+                for (int j = 0; j < this->numberOfOutputs + 1; j++) {
+                    if (j == 0) {
+                        // empty space
+                        stream << std::setw(longestOutputLabel) << "" << " ";
+                    }
+                    if (j == this->numberOfOutputs) {
+                        // sum column
+                        stream << std::setw(7) << "sum" << " ";
+                    } else {
+                        stream << this->outputLabels.at(j) << " ";
+                    }
+
+                }
+                stream << "\n";
+            }
+            for (int j = 0; j < this->numberOfOutputs + 1; j++) {
+                if (j == 0) {
+                    // print label
+                    if (i == this->numberOfOutputs) {
+                        stream << std::setw(longestOutputLabel) << "sum" << " ";
+                    } else {
+                        stream << std::setw(longestOutputLabel) << this->outputLabels.at(i) << " ";
+                    }
+                }
+                if (j == this->numberOfOutputs) {
+                    stream << std::setw(7) << std::fixed << std::setprecision(3) << confusionMatrix.at(i).at(j);
+                } else {
+                    stream << std::setw(this->outputLabels.at(j).length()) << std::fixed << std::setprecision(3)
+                           << confusionMatrix.at(i).at(j) << " ";
+                }
+            }
+            stream << "\n";
+        }
+        stream << "Accuracy: " << std::fixed << std::setprecision(3) << accuracy;
+
+        // print output labels
+        logging::logs(stream.str());
+    }
+
+    return {};
 
 }

@@ -23,6 +23,7 @@ namespace evolution {
         unsigned int numberOfOutputs;
         unsigned int edgeTraverseLimit;
         std::vector<std::shared_ptr<data_structures::DataInstance>> trainingValues;
+        std::vector<std::shared_ptr<data_structures::DataInstance>> testingValues;
 
         unsigned int const UINT_MAX = std::numeric_limits<unsigned int>::max();
     public:
@@ -66,6 +67,9 @@ namespace evolution {
         double getAverageFitness();
 
         void addAgent(std::shared_ptr<evolution::Agent> agent);
+
+        std::vector<std::vector<double>>
+        getConfusionMatrix(const std::shared_ptr<evolution::Agent> &agent, bool percentages, bool print);
 
         std::string toString();
 
@@ -115,7 +119,7 @@ namespace evolution {
         void addRandomEdge(unsigned int index, std::shared_ptr<data_structures::Graph> const &graph);
 
         void calculateAgentFitness(double vertexContribution, double edgeContribution,
-                                   const std::shared_ptr<evolution::Agent> &agent, unsigned int i);
+                                   const std::shared_ptr<evolution::Agent> &agent);
 
         std::shared_ptr<evolution::Agent> crossoverThreaded();
     };

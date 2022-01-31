@@ -47,14 +47,15 @@ int main() {
     //pop.calculateFitness(-1, -0.5);
     //logging::logs(pop.getFittestAgent()->toString());
     logging::logs("Start");
-    pop.initialisePopulation(200, 20, 40, 2, true);
+    pop.initialisePopulation(200, 20, 40, 1, true);
     logging::logs("Population initialised.");
     //logging::logs(pop.toString());
 
     std::shared_ptr<evolution::Agent> fittestAgent;
     for (int i = 0; i < 1000; i++) {
+        // std::cout << "\033[2J" << "\033[1;1H" << std::endl;
         logging::logs("Generation " + std::to_string(i));
-        pop.calculateFitness(-1, -0.5);
+        pop.calculateFitness(-1, -1);
         //logging::logs("Fitness calculated.");
         //logging::logs(pop.toString());
 
@@ -63,16 +64,18 @@ int main() {
         //logging::logs(pop.getFittestAgent()->toString());
         if (i == 999) {
             fittestAgent = pop.getFittestAgent();
+        } else {
+            pop.sample(enums::SelectionType::StochasticUniversalSampling, 125);
+            //logging::logs("Population sampled.");
+
+            pop.crossover();
+            //logging::logs("Population crossovered.");
         }
-
-        pop.sample(enums::SelectionType::StochasticUniversalSampling, 150);
-        //logging::logs("Population sampled.");
-
-        pop.crossover();
-        //logging::logs("Population crossovered.");
     }
 
     logging::logs(fittestAgent->toString());
+
+    pop.getConfusionMatrix(fittestAgent, false, true);
 
     //logging::logs(pop->toString());
     //delete pop;
