@@ -13,8 +13,8 @@
 namespace data_structures {
     class Edge : public data_structures::ICrossoverable {
     private:
-        std::shared_ptr<data_structures::Vertex> input;
-        std::shared_ptr<data_structures::Vertex> output;
+        std::weak_ptr<data_structures::Vertex> input;
+        std::weak_ptr<data_structures::Vertex> output;
         unsigned int index{};
         double weight;
         unsigned int traverseLimit;

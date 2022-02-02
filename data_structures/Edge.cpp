@@ -9,11 +9,11 @@
 #include "Vertex.h"
 
 std::shared_ptr<data_structures::Vertex> data_structures::Edge::getInput() {
-    return this->input;
+    return this->input.lock();
 }
 
 std::shared_ptr<data_structures::Vertex> data_structures::Edge::getOutput() {
-    return this->output;
+    return this->output.lock();
 }
 
 std::shared_ptr<data_structures::Edge>
@@ -28,8 +28,8 @@ data_structures::Edge::createEdge(const std::shared_ptr<data_structures::Vertex>
 }
 
 double data_structures::Edge::propagateValue() {
-    double outputValue = this->input->getValue() * this->weight;
-    this->output->combineValue(outputValue);
+    double outputValue = this->input.lock()->getValue() * this->weight;
+    this->output.lock()->combineValue(outputValue);
     this->traverseCount += 1;
     return outputValue;
 }
@@ -46,9 +46,9 @@ bool data_structures::Edge::isAtTaversalLimit() {
 std::string data_structures::Edge::toString() {
     std::ostringstream stream;
 
-    stream << std::setprecision(std::numeric_limits<double>::digits10) << "{" << this->input->toString() << " --{W:"
+    stream << std::setprecision(std::numeric_limits<double>::digits10) << "{" << this->input.lock()->toString() << " --{W:"
            << this->weight << " TL:" << this->traverseLimit << "}-> "
-           << this->output->toString() << "}";
+           << this->output.lock()->toString() << "}";
 
     return stream.str();
 }

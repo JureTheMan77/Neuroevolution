@@ -12,11 +12,11 @@
 
 
 data_structures::Graph::Graph(unsigned int inputVertices, std::vector<std::string> &inputLabels,
-                              unsigned int deepVertices,
-                              unsigned int outputVertices, std::vector<std::string> &outputLabels) {
+                              unsigned int deepVertices, unsigned int outputVertices,
+                              std::vector<std::string> &outputLabels, double maxMutationChance) {
     this->addInputVertices(inputVertices, inputLabels);
     this->addOutputVertices(outputVertices, outputLabels);
-    this->addDeepVertices(deepVertices);
+    this->addDeepVertices(deepVertices, maxMutationChance);
 }
 
 void data_structures::Graph::addInputVertices(unsigned int numberOfInputVertices, std::vector<std::string> &labels) {
@@ -24,8 +24,8 @@ void data_structures::Graph::addInputVertices(unsigned int numberOfInputVertices
         throw std::invalid_argument("The number of input vertices and labels does not match.");
     }
     for (unsigned int i = 0; i < numberOfInputVertices; i++) {
-        this->inputVertices.push_back(
-                data_structures::InputVertex::createInputVertex(i, labels.at(i)));
+        auto inputVertex = data_structures::InputVertex::createInputVertex(i, labels.at(i));
+        this->inputVertices.push_back(inputVertex);
     }
 }
 
@@ -43,12 +43,13 @@ void data_structures::Graph::addOutputVertex(const std::shared_ptr<data_structur
     this->outputVertices.push_back(outputVertex);
 }
 
-void data_structures::Graph::addDeepVertices(unsigned int numberOfDeepVertices) {
+void data_structures::Graph::addDeepVertices(unsigned int numberOfDeepVertices, double maxMutationChance) {
     for (unsigned int i = 0; i < numberOfDeepVertices; i++) {
         // initialise chances as values from 0 to 1
-        this->deepVertices.push_back(
-                data_structures::DeepVertex::createDeepVertex(i, util::nextBool(), util::nextDouble(),
-                                                              util::nextDouble(), util::nextUnsignedInt(1, 2)));
+        auto deepVertex = data_structures::DeepVertex::createDeepVertex(i, util::nextBool(), util::nextDouble(),
+                                                                        util::nextDouble(maxMutationChance),
+                                                                        util::nextUnsignedInt(1, 2));
+        this->deepVertices.push_back(deepVertex);
         this->largestDeepVertexIndex = i;
     }
 }
@@ -70,7 +71,8 @@ void data_structures::Graph::addDeepVertex(const std::shared_ptr<data_structures
 
 void data_structures::Graph::addEdge(enums::VertexType inputVertexType, unsigned int inputVertexIndex,
                                      enums::VertexType outputVertexType, unsigned int outputVertexIndex,
-                                     unsigned int index, double weight, unsigned int traversalLimit) {
+                                     unsigned int index, double weight, unsigned int traversalLimit,
+                                     double maxMutationChance) {
     std::shared_ptr<data_structures::Vertex> input;
     std::shared_ptr<data_structures::Vertex> output;
     std::shared_ptr<data_structures::Edge> commonEdge;
@@ -92,7 +94,8 @@ void data_structures::Graph::addEdge(enums::VertexType inputVertexType, unsigned
                                                                                            index,
                                                                                            weight,
                                                                                            traversalLimit,
-                                                                                           util::nextDouble(),
+                                                                                           util::nextDouble(
+                                                                                                   maxMutationChance),
                                                                                            util::nextBool(),
                                                                                            util::nextDouble(),
                                                                                            util::nextUnsignedInt(1, 2));
@@ -105,8 +108,8 @@ void data_structures::Graph::addEdge(enums::VertexType inputVertexType, unsigned
 
 void data_structures::Graph::addEdgeAfterAdd(const enums::VertexType &inputVertexType,
                                              const enums::VertexType &outputVertexType,
-                                             std::shared_ptr<data_structures::Vertex> &input,
-                                             std::shared_ptr<data_structures::Vertex> &output,
+                                             const std::shared_ptr<data_structures::Vertex> &input,
+                                             const std::shared_ptr<data_structures::Vertex> &output,
                                              const std::shared_ptr<data_structures::Edge> &newEdge) const {
     switch (inputVertexType) {
         case enums::VertexType::Input:
@@ -330,9 +333,9 @@ unsigned int data_structures::Graph::getLargestOutputValueIndex() {
         }
     }
 
-    if (largestValue == 0) {
-        return -1;
-    }
+    //if (largestValue == 0) {
+    //    return -1;
+    //}
 
     return largestIndex;
 }
@@ -384,9 +387,9 @@ std::string data_structures::Graph::toString() {
 std::shared_ptr<data_structures::Graph>
 data_structures::Graph::createGraph(unsigned int inputVertices, std::vector<std::string> &inputLabels,
                                     unsigned int deepVertices, unsigned int outputVertices,
-                                    std::vector<std::string> &outputLabels) {
+                                    std::vector<std::string> &outputLabels, double maxMutationChance) {
     return std::make_shared<data_structures::Graph>(inputVertices, inputLabels, deepVertices, outputVertices,
-                                                    outputLabels);
+                                                    outputLabels, maxMutationChance);
 }
 
 std::shared_ptr<data_structures::Graph> data_structures::Graph::deepClone() {
@@ -405,7 +408,8 @@ std::shared_ptr<data_structures::Graph> data_structures::Graph::deepClone() {
 
     // clone output vertices
     for (const std::shared_ptr<data_structures::OutputVertex> &outputVertex: this->outputVertices) {
-        newGraph->addOutputVertex(outputVertex->deepClone());
+        auto deepVertex = outputVertex->deepClone();
+        newGraph->addOutputVertex(deepVertex);
     }
 
     // clone deep vertices
@@ -417,18 +421,22 @@ std::shared_ptr<data_structures::Graph> data_structures::Graph::deepClone() {
     for (const std::shared_ptr<data_structures::InputVertex> &inputVertex: this->inputVertices) {
         // input vertices have no input edges
         for (const std::shared_ptr<data_structures::Edge> &edge: inputVertex->getOutputEdges()) {
+            data_structures::ICrossoverable crossoverable(edge->getMutationChance(), edge->isDominant(),
+                                                          edge->getChanceToGetDominated(), edge->getMaxChildren());
             newGraph->addEdge(edge->getInput()->getType(), edge->getInput()->getIndex(),
                               edge->getOutput()->getType(), edge->getOutput()->getIndex(),
-                              edge->getIndex(), edge->getWeight(), edge->getTraverseLimit());
+                              edge->getIndex(), edge->getWeight(), edge->getTraverseLimit(), crossoverable);
         }
     }
 
     // recreate edges of deep vertices
     for (const std::shared_ptr<data_structures::DeepVertex> &deepVertex: this->deepVertices) {
         for (const std::shared_ptr<data_structures::Edge> &edge: deepVertex->getOutputEdges()) {
+            data_structures::ICrossoverable crossoverable(edge->getMutationChance(), edge->isDominant(),
+                                                          edge->getChanceToGetDominated(), edge->getMaxChildren());
             newGraph->addEdge(edge->getInput()->getType(), edge->getInput()->getIndex(),
                               edge->getOutput()->getType(), edge->getOutput()->getIndex(),
-                              edge->getIndex(), edge->getWeight(), edge->getTraverseLimit());
+                              edge->getIndex(), edge->getWeight(), edge->getTraverseLimit(), crossoverable);
         }
     }
 

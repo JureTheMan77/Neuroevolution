@@ -22,6 +22,9 @@ namespace evolution {
         unsigned int numberOfInputs;
         unsigned int numberOfOutputs;
         unsigned int edgeTraverseLimit;
+        unsigned int maxDeepVertices;
+        unsigned int maxEdges;
+        double maxMutationChance;
         std::vector<std::shared_ptr<data_structures::DataInstance>> trainingValues;
         std::vector<std::shared_ptr<data_structures::DataInstance>> testingValues;
 
@@ -36,12 +39,13 @@ namespace evolution {
          * Initialize a new population.
          * @param populationSizeArg maximum number of agents
          * @param maxVertices maximum number of vertices an agent can have
-         * @param maxEdges maximum number of edges an agent can have
+         * @param maxEdgesArg maximum number of edges an agent can have
          * @param keepDormantVextexesAndEdges keep vertices that don't have an out connection
          */
-        void initialisePopulation(unsigned int populationSizeArg, unsigned int maxDeepVertices, unsigned int maxEdges,
-                                  unsigned int edgeTraverseLimitArg,
-                                  bool keepDormantVerticesAndEdges);
+        void
+        initialisePopulation(unsigned int populationSizeArg, unsigned int maxDeepVerticesArg, unsigned int maxEdgesArg,
+                             unsigned int edgeTraverseLimitArg, bool keepDormantVerticesAndEdges,
+                             double maxMutationChanceArg);
 
         /**
          * Calculate the fitness of the population.
@@ -68,14 +72,16 @@ namespace evolution {
 
         void addAgent(std::shared_ptr<evolution::Agent> agent);
 
-        std::vector<std::vector<double>>
-        getConfusionMatrix(const std::shared_ptr<evolution::Agent> &agent, bool percentages, bool print);
+        std::vector<std::shared_ptr<data_structures::DataInstance>> getTestingValues();
+
+        unsigned int getNumberOfOutputs();
+
+        std::vector<std::string> getOutputLabels();
 
         std::string toString();
 
     private:
-        std::shared_ptr<evolution::Agent>
-        createAgent(unsigned int maxDeepVertices, unsigned int maxEdges, bool keepDormantVerticesAndEdges);
+        std::shared_ptr<evolution::Agent> createAgent(bool keepDormantVerticesAndEdges);
 
         /**
          * Adapted from @see https://en.wikipedia.org/wiki/Stochastic_universal_sampling

@@ -32,12 +32,14 @@ evolution::Agent::create(const std::shared_ptr<data_structures::Graph> &graphArg
 
 std::shared_ptr<evolution::Agent> evolution::Agent::deepClone() {
     // also copy fitness
-    return std::make_shared<evolution::Agent>(this->getGraph()->deepClone(), this->fitness);
+    auto graph = this->getGraph()->deepClone();
+    return std::make_shared<evolution::Agent>(graph, this->fitness);
 }
 
 std::shared_ptr<evolution::Agent>
 evolution::Agent::create(unsigned int inputVertices, std::vector<std::string> &inputLabels, unsigned int outputVertices,
-                         std::vector<std::string> &outputLabels) {
-    auto graph = data_structures::Graph::createGraph(inputVertices, inputLabels, 0, outputVertices, outputLabels);
+                         std::vector<std::string> &outputLabels, double maxMutationChance) {
+    auto graph = data_structures::Graph::createGraph(inputVertices, inputLabels, 0, outputVertices, outputLabels,
+                                                     maxMutationChance);
     return std::make_shared<evolution::Agent>(graph);
 }

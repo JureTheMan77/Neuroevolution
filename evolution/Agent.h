@@ -42,7 +42,7 @@ namespace evolution {
          */
         static std::shared_ptr<Agent>
         create(unsigned int inputVertices, std::vector<std::string> &inputLabels, unsigned int outputVertices,
-               std::vector<std::string> &outputLabels);
+               std::vector<std::string> &outputLabels,double maxMutationChance);
 
         /**
          * Deep clones this object.

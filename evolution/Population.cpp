@@ -10,6 +10,7 @@
 #include "Population.h"
 #include "../util/util.h"
 #include "../logging/logging.h"
+#include "../data_structures/MulticlassConfusionMatrix.h"
 
 evolution::Population::Population(const std::string &pathToDataSet) {
     if (!std::filesystem::exists(pathToDataSet)) {
@@ -62,30 +63,32 @@ evolution::Population::Population(const std::string &pathToDataSet) {
     this->populationSize = 0;
 }
 
-void evolution::Population::initialisePopulation(unsigned int populationSizeArg, unsigned int maxDeepVertices,
-                                                 unsigned int maxEdges,
-                                                 unsigned int edgeTraverseLimitArg, bool keepDormantVerticesAndEdges) {
+void evolution::Population::initialisePopulation(unsigned int populationSizeArg, unsigned int maxDeepVerticesArg,
+                                                 unsigned int maxEdgesArg, unsigned int edgeTraverseLimitArg,
+                                                 bool keepDormantVerticesAndEdges, double maxMutationChanceArg) {
     this->population = std::vector<std::shared_ptr<evolution::Agent>>();
     this->populationSize = populationSizeArg;
     this->edgeTraverseLimit = edgeTraverseLimitArg;
+    this->maxDeepVertices = maxDeepVerticesArg;
+    this->maxEdges = maxEdgesArg;
+    this->maxMutationChance = maxMutationChanceArg;
     for (unsigned int i = 0; i < populationSizeArg; i++) {
-        this->population.push_back(
-                this->createAgent(maxDeepVertices, maxEdges, keepDormantVerticesAndEdges));
+        this->population.push_back(this->createAgent(keepDormantVerticesAndEdges));
     }
 }
 
 std::shared_ptr<evolution::Agent>
-evolution::Population::createAgent(unsigned int maxDeepVertices, unsigned int maxEdges,
-                                   bool keepDormantVerticesAndEdges) {
+evolution::Population::createAgent(bool keepDormantVerticesAndEdges) {
     std::mt19937 rng(this->seeder());
-    std::uniform_int_distribution<unsigned int> maxDeepVerticesDistribution(0, maxDeepVertices - 1);
+    std::uniform_int_distribution<unsigned int> maxDeepVerticesDistribution(0, maxDeepVertices);
     std::uniform_int_distribution<unsigned int> edgesDistribution(1, maxEdges);
     unsigned int numberOfDeepVertices = maxDeepVerticesDistribution(rng);
     unsigned int numberOfEdges = edgesDistribution(rng);
 
     // generate vertices
     auto graph = data_structures::Graph::createGraph(this->numberOfInputs, this->inputLabels, numberOfDeepVertices,
-                                                     this->numberOfOutputs, this->outputLabels);
+                                                     this->numberOfOutputs, this->outputLabels,
+                                                     this->maxMutationChance);
 
     // generate edges
     for (unsigned int i = 0; i < numberOfEdges; i++) {
@@ -124,11 +127,11 @@ void evolution::Population::addRandomEdge(unsigned int index, std::shared_ptr<da
             if (type2 == 0) {
                 graph->addEdge(enums::VertexType::Input, inputVerticesDistribution(rng), enums::VertexType::Deep,
                                deepVerticesDistribution(rng), index, weightDistribution(rng64),
-                               edgeTraverseLimitDistribution(rng));
+                               edgeTraverseLimitDistribution(rng), this->maxMutationChance);
             } else {
                 graph->addEdge(enums::VertexType::Input, inputVerticesDistribution(rng), enums::VertexType::Output,
                                outputVerticesDistribution(rng), index, weightDistribution(rng64),
-                               edgeTraverseLimitDistribution(rng));
+                               edgeTraverseLimitDistribution(rng), this->maxMutationChance);
             }
         } else {
             type2 = vertexTypeDistribution(rng);
@@ -137,11 +140,11 @@ void evolution::Population::addRandomEdge(unsigned int index, std::shared_ptr<da
             if (type2 == 0) {
                 graph->addEdge(enums::VertexType::Deep, deepVerticesDistribution(rng), enums::VertexType::Deep,
                                deepVerticesDistribution(rng), index, weightDistribution(rng64),
-                               edgeTraverseLimitDistribution(rng));
+                               edgeTraverseLimitDistribution(rng), this->maxMutationChance);
             } else {
                 graph->addEdge(enums::VertexType::Deep, deepVerticesDistribution(rng), enums::VertexType::Output,
                                outputVerticesDistribution(rng), index, weightDistribution(rng64),
-                               edgeTraverseLimitDistribution(rng));
+                               edgeTraverseLimitDistribution(rng), this->maxMutationChance);
             }
         }
     } else {
@@ -149,7 +152,7 @@ void evolution::Population::addRandomEdge(unsigned int index, std::shared_ptr<da
         // only legal configuration is input -> output
         graph->addEdge(enums::VertexType::Input, inputVerticesDistribution(rng), enums::VertexType::Output,
                        outputVerticesDistribution(rng), index, weightDistribution(rng64),
-                       edgeTraverseLimitDistribution(rng));
+                       edgeTraverseLimitDistribution(rng), this->maxMutationChance);
     }
 }
 
@@ -179,6 +182,10 @@ void evolution::Population::calculateFitness(double vertexContribution, double e
     for (auto &ftr: futures) {
         ftr.get();
     }
+
+    // find the lowest fitness
+    // if it's negative, then assign it's absolute value to the population
+
 }
 
 void evolution::Population::calculateAgentFitness(double vertexContribution, double edgeContribution,
@@ -186,27 +193,38 @@ void evolution::Population::calculateAgentFitness(double vertexContribution, dou
     unsigned int numCorrect = 0;
     unsigned int numIncorrect = 0;
 
-    for (const std::shared_ptr<data_structures::DataInstance> &di: trainingValues) {
-        agent->getGraph()->traverse(di);
+//    for (const std::shared_ptr<data_structures::DataInstance> &di: trainingValues) {
+//        agent->getGraph()->traverse(di);
+//
+//        // check if the prediction is correct
+//        unsigned int predictedIndex = agent->getGraph()->getLargestOutputValueIndex();
+//        if (predictedIndex == di->getCorrectIndex()) {
+//            numCorrect += 1;
+//        } else {
+//            numIncorrect += 1;
+//        }
+//
+//        // reset the agent
+//        agent->getGraph()->reset();
+//    }
 
-        // check if the prediction is correct
-        unsigned int predictedIndex = agent->getGraph()->getLargestOutputValueIndex();
-        if (predictedIndex == di->getCorrectIndex()) {
-            numCorrect += 1;
-        } else {
-            numIncorrect += 1;
-        }
+    data_structures::MulticlassConfusionMatrix mcm(agent, this->trainingValues, this->numberOfOutputs);
+    //logging::logs(mcm.toString(this->outputLabels));
 
-        // reset the agent
-        agent->getGraph()->reset();
-    }
     // size of the agent is a penalty, both edges and vertices contribute -0.1
     double sizeContribution = (double) agent->getGraph()->getDeepVertices().size() * vertexContribution +
                               (double) agent->getGraph()->getEdges().size() * edgeContribution;
 
     // calculate the fitness (accuracy)
 // agent->setFitness((double) numCorrect / (double) this->trainingValues.size());
-    agent->setFitness((double) numCorrect + sizeContribution);
+    // agent->setFitness((double) numCorrect + sizeContribution);
+    // mcc can be negative, up to -1
+    double mcc = mcm.getMatthewsCorrelationCoefficient() + 1;
+    double fitness = mcc + sizeContribution;
+    if (fitness < 0) {
+        fitness = 0;
+    }
+    agent->setFitness(fitness);
 }
 
 void evolution::Population::sample(enums::SelectionType type, unsigned int agentsToKeep) {
@@ -229,11 +247,29 @@ void evolution::Population::sample(enums::SelectionType type, unsigned int agent
         this->populationPlaceholder.push_back(this->population.at(index)->deepClone());
     }
 
-    this->population.swap(this->populationPlaceholder);
+    this->population.clear();
+    this->population.insert(this->population.begin(), this->populationPlaceholder.begin(),
+                            this->populationPlaceholder.end());
     this->populationPlaceholder.clear();
 }
 
 std::vector<unsigned int> evolution::Population::stochasticUniversalSampling(unsigned int agentsToKeep) {
+    // get lowest fitness
+    //double lowestFitness = std::numeric_limits<double>::max();
+    //for (const std::shared_ptr<evolution::Agent> &agent: this->population) {
+    //    if (lowestFitness > agent->getFitness()) {
+    //        lowestFitness = agent->getFitness();
+    //    }
+    //}
+    // adjust population fitness so the lowest is 0
+    //if (lowestFitness < 0) {
+    //    // recycle variable
+    //    lowestFitness = std::abs(lowestFitness);
+    //    for (const std::shared_ptr<evolution::Agent> &agent: this->population) {
+    //        agent->setFitness(agent->getFitness() + lowestFitness);
+    //    }
+    //}
+
     // calculate the total fitness of the population
     double fitnessSum = 0;
     for (const std::shared_ptr<evolution::Agent> &agent: this->population) {
@@ -312,10 +348,12 @@ std::shared_ptr<evolution::Agent> evolution::Population::crossoverThreaded() {
     // create an empty child agent
     std::shared_ptr<evolution::Agent> childAgent = Agent::create(numberOfInputs, inputLabels,
                                                                  numberOfOutputs,
-                                                                 outputLabels);
+                                                                 outputLabels, this->maxMutationChance);
 
     std::shared_ptr<evolution::Agent> agent1 = population.at(firstAgentIndex);
     std::shared_ptr<evolution::Agent> agent2 = population.at(secondAgentIndex);
+    //logging::logs(std::to_string(agent1->getGraph()->getEdges().at(0)->getMutationChance()));
+    //logging::logs(std::to_string(agent2->getGraph()->getEdges().at(0)->getMutationChance()));
 
     // output and input vertices must be fixed, so only do crossover on deep vertices and their edges
 
@@ -333,7 +371,9 @@ std::shared_ptr<evolution::Agent> evolution::Population::crossoverThreaded() {
     // - iterate over the edges of the second agent
     crossoverEdges(childAgent, agent2, agent1, checkedIndices);
     // add random edges based on the number of vertices with index UINT_MAX
-    addNewRandomEdges(childAgent);
+    if (childAgent->getGraph()->getEdges().size() < this->maxEdges) {
+        addNewRandomEdges(childAgent);
+    }
 
     // fix indices for vertices that are "twins" and randomly added edges
     childAgent->getGraph()->fixIndices();
@@ -349,6 +389,11 @@ evolution::Population::crossoverDeepVertices(const std::shared_ptr<evolution::Ag
                                              std::vector<unsigned int> &checkedIndices) {
     // loop through all vertices
     for (const auto &deepVertex1: parent1->getGraph()->getDeepVertices()) {
+
+        if (childAgent->getGraph()->getDeepVertices().size() >= this->maxDeepVertices) {
+            break;
+        }
+
         // check if this vertex was already crossovered
         bool matchFound = false;
         for (auto index: checkedIndices) {
@@ -431,6 +476,10 @@ evolution::Population::createDeepVertexChildren(const std::shared_ptr<data_struc
 
     // create children
     for (unsigned int i = 0; i < childrenToProduce; i++) {
+        // check if the child has the max deep vertices allowed
+        if (childDeepVertices.size() >= this->maxDeepVertices) {
+            break;
+        }
 
         auto childData = this->mutateCrossoverable(vertex);
 
@@ -453,6 +502,10 @@ void evolution::Population::crossoverEdges(std::shared_ptr<evolution::Agent> &ch
                                            std::vector<unsigned int> &checkedIndices) {
     // iterate over the edges of the first parent
     for (const auto &edge1: parent1->getGraph()->getEdges()) {
+        if (childAgent->getGraph()->getEdges().size() >= this->maxEdges) {
+            break;
+        }
+
         // check if this edge1 was already crossovered
         bool matchFound = false;
         for (unsigned int index: checkedIndices) {
@@ -531,6 +584,7 @@ void evolution::Population::createAndAddEdgeChildren(const std::shared_ptr<data_
 data_structures::ICrossoverable
 evolution::Population::mutateCrossoverable(const std::shared_ptr<data_structures::ICrossoverable> &crossoverable) {
     std::uniform_real_distribution<double> distDouble(0, 1);
+    std::uniform_real_distribution<double> distNewMutationChance(0, this->maxMutationChance);
     std::mt19937_64 rng64(seeder());
 
     double mutationRoll = distDouble(rng64);
@@ -545,7 +599,8 @@ evolution::Population::mutateCrossoverable(const std::shared_ptr<data_structures
     // mutationChance
     mutationRoll = distDouble(rng64);
     double childMutationChance =
-            crossoverable->getMutationChance() > mutationRoll ? distDouble(rng64) : crossoverable->getMutationChance();
+            crossoverable->getMutationChance() > mutationRoll ? distNewMutationChance(rng64)
+                                                              : crossoverable->getMutationChance();
     // maxChildren
     mutationRoll = distDouble(rng64);
     unsigned int childMaxChildren = crossoverable->getMutationChance() > mutationRoll ? util::nextUnsignedInt(1, 2)
@@ -593,6 +648,10 @@ double evolution::Population::getAverageFitness() {
 void evolution::Population::addNewRandomEdges(std::shared_ptr<evolution::Agent> const &childAgent) {
     // add random edges equal to the amount of vertices with index value of UINT_MAX
     for (auto const &vertex: childAgent->getGraph()->getDeepVertices()) {
+        // check of the child already has the maximum amount of edges allowed
+        if (childAgent->getGraph()->getEdges().size() >= this->maxEdges) {
+            break;
+        }
         if (vertex->getIndex() == UINT_MAX) {
             this->addRandomEdge(UINT_MAX, childAgent->getGraph());
         }
@@ -600,127 +659,14 @@ void evolution::Population::addNewRandomEdges(std::shared_ptr<evolution::Agent> 
 
 }
 
-std::vector<std::vector<double>>
-evolution::Population::getConfusionMatrix(const std::shared_ptr<evolution::Agent> &agent, bool percentages,
-                                          bool print) {
-    // create the confusion matrix based on the testing data and the provided agent
-    // rows: correct classes
-    // columns: predicted classes
-    // double confusionMatrix[this->numberOfOutputs + 1][this->numberOfOutputs + 1];
-    std::vector<std::vector<double>> confusionMatrix(this->numberOfOutputs + 1);
-    // initialize rows to a fixed size
-    for (int i = 0; i < this->numberOfOutputs + 1; i++) {
-        confusionMatrix.at(i) = std::vector<double>(this->numberOfOutputs + 1);
-    }
+std::vector<std::shared_ptr<data_structures::DataInstance>> evolution::Population::getTestingValues() {
+    return this->testingValues;
+}
 
-    // run through all the testing values
-    for (const std::shared_ptr<data_structures::DataInstance> &di: this->testingValues) {
-        agent->getGraph()->traverse(di);
+unsigned int evolution::Population::getNumberOfOutputs() {
+    return this->numberOfOutputs;
+}
 
-        // check if the prediction is correct
-        unsigned int predictedIndex = agent->getGraph()->getLargestOutputValueIndex();
-        // increment the correct cell
-        confusionMatrix.at(di->getCorrectIndex()).at(predictedIndex) += 1;
-
-        // reset the agent
-        agent->getGraph()->reset();
-    }
-
-    // sum the rows
-    for (int i = 0; i < this->numberOfOutputs; i++) {
-        //sum the values of each row
-        double sum = 0;
-        for (int j = 0; j < this->numberOfOutputs; j++) {
-            sum += confusionMatrix.at(i).at(j);
-        }
-        // write the sum in the last column
-        confusionMatrix.at(i).at(this->numberOfOutputs) = sum;
-    }
-
-    // sum the columns
-    for (int i = 0; i < this->numberOfOutputs + 1; i++) {
-        double sum = 0;
-        for (int j = 0; j < this->numberOfOutputs; j++) {
-            sum += confusionMatrix.at(j).at(i);
-        }
-        // write the sum in the last row
-        confusionMatrix.at(this->numberOfOutputs).at(i) = sum;
-    }
-
-    // sum the diagonal
-    double accuracy = 0;
-    for (int i = 0; i < this->numberOfOutputs; i++) {
-        accuracy += confusionMatrix.at(i).at(i);
-    }
-    accuracy = accuracy / confusionMatrix.at(this->numberOfOutputs).at(this->numberOfOutputs);
-
-    if (percentages) {
-        // convert raw values into percentages
-        double numTestingValues = this->testingValues.size();
-        for (int i = 0; i < this->numberOfOutputs + 1; i++) {
-            for (int j = 0; j < this->numberOfOutputs + 1; j++) {
-                confusionMatrix.at(i).at(j) /= numTestingValues;
-            }
-        }
-    }
-
-    if (print) {
-        // print the matrix
-        // get the longest output label
-        int longestOutputLabel = 0;
-        for (auto label: this->outputLabels) {
-            if (longestOutputLabel < label.length()) {
-                longestOutputLabel = label.length();
-            }
-        }
-        // extra space
-        longestOutputLabel += 1;
-
-        std::ostringstream stream;
-        stream << "\n";
-
-        for (int i = 0; i < this->numberOfOutputs + 1; i++) {
-            if (i == 0) {
-                // print labels
-                for (int j = 0; j < this->numberOfOutputs + 1; j++) {
-                    if (j == 0) {
-                        // empty space
-                        stream << std::setw(longestOutputLabel) << "" << " ";
-                    }
-                    if (j == this->numberOfOutputs) {
-                        // sum column
-                        stream << std::setw(7) << "sum" << " ";
-                    } else {
-                        stream << this->outputLabels.at(j) << " ";
-                    }
-
-                }
-                stream << "\n";
-            }
-            for (int j = 0; j < this->numberOfOutputs + 1; j++) {
-                if (j == 0) {
-                    // print label
-                    if (i == this->numberOfOutputs) {
-                        stream << std::setw(longestOutputLabel) << "sum" << " ";
-                    } else {
-                        stream << std::setw(longestOutputLabel) << this->outputLabels.at(i) << " ";
-                    }
-                }
-                if (j == this->numberOfOutputs) {
-                    stream << std::setw(7) << std::fixed << std::setprecision(3) << confusionMatrix.at(i).at(j);
-                } else {
-                    stream << std::setw(this->outputLabels.at(j).length()) << std::fixed << std::setprecision(3)
-                           << confusionMatrix.at(i).at(j) << " ";
-                }
-            }
-            stream << "\n";
-        }
-        stream << "Accuracy: " << std::fixed << std::setprecision(3) << accuracy;
-
-        // print output labels
-        logging::logs(stream.str());
-    }
-
-    return {};
-
+std::vector<std::string> evolution::Population::getOutputLabels() {
+    return this->outputLabels;
 }

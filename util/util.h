@@ -61,6 +61,12 @@ namespace util {
         return probabilityDistributionDouble(rng);
     }
 
+    inline double nextDouble(double max) {
+        std::mt19937_64 rng(seeder());
+        std::uniform_real_distribution<double> dist(0, max);
+        return dist(rng);
+    }
+
     /**
      * Generates a random bool.
      * @return random bool

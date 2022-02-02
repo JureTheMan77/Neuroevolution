@@ -43,11 +43,11 @@ namespace data_structures {
          * @param outputLabels labels of output vertices
          */
         Graph(unsigned int inputVertices, std::vector<std::string> &inputLabels, unsigned int deepVertices,
-              unsigned int outputVertices, std::vector<std::string> &outputLabels);
+              unsigned int outputVertices, std::vector<std::string> &outputLabels, double maxMutationChance);
 
         static std::shared_ptr<Graph> createGraph(unsigned int inputVertices, std::vector<std::string> &inputLabels,
                                                   unsigned int deepVertices, unsigned int outputVertices,
-                                                  std::vector<std::string> &outputLabels);
+                                                  std::vector<std::string> &outputLabels, double maxMutationChance);
 
         std::shared_ptr<Graph> deepClone() override;
 
@@ -82,7 +82,7 @@ namespace data_structures {
          * Adds new deep vertices.
          * @param numberOfDeepVertices number of deep vertices to add
          */
-        void addDeepVertices(unsigned int numberOfDeepVertices);
+        void addDeepVertices(unsigned int numberOfDeepVertices, double maxMutationChance);
 
         void addDeepVertices(const std::vector<std::shared_ptr<data_structures::DeepVertex>> &deepVertices);
 
@@ -99,7 +99,7 @@ namespace data_structures {
          */
         void
         addEdge(enums::VertexType inputVertexType, unsigned int inputVertexIndex, enums::VertexType outputVertexType,
-                unsigned int outputVertexIndex, unsigned int index, double weight, unsigned int traversalLimit);
+                unsigned int outputVertexIndex, unsigned int index, double weight, unsigned int traversalLimit,double maxMutationChance);
 
         std::shared_ptr<data_structures::Edge>
         addEdge(enums::VertexType inputVertexType, unsigned int inputVertexIndex, enums::VertexType outputVertexType,
@@ -160,8 +160,8 @@ namespace data_structures {
                       std::shared_ptr<data_structures::Edge> &commonEdge);
 
         void addEdgeAfterAdd(const enums::VertexType &inputVertexType, const enums::VertexType &outputVertexType,
-                             std::shared_ptr<data_structures::Vertex> &input,
-                             std::shared_ptr<data_structures::Vertex> &output,
+                             const std::shared_ptr<data_structures::Vertex> &input,
+                             const std::shared_ptr<data_structures::Vertex> &output,
                              const std::shared_ptr<data_structures::Edge> &newEdge) const;
     };
 }

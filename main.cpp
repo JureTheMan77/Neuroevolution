@@ -1,6 +1,7 @@
 #include "data_structures/Graph.h"
 #include "logging//logging.h"
 #include "evolution/Population.h"
+#include "data_structures/MulticlassConfusionMatrix.h"
 
 int main() {
     logging::logs("Pozdravljen, svet!");
@@ -47,7 +48,7 @@ int main() {
     //pop.calculateFitness(-1, -0.5);
     //logging::logs(pop.getFittestAgent()->toString());
     logging::logs("Start");
-    pop.initialisePopulation(200, 20, 40, 1, true);
+    pop.initialisePopulation(1000, 20, 40, 2, true,1);
     logging::logs("Population initialised.");
     //logging::logs(pop.toString());
 
@@ -55,7 +56,7 @@ int main() {
     for (int i = 0; i < 1000; i++) {
         // std::cout << "\033[2J" << "\033[1;1H" << std::endl;
         logging::logs("Generation " + std::to_string(i));
-        pop.calculateFitness(-1, -1);
+        pop.calculateFitness(-0.002, -0.002);
         //logging::logs("Fitness calculated.");
         //logging::logs(pop.toString());
 
@@ -65,7 +66,7 @@ int main() {
         if (i == 999) {
             fittestAgent = pop.getFittestAgent();
         } else {
-            pop.sample(enums::SelectionType::StochasticUniversalSampling, 125);
+            pop.sample(enums::SelectionType::StochasticUniversalSampling, 750);
             //logging::logs("Population sampled.");
 
             pop.crossover();
@@ -75,7 +76,9 @@ int main() {
 
     logging::logs(fittestAgent->toString());
 
-    pop.getConfusionMatrix(fittestAgent, false, true);
+    auto mcm = data_structures::MulticlassConfusionMatrix(fittestAgent, pop.getTestingValues(),
+                                                          pop.getNumberOfOutputs());
+    logging::logs(mcm.toString(pop.getOutputLabels()));
 
     //logging::logs(pop->toString());
     //delete pop;
