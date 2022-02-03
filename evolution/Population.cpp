@@ -11,6 +11,7 @@
 #include "../util/util.h"
 #include "../logging/logging.h"
 #include "../data_structures/MulticlassConfusionMatrix.h"
+#include "../enums/FitnessMetric.h"
 
 evolution::Population::Population(const std::string &pathToDataSet) {
     if (!std::filesystem::exists(pathToDataSet)) {
@@ -167,13 +168,14 @@ std::string evolution::Population::toString() {
     return result.str();
 }
 
-void evolution::Population::calculateFitness(double vertexContribution, double edgeContribution) {
+void evolution::Population::calculateFitness(enums::FitnessMetric fitnessMetric, double vertexContribution,
+                                             double edgeContribution) {
     // run all data instances on all agents
     std::vector<std::future<void>> futures;
     unsigned int i = 0;
     for (const std::shared_ptr<evolution::Agent> &agent: this->population) {
-        auto ftr = std::async(&evolution::Population::calculateAgentFitness, this, vertexContribution, edgeContribution,
-                              agent);
+        auto ftr = std::async(&evolution::Population::calculateAgentFitness, this, fitnessMetric, vertexContribution,
+                              edgeContribution, agent);
         futures.push_back(std::move(ftr));
         i += 1;
         //calculateAgentFitness(vertexContribution, edgeContribution, std::ref(agent));
@@ -188,7 +190,8 @@ void evolution::Population::calculateFitness(double vertexContribution, double e
 
 }
 
-void evolution::Population::calculateAgentFitness(double vertexContribution, double edgeContribution,
+void evolution::Population::calculateAgentFitness(enums::FitnessMetric fitnessMetric, double vertexContribution,
+                                                  double edgeContribution,
                                                   const std::shared_ptr<evolution::Agent> &agent) {
     unsigned int numCorrect = 0;
     unsigned int numIncorrect = 0;
@@ -218,9 +221,20 @@ void evolution::Population::calculateAgentFitness(double vertexContribution, dou
     // calculate the fitness (accuracy)
 // agent->setFitness((double) numCorrect / (double) this->trainingValues.size());
     // agent->setFitness((double) numCorrect + sizeContribution);
-    // mcc can be negative, up to -1
-    double mcc = mcm.getMatthewsCorrelationCoefficient() + 1;
-    double fitness = mcc + sizeContribution;
+    double fitness = sizeContribution;
+
+    switch (fitnessMetric) {
+        case enums::FitnessMetric::Accuracy:
+            fitness += mcm.getAccuracy();
+            break;
+        case enums::FitnessMetric::MatthewsCorrelationCoefficient:
+            // mcc can be negative, up to -1
+            fitness += mcm.getMatthewsCorrelationCoefficient() +1;
+            break;
+        default:
+            break;
+    }
+
     if (fitness < 0) {
         fitness = 0;
     }

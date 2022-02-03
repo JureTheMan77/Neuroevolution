@@ -48,25 +48,25 @@ int main() {
     //pop.calculateFitness(-1, -0.5);
     //logging::logs(pop.getFittestAgent()->toString());
     logging::logs("Start");
-    pop.initialisePopulation(1000, 20, 40, 2, true,1);
+    pop.initialisePopulation(1000, 20, 40, 2, true,0.2);
     logging::logs("Population initialised.");
     //logging::logs(pop.toString());
 
     std::shared_ptr<evolution::Agent> fittestAgent;
-    for (int i = 0; i < 1000; i++) {
+    for (int i = 0; i < 2000; i++) {
         // std::cout << "\033[2J" << "\033[1;1H" << std::endl;
         logging::logs("Generation " + std::to_string(i));
-        pop.calculateFitness(-0.002, -0.002);
+        pop.calculateFitness(enums::FitnessMetric::MatthewsCorrelationCoefficient,-0.002, -0.002);
         //logging::logs("Fitness calculated.");
         //logging::logs(pop.toString());
 
         logging::logs("Average fitness: " + std::to_string(pop.getAverageFitness()));
         logging::logs("Fittest agent: " + std::to_string(pop.getFittestAgent()->getFitness()));
         //logging::logs(pop.getFittestAgent()->toString());
-        if (i == 999) {
+        if (i == 1999) {
             fittestAgent = pop.getFittestAgent();
         } else {
-            pop.sample(enums::SelectionType::StochasticUniversalSampling, 750);
+            pop.sample(enums::SelectionType::StochasticUniversalSampling, 800);
             //logging::logs("Population sampled.");
 
             pop.crossover();

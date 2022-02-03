@@ -9,6 +9,7 @@
 #include <random>
 #include "Agent.h"
 #include "../enums/SelectionType.h"
+#include "../enums/FitnessMetric.h"
 
 namespace evolution {
     class Population {
@@ -50,7 +51,7 @@ namespace evolution {
         /**
          * Calculate the fitness of the population.
          */
-        void calculateFitness(double vertexContribution, double edgeContribution);
+        void calculateFitness(enums::FitnessMetric fitnessMetric, double vertexContribution, double edgeContribution);
 
         /**
          * Sample the population.
@@ -124,8 +125,9 @@ namespace evolution {
 
         void addRandomEdge(unsigned int index, std::shared_ptr<data_structures::Graph> const &graph);
 
-        void calculateAgentFitness(double vertexContribution, double edgeContribution,
-                                   const std::shared_ptr<evolution::Agent> &agent);
+        void
+        calculateAgentFitness(enums::FitnessMetric fitnessMetric, double vertexContribution, double edgeContribution,
+                              const std::shared_ptr<evolution::Agent> &agent);
 
         std::shared_ptr<evolution::Agent> crossoverThreaded();
     };
