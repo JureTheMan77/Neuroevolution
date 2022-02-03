@@ -1,17 +1,11 @@
+#include <filesystem>
+#include <fstream>
 #include "data_structures/Graph.h"
 #include "logging//logging.h"
 #include "evolution/Population.h"
 #include "data_structures/MulticlassConfusionMatrix.h"
 
 int main() {
-    logging::logs("Pozdravljen, svet!");
-
-    auto inputLabels = std::vector<std::string>();
-    inputLabels.insert(inputLabels.end(),
-                       {"sepal length in cm", "sepal width in cm", "petal length in cm", "petal width in cm"});
-    auto outputLabels = std::vector<std::string>();
-    outputLabels.insert(outputLabels.end(), {"Iris Setosa", "Iris Versicolour", "Iris Virginica"});
-
     auto pop = evolution::Population("/home/jure/CLionProjects/Neuroevolution/datasets/iris/iris.data");
 
 //    auto graph = data_structures::Graph::createGraph(4,inputLabels,1,3,outputLabels);
@@ -47,24 +41,38 @@ int main() {
     //logging::logs(pop.toString());
     //pop.calculateFitness(-1, -0.5);
     //logging::logs(pop.getFittestAgent()->toString());
+
+
+    std::ofstream fitnessFile("fitness.csv");
+
+
     logging::logs("Start");
-    pop.initialisePopulation(1000, 20, 40, 2, true,0.2);
+    pop.initialisePopulation(1000, 50, 120, 3, true, 1);
     logging::logs("Population initialised.");
     //logging::logs(pop.toString());
 
     std::shared_ptr<evolution::Agent> fittestAgent;
-    for (int i = 0; i < 2000; i++) {
+    for (int i = 0; i < 1000; i++) {
         // std::cout << "\033[2J" << "\033[1;1H" << std::endl;
         logging::logs("Generation " + std::to_string(i));
-        pop.calculateFitness(enums::FitnessMetric::MatthewsCorrelationCoefficient,-0.002, -0.002);
+        pop.calculateFitness(enums::FitnessMetric::Accuracy, -0.000, -0.000);
         //logging::logs("Fitness calculated.");
         //logging::logs(pop.toString());
 
         logging::logs("Average fitness: " + std::to_string(pop.getAverageFitness()));
-        logging::logs("Fittest agent: " + std::to_string(pop.getFittestAgent()->getFitness()));
+        auto tempAgent = pop.getFittestAgent();
+        logging::logs("Fittest agent: " + std::to_string(tempAgent->getFitness()));
+
+        if (fittestAgent == nullptr || fittestAgent->getFitness() < tempAgent->getFitness()) {
+            fittestAgent = tempAgent;
+        }
+
+        // write pop info to files
+        fitnessFile << pop.fitnessToCSVString(';', i) << std::endl;
+
         //logging::logs(pop.getFittestAgent()->toString());
-        if (i == 1999) {
-            fittestAgent = pop.getFittestAgent();
+        if (i == 999) {
+            fitnessFile.close();
         } else {
             pop.sample(enums::SelectionType::StochasticUniversalSampling, 800);
             //logging::logs("Population sampled.");

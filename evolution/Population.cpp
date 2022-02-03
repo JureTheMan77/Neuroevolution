@@ -229,7 +229,7 @@ void evolution::Population::calculateAgentFitness(enums::FitnessMetric fitnessMe
             break;
         case enums::FitnessMetric::MatthewsCorrelationCoefficient:
             // mcc can be negative, up to -1
-            fitness += mcm.getMatthewsCorrelationCoefficient() +1;
+            fitness += mcm.getMatthewsCorrelationCoefficient() + 1;
             break;
         default:
             break;
@@ -268,21 +268,15 @@ void evolution::Population::sample(enums::SelectionType type, unsigned int agent
 }
 
 std::vector<unsigned int> evolution::Population::stochasticUniversalSampling(unsigned int agentsToKeep) {
-    // get lowest fitness
-    //double lowestFitness = std::numeric_limits<double>::max();
-    //for (const std::shared_ptr<evolution::Agent> &agent: this->population) {
-    //    if (lowestFitness > agent->getFitness()) {
-    //        lowestFitness = agent->getFitness();
-    //    }
-    //}
-    // adjust population fitness so the lowest is 0
-    //if (lowestFitness < 0) {
-    //    // recycle variable
-    //    lowestFitness = std::abs(lowestFitness);
-    //    for (const std::shared_ptr<evolution::Agent> &agent: this->population) {
-    //        agent->setFitness(agent->getFitness() + lowestFitness);
-    //    }
-    //}
+    // get highest fitness
+    double highestFitness = -std::numeric_limits<double>::max();
+    unsigned int fittestAgentIndex = 0;
+    for (unsigned int i = 0; i < this->population.size(); i++) {
+        if (highestFitness < this->population.at(i)->getFitness()) {
+            highestFitness = this->population.at(i)->getFitness();
+            fittestAgentIndex = i;
+        }
+    }
 
     // calculate the total fitness of the population
     double fitnessSum = 0;
@@ -302,7 +296,8 @@ std::vector<unsigned int> evolution::Population::stochasticUniversalSampling(uns
     // std::sort(pointers.begin(), pointers.end());
 
     // roulette wheel selection
-    std::vector<unsigned int> indexesToKeep{};
+    // always keep the fittest agent
+    std::vector<unsigned int> indexesToKeep{fittestAgentIndex};
 
     // loop until the vector of agents is filled
     double pointer = start;
@@ -325,6 +320,9 @@ std::vector<unsigned int> evolution::Population::stochasticUniversalSampling(uns
 }
 
 void evolution::Population::crossover() {
+    // sort the population according to fitness
+    // std::sort(this->population.begin(), this->population.end(), sortByFitness);
+
     // create new agents until the population is full
     // save child agents in populationPlaceholder
     unsigned int agentsToCreate = this->populationSize - this->population.size();
@@ -350,15 +348,27 @@ void evolution::Population::crossover() {
 std::shared_ptr<evolution::Agent> evolution::Population::crossoverThreaded() {
     // initialize randomness
     std::mt19937 rng(this->seeder());
-    // choose the maximum size here since we don't want to do crossover with child agents
+    // choose the maximum size here since we don't want to do crossover with child agents 0, (double)this->population.size() - 1)
     std::uniform_int_distribution<unsigned int> populationDistribution(0, this->population.size() - 1);
-    // choose a random agent
-    unsigned long firstAgentIndex = populationDistribution(rng);
-    // choose a different agent
-    unsigned long secondAgentIndex;
-    do {
-        secondAgentIndex = populationDistribution(rng);
-    } while (firstAgentIndex == secondAgentIndex);
+    // choose 2 random agents
+    unsigned long firstAgentIndex = 0;
+    unsigned long secondAgentIndex = 0;
+    unsigned int firstRoll = populationDistribution(rng);
+    unsigned int secondRoll = populationDistribution(rng);
+
+    if (population.at(firstRoll)->getFitness() > population.at(secondRoll)->getFitness()) {
+        firstAgentIndex = firstRoll;
+    } else {
+        firstAgentIndex = secondRoll;
+    }
+    firstRoll = populationDistribution(rng);
+    secondRoll = populationDistribution(rng);
+    if (population.at(firstRoll)->getFitness() > population.at(secondRoll)->getFitness()) {
+        secondAgentIndex = firstRoll;
+    } else {
+        secondAgentIndex = secondRoll;
+    }
+
     // create an empty child agent
     std::shared_ptr<evolution::Agent> childAgent = Agent::create(numberOfInputs, inputLabels,
                                                                  numberOfOutputs,
@@ -683,4 +693,19 @@ unsigned int evolution::Population::getNumberOfOutputs() {
 
 std::vector<std::string> evolution::Population::getOutputLabels() {
     return this->outputLabels;
+}
+
+std::string evolution::Population::fitnessToCSVString(char delimiter, unsigned int iteration) {
+    std::string averageFitnessStr = std::to_string(this->getAverageFitness());
+    std::replace(averageFitnessStr.begin(), averageFitnessStr.end(), '.', ',');
+
+    std::string fittestAgentFitnessStr = std::to_string(this->getFittestAgent()->getFitness());
+    std::replace(fittestAgentFitnessStr.begin(), fittestAgentFitnessStr.end(), '.', ',');
+
+    return std::to_string(iteration) + delimiter + averageFitnessStr + delimiter + fittestAgentFitnessStr;
+}
+
+bool evolution::Population::sortByFitness(const std::shared_ptr<evolution::Agent> &a1,
+                                          const std::shared_ptr<evolution::Agent> &a2) {
+    return a1->getFitness() > a2->getFitness();
 }

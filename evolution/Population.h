@@ -81,6 +81,8 @@ namespace evolution {
 
         std::string toString();
 
+        std::string fitnessToCSVString(char delimiter, unsigned int iteration);
+
     private:
         std::shared_ptr<evolution::Agent> createAgent(bool keepDormantVerticesAndEdges);
 
@@ -130,6 +132,8 @@ namespace evolution {
                               const std::shared_ptr<evolution::Agent> &agent);
 
         std::shared_ptr<evolution::Agent> crossoverThreaded();
+
+        static bool sortByFitness(const std::shared_ptr<evolution::Agent>& a1, const std::shared_ptr<evolution::Agent>& a2);
     };
 }
 
