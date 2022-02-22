@@ -498,3 +498,12 @@ std::shared_ptr<data_structures::DeepVertex> data_structures::Graph::getDeepVert
     }
     return nullptr;
 }
+
+void data_structures::Graph::addEdge(std::shared_ptr<data_structures::Edge> edge) {
+    ICrossoverable crossoverable(edge->getMutationChance(), edge->isDominant(), edge->getChanceToGetDominated(),
+                                 edge->getMaxChildren());
+
+    this->addEdge(edge->getInput()->getType(), edge->getInput()->getIndex(), edge->getOutput()->getType(),
+                  edge->getOutput()->getIndex(), edge->getIndex(), edge->getWeight(), edge->getTraverseLimit(),
+                  crossoverable);
+}

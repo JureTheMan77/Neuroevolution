@@ -106,6 +106,8 @@ namespace data_structures {
                 unsigned int outputVertexIndex, unsigned int index, double weight, unsigned int traversalLimit,
                 const data_structures::ICrossoverable &crossoverableData);
 
+        void addEdge(std::shared_ptr<data_structures::Edge> edge);
+
         /**B
          * Propagate the values of the @param dataInstance through the graph.
          * @param dataInstance values to propagate

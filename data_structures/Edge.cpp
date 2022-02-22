@@ -76,3 +76,11 @@ unsigned int data_structures::Edge::getIndex() const {
 void data_structures::Edge::setIndex(unsigned int index) {
     this->index = index;
 }
+
+bool data_structures::Edge::isFlaggedForDeletion() const {
+    return flaggedForDeletion;
+}
+
+void data_structures::Edge::setFlaggedForDeletion(bool flaggedForDeletion) {
+    Edge::flaggedForDeletion = flaggedForDeletion;
+}

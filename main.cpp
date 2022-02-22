@@ -47,7 +47,7 @@ int main() {
 
 
     logging::logs("Start");
-    pop.initialisePopulation(1000, 50, 120, 3, true, 1);
+    pop.initialisePopulation(1000, 50, 120, 2, true, 1);
     logging::logs("Population initialised.");
     //logging::logs(pop.toString());
 
@@ -60,12 +60,8 @@ int main() {
         //logging::logs(pop.toString());
 
         logging::logs("Average fitness: " + std::to_string(pop.getAverageFitness()));
-        auto tempAgent = pop.getFittestAgent();
-        logging::logs("Fittest agent: " + std::to_string(tempAgent->getFitness()));
-
-        if (fittestAgent == nullptr || fittestAgent->getFitness() < tempAgent->getFitness()) {
-            fittestAgent = tempAgent;
-        }
+        fittestAgent = pop.getFittestAgent();
+        logging::logs("Fittest agent: " + std::to_string(fittestAgent->getFitness()));
 
         // write pop info to files
         fitnessFile << pop.fitnessToCSVString(';', i) << std::endl;
@@ -82,10 +78,10 @@ int main() {
         }
     }
 
-    logging::logs(fittestAgent->toString());
-
-    auto mcm = data_structures::MulticlassConfusionMatrix(fittestAgent, pop.getTestingValues(),
-                                                          pop.getNumberOfOutputs());
+    //fittestAgent->minimize();
+    auto minimizedFittestAgent = pop.minimizeFittestAgent();
+    logging::logs(minimizedFittestAgent->toString());
+    auto mcm = data_structures::MulticlassConfusionMatrix(minimizedFittestAgent, pop.getTestingValues(),pop.getNumberOfOutputs());
     logging::logs(mcm.toString(pop.getOutputLabels()));
 
     //logging::logs(pop->toString());

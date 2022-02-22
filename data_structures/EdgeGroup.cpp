@@ -4,7 +4,7 @@
 
 #include "EdgeGroup.h"
 
-void data_structures::EdgeGroup::addEdge(const std::shared_ptr<data_structures::Edge>& edge) {
+void data_structures::EdgeGroup::addEdge(const std::shared_ptr<data_structures::Edge> &edge) {
     this->edges.push_back(edge);
 }
 

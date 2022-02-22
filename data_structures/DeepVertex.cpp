@@ -31,3 +31,11 @@ std::shared_ptr<data_structures::DeepVertex> data_structures::DeepVertex::deepCl
 enums::VertexType data_structures::DeepVertex::getType() {
     return enums::VertexType::Deep;
 }
+
+bool data_structures::DeepVertex::isFlaggedForDeletion() const {
+    return flaggedForDeletion;
+}
+
+void data_structures::DeepVertex::setFlaggedForDeletion(bool flaggedForDeletion) {
+    DeepVertex::flaggedForDeletion = flaggedForDeletion;
+}

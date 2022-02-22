@@ -709,3 +709,37 @@ bool evolution::Population::sortByFitness(const std::shared_ptr<evolution::Agent
                                           const std::shared_ptr<evolution::Agent> &a2) {
     return a1->getFitness() > a2->getFitness();
 }
+
+std::shared_ptr<evolution::Agent> evolution::Population::minimizeFittestAgent() {
+    // remove all deep vertices that don't have output edges
+    // also remove their input edges
+    auto fittestAgent = this->getFittestAgent();
+    for (const auto &deepVertex: fittestAgent->getGraph()->getDeepVertices()) {
+        if (deepVertex->getOutputEdges().empty() && deepVertex->getInputEdges().empty()) {
+            deepVertex->setFlaggedForDeletion(true);
+        }
+    }
+
+    // construct the agent
+    std::shared_ptr<evolution::Agent> minimizedAgent = Agent::create(numberOfInputs, inputLabels,
+                                                                     numberOfOutputs,
+                                                                     outputLabels, this->maxMutationChance);
+
+    // add the deep vertices
+    for (const auto &deepVertex: fittestAgent->getGraph()->getDeepVertices()) {
+        if(!deepVertex->isFlaggedForDeletion()) {
+            minimizedAgent->getGraph()->addDeepVertex(deepVertex);
+        }
+    }
+    // add the edges
+    for(const auto &edge : fittestAgent->getGraph()->getEdges()){
+        if(!edge->isFlaggedForDeletion()){
+            minimizedAgent->getGraph()->addEdge(edge);
+        }
+    }
+    // copy over the fitness
+    minimizedAgent->setFitness(fittestAgent->getFitness());
+
+    return minimizedAgent;
+
+}

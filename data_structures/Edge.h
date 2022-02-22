@@ -19,6 +19,7 @@ namespace data_structures {
         double weight;
         unsigned int traverseLimit;
         unsigned int traverseCount{0};
+        bool flaggedForDeletion = false;
     public:
         /**
          * Creates a new edge.
@@ -114,6 +115,10 @@ namespace data_structures {
          * @return this object's information
          */
         std::string toString();
+
+        bool isFlaggedForDeletion() const;
+
+        void setFlaggedForDeletion(bool flaggedForDeletion);
     };
 }
 

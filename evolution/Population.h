@@ -83,6 +83,8 @@ namespace evolution {
 
         std::string fitnessToCSVString(char delimiter, unsigned int iteration);
 
+        std::shared_ptr<Agent> minimizeFittestAgent();
+
     private:
         std::shared_ptr<evolution::Agent> createAgent(bool keepDormantVerticesAndEdges);
 

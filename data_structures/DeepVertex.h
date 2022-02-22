@@ -13,6 +13,8 @@ namespace data_structures {
             : public data_structures::Vertex,
               public data_structures::IDeepCloneable<DeepVertex>,
               public data_structures::ICrossoverable {
+    private:
+        bool flaggedForDeletion = false;
     public:
         /**
          * Creates a new deep vertex object without edges, calls the parent constructor.
@@ -52,6 +54,10 @@ namespace data_structures {
         std::string toString() override;
 
         enums::VertexType getType() override;
+
+        bool isFlaggedForDeletion() const;
+
+        void setFlaggedForDeletion(bool flaggedForDeletion);
     };
 }
 
