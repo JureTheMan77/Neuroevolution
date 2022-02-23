@@ -43,3 +43,11 @@ evolution::Agent::create(unsigned int inputVertices, std::vector<std::string> &i
                                                      maxMutationChance);
     return std::make_shared<evolution::Agent>(graph);
 }
+
+bool evolution::Agent::isNewAgent() const {
+    return newAgent;
+}
+
+void evolution::Agent::setNewAgent(bool newAgentArg) {
+    Agent::newAgent = newAgentArg;
+}

@@ -13,6 +13,7 @@ namespace evolution {
     private:
         std::shared_ptr<data_structures::Graph> graph{};
         double fitness = 0;
+        bool newAgent = true;
 
     public:
         /**
@@ -83,6 +84,10 @@ namespace evolution {
          * @return this object's information
          */
         std::string toString();
+
+        bool isNewAgent() const;
+
+        void setNewAgent(bool newAgentArg);
     };
 }
 

@@ -47,21 +47,19 @@ int main() {
 
 
     logging::logs("Start");
-    pop.initialisePopulation(1000, 50, 120, 2, true, 1);
+    pop.initialisePopulation(1000, 50, 120, 2, true, 0.3);
     logging::logs("Population initialised.");
     //logging::logs(pop.toString());
 
-    std::shared_ptr<evolution::Agent> fittestAgent;
     for (int i = 0; i < 1000; i++) {
         // std::cout << "\033[2J" << "\033[1;1H" << std::endl;
         logging::logs("Generation " + std::to_string(i));
-        pop.calculateFitness(enums::FitnessMetric::Accuracy, -0.000, -0.000);
+        pop.calculateFitness(enums::FitnessMetric::Accuracy, -0.001, -0.001);
         //logging::logs("Fitness calculated.");
         //logging::logs(pop.toString());
 
         logging::logs("Average fitness: " + std::to_string(pop.getAverageFitness()));
-        fittestAgent = pop.getFittestAgent();
-        logging::logs("Fittest agent: " + std::to_string(fittestAgent->getFitness()));
+        logging::logs("Fittest agent: " + std::to_string(pop.getFittestAgent()->getFitness()));
 
         // write pop info to files
         fitnessFile << pop.fitnessToCSVString(';', i) << std::endl;
@@ -79,10 +77,23 @@ int main() {
     }
 
     //fittestAgent->minimize();
-    auto minimizedFittestAgent = pop.minimizeFittestAgent();
-    logging::logs(minimizedFittestAgent->toString());
-    auto mcm = data_structures::MulticlassConfusionMatrix(minimizedFittestAgent, pop.getTestingValues(),pop.getNumberOfOutputs());
-    logging::logs(mcm.toString(pop.getOutputLabels()));
+    std::shared_ptr<evolution::Agent> bestAgent;
+    auto bestMcm = data_structures::MulticlassConfusionMatrix();
+    for(const auto &agent : pop.getPopulation()){
+        auto mcm = data_structures::MulticlassConfusionMatrix(agent, pop.getTestingValues(),pop.getNumberOfOutputs());
+        if(bestAgent == nullptr || bestMcm.getAccuracy() < mcm.getAccuracy()){
+            bestAgent = agent;
+            bestMcm = mcm;
+        }
+//        if(bestAgent == nullptr || bestMcm.getMatthewsCorrelationCoefficient() < mcm.getMatthewsCorrelationCoefficient()){
+//            bestAgent = agent;
+//            bestMcm = mcm;
+//        }
+    }
+    auto minimizedBestAgent = pop.minimizeAgent(bestAgent);
+    logging::logs(minimizedBestAgent->toString());
+    //auto mcm = data_structures::MulticlassConfusionMatrix(minimizedBestAgent, pop.getTestingValues(), pop.getNumberOfOutputs());
+    logging::logs(bestMcm.toString(pop.getOutputLabels()));
 
     //logging::logs(pop->toString());
     //delete pop;

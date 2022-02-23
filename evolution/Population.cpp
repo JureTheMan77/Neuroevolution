@@ -172,12 +172,13 @@ void evolution::Population::calculateFitness(enums::FitnessMetric fitnessMetric,
                                              double edgeContribution) {
     // run all data instances on all agents
     std::vector<std::future<void>> futures;
-    unsigned int i = 0;
     for (const std::shared_ptr<evolution::Agent> &agent: this->population) {
-        auto ftr = std::async(&evolution::Population::calculateAgentFitness, this, fitnessMetric, vertexContribution,
-                              edgeContribution, agent);
-        futures.push_back(std::move(ftr));
-        i += 1;
+        // calculate fitness only for new agents
+        if (agent->isNewAgent()) {
+            auto ftr = std::async(&evolution::Population::calculateAgentFitness, this, fitnessMetric,
+                                  vertexContribution, edgeContribution, agent);
+            futures.push_back(std::move(ftr));
+        }
         //calculateAgentFitness(vertexContribution, edgeContribution, std::ref(agent));
     }
     // join the created threads
@@ -258,7 +259,9 @@ void evolution::Population::sample(enums::SelectionType type, unsigned int agent
     // only one reference the next time, both agents will be deleted
     for (unsigned int index: indexesToKeep) {
         // indexesToKeep will never be larger that the population
-        this->populationPlaceholder.push_back(this->population.at(index)->deepClone());
+        auto agent = this->population.at(index)->deepClone();
+        agent->setNewAgent(false);
+        this->populationPlaceholder.push_back(agent);
     }
 
     this->population.clear();
@@ -714,6 +717,12 @@ std::shared_ptr<evolution::Agent> evolution::Population::minimizeFittestAgent() 
     // remove all deep vertices that don't have output edges
     // also remove their input edges
     auto fittestAgent = this->getFittestAgent();
+    return minimizeAgent(fittestAgent);
+
+}
+
+std::shared_ptr<evolution::Agent>
+evolution::Population::minimizeAgent(const std::shared_ptr<evolution::Agent>& fittestAgent) {
     for (const auto &deepVertex: fittestAgent->getGraph()->getDeepVertices()) {
         if (deepVertex->getOutputEdges().empty() && deepVertex->getInputEdges().empty()) {
             deepVertex->setFlaggedForDeletion(true);
@@ -721,19 +730,19 @@ std::shared_ptr<evolution::Agent> evolution::Population::minimizeFittestAgent() 
     }
 
     // construct the agent
-    std::shared_ptr<evolution::Agent> minimizedAgent = Agent::create(numberOfInputs, inputLabels,
-                                                                     numberOfOutputs,
-                                                                     outputLabels, this->maxMutationChance);
+    std::shared_ptr<Agent> minimizedAgent = Agent::create(numberOfInputs, inputLabels,
+                                                          numberOfOutputs,
+                                                          outputLabels, maxMutationChance);
 
     // add the deep vertices
     for (const auto &deepVertex: fittestAgent->getGraph()->getDeepVertices()) {
-        if(!deepVertex->isFlaggedForDeletion()) {
+        if (!deepVertex->isFlaggedForDeletion()) {
             minimizedAgent->getGraph()->addDeepVertex(deepVertex);
         }
     }
     // add the edges
-    for(const auto &edge : fittestAgent->getGraph()->getEdges()){
-        if(!edge->isFlaggedForDeletion()){
+    for (const auto &edge: fittestAgent->getGraph()->getEdges()) {
+        if (!edge->isFlaggedForDeletion()) {
             minimizedAgent->getGraph()->addEdge(edge);
         }
     }
@@ -741,5 +750,4 @@ std::shared_ptr<evolution::Agent> evolution::Population::minimizeFittestAgent() 
     minimizedAgent->setFitness(fittestAgent->getFitness());
 
     return minimizedAgent;
-
 }

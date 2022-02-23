@@ -85,6 +85,8 @@ namespace evolution {
 
         std::shared_ptr<Agent> minimizeFittestAgent();
 
+        std::shared_ptr<Agent> minimizeAgent(const std::shared_ptr<evolution::Agent>& fittestAgent);
+
     private:
         std::shared_ptr<evolution::Agent> createAgent(bool keepDormantVerticesAndEdges);
 
