@@ -20,7 +20,7 @@ namespace data_structures {
               public data_structures::IVertexType {
     private:
         unsigned int index;
-        double value{};
+        double value{0};
 
         bool visited{};
     public:
@@ -86,7 +86,7 @@ namespace data_structures {
          * Get a string with useful information about this object.
          * @return this object's information
          */
-        virtual std::string toString();
+        virtual std::string toString(bool technical);
 
         enums::VertexType getType() override = 0;
     };

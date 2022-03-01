@@ -5,12 +5,16 @@
 #include <sstream>
 #include "InputVertex.h"
 
-std::string data_structures::InputVertex::toString() {
+std::string data_structures::InputVertex::toString(bool technical) {
     std::ostringstream stream;
-    stream << "{Index: " << this->getIndex()
-           << ", Label: " << this->label
-           << ", Value: " << this->getValue()
-           << "}";
+    if (technical) {
+        stream << "\"" << this->label << "\"";
+    } else {
+        stream << "{Index: " << this->getIndex()
+               << ", Label: " << this->label
+               << ", Value: " << this->getValue()
+               << "}";
+    }
 
     return stream.str();
 }

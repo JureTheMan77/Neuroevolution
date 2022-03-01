@@ -16,8 +16,8 @@ void evolution::Agent::setFitness(double newFitness) {
     this->fitness = newFitness;
 }
 
-std::string evolution::Agent::toString() {
-    return "Fitness: " + std::to_string(this->fitness) + "\n" + this->graph->toString();
+std::string evolution::Agent::toString(bool technical) {
+    return "Fitness: " + std::to_string(this->fitness) + "\n" + this->graph->toString(technical);
 }
 
 std::shared_ptr<evolution::Agent>

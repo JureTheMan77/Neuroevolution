@@ -35,13 +35,12 @@ namespace data_structures {
          */
         void addOutputEdge(const std::shared_ptr<data_structures::Edge> &edge) override;
 
-        void combineValue(double argValue) override;
-
         /**
          * Get a string with useful information about this object.
          * @return this object's information
          */
-        std::string toString() override;
+        std::string toString(bool technical) override;
+
 
         enums::VertexType getType() override;
     };

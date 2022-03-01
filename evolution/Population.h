@@ -26,6 +26,7 @@ namespace evolution {
         unsigned int maxDeepVertices;
         unsigned int maxEdges;
         double maxMutationChance;
+        bool keepDormantVerticesAndEdges;
         std::vector<std::shared_ptr<data_structures::DataInstance>> trainingValues;
         std::vector<std::shared_ptr<data_structures::DataInstance>> testingValues;
 
@@ -45,7 +46,7 @@ namespace evolution {
          */
         void
         initialisePopulation(unsigned int populationSizeArg, unsigned int maxDeepVerticesArg, unsigned int maxEdgesArg,
-                             unsigned int edgeTraverseLimitArg, bool keepDormantVerticesAndEdges,
+                             unsigned int edgeTraverseLimitArg, bool keepDormantVerticesAndEdgesArg,
                              double maxMutationChanceArg);
 
         /**
@@ -79,16 +80,18 @@ namespace evolution {
 
         std::vector<std::string> getOutputLabels();
 
-        std::string toString();
+        std::vector<std::string> getInputLabels();
+
+        std::string toString(bool technical);
 
         std::string fitnessToCSVString(char delimiter, unsigned int iteration);
 
         std::shared_ptr<Agent> minimizeFittestAgent();
 
-        std::shared_ptr<Agent> minimizeAgent(const std::shared_ptr<evolution::Agent>& fittestAgent);
+        std::shared_ptr<Agent> minimizeAgent(const std::shared_ptr<evolution::Agent>& agentToMinimize);
 
     private:
-        std::shared_ptr<evolution::Agent> createAgent(bool keepDormantVerticesAndEdges);
+        std::shared_ptr<evolution::Agent> createAgent();
 
         /**
          * Adapted from @see https://en.wikipedia.org/wiki/Stochastic_universal_sampling

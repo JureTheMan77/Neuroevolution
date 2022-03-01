@@ -83,7 +83,7 @@ namespace evolution {
          * Get a string with useful information about this object.
          * @return this object's information
          */
-        std::string toString();
+        std::string toString(bool technical);
 
         bool isNewAgent() const;
 

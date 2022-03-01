@@ -43,13 +43,22 @@ bool data_structures::Edge::isAtTaversalLimit() {
 }
 
 
-std::string data_structures::Edge::toString() {
+std::string data_structures::Edge::toString(bool technical) {
     std::ostringstream stream;
 
-    stream << std::setprecision(std::numeric_limits<double>::digits10) << "{" << this->input.lock()->toString() << " --{W:"
-           << this->weight << " TL:" << this->traverseLimit << "}-> "
-           << this->output.lock()->toString() << "}";
-
+    if (technical) {
+        stream << std::setprecision(3) << this->input.lock()->toString(technical)
+               << " "
+               << this->output.lock()->toString(technical)
+               << " \""
+               << this->weight << "," << this->traverseLimit << "\"";
+    } else {
+        stream << std::setprecision(std::numeric_limits<double>::digits10) << "{"
+               << this->input.lock()->toString(technical)
+               << " --{W:"
+               << this->weight << " TL:" << this->traverseLimit << "}-> "
+               << this->output.lock()->toString(technical) << "}";
+    }
     return stream.str();
 }
 
@@ -83,4 +92,8 @@ bool data_structures::Edge::isFlaggedForDeletion() const {
 
 void data_structures::Edge::setFlaggedForDeletion(bool flaggedForDeletion) {
     Edge::flaggedForDeletion = flaggedForDeletion;
+}
+
+void data_structures::Edge::setWeight(double weightArg) {
+    this->weight = weightArg;
 }

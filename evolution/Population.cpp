@@ -58,6 +58,9 @@ evolution::Population::Population(const std::string &pathToDataSet) {
     this->trainingValues.insert(trainingValues.begin(), fullDataSet.begin(), fullDataSet.begin() + splitMark);
     this->testingValues.insert(testingValues.begin(), fullDataSet.begin() + splitMark, fullDataSet.end());
 
+    //this->trainingValues.insert(trainingValues.begin(), fullDataSet.begin(), fullDataSet.end());
+    //this->testingValues.insert(testingValues.begin(), fullDataSet.begin(), fullDataSet.end());
+
 
     this->population = std::vector<std::shared_ptr<evolution::Agent>>();
     this->populationPlaceholder = std::vector<std::shared_ptr<evolution::Agent>>();
@@ -66,20 +69,22 @@ evolution::Population::Population(const std::string &pathToDataSet) {
 
 void evolution::Population::initialisePopulation(unsigned int populationSizeArg, unsigned int maxDeepVerticesArg,
                                                  unsigned int maxEdgesArg, unsigned int edgeTraverseLimitArg,
-                                                 bool keepDormantVerticesAndEdges, double maxMutationChanceArg) {
+                                                 bool keepDormantVerticesAndEdgesArg, double maxMutationChanceArg) {
     this->population = std::vector<std::shared_ptr<evolution::Agent>>();
     this->populationSize = populationSizeArg;
     this->edgeTraverseLimit = edgeTraverseLimitArg;
     this->maxDeepVertices = maxDeepVerticesArg;
     this->maxEdges = maxEdgesArg;
     this->maxMutationChance = maxMutationChanceArg;
+    this->keepDormantVerticesAndEdges = keepDormantVerticesAndEdgesArg;
     for (unsigned int i = 0; i < populationSizeArg; i++) {
-        this->population.push_back(this->createAgent(keepDormantVerticesAndEdges));
+        auto agent = this->createAgent();
+        this->population.push_back(agent);
     }
 }
 
 std::shared_ptr<evolution::Agent>
-evolution::Population::createAgent(bool keepDormantVerticesAndEdges) {
+evolution::Population::createAgent() {
     std::mt19937 rng(this->seeder());
     std::uniform_int_distribution<unsigned int> maxDeepVerticesDistribution(0, maxDeepVertices);
     std::uniform_int_distribution<unsigned int> edgesDistribution(1, maxEdges);
@@ -96,7 +101,25 @@ evolution::Population::createAgent(bool keepDormantVerticesAndEdges) {
         this->addRandomEdge(i, graph);
     }
 
-    return evolution::Agent::create(graph);
+    // normalize edge weights
+    // find the largest weight
+    double maxWeight = 0;
+    for (const auto &edge: graph->getEdges()) {
+        if (edge->getWeight() > maxWeight) {
+            maxWeight = edge->getWeight();
+        }
+    }
+    for (const auto &edge: graph->getEdges()) {
+        double newWeight = edge->getWeight() / maxWeight;
+        //newWeight = (int) (newWeight * 100000.0) / 100000.0;
+        edge->setWeight(newWeight);
+    }
+
+    auto agent = evolution::Agent::create(graph);
+    //if (!this->keepDormantVerticesAndEdges) {
+    //    agent = this->minimizeAgent(agent);
+    //}
+    return agent;
 }
 
 void evolution::Population::addRandomEdge(unsigned int index, std::shared_ptr<data_structures::Graph> const &graph) {
@@ -157,12 +180,12 @@ void evolution::Population::addRandomEdge(unsigned int index, std::shared_ptr<da
     }
 }
 
-std::string evolution::Population::toString() {
+std::string evolution::Population::toString(bool technical) {
     std::ostringstream result;
     result << "Number of agents: " << this->population.size() << std::endl;
     for (unsigned int i = 0; i < this->population.size(); i++) {
         result << "Agent " << i << ": " << std::endl;
-        result << this->population.at(i)->toString() << std::endl;
+        result << this->population.at(i)->toString(technical) << std::endl;
     }
 
     return result.str();
@@ -406,6 +429,24 @@ std::shared_ptr<evolution::Agent> evolution::Population::crossoverThreaded() {
     childAgent->getGraph()->fixIndices();
 
     // populationPlaceholder.push_back(childAgent);
+
+    // normalize edge weights
+    // find the largest weight
+    double maxWeight = 0;
+    for (const auto &edge: childAgent->getGraph()->getEdges()) {
+        if (edge->getWeight() > maxWeight) {
+            maxWeight = edge->getWeight();
+        }
+    }
+    for (const auto &edge: childAgent->getGraph()->getEdges()) {
+        double newWeight = edge->getWeight() / maxWeight;
+        //newWeight = (int) (newWeight * 100000.0) / 100000.0;
+        edge->setWeight(newWeight);
+    }
+
+    if (!this->keepDormantVerticesAndEdges) {
+        childAgent = this->minimizeAgent(childAgent);
+    }
     return childAgent;
 }
 
@@ -722,10 +763,37 @@ std::shared_ptr<evolution::Agent> evolution::Population::minimizeFittestAgent() 
 }
 
 std::shared_ptr<evolution::Agent>
-evolution::Population::minimizeAgent(const std::shared_ptr<evolution::Agent>& fittestAgent) {
-    for (const auto &deepVertex: fittestAgent->getGraph()->getDeepVertices()) {
-        if (deepVertex->getOutputEdges().empty() && deepVertex->getInputEdges().empty()) {
-            deepVertex->setFlaggedForDeletion(true);
+evolution::Population::minimizeAgent(const std::shared_ptr<evolution::Agent> &agentToMinimize) {
+    // Step 1. if the deep vertex has no input or output edges, then flag it for deletion
+    bool keepRunning = true;
+    while (keepRunning) {
+        keepRunning = false;
+        for (const auto &deepVertex: agentToMinimize->getGraph()->getDeepVertices()) {
+            if (deepVertex->isFlaggedForDeletion()) {
+                continue;
+            }
+            if (deepVertex->getOutputEdges().empty() && deepVertex->getInputEdges().empty()) {
+                // remove all isolated edges
+                deepVertex->setFlaggedForDeletion(true);
+            } else if (deepVertex->getOutputEdges().empty() || deepVertex->allOutputEdgesFlaggedForDeletion()) {
+                deepVertex->setFlaggedForDeletion(true);
+                keepRunning = true;
+                if (deepVertex->allInputEdgesFlaggedForDeletion()) {
+                    continue;
+                }
+                for (const auto &edge: deepVertex->getInputEdges()) {
+                    edge->setFlaggedForDeletion(true);
+                }
+            } else if (deepVertex->getInputEdges().empty() || deepVertex->allInputEdgesFlaggedForDeletion()) {
+                deepVertex->setFlaggedForDeletion(true);
+                keepRunning = true;
+                if (deepVertex->allOutputEdgesFlaggedForDeletion()) {
+                    continue;
+                }
+                for (const auto &edge: deepVertex->getOutputEdges()) {
+                    edge->setFlaggedForDeletion(true);
+                }
+            }
         }
     }
 
@@ -735,19 +803,42 @@ evolution::Population::minimizeAgent(const std::shared_ptr<evolution::Agent>& fi
                                                           outputLabels, maxMutationChance);
 
     // add the deep vertices
-    for (const auto &deepVertex: fittestAgent->getGraph()->getDeepVertices()) {
+    for (const auto &deepVertex: agentToMinimize->getGraph()->getDeepVertices()) {
         if (!deepVertex->isFlaggedForDeletion()) {
-            minimizedAgent->getGraph()->addDeepVertex(deepVertex);
+            auto vertexClone = deepVertex->deepClone();
+            minimizedAgent->getGraph()->addDeepVertex(vertexClone);
         }
     }
     // add the edges
-    for (const auto &edge: fittestAgent->getGraph()->getEdges()) {
+    for (const auto &edge: agentToMinimize->getGraph()->getEdges()) {
         if (!edge->isFlaggedForDeletion()) {
             minimizedAgent->getGraph()->addEdge(edge);
         }
     }
+
+    // normalize weights from 0 to 1
+    // get the largest weight
+    double maxWeight = 0;
+    for (const auto &edge: minimizedAgent->getGraph()->getEdges()) {
+        if (edge->getWeight() > maxWeight) {
+            maxWeight = edge->getWeight();
+        }
+    }
+
+    // re-index deep vertices
+    unsigned int newIndex = 0;
+    for (const auto &deepVertex: minimizedAgent->getGraph()->getDeepVertices()) {
+        deepVertex->setIndex(newIndex);
+        newIndex += 1;
+    }
+
     // copy over the fitness
-    minimizedAgent->setFitness(fittestAgent->getFitness());
+    minimizedAgent->setFitness(agentToMinimize->getFitness());
+
 
     return minimizedAgent;
+}
+
+std::vector<std::string> evolution::Population::getInputLabels() {
+    return this->inputLabels;
 }

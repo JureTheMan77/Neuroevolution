@@ -250,6 +250,11 @@ void data_structures::Graph::traverse(const std::shared_ptr<data_structures::Dat
         vertex = this->pendingVertices.dequeue();
         vertex->setVisited(true);
 
+        // skip deep vertices without input edges
+        if (vertex->getType() == enums::VertexType::Deep && vertex->getInputEdges().empty()) {
+            continue;
+        }
+
         // vertex->getOutputEdges() cannot be empty at this stage
         for (const std::shared_ptr<data_structures::Edge> &edge: vertex->getOutputEdges()) {
             if (!edge->isAtTaversalLimit()) {
@@ -261,7 +266,8 @@ void data_structures::Graph::traverse(const std::shared_ptr<data_structures::Dat
                 // - output vertex has not yet been visited
                 // - output vertex has at lest one output edge
                 // - cyclic connections are handled further on
-                if (edge->getOutput()->allInputEdgesTraversed() && !edge->getOutput()->isVisited() &&
+                if (edge->getOutput()->getType() == enums::VertexType::Deep &&
+                    edge->getOutput()->allInputEdgesTraversed() && !edge->getOutput()->isVisited() &&
                     !edge->getOutput()->getOutputEdges().empty()) {
                     this->pendingVertices.enqueue(edge->getOutput());
                 }
@@ -291,12 +297,13 @@ void data_structures::Graph::traverse(const std::shared_ptr<data_structures::Dat
 //            }
 //        }
 
-        // in case of recursive connections, check if any deep vertex has not been visited. If such a vertex is found,
-        // then check if it has any input edges that have been traversed and save it
+        // in case of recursive connections, check if any deep vertex with out/input vertices has not been visited.
+        // If such a vertex is found, then check if it has any input edges that have been traversed and save it
         // enqueue the vertex with the least amount of non-traversed edges
         // otherwise, end
         for (const std::shared_ptr<data_structures::DeepVertex> &deepVertex: this->deepVertices) {
-            if (deepVertex->isVisited()) {
+            if (deepVertex->isVisited() || deepVertex->getOutputEdges().empty() ||
+                deepVertex->getInputEdges().empty()) {
                 continue;
             }
             // count non-traversed edges
@@ -370,7 +377,7 @@ std::vector<std::shared_ptr<data_structures::OutputVertex>> data_structures::Gra
     return this->outputVertices;
 }
 
-std::string data_structures::Graph::toString() {
+std::string data_structures::Graph::toString(bool technical) {
     std::ostringstream result;
     result << "Input vertices: " << std::to_string(this->inputVertices.size()) << std::endl;
     result << "Output vertices: " << std::to_string(this->outputVertices.size()) << std::endl;
@@ -378,7 +385,11 @@ std::string data_structures::Graph::toString() {
     result << "Edges: " << std::to_string(this->edges.size());
 
     for (const std::shared_ptr<data_structures::Edge> &edge: this->edges) {
-        result << std::endl << "\t" << edge->toString();
+        if (technical) {
+            result << std::endl << edge->toString(technical);
+        } else {
+            result << std::endl << "\t" << edge->toString(technical);
+        }
     }
 
     return result.str();

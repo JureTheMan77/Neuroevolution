@@ -152,7 +152,7 @@ namespace data_structures {
          * Get a string with useful information about this object.
          * @return this object's information
          */
-        std::string toString();
+        std::string toString(bool technical);
 
         bool
         edgeBeforeAdd(enums::VertexType &inputVertexType, unsigned int inputVertexIndex,

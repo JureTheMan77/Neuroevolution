@@ -7,11 +7,40 @@
 
 int main() {
     auto pop = evolution::Population("/home/jure/CLionProjects/Neuroevolution/datasets/iris/iris.data");
+    //auto inputLabels = pop.getInputLabels();
+    //auto outputLabels = pop.getOutputLabels();
+    //auto graph = data_structures::Graph::createGraph(4, inputLabels, 16, 3, outputLabels, 1);
+    //graph->addEdge(enums::VertexType::Input, 0, enums::VertexType::Output, 2, 0, 0.499, 1, 1);
+    //graph->addEdge(enums::VertexType::Input, 0, enums::VertexType::Output, 0, 0, 0.0133, 1, 1);
+    //graph->addEdge(enums::VertexType::Input, 1, enums::VertexType::Output, 0, 0, 0.414, 1, 1);
+    //graph->addEdge(enums::VertexType::Input, 1, enums::VertexType::Deep, 6, 0, 0.0211, 1, 1);
+    //graph->addEdge(enums::VertexType::Input, 1, enums::VertexType::Output, 2, 0, 0.72, 2, 1);
+    //graph->addEdge(enums::VertexType::Input, 1, enums::VertexType::Deep, 10, 0, 0.147, 1, 1);
+    //graph->addEdge(enums::VertexType::Input, 2, enums::VertexType::Output, 1, 0, 0.17, 2, 1);
+    //graph->addEdge(enums::VertexType::Input, 2, enums::VertexType::Output, 2, 0, 0.0341, 2, 1);
+    //graph->addEdge(enums::VertexType::Input, 2, enums::VertexType::Deep, 15, 0, 0.0505, 1, 1);
+    //graph->addEdge(enums::VertexType::Input, 2, enums::VertexType::Output, 0, 0, 0.00873, 2, 1);
+    //graph->addEdge(enums::VertexType::Input, 3, enums::VertexType::Output, 2, 0, 0.147, 2, 1);
+    //graph->addEdge(enums::VertexType::Input, 3, enums::VertexType::Output, 0, 0, 0.134, 1, 1);
+    //graph->addEdge(enums::VertexType::Input, 3, enums::VertexType::Output, 1, 0, 0.698, 1, 1);
+    //graph->addEdge(enums::VertexType::Deep, 6, enums::VertexType::Output, 1, 0, 0.415, 2, 1);
+    //graph->addEdge(enums::VertexType::Deep, 6, enums::VertexType::Deep, 6, 0, 0.0291, 1, 1);
+    //graph->addEdge(enums::VertexType::Deep, 10, enums::VertexType::Output, 0, 0, 0.355, 1, 1);
+    //graph->addEdge(enums::VertexType::Deep, 15, enums::VertexType::Output, 1, 0, 1, 1, 1);
 
-//    auto graph = data_structures::Graph::createGraph(4,inputLabels,1,3,outputLabels);
-    //graph->addEdge(enums::VertexType::Input,0,enums::VertexType::Deep,0,2,1);
-    //graph->addEdge(enums::VertexType::Deep,0,enums::VertexType::Output,0,0.75,1);
-    //graph->addEdge(enums::VertexType::Input,1,enums::VertexType::Output,1,0.45,1);
+
+    //auto agent = evolution::Agent::create(graph, 0);
+    //auto minimizedAgent = pop.minimizeAgent(agent);
+    //logging::logs(agent->toString(true));
+    //auto mcmtest = data_structures::MulticlassConfusionMatrix(agent, pop.getTestingValues(), pop.getNumberOfOutputs());
+    //logging::logs(mcmtest.toString(pop.getOutputLabels()));
+//
+    //mcmtest = data_structures::MulticlassConfusionMatrix(minimizedAgent, pop.getTestingValues(), pop.getNumberOfOutputs());
+    //logging::logs(mcmtest.toString(pop.getOutputLabels()));
+    //logging::logs(minimizedAgent->toString(true));
+
+int a = 0;
+    //graph->addEdge(enums::VertexType::Input, 1, enums::VertexType::Output, 1, 0.45, 1);
     // recursive
     //graph->addEdge(enums::VertexType::Input,2,enums::VertexType::Deep,1,1,1);
     //graph->addEdge(enums::VertexType::Deep,1,enums::VertexType::Deep,1,2,1);
@@ -47,14 +76,14 @@ int main() {
 
 
     logging::logs("Start");
-    pop.initialisePopulation(1000, 50, 120, 2, true, 0.3);
+    pop.initialisePopulation(1000, 50, 100, 2, true, 1);
     logging::logs("Population initialised.");
     //logging::logs(pop.toString());
 
-    for (int i = 0; i < 1000; i++) {
+    for (int i = 0; i < 2000; i++) {
         // std::cout << "\033[2J" << "\033[1;1H" << std::endl;
         logging::logs("Generation " + std::to_string(i));
-        pop.calculateFitness(enums::FitnessMetric::Accuracy, -0.001, -0.001);
+        pop.calculateFitness(enums::FitnessMetric::Accuracy, 0.000, -0.001);
         //logging::logs("Fitness calculated.");
         //logging::logs(pop.toString());
 
@@ -65,10 +94,10 @@ int main() {
         fitnessFile << pop.fitnessToCSVString(';', i) << std::endl;
 
         //logging::logs(pop.getFittestAgent()->toString());
-        if (i == 999) {
+        if (i == 1999) {
             fitnessFile.close();
         } else {
-            pop.sample(enums::SelectionType::StochasticUniversalSampling, 800);
+            pop.sample(enums::SelectionType::StochasticUniversalSampling, 750);
             //logging::logs("Population sampled.");
 
             pop.crossover();
@@ -77,23 +106,27 @@ int main() {
     }
 
     //fittestAgent->minimize();
-    std::shared_ptr<evolution::Agent> bestAgent;
-    auto bestMcm = data_structures::MulticlassConfusionMatrix();
-    for(const auto &agent : pop.getPopulation()){
-        auto mcm = data_structures::MulticlassConfusionMatrix(agent, pop.getTestingValues(),pop.getNumberOfOutputs());
-        if(bestAgent == nullptr || bestMcm.getAccuracy() < mcm.getAccuracy()){
+    std::shared_ptr<evolution::Agent> bestAgent = pop.getPopulation().at(0);
+    auto bestMcm = data_structures::MulticlassConfusionMatrix(bestAgent,pop.getTestingValues(), pop.getNumberOfOutputs());
+    for (const auto &agent: pop.getPopulation()) {
+        auto mcm = data_structures::MulticlassConfusionMatrix(agent, pop.getTestingValues(), pop.getNumberOfOutputs());
+        if (bestMcm.getAccuracy() < mcm.getAccuracy()) {
             bestAgent = agent;
             bestMcm = mcm;
         }
-//        if(bestAgent == nullptr || bestMcm.getMatthewsCorrelationCoefficient() < mcm.getMatthewsCorrelationCoefficient()){
-//            bestAgent = agent;
-//            bestMcm = mcm;
-//        }
+        //if(bestAgent == nullptr || bestMcm.getMatthewsCorrelationCoefficient() < mcm.getMatthewsCorrelationCoefficient()){
+        //    bestAgent = agent;
+        //    bestMcm = mcm;
+        //}
     }
-    auto minimizedBestAgent = pop.minimizeAgent(bestAgent);
-    logging::logs(minimizedBestAgent->toString());
-    //auto mcm = data_structures::MulticlassConfusionMatrix(minimizedBestAgent, pop.getTestingValues(), pop.getNumberOfOutputs());
+    logging::logs(bestAgent->toString(true));
     logging::logs(bestMcm.toString(pop.getOutputLabels()));
+    bestAgent->getGraph()->reset();
+    auto minimizedBestAgent = pop.minimizeAgent(bestAgent);
+    logging::logs(minimizedBestAgent->toString(true));
+    auto mcm = data_structures::MulticlassConfusionMatrix(minimizedBestAgent, pop.getTestingValues(),
+                                                          pop.getNumberOfOutputs());
+    logging::logs(mcm.toString(pop.getOutputLabels()));
 
     //logging::logs(pop->toString());
     //delete pop;
@@ -102,6 +135,7 @@ int main() {
 
 
     logging::logs("done");
+
 
     return 0;
 }

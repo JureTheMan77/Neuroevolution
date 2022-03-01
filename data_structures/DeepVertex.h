@@ -51,13 +51,17 @@ namespace data_structures {
          * Get a string with useful information about this object.
          * @return this object's information
          */
-        std::string toString() override;
+        std::string toString(bool technical) override;
 
         enums::VertexType getType() override;
 
         bool isFlaggedForDeletion() const;
 
         void setFlaggedForDeletion(bool flaggedForDeletion);
+
+        bool allInputEdgesFlaggedForDeletion();
+
+        bool allOutputEdgesFlaggedForDeletion();
     };
 }
 

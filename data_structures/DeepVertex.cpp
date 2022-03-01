@@ -12,11 +12,15 @@ data_structures::DeepVertex::createDeepVertex(unsigned int index, bool dominant,
                                                          maxChildren);
 }
 
-std::string data_structures::DeepVertex::toString() {
+std::string data_structures::DeepVertex::toString(bool technical) {
     std::ostringstream stream;
-    stream << "{Index: " << this->getIndex()
-           << ", Value: " << this->getValue()
-           << "}";
+    if (technical) {
+        stream << this->getIndex();
+    } else {
+        stream << "{Index: " << this->getIndex()
+               //<< ", Value: " << this->getValue()
+               << "}";
+    }
 
     return stream.str();
 }
@@ -38,4 +42,22 @@ bool data_structures::DeepVertex::isFlaggedForDeletion() const {
 
 void data_structures::DeepVertex::setFlaggedForDeletion(bool flaggedForDeletion) {
     DeepVertex::flaggedForDeletion = flaggedForDeletion;
+}
+
+bool data_structures::DeepVertex::allInputEdgesFlaggedForDeletion() {
+    for (const auto &edge: this->getInputEdges()) {
+        if (!edge->isFlaggedForDeletion()) {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool data_structures::DeepVertex::allOutputEdgesFlaggedForDeletion() {
+    for (const auto &edge: this->getOutputEdges()) {
+        if (!edge->isFlaggedForDeletion()) {
+            return false;
+        }
+    }
+    return true;
 }

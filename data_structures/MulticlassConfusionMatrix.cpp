@@ -22,6 +22,8 @@ data_structures::MulticlassConfusionMatrix::MulticlassConfusionMatrix(const std:
     }
     this->matrix = confusionMatrix;
 
+    // reset the testing agent
+    agent->getGraph()->reset();
     // run through all the testing values
     for (const std::shared_ptr<data_structures::DataInstance> &di: testingSet) {
         agent->getGraph()->traverse(di);

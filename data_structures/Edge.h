@@ -68,6 +68,8 @@ namespace data_structures {
          */
         double getWeight();
 
+        void setWeight(double weightArg);
+
         /**
          * Get the number of times this edge can be traversed.
          * @return traverse limit
@@ -114,7 +116,7 @@ namespace data_structures {
          * Get a string with useful information about this object.
          * @return this object's information
          */
-        std::string toString();
+        std::string toString(bool technical);
 
         bool isFlaggedForDeletion() const;
 

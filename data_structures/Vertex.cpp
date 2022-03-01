@@ -4,7 +4,7 @@
 
 #include "Vertex.h"
 
-std::string data_structures::Vertex::toString() {
+std::string data_structures::Vertex::toString(bool technical) {
     return "";
 }
 
@@ -22,6 +22,7 @@ double data_structures::Vertex::getValue() {
 
 void data_structures::Vertex::reset() {
     this->value = 0;
+    this->setVisited(false);
 }
 
 unsigned int data_structures::Vertex::getIndex() {

@@ -5,12 +5,16 @@
 #include <sstream>
 #include "OutputVertex.h"
 
-std::string data_structures::OutputVertex::toString() {
+std::string data_structures::OutputVertex::toString(bool technical) {
     std::ostringstream stream;
-    stream << "{Index: " << this->getIndex()
-           << ", Label: " << this->label
-           << ", Value: " << this->getValue()
-           << "}";
+    if (technical) {
+        stream << "\"" << this->label << "\"";
+    } else {
+        stream << "{Index: " << this->getIndex()
+               << ", Label: " << this->label
+               //<< ", Value: " << this->getValue()
+               << "}";
+    }
 
     return stream.str();
 }
@@ -30,8 +34,4 @@ std::shared_ptr<data_structures::OutputVertex> data_structures::OutputVertex::de
 
 enums::VertexType data_structures::OutputVertex::getType() {
     return enums::VertexType::Output;
-}
-
-void data_structures::OutputVertex::combineValue(double argValue) {
-    this->setValue(argValue);
 }
