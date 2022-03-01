@@ -6,7 +6,17 @@
 #include "data_structures/MulticlassConfusionMatrix.h"
 
 int main() {
-    auto pop = evolution::Population("/home/jure/CLionProjects/Neuroevolution/datasets/iris/iris.data");
+    // iris
+    //auto pop = evolution::Population("/home/jure/CLionProjects/Neuroevolution/datasets/iris/iris.data");
+    // wine
+    //auto pop = evolution::Population("/home/jure/CLionProjects/Neuroevolution/datasets/wine/wine.data");
+    //car
+    //auto pop = evolution::Population("/home/jure/CLionProjects/Neuroevolution/datasets/car/car.data");
+    //statlog
+    //auto pop = evolution::Population("/home/jure/CLionProjects/Neuroevolution/datasets/statlog/shuttle.data");
+    //transfusion
+    auto pop = evolution::Population("/home/jure/CLionProjects/Neuroevolution/datasets/transfusion/transfusion.data");
+
     //auto inputLabels = pop.getInputLabels();
     //auto outputLabels = pop.getOutputLabels();
     //auto graph = data_structures::Graph::createGraph(4, inputLabels, 16, 3, outputLabels, 1);
@@ -80,7 +90,7 @@ int a = 0;
     logging::logs("Population initialised.");
     //logging::logs(pop.toString());
 
-    for (int i = 0; i < 2000; i++) {
+    for (int i = 0; i < 100; i++) {
         // std::cout << "\033[2J" << "\033[1;1H" << std::endl;
         logging::logs("Generation " + std::to_string(i));
         pop.calculateFitness(enums::FitnessMetric::Accuracy, 0.000, -0.001);
@@ -94,7 +104,7 @@ int a = 0;
         fitnessFile << pop.fitnessToCSVString(';', i) << std::endl;
 
         //logging::logs(pop.getFittestAgent()->toString());
-        if (i == 1999) {
+        if (i == 99) {
             fitnessFile.close();
         } else {
             pop.sample(enums::SelectionType::StochasticUniversalSampling, 750);

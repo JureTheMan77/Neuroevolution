@@ -380,20 +380,20 @@ std::shared_ptr<evolution::Agent> evolution::Population::crossoverThreaded() {
     unsigned long firstAgentIndex = 0;
     unsigned long secondAgentIndex = 0;
     unsigned int firstRoll = populationDistribution(rng);
-    unsigned int secondRoll = populationDistribution(rng);
+    //unsigned int secondRoll = populationDistribution(rng);
 
-    if (population.at(firstRoll)->getFitness() > population.at(secondRoll)->getFitness()) {
-        firstAgentIndex = firstRoll;
-    } else {
-        firstAgentIndex = secondRoll;
-    }
+    //if (population.at(firstRoll)->getFitness() > population.at(secondRoll)->getFitness()) {
+    //    firstAgentIndex = firstRoll;
+    //} else {
+    //    firstAgentIndex = secondRoll;
+    //}
     firstRoll = populationDistribution(rng);
-    secondRoll = populationDistribution(rng);
-    if (population.at(firstRoll)->getFitness() > population.at(secondRoll)->getFitness()) {
-        secondAgentIndex = firstRoll;
-    } else {
-        secondAgentIndex = secondRoll;
-    }
+    //secondRoll = populationDistribution(rng);
+    //if (population.at(firstRoll)->getFitness() > population.at(secondRoll)->getFitness()) {
+    //    secondAgentIndex = firstRoll;
+    //} else {
+    //    secondAgentIndex = secondRoll;
+    //}
 
     // create an empty child agent
     std::shared_ptr<evolution::Agent> childAgent = Agent::create(numberOfInputs, inputLabels,
