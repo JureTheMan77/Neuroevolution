@@ -518,3 +518,18 @@ void data_structures::Graph::addEdge(std::shared_ptr<data_structures::Edge> edge
                   edge->getOutput()->getIndex(), edge->getIndex(), edge->getWeight(), edge->getTraverseLimit(),
                   crossoverable);
 }
+
+void data_structures::Graph::normalizeEdgeWeights() {
+    // find the largest weight
+    double maxWeight = 0;
+    for (const auto &edge: this->getEdges()) {
+        if (fabs(edge->getWeight()) > maxWeight) {
+            maxWeight = fabs(edge->getWeight());
+        }
+    }
+    // normalize
+    for (const auto &edge: this->getEdges()) {
+        double newWeight = edge->getWeight() / maxWeight;
+        edge->setWeight(newWeight);
+    }
+}

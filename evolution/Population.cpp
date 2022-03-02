@@ -102,18 +102,7 @@ evolution::Population::createAgent() {
     }
 
     // normalize edge weights
-    // find the largest weight
-    double maxWeight = 0;
-    for (const auto &edge: graph->getEdges()) {
-        if (edge->getWeight() > maxWeight) {
-            maxWeight = edge->getWeight();
-        }
-    }
-    for (const auto &edge: graph->getEdges()) {
-        double newWeight = edge->getWeight() / maxWeight;
-        //newWeight = (int) (newWeight * 100000.0) / 100000.0;
-        edge->setWeight(newWeight);
-    }
+    graph->normalizeEdgeWeights();
 
     auto agent = evolution::Agent::create(graph);
     //if (!this->keepDormantVerticesAndEdges) {
@@ -128,7 +117,7 @@ void evolution::Population::addRandomEdge(unsigned int index, std::shared_ptr<da
     std::uniform_int_distribution<unsigned int> inputVerticesDistribution(0, graph->getInputVertices().size() - 1);
     std::uniform_int_distribution<unsigned int> vertexTypeDistribution(0, 1);
     std::uniform_int_distribution<unsigned int> deepVerticesDistribution(0, graph->getDeepVertices().size() - 1);
-    std::uniform_real_distribution<double> weightDistribution(0, 1);
+    std::uniform_real_distribution<double> weightDistribution(-1, 1);
     std::uniform_int_distribution<unsigned int> edgeTraverseLimitDistribution(1, this->edgeTraverseLimit);
     std::uniform_int_distribution<unsigned int> outputVerticesDistribution(0, graph->getOutputVertices().size() - 1);
 
@@ -324,6 +313,7 @@ std::vector<unsigned int> evolution::Population::stochasticUniversalSampling(uns
     // roulette wheel selection
     // always keep the fittest agent
     std::vector<unsigned int> indexesToKeep{fittestAgentIndex};
+    //std::vector<unsigned int> indexesToKeep;
 
     // loop until the vector of agents is filled
     double pointer = start;
@@ -431,18 +421,7 @@ std::shared_ptr<evolution::Agent> evolution::Population::crossoverThreaded() {
     // populationPlaceholder.push_back(childAgent);
 
     // normalize edge weights
-    // find the largest weight
-    double maxWeight = 0;
-    for (const auto &edge: childAgent->getGraph()->getEdges()) {
-        if (edge->getWeight() > maxWeight) {
-            maxWeight = edge->getWeight();
-        }
-    }
-    for (const auto &edge: childAgent->getGraph()->getEdges()) {
-        double newWeight = edge->getWeight() / maxWeight;
-        //newWeight = (int) (newWeight * 100000.0) / 100000.0;
-        edge->setWeight(newWeight);
-    }
+    childAgent->getGraph()->normalizeEdgeWeights();
 
     if (!this->keepDormantVerticesAndEdges) {
         childAgent = this->minimizeAgent(childAgent);
@@ -607,9 +586,7 @@ void evolution::Population::crossoverEdges(std::shared_ptr<evolution::Agent> &ch
 void evolution::Population::createAndAddEdgeChildren(const std::shared_ptr<data_structures::Edge> &edge,
                                                      std::shared_ptr<evolution::Agent> &childAgent) {
     std::uniform_real_distribution<double> distDouble(0, 1);
-    // the maximum weight is the current weight * 2
-    double maxWeight = edge->getWeight() < 1 ? 1 : edge->getWeight() * 2;
-    std::uniform_real_distribution<double> distWeight(0, maxWeight);
+    std::uniform_real_distribution<double> distWeight(-1, 1);
     std::mt19937_64 rng64(seeder());
 
     // get the number of children to produce

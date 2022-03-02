@@ -61,3 +61,13 @@ bool data_structures::DeepVertex::allOutputEdgesFlaggedForDeletion() {
     }
     return true;
 }
+
+void data_structures::DeepVertex::combineValue(double argValue) {
+    // leaky RELU
+    double computedValue = argValue;
+    if (argValue < 0) {
+        computedValue = computedValue * 0.01;
+    }
+
+    Vertex::combineValue(computedValue);
+}

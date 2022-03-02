@@ -62,6 +62,12 @@ namespace data_structures {
         bool allInputEdgesFlaggedForDeletion();
 
         bool allOutputEdgesFlaggedForDeletion();
+
+        /**
+         * Use the leaky RELU activation function.
+         * @param argValue value to add
+         */
+        void combineValue(double argValue) override;
     };
 }
 

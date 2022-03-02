@@ -165,6 +165,8 @@ namespace data_structures {
                              const std::shared_ptr<data_structures::Vertex> &input,
                              const std::shared_ptr<data_structures::Vertex> &output,
                              const std::shared_ptr<data_structures::Edge> &newEdge) const;
+
+        void normalizeEdgeWeights();
     };
 }
 
