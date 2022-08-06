@@ -20,13 +20,12 @@ namespace data_structures {
          * Creates a new deep vertex object without edges, calls the parent constructor.
          * @param index vertex index
          * @param dominant is this vertex dominant
-         * @param chanceToGetDominated chance to get dominated
          * @param maxChildren maximum amount of children this vertex can produce
          */
-        explicit DeepVertex(unsigned int index, bool dominant, double chanceToGetDominated, double mutationChance,
+        explicit DeepVertex(unsigned int index, bool dominant, double mutationChance,
                             unsigned int maxChildren) :
                 Vertex(index),
-                ICrossoverable(mutationChance, dominant, chanceToGetDominated, maxChildren) {};
+                ICrossoverable(mutationChance, dominant, maxChildren) {};
 
         /**
          * Creates a new deep vertex object.
@@ -37,8 +36,7 @@ namespace data_structures {
          * @return smart pointer
          */
         static std::shared_ptr<data_structures::DeepVertex>
-        createDeepVertex(unsigned int index, bool dominant, double chanceToGetDominated, double mutationChanceArg,
-                         unsigned int maxChildren);
+        createDeepVertex(unsigned int index, bool dominant, double mutationChanceArg, unsigned int maxChildren);
 
         std::shared_ptr<DeepVertex> deepClone() override;
 
@@ -68,6 +66,8 @@ namespace data_structures {
          * @param argValue value to add
          */
         void combineValue(double argValue) override;
+
+
     };
 }
 

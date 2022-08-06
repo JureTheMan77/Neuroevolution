@@ -31,6 +31,9 @@ namespace evolution {
         std::vector<std::shared_ptr<data_structures::DataInstance>> testingValues;
 
         unsigned int const UINT_MAX = std::numeric_limits<unsigned int>::max();
+        std::uniform_int_distribution<unsigned int> mutationDistribution{0, 4};
+        std::uniform_int_distribution<unsigned long> inputVerticesDistribution;
+        std::uniform_int_distribution<unsigned long> outputVerticesDistribution;
     public:
 
         explicit Population(const std::string &pathToDataSet);
@@ -64,7 +67,7 @@ namespace evolution {
         /**
          * Selects random parents from the population and
          */
-        void crossover();
+        void crossoverAndMutate();
 
         const std::vector<std::shared_ptr<evolution::Agent>> &getPopulation() const;
 
@@ -99,19 +102,6 @@ namespace evolution {
          */
         std::vector<unsigned int> stochasticUniversalSampling(unsigned int agentsToKeep);
 
-        std::shared_ptr<data_structures::DeepVertex>
-        getDominantVertex(const std::shared_ptr<data_structures::DeepVertex> &v1,
-                          const std::shared_ptr<data_structures::DeepVertex> &v2);
-
-        std::shared_ptr<data_structures::Edge> getDominantEdge(const std::shared_ptr<data_structures::Edge> &e1,
-                                                               const std::shared_ptr<data_structures::Edge> &e2);
-
-        unsigned int getDominantCrossoverable(const std::shared_ptr<data_structures::ICrossoverable> &c1,
-                                              const std::shared_ptr<data_structures::ICrossoverable> &c2);
-
-        std::vector<std::shared_ptr<data_structures::DeepVertex>>
-        createDeepVertexChildren(const std::shared_ptr<data_structures::DeepVertex> &vertex);
-
         void crossoverDeepVertices(const std::shared_ptr<evolution::Agent> &childAgent,
                                    const std::shared_ptr<evolution::Agent> &parent1,
                                    const std::shared_ptr<evolution::Agent> &parent2,
@@ -138,9 +128,12 @@ namespace evolution {
         calculateAgentFitness(enums::FitnessMetric fitnessMetric, double vertexContribution, double edgeContribution,
                               const std::shared_ptr<evolution::Agent> &agent);
 
-        std::shared_ptr<evolution::Agent> crossoverThreaded();
+        std::shared_ptr<evolution::Agent> crossoverThreaded(std::uniform_int_distribution<unsigned int> populationDistribution);
+        void mutateThreaded(std::uniform_int_distribution<unsigned int> populationDistribution);
 
         static bool sortByFitness(const std::shared_ptr<evolution::Agent>& a1, const std::shared_ptr<evolution::Agent>& a2);
+
+        void addRandomEdge(std::shared_ptr<data_structures::Graph> const &graph,std::shared_ptr<data_structures::DeepVertex> const &deepVertex, bool isinputEdge);
     };
 }
 

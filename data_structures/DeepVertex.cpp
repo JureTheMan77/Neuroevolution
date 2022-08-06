@@ -6,10 +6,9 @@
 #include "DeepVertex.h"
 
 std::shared_ptr<data_structures::DeepVertex>
-data_structures::DeepVertex::createDeepVertex(unsigned int index, bool dominant, double chanceToGetDominated,
-                                              double mutationChanceArg, unsigned int maxChildren) {
-    return std::make_shared<data_structures::DeepVertex>(index, dominant, chanceToGetDominated, mutationChanceArg,
-                                                         maxChildren);
+data_structures::DeepVertex::createDeepVertex(unsigned int index, bool dominant, double mutationChanceArg,
+                                              unsigned int maxChildren) {
+    return std::make_shared<data_structures::DeepVertex>(index, dominant, mutationChanceArg, maxChildren);
 }
 
 std::string data_structures::DeepVertex::toString(bool technical) {
@@ -27,7 +26,6 @@ std::string data_structures::DeepVertex::toString(bool technical) {
 
 std::shared_ptr<data_structures::DeepVertex> data_structures::DeepVertex::deepClone() {
     return std::make_shared<data_structures::DeepVertex>(this->getIndex(), this->isDominant(),
-                                                         this->getChanceToGetDominated(),
                                                          this->getMutationChance(),
                                                          this->getMaxChildren());
 }

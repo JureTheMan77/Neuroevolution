@@ -167,6 +167,10 @@ namespace data_structures {
                              const std::shared_ptr<data_structures::Edge> &newEdge) const;
 
         void normalizeEdgeWeights();
+
+        void removeDeepVertex(unsigned long position);
+
+        void removeEdge(unsigned long position);
     };
 }
 

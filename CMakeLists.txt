@@ -10,5 +10,4 @@ set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 target_link_libraries(Neuroevolution PRIVATE Threads::Threads)
 
-set(-Wextra -Wall -02)
-#target_compile_options(Neuroevolution -ggdb3)
+set(-Wextra -Wall -02 -ggdb3)

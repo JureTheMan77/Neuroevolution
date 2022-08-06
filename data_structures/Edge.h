@@ -9,6 +9,7 @@
 #include "Edge.fwd.h"
 #include "Vertex.fwd.h"
 #include "ICrossoverable.h"
+#include "IDeepCloneable.h"
 
 namespace data_structures {
     class Edge : public data_structures::ICrossoverable {
@@ -30,20 +31,19 @@ namespace data_structures {
          */
         Edge(std::shared_ptr<data_structures::Vertex> input, std::shared_ptr<data_structures::Vertex> output,
              unsigned int index, double weight, unsigned int traverseLimit, double mutationChance, bool dominant,
-             double chanceToGetDominated, unsigned int maxChildren) : ICrossoverable(mutationChance, dominant,
-                                                                                     chanceToGetDominated, maxChildren),
-                                                                      input(std::move(input)),
-                                                                      output(std::move(output)),
-                                                                      index(index),
-                                                                      weight(weight),
-                                                                      traverseLimit(traverseLimit) {};
+             unsigned int maxChildren) : ICrossoverable(mutationChance, dominant, maxChildren),
+                                         input(std::move(input)),
+                                         output(std::move(output)),
+                                         index(index),
+                                         weight(weight),
+                                         traverseLimit(traverseLimit) {};
 
         static std::shared_ptr<data_structures::Edge> createEdge(const std::shared_ptr<data_structures::Vertex> &input,
                                                                  const std::shared_ptr<data_structures::Vertex> &output,
                                                                  unsigned int index,
                                                                  double weight, unsigned int traverseLimit,
                                                                  double mutationChance, bool dominant,
-                                                                 double chanceToGetDominated, unsigned int maxChildren);
+                                                                 unsigned int maxChildren);
 
         /**
          * Destroys this object.

@@ -46,7 +46,7 @@ void data_structures::Graph::addOutputVertex(const std::shared_ptr<data_structur
 void data_structures::Graph::addDeepVertices(unsigned int numberOfDeepVertices, double maxMutationChance) {
     for (unsigned int i = 0; i < numberOfDeepVertices; i++) {
         // initialise chances as values from 0 to 1
-        auto deepVertex = data_structures::DeepVertex::createDeepVertex(i, util::nextBool(), util::nextDouble(),
+        auto deepVertex = data_structures::DeepVertex::createDeepVertex(i, util::nextBool(),
                                                                         util::nextDouble(maxMutationChance),
                                                                         util::nextUnsignedInt(1, 2));
         this->deepVertices.push_back(deepVertex);
@@ -97,7 +97,6 @@ void data_structures::Graph::addEdge(enums::VertexType inputVertexType, unsigned
                                                                                            util::nextDouble(
                                                                                                    maxMutationChance),
                                                                                            util::nextBool(),
-                                                                                           util::nextDouble(),
                                                                                            util::nextUnsignedInt(1, 2));
         this->edges.push_back(newEdge);
         addEdgeAfterAdd(inputVertexType, outputVertexType, input, output, newEdge);
@@ -212,7 +211,6 @@ data_structures::Graph::addEdge(enums::VertexType inputVertexType, unsigned int 
                                                                                            traversalLimit,
                                                                                            crossoverableData.getMutationChance(),
                                                                                            crossoverableData.isDominant(),
-                                                                                           crossoverableData.getChanceToGetDominated(),
                                                                                            crossoverableData.getMaxChildren());
         this->edges.push_back(newEdge);
         addEdgeAfterAdd(inputVertexType, outputVertexType, input, output, newEdge);
@@ -433,7 +431,7 @@ std::shared_ptr<data_structures::Graph> data_structures::Graph::deepClone() {
         // input vertices have no input edges
         for (const std::shared_ptr<data_structures::Edge> &edge: inputVertex->getOutputEdges()) {
             data_structures::ICrossoverable crossoverable(edge->getMutationChance(), edge->isDominant(),
-                                                          edge->getChanceToGetDominated(), edge->getMaxChildren());
+                                                          edge->getMaxChildren());
             newGraph->addEdge(edge->getInput()->getType(), edge->getInput()->getIndex(),
                               edge->getOutput()->getType(), edge->getOutput()->getIndex(),
                               edge->getIndex(), edge->getWeight(), edge->getTraverseLimit(), crossoverable);
@@ -444,7 +442,7 @@ std::shared_ptr<data_structures::Graph> data_structures::Graph::deepClone() {
     for (const std::shared_ptr<data_structures::DeepVertex> &deepVertex: this->deepVertices) {
         for (const std::shared_ptr<data_structures::Edge> &edge: deepVertex->getOutputEdges()) {
             data_structures::ICrossoverable crossoverable(edge->getMutationChance(), edge->isDominant(),
-                                                          edge->getChanceToGetDominated(), edge->getMaxChildren());
+                                                          edge->getMaxChildren());
             newGraph->addEdge(edge->getInput()->getType(), edge->getInput()->getIndex(),
                               edge->getOutput()->getType(), edge->getOutput()->getIndex(),
                               edge->getIndex(), edge->getWeight(), edge->getTraverseLimit(), crossoverable);
@@ -511,7 +509,7 @@ std::shared_ptr<data_structures::DeepVertex> data_structures::Graph::getDeepVert
 }
 
 void data_structures::Graph::addEdge(std::shared_ptr<data_structures::Edge> edge) {
-    ICrossoverable crossoverable(edge->getMutationChance(), edge->isDominant(), edge->getChanceToGetDominated(),
+    ICrossoverable crossoverable(edge->getMutationChance(), edge->isDominant(),
                                  edge->getMaxChildren());
 
     this->addEdge(edge->getInput()->getType(), edge->getInput()->getIndex(), edge->getOutput()->getType(),
@@ -532,4 +530,49 @@ void data_structures::Graph::normalizeEdgeWeights() {
         double newWeight = edge->getWeight() / maxWeight;
         edge->setWeight(newWeight);
     }
+}
+
+void data_structures::Graph::removeDeepVertex(unsigned long position) {
+    // get deep vertex
+    auto deepVertexToRemove = this->deepVertices.at(position);
+
+    // remove edges
+    deepVertexToRemove->getInputEdges().clear();
+    deepVertexToRemove->getInputEdges().pop_back();
+    // deepVertexToRemove->getInputEdges().erase(deepVertexToRemove->getInputEdges().begin(),
+    //                                           deepVertexToRemove->getInputEdges().end());
+    deepVertexToRemove->getOutputEdges().clear();
+
+    // remove vertex from vector
+    this->deepVertices.erase(this->deepVertices.begin() + position);
+}
+
+void data_structures::Graph::removeEdge(unsigned long position) {
+    // get edge
+    int a = 0;
+    auto edgeToRemove = this->edges.at(position);
+
+    // remove edge from vertex vectors
+    auto vertex = edgeToRemove->getInput();
+    unsigned long vertexPosition;
+    for (unsigned long i = 0; i < vertex->getOutputEdges().size(); i++) {
+        if (vertex->getOutputEdges().at(i)->getIndex() == edgeToRemove->getIndex()) {
+            vertexPosition = i;
+            break;
+        }
+    }
+    vertex->getOutputEdges().erase(vertex->getOutputEdges().begin() + vertexPosition);
+
+    vertex = edgeToRemove->getOutput();
+    for (unsigned long i = 0; i < vertex->getInputEdges().size(); i++) {
+        if (vertex->getInputEdges().at(i)->getIndex() == edgeToRemove->getIndex()) {
+            vertexPosition = i;
+            break;
+        }
+    }
+    vertex->getInputEdges().erase(vertex->getInputEdges().begin() + vertexPosition);
+
+    // remove edge from graph vertex
+    this->edges.erase(this->edges.begin() + position);
+
 }

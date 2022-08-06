@@ -65,6 +65,8 @@ evolution::Population::Population(const std::string &pathToDataSet) {
     this->population = std::vector<std::shared_ptr<evolution::Agent>>();
     this->populationPlaceholder = std::vector<std::shared_ptr<evolution::Agent>>();
     this->populationSize = 0;
+    this->inputVerticesDistribution = std::uniform_int_distribution<unsigned long>(0, numberOfInputs - 1);
+    this->outputVerticesDistribution = std::uniform_int_distribution<unsigned long>(0, numberOfOutputs - 1);
 }
 
 void evolution::Population::initialisePopulation(unsigned int populationSizeArg, unsigned int maxDeepVerticesArg,
@@ -111,15 +113,56 @@ evolution::Population::createAgent() {
     return agent;
 }
 
+void evolution::Population::addRandomEdge(std::shared_ptr<data_structures::Graph> const &graph,
+                                          std::shared_ptr<data_structures::DeepVertex> const &deepVertex,
+                                          bool isinputEdge) {
+    // if "type" is true, then an input edge will be created
+    // otherwise, an output edge will be created
+
+    // choose an input vertex type: either input (true) or deep (false)
+    bool choice = util::nextBool();
+
+    // randomize weight
+    double weight = util::nextWeight();
+
+    if (isinputEdge) {
+        enums::VertexType inputVertexType = choice ? enums::VertexType::Input : enums::VertexType::Deep;
+        // choose a vertex to serve as input
+        std::shared_ptr<data_structures::Vertex> inputVertex;
+        if (inputVertexType == enums::VertexType::Input) {
+            unsigned long position = this->inputVerticesDistribution(util::rng);
+            inputVertex = graph->getInputVertices().at(position);
+        } else {
+            unsigned long position = util::nextUnsignedLong(0, graph->getDeepVertices().size() - 1);
+            inputVertex = graph->getDeepVertices().at(position);
+        }
+        // create and add edge
+        graph->addEdge(inputVertexType, inputVertex->getIndex(), enums::VertexType::Deep, deepVertex->getIndex(),
+                       UINT_MAX, weight, this->edgeTraverseLimit, this->maxMutationChance);
+    } else {
+        enums::VertexType outputVertexType = choice ? enums::VertexType::Deep : enums::VertexType::Output;
+        // choose a vertex to serve as output
+        std::shared_ptr<data_structures::Vertex> outputVertex;
+        if (outputVertexType == enums::VertexType::Deep) {
+            unsigned long position = util::nextUnsignedLong(0, graph->getDeepVertices().size() - 1);
+            outputVertex = graph->getInputVertices().at(position);
+        } else {
+            unsigned long position = this->outputVerticesDistribution(util::rng);
+            outputVertex = graph->getOutputVertices().at(position);
+        }
+        // create and add edge
+        graph->addEdge(enums::VertexType::Deep, deepVertex->getIndex(), outputVertexType,
+                       outputVertex->getIndex(), UINT_MAX, weight, this->edgeTraverseLimit,
+                       this->maxMutationChance);
+    }
+}
+
 void evolution::Population::addRandomEdge(unsigned int index, std::shared_ptr<data_structures::Graph> const &graph) {
     std::mt19937 rng(this->seeder());
     std::mt19937_64 rng64(this->seeder());
-    std::uniform_int_distribution<unsigned int> inputVerticesDistribution(0, graph->getInputVertices().size() - 1);
     std::uniform_int_distribution<unsigned int> vertexTypeDistribution(0, 1);
     std::uniform_int_distribution<unsigned int> deepVerticesDistribution(0, graph->getDeepVertices().size() - 1);
-    std::uniform_real_distribution<double> weightDistribution(-1, 1);
     std::uniform_int_distribution<unsigned int> edgeTraverseLimitDistribution(1, this->edgeTraverseLimit);
-    std::uniform_int_distribution<unsigned int> outputVerticesDistribution(0, graph->getOutputVertices().size() - 1);
 
     // pick two edges, they can be:
     // 1 input and 1 deep
@@ -139,11 +182,11 @@ void evolution::Population::addRandomEdge(unsigned int index, std::shared_ptr<da
             // 1 - output
             if (type2 == 0) {
                 graph->addEdge(enums::VertexType::Input, inputVerticesDistribution(rng), enums::VertexType::Deep,
-                               deepVerticesDistribution(rng), index, weightDistribution(rng64),
+                               deepVerticesDistribution(rng), index, util::nextWeight(),
                                edgeTraverseLimitDistribution(rng), this->maxMutationChance);
             } else {
                 graph->addEdge(enums::VertexType::Input, inputVerticesDistribution(rng), enums::VertexType::Output,
-                               outputVerticesDistribution(rng), index, weightDistribution(rng64),
+                               outputVerticesDistribution(rng), index, util::nextWeight(),
                                edgeTraverseLimitDistribution(rng), this->maxMutationChance);
             }
         } else {
@@ -152,11 +195,11 @@ void evolution::Population::addRandomEdge(unsigned int index, std::shared_ptr<da
             // 1 - output
             if (type2 == 0) {
                 graph->addEdge(enums::VertexType::Deep, deepVerticesDistribution(rng), enums::VertexType::Deep,
-                               deepVerticesDistribution(rng), index, weightDistribution(rng64),
+                               deepVerticesDistribution(rng), index, util::nextWeight(),
                                edgeTraverseLimitDistribution(rng), this->maxMutationChance);
             } else {
                 graph->addEdge(enums::VertexType::Deep, deepVerticesDistribution(rng), enums::VertexType::Output,
-                               outputVerticesDistribution(rng), index, weightDistribution(rng64),
+                               outputVerticesDistribution(rng), index, util::nextWeight(),
                                edgeTraverseLimitDistribution(rng), this->maxMutationChance);
             }
         }
@@ -164,7 +207,7 @@ void evolution::Population::addRandomEdge(unsigned int index, std::shared_ptr<da
         // no deep vertices
         // only legal configuration is input -> output
         graph->addEdge(enums::VertexType::Input, inputVerticesDistribution(rng), enums::VertexType::Output,
-                       outputVerticesDistribution(rng), index, weightDistribution(rng64),
+                       outputVerticesDistribution(rng), index, util::nextWeight(),
                        edgeTraverseLimitDistribution(rng), this->maxMutationChance);
     }
 }
@@ -227,7 +270,7 @@ void evolution::Population::calculateAgentFitness(enums::FitnessMetric fitnessMe
     data_structures::MulticlassConfusionMatrix mcm(agent, this->trainingValues, this->numberOfOutputs);
     //logging::logs(mcm.toString(this->outputLabels));
 
-    // size of the agent is a penalty, both edges and vertices contribute -0.1
+    // size of the agent is a penalty, both edges and vertices contribute
     double sizeContribution = (double) agent->getGraph()->getDeepVertices().size() * vertexContribution +
                               (double) agent->getGraph()->getEdges().size() * edgeContribution;
 
@@ -335,23 +378,41 @@ std::vector<unsigned int> evolution::Population::stochasticUniversalSampling(uns
     return indexesToKeep;
 }
 
-void evolution::Population::crossover() {
+void evolution::Population::crossoverAndMutate() {
     // sort the population according to fitness
     // std::sort(this->population.begin(), this->population.end(), sortByFitness);
 
     // create new agents until the population is full
     // save child agents in populationPlaceholder
     unsigned int agentsToCreate = this->populationSize - this->population.size();
-    std::vector<std::future<std::shared_ptr<evolution::Agent>>> futures;
+    std::vector<std::future<std::shared_ptr<evolution::Agent>>> crossoverFutures;
+    // create the population distribution here since it's the same for all threads
+    std::uniform_int_distribution<unsigned int> populationDistribution(0, this->population.size() - 1);
 
     for (int i = 0; i < agentsToCreate; i++) {
-        auto ftr = std::async(&evolution::Population::crossoverThreaded, this);
-        futures.push_back(std::move(ftr));
+        auto ftr = std::async(&evolution::Population::crossoverThreaded, this, populationDistribution);
+        crossoverFutures.push_back(std::move(ftr));
         //this->crossoverThreaded();
     }
-    for (auto &ftr: futures) {
-        populationPlaceholder.push_back(ftr.get());
+    for (auto &ftr: crossoverFutures) {
+        this->populationPlaceholder.push_back(ftr.get());
     }
+
+    // mutate children
+    // mutate the amount of children proportional to the global mutation chance
+    std::vector<std::future<void>> mutationFutures;
+    unsigned int childrenToMutate = (unsigned int) std::round(agentsToCreate * this->maxMutationChance);
+    std::uniform_int_distribution<unsigned int> childPopulationDistribution(0, agentsToCreate - 1);
+    for (int i = 0; i < childrenToMutate; i++) {
+        this->mutateThreaded(childPopulationDistribution);
+        //auto ftr = std::async(&evolution::Population::mutateThreaded, this, childPopulationDistribution);
+        //mutationFutures.push_back(std::move(ftr));
+    }
+    for (auto &ftr: crossoverFutures) {
+        ftr.get();
+    }
+
+
 
     // combine the populationPlaceholder with the population
     this->population.insert(this->population.end(),
@@ -361,29 +422,17 @@ void evolution::Population::crossover() {
     this->populationPlaceholder.clear();
 }
 
-std::shared_ptr<evolution::Agent> evolution::Population::crossoverThreaded() {
-    // initialize randomness
-    std::mt19937 rng(this->seeder());
-    // choose the maximum size here since we don't want to do crossover with child agents 0, (double)this->population.size() - 1)
-    std::uniform_int_distribution<unsigned int> populationDistribution(0, this->population.size() - 1);
+std::shared_ptr<evolution::Agent>
+evolution::Population::crossoverThreaded(std::uniform_int_distribution<unsigned int> populationDistribution) {
     // choose 2 random agents
-    unsigned long firstAgentIndex = 0;
-    unsigned long secondAgentIndex = 0;
-    unsigned int firstRoll = populationDistribution(rng);
-    //unsigned int secondRoll = populationDistribution(rng);
+    unsigned long firstAgentIndex = populationDistribution(util::rng);
+    unsigned long secondAgentIndex;
+    // keep rolling the second agent until the index is different from the first agent
+    do {
+        secondAgentIndex = populationDistribution(util::rng);
+    } while (firstAgentIndex == secondAgentIndex);
 
-    //if (population.at(firstRoll)->getFitness() > population.at(secondRoll)->getFitness()) {
-    //    firstAgentIndex = firstRoll;
-    //} else {
-    //    firstAgentIndex = secondRoll;
-    //}
-    firstRoll = populationDistribution(rng);
-    //secondRoll = populationDistribution(rng);
-    //if (population.at(firstRoll)->getFitness() > population.at(secondRoll)->getFitness()) {
-    //    secondAgentIndex = firstRoll;
-    //} else {
-    //    secondAgentIndex = secondRoll;
-    //}
+
 
     // create an empty child agent
     std::shared_ptr<evolution::Agent> childAgent = Agent::create(numberOfInputs, inputLabels,
@@ -411,12 +460,12 @@ std::shared_ptr<evolution::Agent> evolution::Population::crossoverThreaded() {
     // - iterate over the edges of the second agent
     crossoverEdges(childAgent, agent2, agent1, checkedIndices);
     // add random edges based on the number of vertices with index UINT_MAX
-    if (childAgent->getGraph()->getEdges().size() < this->maxEdges) {
-        addNewRandomEdges(childAgent);
-    }
+    //if (childAgent->getGraph()->getEdges().size() < this->maxEdges) {
+    //    addNewRandomEdges(childAgent);
+    //}
 
     // fix indices for vertices that are "twins" and randomly added edges
-    childAgent->getGraph()->fixIndices();
+    //childAgent->getGraph()->fixIndices();
 
     // populationPlaceholder.push_back(childAgent);
 
@@ -427,6 +476,79 @@ std::shared_ptr<evolution::Agent> evolution::Population::crossoverThreaded() {
         childAgent = this->minimizeAgent(childAgent);
     }
     return childAgent;
+}
+
+void evolution::Population::mutateThreaded(std::uniform_int_distribution<unsigned int> populationDistribution) {
+    // choose a random agent
+    unsigned long agentIndex = populationDistribution(util::rng);
+    auto childAgent = this->populationPlaceholder.at(agentIndex);
+
+    // choose a property to mutate
+    // 0 - add a deep vertex with a random input and output edge (random dominance)
+    // 1 - remove a deep vertex and all connecting edges
+    // 2 - add a random edge
+    // 3 - remove a random edge
+    // 4 - change the weight of an edge
+    unsigned int choice = this->mutationDistribution(util::rng);
+    switch (choice) {
+        case 0: {
+            // create vertex
+            auto newDeepVertex = data_structures::DeepVertex::createDeepVertex(UINT_MAX, util::nextBool(),
+                                                                               util::nextDouble(
+                                                                                       this->maxMutationChance),
+                                                                               util::nextUnsignedInt(1, 2));
+            // add vertex
+            childAgent->getGraph()->addDeepVertex(newDeepVertex);
+            // edges can have childAgent as input or output
+            // add input edge
+            this->addRandomEdge(childAgent->getGraph(), newDeepVertex, true);
+            // add output edge
+            this->addRandomEdge(childAgent->getGraph(), newDeepVertex, false);
+            break;
+        }
+        case 1: {
+            // choose a random deep vertex
+            std::uniform_int_distribution<unsigned long> deepVertexDistribution(0,
+                                                                                childAgent->getGraph()->getDeepVertices().size() -
+                                                                                1);
+            unsigned long positionToRemove = deepVertexDistribution(util::rng);
+            childAgent->getGraph()->removeDeepVertex(positionToRemove);
+            break;
+        }
+        case 2: {
+            // randomize edge type
+            bool isInput = util::nextBool();
+            // choose a deep vertex
+            unsigned long deepVertexPosition = util::nextUnsignedLong(0,
+                                                                      childAgent->getGraph()->getDeepVertices().size() -
+                                                                      1);
+            auto deepVertex = childAgent->getGraph()->getDeepVertices().at(deepVertexPosition);
+
+            this->addRandomEdge(childAgent->getGraph(), deepVertex, isInput);
+            break;
+        }
+        case 3: {
+            // choose a random edge
+            unsigned long position = util::nextUnsignedLong(0, childAgent->getGraph()->getEdges().size() - 1);
+            childAgent->getGraph()->removeEdge(position);
+            break;
+        }
+        case 4: {
+            // choose a random edge
+            unsigned long position = util::nextUnsignedLong(0, childAgent->getGraph()->getEdges().size() - 1);
+            // choose a random weight
+            double weight = util::nextWeight();
+            // get edge
+            auto edge = childAgent->getGraph()->getEdges().at(position);
+            edge->setWeight(weight);
+            break;
+        }
+        default:
+            throw std::invalid_argument("Invalid mutation choice: " + std::to_string(choice));
+    }
+
+    // fix indices for vertices and randomly added edges
+    childAgent->getGraph()->fixIndices();
 }
 
 void
@@ -454,93 +576,21 @@ evolution::Population::crossoverDeepVertices(const std::shared_ptr<evolution::Ag
         }
         // get the vertex with the same index from parent2
         auto deepVertex2 = parent2->getGraph()->getDeepVertexByIndex(deepVertex1->getIndex());
-        // if no vertex was found, then do the following:
-        // - if the vertex is dominant, then always keep it
-        // - if it's not dominant, then keep it with a chance of 1-deepVertex1->getChanceToGetDominated()
-        std::vector<std::shared_ptr<data_structures::DeepVertex>> childVertices;
+        // if no second vertex was found, clone vertex1
+        std::shared_ptr<data_structures::DeepVertex> childVertex;
         if (deepVertex2 == nullptr) {
-            childVertices = createDeepVertexChildren(deepVertex1);
+            childVertex = deepVertex1->deepClone();
         } else {
             // if vertex2 was found, then choose a dominant vertex
-            auto dominant = this->getDominantVertex(deepVertex1, deepVertex2);
-            childVertices = createDeepVertexChildren(dominant);
+            // if both vertices are dominant or recessive, then always pick the first one
+            childVertex = deepVertex1->isDominant() ? deepVertex1->deepClone() : deepVertex2->deepClone();
+            // randomize the child dominant trait to prevent convergence
+            childVertex->setDominant(util::nextBool());
         }
 
         checkedIndices.push_back(deepVertex1->getIndex());
-
-        childAgent->getGraph()->addDeepVertices(childVertices);
+        childAgent->getGraph()->addDeepVertex(childVertex);
     }
-}
-
-std::shared_ptr<data_structures::DeepVertex>
-evolution::Population::getDominantVertex(const std::shared_ptr<data_structures::DeepVertex> &v1,
-                                         const std::shared_ptr<data_structures::DeepVertex> &v2) {
-    unsigned int result = getDominantCrossoverable(v1, v2);
-    return result == 1 ? v1 : v2;
-}
-
-std::shared_ptr<data_structures::Edge>
-evolution::Population::getDominantEdge(const std::shared_ptr<data_structures::Edge> &e1,
-                                       const std::shared_ptr<data_structures::Edge> &e2) {
-    unsigned int result = getDominantCrossoverable(e1, e2);
-    return result == 1 ? e1 : e2;
-}
-
-unsigned int evolution::Population::getDominantCrossoverable(const std::shared_ptr<data_structures::ICrossoverable> &c1,
-                                                             const std::shared_ptr<data_structures::ICrossoverable> &c2) {
-    double randomRoll = util::nextDouble();
-    if (c1->isDominant() && c2->isDominant() || !c1->isDominant() && !c2->isDominant()) {
-        // both vertices aren't dominant or recessive
-        if (c1->getChanceToGetDominated() < c2->getChanceToGetDominated()) {
-            // v1 has the least chance to get dominated
-            return c1->getChanceToGetDominated() > randomRoll ? 2 : 1;
-        } else {
-            // v2 has the least chance to get dominated
-            return c2->getChanceToGetDominated() > randomRoll ? 1 : 2;
-        }
-    } else if (c1->isDominant()) {
-        // only v1 is dominant
-        return c1->getChanceToGetDominated() > randomRoll ? 2 : 1;
-    } else if (c2->isDominant()) {
-        // only v2 is dominant, however there's a chance it's not
-        return c2->getChanceToGetDominated() > randomRoll ? 1 : 2;
-    } else {
-        throw std::invalid_argument("Unable to determine the dominant crossoverable object.");
-    }
-}
-
-std::vector<std::shared_ptr<data_structures::DeepVertex>>
-evolution::Population::createDeepVertexChildren(const std::shared_ptr<data_structures::DeepVertex> &vertex) {
-    // get the number of children to produce
-    unsigned int childrenToProduce = this->childrenToProduce(vertex);
-
-    std::vector<std::shared_ptr<data_structures::DeepVertex>> childDeepVertices;
-
-    if (childrenToProduce == 0) {
-        // this crossover operation produced no children
-        return childDeepVertices;
-    }
-
-    // create children
-    for (unsigned int i = 0; i < childrenToProduce; i++) {
-        // check if the child has the max deep vertices allowed
-        if (childDeepVertices.size() >= this->maxDeepVertices) {
-            break;
-        }
-
-        auto childData = this->mutateCrossoverable(vertex);
-
-        // create the child vertex
-        // if this is not the first iteration, then assign UINT_MAX and fix it later
-        childDeepVertices.emplace_back(
-                data_structures::DeepVertex::createDeepVertex(i == 0 ? vertex->getIndex() : UINT_MAX,
-                                                              childData.isDominant(),
-                                                              childData.getChanceToGetDominated(),
-                                                              childData.getMutationChance(),
-                                                              childData.getMaxChildren()));
-    }
-
-    return childDeepVertices;
 }
 
 void evolution::Population::crossoverEdges(std::shared_ptr<evolution::Agent> &childAgent,
@@ -572,12 +622,26 @@ void evolution::Population::crossoverEdges(std::shared_ptr<evolution::Agent> &ch
         std::vector<std::shared_ptr<data_structures::Edge>> childEdges;
         if (edge2 == nullptr) {
             // similar edge1 was not found in parent2
-            // create children from just edge1
-            this->createAndAddEdgeChildren(edge1, childAgent);
+            // keep edge1
+            childAgent->getGraph()->addEdge(edge1->getInput()->getType(), edge1->getInput()->getIndex(),
+                                            edge1->getOutput()->getType(), edge1->getOutput()->getIndex(),
+                                            edge1->getIndex(), edge1->getWeight(),
+                                            edge1->getTraverseLimit(),
+                                            data_structures::ICrossoverable(edge1->getMutationChance(),
+                                                                            edge1->isDominant(),
+                                                                            edge1->getMaxChildren()));
         } else {
-            // a similar edge1 was found, then choose the dominant one
-            auto dominant = this->getDominantEdge(edge1, edge2);
-            this->createAndAddEdgeChildren(dominant, childAgent);
+            // if edge2 was found, then choose a dominant vertex
+            // if both edges are dominant or recessive, then always pick the first one
+            auto dominantEdge = edge1->isDominant() ? edge1 : edge2;
+            childAgent->getGraph()->addEdge(dominantEdge->getInput()->getType(), dominantEdge->getInput()->getIndex(),
+                                            dominantEdge->getOutput()->getType(), dominantEdge->getOutput()->getIndex(),
+                                            dominantEdge->getIndex(), dominantEdge->getWeight(),
+                                            dominantEdge->getTraverseLimit(),
+                                            data_structures::ICrossoverable(dominantEdge->getMutationChance(),
+                                                                            dominantEdge->isDominant(),
+                                                                            dominantEdge->getMaxChildren()));
+            //this->createAndAddEdgeChildren(dominant, childAgent);
         }
         checkedIndices.push_back(edge1->getIndex());
     }
@@ -638,9 +702,9 @@ evolution::Population::mutateCrossoverable(const std::shared_ptr<data_structures
     bool childDominant = crossoverable->getMutationChance() > mutationRoll ? !crossoverable->isDominant()
                                                                            : crossoverable->isDominant();
     // chanceToGetDominated
-    mutationRoll = distDouble(rng64);
-    double childChanceToGetDominated = crossoverable->getMutationChance() > mutationRoll ? distDouble(rng64)
-                                                                                         : crossoverable->getChanceToGetDominated();
+    //mutationRoll = distDouble(rng64);
+    //double childChanceToGetDominated = crossoverable->getMutationChance() > mutationRoll ? distDouble(rng64)
+    //                                                                                     : crossoverable->getChanceToGetDominated();
     // mutationChance
     mutationRoll = distDouble(rng64);
     double childMutationChance =
@@ -651,7 +715,7 @@ evolution::Population::mutateCrossoverable(const std::shared_ptr<data_structures
     unsigned int childMaxChildren = crossoverable->getMutationChance() > mutationRoll ? util::nextUnsignedInt(1, 2)
                                                                                       : crossoverable->getMaxChildren();
 
-    return data_structures::ICrossoverable(childMutationChance, childDominant, childChanceToGetDominated,
+    return data_structures::ICrossoverable(childMutationChance, childDominant,
                                            childMaxChildren);
 }
 

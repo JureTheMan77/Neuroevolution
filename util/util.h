@@ -13,7 +13,9 @@
 namespace util {
 
     inline std::random_device seeder;
+    inline std::mt19937_64 rng(seeder());
     inline std::uniform_real_distribution<double> probabilityDistributionDouble(0, 1);
+    inline std::uniform_real_distribution<double> weightDistribution(-1, 1);
     inline std::uniform_int_distribution<unsigned int> probabilityDistributionInt(0, 1);
 
     /**
@@ -57,12 +59,14 @@ namespace util {
      * @return a random double
      */
     inline double nextDouble() {
-        std::mt19937_64 rng(seeder());
         return probabilityDistributionDouble(rng);
     }
 
+    inline double nextWeight() {
+        return weightDistribution(rng);
+    }
+
     inline double nextDouble(double max) {
-        std::mt19937_64 rng(seeder());
         std::uniform_real_distribution<double> dist(0, max);
         return dist(rng);
     }
@@ -72,7 +76,6 @@ namespace util {
      * @return random bool
      */
     inline bool nextBool() {
-        std::mt19937 rng(seeder());
         return probabilityDistributionInt(rng) == 1;
     }
 
@@ -83,9 +86,13 @@ namespace util {
      * @return a random integer
      */
     inline unsigned int nextUnsignedInt(unsigned int min, unsigned int max) {
-        std::uniform_int_distribution intDist{min, max};
-        std::mt19937 rng(seeder());
+        std::uniform_int_distribution<unsigned int> intDist(min, max);
         return intDist(rng);
+    }
+
+    inline unsigned long nextUnsignedLong(unsigned long min, unsigned long max) {
+        std::uniform_int_distribution<unsigned long> longDist(min, max);
+        return longDist(rng);
     }
 }
 

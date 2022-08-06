@@ -18,13 +18,11 @@ std::shared_ptr<data_structures::Vertex> data_structures::Edge::getOutput() {
 
 std::shared_ptr<data_structures::Edge>
 data_structures::Edge::createEdge(const std::shared_ptr<data_structures::Vertex> &inputArg,
-                                  const std::shared_ptr<data_structures::Vertex> &outputArg,
-                                  unsigned int indexArg,
-                                  double weightArg,
-                                  unsigned int traverseLimitArg, double mutationChance, bool dominant,
-                                  double chanceToGetDominated, unsigned int maxChildren) {
+                                  const std::shared_ptr<data_structures::Vertex> &outputArg, unsigned int indexArg,
+                                  double weightArg, unsigned int traverseLimitArg, double mutationChance, bool dominant,
+                                  unsigned int maxChildren) {
     return std::make_shared<data_structures::Edge>(inputArg, outputArg, indexArg, weightArg, traverseLimitArg,
-                                                   mutationChance, dominant, chanceToGetDominated, maxChildren);
+                                                   mutationChance, dominant, maxChildren);
 }
 
 double data_structures::Edge::propagateValue() {

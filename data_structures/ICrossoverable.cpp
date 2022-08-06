@@ -12,10 +12,10 @@ bool data_structures::ICrossoverable::isDominant() const {
     return dominant;
 }
 
-double data_structures::ICrossoverable::getChanceToGetDominated() const {
-    return chanceToGetDominated;
-}
-
 unsigned int data_structures::ICrossoverable::getMaxChildren() const {
     return maxChildren;
+}
+
+void data_structures::ICrossoverable::setDominant(bool dominant) {
+    this->dominant = dominant;
 }

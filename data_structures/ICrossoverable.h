@@ -10,13 +10,12 @@ namespace data_structures {
     private:
         double mutationChance{};
         bool dominant{};
-        double chanceToGetDominated{};
+        //double chanceToGetDominated{};
         unsigned int maxChildren{};
     public:
 
-        explicit ICrossoverable(double mutationChance, bool dominant, double chanceToGetDominated,
+        explicit ICrossoverable(double mutationChance, bool dominant,
                                 unsigned int maxChildren) : mutationChance(mutationChance), dominant(dominant),
-                                                            chanceToGetDominated(chanceToGetDominated),
                                                             maxChildren(maxChildren) {}
 
         /**
@@ -32,10 +31,10 @@ namespace data_structures {
         bool isDominant() const;
 
         /**
-         * What's the chance of this object to be dominated?
-         * @return value
+         * Set the object as dominant or recessive.
+         * @param dominant dominant or recessive
          */
-        double getChanceToGetDominated() const;
+        void setDominant(bool dominant);
 
         /**
          * Max number of children this object can produce.

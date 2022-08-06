@@ -7,7 +7,7 @@
 
 int main() {
     // iris
-    //auto pop = evolution::Population("/home/jure/CLionProjects/Neuroevolution/datasets/iris/iris.data");
+    auto pop = evolution::Population("/home/jure/CLionProjects/Neuroevolution/datasets/iris/iris.data");
     // wine
     //auto pop = evolution::Population("/home/jure/CLionProjects/Neuroevolution/datasets/wine/wine.data");
     //car
@@ -15,7 +15,7 @@ int main() {
     //statlog
     //auto pop = evolution::Population("/home/jure/CLionProjects/Neuroevolution/datasets/statlog/shuttle.data");
     //transfusion
-    auto pop = evolution::Population("/home/jure/CLionProjects/Neuroevolution/datasets/transfusion/transfusion.data");
+    //auto pop = evolution::Population("/home/jure/CLionProjects/Neuroevolution/datasets/transfusion/transfusion.data");
 
     //auto inputLabels = pop.getInputLabels();
     //auto outputLabels = pop.getOutputLabels();
@@ -86,11 +86,11 @@ int a = 0;
 
 
     logging::logs("Start");
-    pop.initialisePopulation(1000, 50, 100, 2, true, 1);
+    pop.initialisePopulation(1000, 50, 100, 4, true, 0.1);
     logging::logs("Population initialised.");
     //logging::logs(pop.toString());
 
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < 1000; i++) {
         // std::cout << "\033[2J" << "\033[1;1H" << std::endl;
         logging::logs("Generation " + std::to_string(i));
         pop.calculateFitness(enums::FitnessMetric::Accuracy, 0.000, -0.001);
@@ -104,13 +104,13 @@ int a = 0;
         fitnessFile << pop.fitnessToCSVString(';', i) << std::endl;
 
         //logging::logs(pop.getFittestAgent()->toString());
-        if (i == 99) {
+        if (i == 999) {
             fitnessFile.close();
         } else {
             pop.sample(enums::SelectionType::StochasticUniversalSampling, 750);
             //logging::logs("Population sampled.");
 
-            pop.crossover();
+            pop.crossoverAndMutate();
             //logging::logs("Population crossovered.");
         }
     }
