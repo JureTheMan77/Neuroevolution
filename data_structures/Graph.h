@@ -168,8 +168,6 @@ namespace data_structures {
 
         void normalizeEdgeWeights();
 
-        void removeDeepVertex(unsigned long position);
-
         void removeEdge(unsigned long position);
     };
 }

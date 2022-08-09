@@ -62,9 +62,11 @@ bool data_structures::DeepVertex::allOutputEdgesFlaggedForDeletion() {
 
 void data_structures::DeepVertex::combineValue(double argValue) {
     // leaky RELU
-    double computedValue = argValue;
+    double computedValue;
     if (argValue < 0) {
-        computedValue = computedValue * 0.01;
+        computedValue = argValue * 0.01;
+    } else {
+        computedValue = argValue;
     }
 
     Vertex::combineValue(computedValue);

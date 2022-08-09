@@ -31,7 +31,8 @@ namespace evolution {
         std::vector<std::shared_ptr<data_structures::DataInstance>> testingValues;
 
         unsigned int const UINT_MAX = std::numeric_limits<unsigned int>::max();
-        std::uniform_int_distribution<unsigned int> mutationDistribution{0, 4};
+        std::uniform_int_distribution<unsigned int> mutationDistribution{0, 5};
+        std::uniform_int_distribution<unsigned int> edgeTraverseLimitDistribution;
         std::uniform_int_distribution<unsigned long> inputVerticesDistribution;
         std::uniform_int_distribution<unsigned long> outputVerticesDistribution;
     public:
@@ -62,7 +63,7 @@ namespace evolution {
          * @param type selection type
          * @param agentsToKeep number of agents to keep
          */
-        void sample(enums::SelectionType type, unsigned int agentsToKeep);
+        void sample(enums::SelectionType type, unsigned int agentsToKeep, bool keepFittest);
 
         /**
          * Selects random parents from the population and
@@ -93,6 +94,10 @@ namespace evolution {
 
         std::shared_ptr<Agent> minimizeAgent(const std::shared_ptr<evolution::Agent>& agentToMinimize);
 
+        double getAverageAccuracy();
+
+        double getAverageMatthewsCorrelationCoefficient();
+
     private:
         std::shared_ptr<evolution::Agent> createAgent();
 
@@ -100,7 +105,7 @@ namespace evolution {
          * Adapted from @see https://en.wikipedia.org/wiki/Stochastic_universal_sampling
          * @param agentsToKeep number of agents to keep
          */
-        std::vector<unsigned int> stochasticUniversalSampling(unsigned int agentsToKeep);
+        std::vector<unsigned int> stochasticUniversalSampling(unsigned int agentsToKeep, bool keepFittest);
 
         void crossoverDeepVertices(const std::shared_ptr<evolution::Agent> &childAgent,
                                    const std::shared_ptr<evolution::Agent> &parent1,
@@ -129,7 +134,7 @@ namespace evolution {
                               const std::shared_ptr<evolution::Agent> &agent);
 
         std::shared_ptr<evolution::Agent> crossoverThreaded(std::uniform_int_distribution<unsigned int> populationDistribution);
-        void mutateThreaded(std::uniform_int_distribution<unsigned int> populationDistribution);
+        void mutateThreaded(unsigned long agentIndex);
 
         static bool sortByFitness(const std::shared_ptr<evolution::Agent>& a1, const std::shared_ptr<evolution::Agent>& a2);
 

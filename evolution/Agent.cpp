@@ -21,11 +21,6 @@ std::string evolution::Agent::toString(bool technical) {
 }
 
 std::shared_ptr<evolution::Agent>
-evolution::Agent::create(const std::shared_ptr<data_structures::Graph> &graphArg, double fitnessArg) {
-    return std::make_shared<evolution::Agent>(graphArg, fitnessArg);
-}
-
-std::shared_ptr<evolution::Agent>
 evolution::Agent::create(const std::shared_ptr<data_structures::Graph> &graphArg) {
     return std::make_shared<evolution::Agent>(graphArg);
 }
@@ -33,7 +28,7 @@ evolution::Agent::create(const std::shared_ptr<data_structures::Graph> &graphArg
 std::shared_ptr<evolution::Agent> evolution::Agent::deepClone() {
     // also copy fitness
     auto graph = this->getGraph()->deepClone();
-    return std::make_shared<evolution::Agent>(graph, this->fitness);
+    return std::make_shared<evolution::Agent>(graph, this->fitness, this->accuracy, this->matthewsCorrelationCoefficient);
 }
 
 std::shared_ptr<evolution::Agent>
@@ -50,4 +45,20 @@ bool evolution::Agent::isNewAgent() const {
 
 void evolution::Agent::setNewAgent(bool newAgentArg) {
     Agent::newAgent = newAgentArg;
+}
+
+double evolution::Agent::getAccuracy() const {
+    return accuracy;
+}
+
+void evolution::Agent::setAccuracy(double accuracy) {
+    Agent::accuracy = accuracy;
+}
+
+double evolution::Agent::getMatthewsCorrelationCoefficient() const {
+    return matthewsCorrelationCoefficient;
+}
+
+void evolution::Agent::setMatthewsCorrelationCoefficient(double matthewsCorrelationCoefficient) {
+    Agent::matthewsCorrelationCoefficient = matthewsCorrelationCoefficient;
 }

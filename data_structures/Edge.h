@@ -56,11 +56,15 @@ namespace data_structures {
          */
         std::shared_ptr<data_structures::Vertex> getInput();
 
+        std::weak_ptr<data_structures::Vertex> getWeakInput();
+
         /**
          * Get the reference to the output vertex.
          * @return output vertex
          */
         std::shared_ptr<data_structures::Vertex> getOutput();
+
+        std::weak_ptr<data_structures::Vertex> getWeakOutput();
 
         /**
          * Get the weight.
@@ -75,6 +79,8 @@ namespace data_structures {
          * @return traverse limit
          */
         unsigned int getTraverseLimit();
+
+        void setTraverseLimit(unsigned int traverseLimit);
 
         /**
          * Combines the current weight with the new one. By default, the operation is addition.

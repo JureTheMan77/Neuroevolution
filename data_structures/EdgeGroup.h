@@ -34,6 +34,12 @@ namespace data_structures {
          * @return the vector of input edges
          */
         std::vector<std::shared_ptr<data_structures::Edge>> getEdges();
+
+        void replaceEdges(std::vector<std::shared_ptr<data_structures::Edge>> const &newEdges);
+
+        void clearEdges();
+
+        void eraseEdge(unsigned long position);
     };
 }
 

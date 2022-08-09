@@ -12,8 +12,16 @@ std::shared_ptr<data_structures::Vertex> data_structures::Edge::getInput() {
     return this->input.lock();
 }
 
+std::weak_ptr<data_structures::Vertex> data_structures::Edge::getWeakInput() {
+    return this->input;
+}
+
 std::shared_ptr<data_structures::Vertex> data_structures::Edge::getOutput() {
     return this->output.lock();
+}
+
+std::weak_ptr<data_structures::Vertex> data_structures::Edge::getWeakOutput() {
+    return this->output;
 }
 
 std::shared_ptr<data_structures::Edge>
@@ -94,4 +102,8 @@ void data_structures::Edge::setFlaggedForDeletion(bool flaggedForDeletion) {
 
 void data_structures::Edge::setWeight(double weightArg) {
     this->weight = weightArg;
+}
+
+void data_structures::Edge::setTraverseLimit(unsigned int traverseLimit) {
+    this->traverseLimit = traverseLimit;
 }

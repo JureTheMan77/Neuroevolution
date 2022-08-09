@@ -31,6 +31,12 @@ namespace data_structures {
          * @return the vector of input edges
          */
         virtual std::vector<std::shared_ptr<data_structures::Edge>> getOutputEdges();
+
+        virtual void replaceOutputEdges(std::vector<std::shared_ptr<data_structures::Edge>> const &newEdges);
+
+        virtual void clearOutputEdges();
+
+        virtual void eraseOutputEdge(unsigned long position);
     };
 }
 

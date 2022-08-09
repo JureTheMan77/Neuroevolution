@@ -79,6 +79,7 @@ void evolution::Population::initialisePopulation(unsigned int populationSizeArg,
     this->maxEdges = maxEdgesArg;
     this->maxMutationChance = maxMutationChanceArg;
     this->keepDormantVerticesAndEdges = keepDormantVerticesAndEdgesArg;
+    this->edgeTraverseLimitDistribution = std::uniform_int_distribution<unsigned int>(1, edgeTraverseLimitArg);
     for (unsigned int i = 0; i < populationSizeArg; i++) {
         auto agent = this->createAgent();
         this->population.push_back(agent);
@@ -125,6 +126,9 @@ void evolution::Population::addRandomEdge(std::shared_ptr<data_structures::Graph
     // randomize weight
     double weight = util::nextWeight();
 
+    // randomize traverse limit
+    unsigned int traverseLimit = this->edgeTraverseLimitDistribution(util::rng);
+
     if (isinputEdge) {
         enums::VertexType inputVertexType = choice ? enums::VertexType::Input : enums::VertexType::Deep;
         // choose a vertex to serve as input
@@ -138,31 +142,29 @@ void evolution::Population::addRandomEdge(std::shared_ptr<data_structures::Graph
         }
         // create and add edge
         graph->addEdge(inputVertexType, inputVertex->getIndex(), enums::VertexType::Deep, deepVertex->getIndex(),
-                       UINT_MAX, weight, this->edgeTraverseLimit, this->maxMutationChance);
+                       UINT_MAX, weight, traverseLimit, this->maxMutationChance);
     } else {
         enums::VertexType outputVertexType = choice ? enums::VertexType::Deep : enums::VertexType::Output;
         // choose a vertex to serve as output
         std::shared_ptr<data_structures::Vertex> outputVertex;
         if (outputVertexType == enums::VertexType::Deep) {
             unsigned long position = util::nextUnsignedLong(0, graph->getDeepVertices().size() - 1);
-            outputVertex = graph->getInputVertices().at(position);
+            outputVertex = graph->getDeepVertices().at(position);
         } else {
             unsigned long position = this->outputVerticesDistribution(util::rng);
             outputVertex = graph->getOutputVertices().at(position);
         }
         // create and add edge
         graph->addEdge(enums::VertexType::Deep, deepVertex->getIndex(), outputVertexType,
-                       outputVertex->getIndex(), UINT_MAX, weight, this->edgeTraverseLimit,
+                       outputVertex->getIndex(), UINT_MAX, weight, traverseLimit,
                        this->maxMutationChance);
     }
 }
 
 void evolution::Population::addRandomEdge(unsigned int index, std::shared_ptr<data_structures::Graph> const &graph) {
     std::mt19937 rng(this->seeder());
-    std::mt19937_64 rng64(this->seeder());
     std::uniform_int_distribution<unsigned int> vertexTypeDistribution(0, 1);
     std::uniform_int_distribution<unsigned int> deepVerticesDistribution(0, graph->getDeepVertices().size() - 1);
-    std::uniform_int_distribution<unsigned int> edgeTraverseLimitDistribution(1, this->edgeTraverseLimit);
 
     // pick two edges, they can be:
     // 1 input and 1 deep
@@ -271,6 +273,12 @@ void evolution::Population::calculateAgentFitness(enums::FitnessMetric fitnessMe
     //logging::logs(mcm.toString(this->outputLabels));
 
     // size of the agent is a penalty, both edges and vertices contribute
+    //unsigned int maxTraverseSum = 0;
+    //for (const auto &edge: agent->getGraph()->getEdges()) {
+    //    maxTraverseSum += edge->getTraverseLimit();
+    //}
+    //double sizeContribution = (double) agent->getGraph()->getDeepVertices().size() * vertexContribution +
+    //                          (double) maxTraverseSum * edgeContribution;
     double sizeContribution = (double) agent->getGraph()->getDeepVertices().size() * vertexContribution +
                               (double) agent->getGraph()->getEdges().size() * edgeContribution;
 
@@ -295,16 +303,18 @@ void evolution::Population::calculateAgentFitness(enums::FitnessMetric fitnessMe
         fitness = 0;
     }
     agent->setFitness(fitness);
+    agent->setAccuracy(mcm.getAccuracy());
+    agent->setMatthewsCorrelationCoefficient(mcm.getMatthewsCorrelationCoefficient());
 }
 
-void evolution::Population::sample(enums::SelectionType type, unsigned int agentsToKeep) {
+void evolution::Population::sample(enums::SelectionType type, unsigned int agentsToKeep, bool keepFittest) {
     std::vector<unsigned int> indexesToKeep{};
     if (this->populationSize < agentsToKeep) {
         throw std::invalid_argument("Number of agents to keep cannot be higher than the population size.");
     }
 
     if (type == enums::SelectionType::StochasticUniversalSampling) {
-        indexesToKeep = stochasticUniversalSampling(agentsToKeep);
+        indexesToKeep = stochasticUniversalSampling(agentsToKeep, keepFittest);
     } else {
         throw std::invalid_argument("This selection type is not supported.");
     }
@@ -325,7 +335,8 @@ void evolution::Population::sample(enums::SelectionType type, unsigned int agent
     this->populationPlaceholder.clear();
 }
 
-std::vector<unsigned int> evolution::Population::stochasticUniversalSampling(unsigned int agentsToKeep) {
+std::vector<unsigned int>
+evolution::Population::stochasticUniversalSampling(unsigned int agentsToKeep, bool keepFittest) {
     // get highest fitness
     double highestFitness = -std::numeric_limits<double>::max();
     unsigned int fittestAgentIndex = 0;
@@ -354,8 +365,10 @@ std::vector<unsigned int> evolution::Population::stochasticUniversalSampling(uns
     // std::sort(pointers.begin(), pointers.end());
 
     // roulette wheel selection
-    // always keep the fittest agent
-    std::vector<unsigned int> indexesToKeep{fittestAgentIndex};
+    std::vector<unsigned int> indexesToKeep;
+    if (keepFittest) {
+        indexesToKeep.push_back(fittestAgentIndex);
+    }
     //std::vector<unsigned int> indexesToKeep;
 
     // loop until the vector of agents is filled
@@ -403,16 +416,26 @@ void evolution::Population::crossoverAndMutate() {
     std::vector<std::future<void>> mutationFutures;
     unsigned int childrenToMutate = (unsigned int) std::round(agentsToCreate * this->maxMutationChance);
     std::uniform_int_distribution<unsigned int> childPopulationDistribution(0, agentsToCreate - 1);
-    for (int i = 0; i < childrenToMutate; i++) {
-        this->mutateThreaded(childPopulationDistribution);
-        //auto ftr = std::async(&evolution::Population::mutateThreaded, this, childPopulationDistribution);
-        //mutationFutures.push_back(std::move(ftr));
+    // choose unique agent indexes to mutate
+    std::vector<unsigned long> indexesToMutate;
+    while (indexesToMutate.size() < childrenToMutate) {
+        unsigned long index = childPopulationDistribution(util::rng);
+        for (const auto &generatedIndex: indexesToMutate) {
+            if (generatedIndex == index) {
+                continue;
+            }
+        }
+        indexesToMutate.push_back(index);
     }
-    for (auto &ftr: crossoverFutures) {
+
+    for (const auto &index: indexesToMutate) {
+        //this->mutateThreaded(index);
+        auto ftr = std::async(&evolution::Population::mutateThreaded, this, index);
+        mutationFutures.push_back(std::move(ftr));
+    }
+    for (auto &ftr: mutationFutures) {
         ftr.get();
     }
-
-
 
     // combine the populationPlaceholder with the population
     this->population.insert(this->population.end(),
@@ -478,9 +501,8 @@ evolution::Population::crossoverThreaded(std::uniform_int_distribution<unsigned 
     return childAgent;
 }
 
-void evolution::Population::mutateThreaded(std::uniform_int_distribution<unsigned int> populationDistribution) {
+void evolution::Population::mutateThreaded(unsigned long agentIndex) {
     // choose a random agent
-    unsigned long agentIndex = populationDistribution(util::rng);
     auto childAgent = this->populationPlaceholder.at(agentIndex);
 
     // choose a property to mutate
@@ -489,9 +511,15 @@ void evolution::Population::mutateThreaded(std::uniform_int_distribution<unsigne
     // 2 - add a random edge
     // 3 - remove a random edge
     // 4 - change the weight of an edge
+    // 5 - change traverse limit of an edge
     unsigned int choice = this->mutationDistribution(util::rng);
+
+    //unsigned int choice = 1;
     switch (choice) {
         case 0: {
+            if (childAgent->getGraph()->getDeepVertices().size() == this->maxDeepVertices) {
+                return;
+            }
             // create vertex
             auto newDeepVertex = data_structures::DeepVertex::createDeepVertex(UINT_MAX, util::nextBool(),
                                                                                util::nextDouble(
@@ -504,36 +532,77 @@ void evolution::Population::mutateThreaded(std::uniform_int_distribution<unsigne
             this->addRandomEdge(childAgent->getGraph(), newDeepVertex, true);
             // add output edge
             this->addRandomEdge(childAgent->getGraph(), newDeepVertex, false);
+            // fix indices for vertices
+            childAgent->getGraph()->fixIndices();
             break;
         }
         case 1: {
+            if (childAgent->getGraph()->getDeepVertices().empty()) {
+                return;
+            }
+            // CONSTRUCT A NEW AGENT
             // choose a random deep vertex
             std::uniform_int_distribution<unsigned long> deepVertexDistribution(0,
                                                                                 childAgent->getGraph()->getDeepVertices().size() -
                                                                                 1);
             unsigned long positionToRemove = deepVertexDistribution(util::rng);
-            childAgent->getGraph()->removeDeepVertex(positionToRemove);
+
+            // flag vertex and connected edges for deletion
+            auto deepVertexToRemove = childAgent->getGraph()->getDeepVertices().at(positionToRemove);
+            deepVertexToRemove->setFlaggedForDeletion(true);
+            for (const auto &edge: deepVertexToRemove->getInputEdges()) {
+                edge->setFlaggedForDeletion(true);
+            }
+            for (const auto &edge: deepVertexToRemove->getOutputEdges()) {
+                edge->setFlaggedForDeletion(true);
+            }
+            // construct the agent
+            std::shared_ptr<Agent> mutatedAgent = Agent::create(numberOfInputs, inputLabels,
+                                                                numberOfOutputs,
+                                                                outputLabels, maxMutationChance);
+
+            // add the deep vertices
+            for (const auto &deepVertex: childAgent->getGraph()->getDeepVertices()) {
+                if (!deepVertex->isFlaggedForDeletion()) {
+                    auto vertexClone = deepVertex->deepClone();
+                    mutatedAgent->getGraph()->addDeepVertex(vertexClone);
+                }
+            }
+            // add the edges
+            for (const auto &edge: childAgent->getGraph()->getEdges()) {
+                if (!edge->isFlaggedForDeletion()) {
+                    mutatedAgent->getGraph()->addEdge(edge);
+                }
+            }
+
+            // replace the child agent
+            this->populationPlaceholder.at(agentIndex) = mutatedAgent;
+
+            //childAgent->getGraph()->removeDeepVertex(positionToRemove);
             break;
         }
         case 2: {
-            // randomize edge type
-            bool isInput = util::nextBool();
-            // choose a deep vertex
-            unsigned long deepVertexPosition = util::nextUnsignedLong(0,
-                                                                      childAgent->getGraph()->getDeepVertices().size() -
-                                                                      1);
-            auto deepVertex = childAgent->getGraph()->getDeepVertices().at(deepVertexPosition);
-
-            this->addRandomEdge(childAgent->getGraph(), deepVertex, isInput);
+            if (childAgent->getGraph()->getEdges().size() == maxEdges) {
+                return;
+            }
+            this->addRandomEdge(UINT_MAX,childAgent->getGraph());
+            // fix indices for randomly added edges
+            childAgent->getGraph()->fixIndices();
             break;
         }
         case 3: {
+            if (childAgent->getGraph()->getEdges().empty()) {
+                return;
+            }
             // choose a random edge
             unsigned long position = util::nextUnsignedLong(0, childAgent->getGraph()->getEdges().size() - 1);
             childAgent->getGraph()->removeEdge(position);
             break;
         }
         case 4: {
+            if (childAgent->getGraph()->getEdges().empty()) {
+                return;
+            }
             // choose a random edge
             unsigned long position = util::nextUnsignedLong(0, childAgent->getGraph()->getEdges().size() - 1);
             // choose a random weight
@@ -543,12 +612,22 @@ void evolution::Population::mutateThreaded(std::uniform_int_distribution<unsigne
             edge->setWeight(weight);
             break;
         }
+        case 5: {
+            if (childAgent->getGraph()->getEdges().empty()) {
+                return;
+            }
+            // choose a random edge
+            unsigned long position = util::nextUnsignedLong(0, childAgent->getGraph()->getEdges().size() - 1);
+            // choose a random weight
+            unsigned int traverseLimit = this->edgeTraverseLimitDistribution(util::rng);
+            // get edge
+            auto edge = childAgent->getGraph()->getEdges().at(position);
+            edge->setTraverseLimit(traverseLimit);
+            break;
+        }
         default:
             throw std::invalid_argument("Invalid mutation choice: " + std::to_string(choice));
     }
-
-    // fix indices for vertices and randomly added edges
-    childAgent->getGraph()->fixIndices();
 }
 
 void
@@ -834,6 +913,35 @@ evolution::Population::minimizeAgent(const std::shared_ptr<evolution::Agent> &ag
                 for (const auto &edge: deepVertex->getOutputEdges()) {
                     edge->setFlaggedForDeletion(true);
                 }
+            } else {
+                // check if all non-flagged input edges are recursive
+                bool allInputsRecursive = true;
+                for (const auto &edge: deepVertex->getInputEdges()) {
+                    if (!edge->isFlaggedForDeletion() &&
+                        edge->getInput()->getIndex() != edge->getOutput()->getIndex()) {
+                        allInputsRecursive = false;
+                    }
+                }
+                // check if all outputs are recursive
+                bool allOutputsRecursive = true;
+                for (const auto &edge: deepVertex->getOutputEdges()) {
+                    if (!edge->isFlaggedForDeletion() &&
+                        edge->getInput()->getIndex() != edge->getOutput()->getIndex()) {
+                        allOutputsRecursive = false;
+                    }
+                }
+                // if all inputs or inputs are recursive, then flag vertex and all its edges for deletion
+                if (allInputsRecursive || allOutputsRecursive) {
+                    deepVertex->setFlaggedForDeletion(true);
+                    for (const auto &edge: deepVertex->getInputEdges()) {
+                        edge->setFlaggedForDeletion(true);
+                    }
+                    for (const auto &edge: deepVertex->getOutputEdges()) {
+                        edge->setFlaggedForDeletion(true);
+                    }
+                    keepRunning = true;
+                    continue;
+                }
             }
         }
     }
@@ -882,4 +990,20 @@ evolution::Population::minimizeAgent(const std::shared_ptr<evolution::Agent> &ag
 
 std::vector<std::string> evolution::Population::getInputLabels() {
     return this->inputLabels;
+}
+
+double evolution::Population::getAverageAccuracy() {
+    double average = 0;
+    for (const auto &agent: this->population) {
+        average += agent->getAccuracy();
+    }
+    return average / (double) this->population.size();
+}
+
+double evolution::Population::getAverageMatthewsCorrelationCoefficient() {
+    double average = 0;
+    for (const auto &agent: this->population) {
+        average += agent->getMatthewsCorrelationCoefficient();
+    }
+    return average / (double) this->population.size();
 }

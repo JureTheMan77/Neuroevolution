@@ -13,6 +13,8 @@ namespace evolution {
     private:
         std::shared_ptr<data_structures::Graph> graph{};
         double fitness = 0;
+        double accuracy = 0;
+        double matthewsCorrelationCoefficient = 0;
         bool newAgent = true;
 
     public:
@@ -21,8 +23,9 @@ namespace evolution {
          * @param graph graph
          * @param fitness fitness
          */
-        Agent(std::shared_ptr<data_structures::Graph> graph, double fitness) :
-                graph(std::move(graph)), fitness(fitness) {}
+        Agent(std::shared_ptr<data_structures::Graph> graph, double fitness, double accuracy,
+              double matthewsCorrelationCoefficient) : graph(std::move(graph)), fitness(fitness), accuracy(accuracy),
+                                                       matthewsCorrelationCoefficient(matthewsCorrelationCoefficient) {}
 
         Agent(Agent const &agent) = default;
 
@@ -32,9 +35,6 @@ namespace evolution {
          */
         explicit Agent(std::shared_ptr<data_structures::Graph> graph) : graph(std::move(graph)) {}
 
-        static std::shared_ptr<Agent>
-        create(const std::shared_ptr<data_structures::Graph> &graphArg, double fitnessArg);
-
         static std::shared_ptr<Agent> create(const std::shared_ptr<data_structures::Graph> &graphArg);
 
         /**
@@ -43,7 +43,7 @@ namespace evolution {
          */
         static std::shared_ptr<Agent>
         create(unsigned int inputVertices, std::vector<std::string> &inputLabels, unsigned int outputVertices,
-               std::vector<std::string> &outputLabels,double maxMutationChance);
+               std::vector<std::string> &outputLabels, double maxMutationChance);
 
         /**
          * Deep clones this object.
@@ -88,6 +88,14 @@ namespace evolution {
         bool isNewAgent() const;
 
         void setNewAgent(bool newAgentArg);
+
+        double getAccuracy() const;
+
+        void setAccuracy(double accuracy);
+
+        double getMatthewsCorrelationCoefficient() const;
+
+        void setMatthewsCorrelationCoefficient(double matthewsCorrelationCoefficient);
     };
 }
 

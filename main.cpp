@@ -86,19 +86,23 @@ int a = 0;
 
 
     logging::logs("Start");
-    pop.initialisePopulation(1000, 50, 100, 4, true, 0.1);
+    pop.initialisePopulation(1000, 20, 50, 2, true, 0.2);
     logging::logs("Population initialised.");
     //logging::logs(pop.toString());
 
     for (int i = 0; i < 1000; i++) {
         // std::cout << "\033[2J" << "\033[1;1H" << std::endl;
         logging::logs("Generation " + std::to_string(i));
-        pop.calculateFitness(enums::FitnessMetric::Accuracy, 0.000, -0.001);
+        pop.calculateFitness(enums::FitnessMetric::Accuracy, -0.001, -0.001);
         //logging::logs("Fitness calculated.");
         //logging::logs(pop.toString());
 
-        logging::logs("Average fitness: " + std::to_string(pop.getAverageFitness()));
-        logging::logs("Fittest agent: " + std::to_string(pop.getFittestAgent()->getFitness()));
+        logging::logs("AVERAGES - fitness: " + std::to_string(pop.getAverageFitness()) +
+        ", accuracy: " + std::to_string(pop.getAverageAccuracy()) +
+        ", Matthews correlation coefficient: " + std::to_string(pop.getAverageMatthewsCorrelationCoefficient()));
+        logging::logs("FITTEST AGENT - fitness: " + std::to_string(pop.getFittestAgent()->getFitness()) +
+        ", accuracy: " + std::to_string(pop.getFittestAgent()->getAccuracy()) +
+        ", Matthews correlation coefficient: " + std::to_string(pop.getFittestAgent()->getMatthewsCorrelationCoefficient()));
 
         // write pop info to files
         fitnessFile << pop.fitnessToCSVString(';', i) << std::endl;
@@ -107,7 +111,7 @@ int a = 0;
         if (i == 999) {
             fitnessFile.close();
         } else {
-            pop.sample(enums::SelectionType::StochasticUniversalSampling, 750);
+            pop.sample(enums::SelectionType::StochasticUniversalSampling, 500, true);
             //logging::logs("Population sampled.");
 
             pop.crossoverAndMutate();

@@ -532,45 +532,33 @@ void data_structures::Graph::normalizeEdgeWeights() {
     }
 }
 
-void data_structures::Graph::removeDeepVertex(unsigned long position) {
-    // get deep vertex
-    auto deepVertexToRemove = this->deepVertices.at(position);
-
-    // remove edges
-    deepVertexToRemove->getInputEdges().clear();
-    deepVertexToRemove->getInputEdges().pop_back();
-    // deepVertexToRemove->getInputEdges().erase(deepVertexToRemove->getInputEdges().begin(),
-    //                                           deepVertexToRemove->getInputEdges().end());
-    deepVertexToRemove->getOutputEdges().clear();
-
-    // remove vertex from vector
-    this->deepVertices.erase(this->deepVertices.begin() + position);
-}
-
 void data_structures::Graph::removeEdge(unsigned long position) {
     // get edge
-    int a = 0;
     auto edgeToRemove = this->edges.at(position);
 
     // remove edge from vertex vectors
     auto vertex = edgeToRemove->getInput();
-    unsigned long vertexPosition;
+    // create a new output vertex vector and copy all edges except the one to delete
+    //std::vector<std::shared_ptr<data_structures::Edge>> newOutputEdgesVector;
     for (unsigned long i = 0; i < vertex->getOutputEdges().size(); i++) {
         if (vertex->getOutputEdges().at(i)->getIndex() == edgeToRemove->getIndex()) {
-            vertexPosition = i;
+            vertex->eraseOutputEdge(i);
             break;
         }
     }
-    vertex->getOutputEdges().erase(vertex->getOutputEdges().begin() + vertexPosition);
+
 
     vertex = edgeToRemove->getOutput();
+    // create a new input vertex vector and copy all edges except the one to delete
+    //std::vector<std::shared_ptr<data_structures::Edge>> newInputEdgesVector;
     for (unsigned long i = 0; i < vertex->getInputEdges().size(); i++) {
         if (vertex->getInputEdges().at(i)->getIndex() == edgeToRemove->getIndex()) {
-            vertexPosition = i;
-            break;
+            //newInputEdgesVector.push_back(vertex->getInputEdges().at(i));
+            vertex->eraseInputEdge(i);
         }
     }
-    vertex->getInputEdges().erase(vertex->getInputEdges().begin() + vertexPosition);
+    //vertex->replaceInputEdges(newInputEdgesVector);
+
 
     // remove edge from graph vertex
     this->edges.erase(this->edges.begin() + position);
