@@ -41,8 +41,9 @@ namespace data_structures {
          */
         std::string toString(bool technical) override;
 
-
         enums::VertexType getType() override;
+
+        const std::string &getLabel() const;
     };
 }
 

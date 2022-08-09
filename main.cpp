@@ -90,7 +90,7 @@ int a = 0;
     logging::logs("Population initialised.");
     //logging::logs(pop.toString());
 
-    for (int i = 0; i < 1000; i++) {
+    for (int i = 0; i < 500; i++) {
         // std::cout << "\033[2J" << "\033[1;1H" << std::endl;
         logging::logs("Generation " + std::to_string(i));
         pop.calculateFitness(enums::FitnessMetric::Accuracy, -0.001, -0.001);
@@ -108,7 +108,7 @@ int a = 0;
         fitnessFile << pop.fitnessToCSVString(';', i) << std::endl;
 
         //logging::logs(pop.getFittestAgent()->toString());
-        if (i == 999) {
+        if (i == 499) {
             fitnessFile.close();
         } else {
             pop.sample(enums::SelectionType::StochasticUniversalSampling, 500, true);
@@ -146,7 +146,10 @@ int a = 0;
     //delete pop;
 
 
-
+    auto json = minimizedBestAgent->getGraph()->toForceGraphJson();
+    std::ofstream jsonFile("/home/jure/CLionProjects/Neuroevolution/visualization/graph.json");
+    jsonFile << json;
+    jsonFile.close();
 
     logging::logs("done");
 

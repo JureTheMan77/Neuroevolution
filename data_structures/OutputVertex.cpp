@@ -35,3 +35,7 @@ std::shared_ptr<data_structures::OutputVertex> data_structures::OutputVertex::de
 enums::VertexType data_structures::OutputVertex::getType() {
     return enums::VertexType::Output;
 }
+
+const std::string &data_structures::OutputVertex::getLabel() const {
+    return label;
+}

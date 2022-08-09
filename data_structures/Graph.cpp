@@ -9,6 +9,7 @@
 #include "../enums/EnumUtil.h"
 #include "../logging/logging.h"
 #include "../util/util.h"
+#include "../nlohmann/json.hpp"
 
 
 data_structures::Graph::Graph(unsigned int inputVertices, std::vector<std::string> &inputLabels,
@@ -563,4 +564,66 @@ void data_structures::Graph::removeEdge(unsigned long position) {
     // remove edge from graph vertex
     this->edges.erase(this->edges.begin() + position);
 
+}
+
+std::string data_structures::Graph::toForceGraphJson() {
+    auto nodes = nlohmann::json::array();
+    for (const auto &vertex: this->inputVertices) {
+        nlohmann::json j;
+        j["id"] =  vertex->getLabel();
+        j["name"] = vertex->getLabel();
+        j["color"] = "#000";
+        j["pos"] = vertex->getIndex();
+        j["group"] = "input";
+        nodes.push_back(j);
+    }
+    for (const auto &vertex: this->deepVertices) {
+        nlohmann::json j;
+        auto label = std::to_string(vertex->getIndex());
+        j["id"] = label;
+        j["name"] = label;
+        j["color"] = "#0000FF";
+        //j["pos"] = vertex->getIndex();
+        j["group"] = "deep";
+        nodes.push_back(j);
+    }
+    for (const auto &vertex: this->outputVertices) {
+        nlohmann::json j;
+        j["id"] = vertex->getLabel();
+        j["name"] = vertex->getLabel();
+        j["color"] = "#000";
+        j["pos"] = vertex->getIndex();
+        j["group"] = "output";
+        nodes.push_back(j);
+    }
+
+    auto links = nlohmann::json::array();
+    for (const auto &edge: this->edges) {
+        std::string sourceId;
+        std::string targetId;
+        if (edge->getInput()->getType() == enums::VertexType::Input) {
+            auto inputVertex = std::dynamic_pointer_cast<data_structures::InputVertex>(edge->getInput());
+            sourceId = inputVertex->getLabel();
+        } else {
+            sourceId = std::to_string(edge->getInput()->getIndex());
+        }
+
+        if (edge->getOutput()->getType() == enums::VertexType::Output) {
+            auto outputVertex = std::dynamic_pointer_cast<data_structures::OutputVertex>(edge->getOutput());
+            targetId = outputVertex->getLabel();
+        } else {
+            targetId = std::to_string(edge->getOutput()->getIndex());
+        }
+        nlohmann::json j;
+        j["source"] = sourceId;
+        j["target"] = targetId;
+        j["value"] = edge->getWeight();
+        links.push_back(j);
+    }
+
+    nlohmann::json graph = nlohmann::json::object();
+    graph["nodes"] = nodes;
+    graph["links"] = links;
+
+    return graph.dump();
 }

@@ -39,3 +39,7 @@ std::shared_ptr<data_structures::InputVertex> data_structures::InputVertex::deep
 enums::VertexType data_structures::InputVertex::getType() {
     return enums::VertexType::Input;
 }
+
+const std::string &data_structures::InputVertex::getLabel() const {
+    return label;
+}

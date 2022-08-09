@@ -169,6 +169,8 @@ namespace data_structures {
         void normalizeEdgeWeights();
 
         void removeEdge(unsigned long position);
+
+        std::string toForceGraphJson();
     };
 }
 
