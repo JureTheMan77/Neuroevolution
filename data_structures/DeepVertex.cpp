@@ -3,12 +3,12 @@
 //
 
 #include <sstream>
+#include <algorithm>
 #include "DeepVertex.h"
 
 std::shared_ptr<data_structures::DeepVertex>
-data_structures::DeepVertex::createDeepVertex(unsigned int index, bool dominant, double mutationChanceArg,
-                                              unsigned int maxChildren) {
-    return std::make_shared<data_structures::DeepVertex>(index, dominant, mutationChanceArg, maxChildren);
+data_structures::DeepVertex::createDeepVertex(unsigned int index, bool dominant) {
+    return std::make_shared<data_structures::DeepVertex>(index, dominant);
 }
 
 std::string data_structures::DeepVertex::toString(bool technical) {
@@ -25,9 +25,7 @@ std::string data_structures::DeepVertex::toString(bool technical) {
 }
 
 std::shared_ptr<data_structures::DeepVertex> data_structures::DeepVertex::deepClone() {
-    return std::make_shared<data_structures::DeepVertex>(this->getIndex(), this->isDominant(),
-                                                         this->getMutationChance(),
-                                                         this->getMaxChildren());
+    return std::make_shared<data_structures::DeepVertex>(this->getIndex(), this->isDominant());
 }
 
 enums::VertexType data_structures::DeepVertex::getType() {
@@ -35,29 +33,21 @@ enums::VertexType data_structures::DeepVertex::getType() {
 }
 
 bool data_structures::DeepVertex::isFlaggedForDeletion() const {
-    return flaggedForDeletion;
+    return this->flaggedForDeletion;
 }
 
-void data_structures::DeepVertex::setFlaggedForDeletion(bool flaggedForDeletion) {
-    DeepVertex::flaggedForDeletion = flaggedForDeletion;
+void data_structures::DeepVertex::setFlaggedForDeletion(bool flaggedForDeletionArg) {
+    this->flaggedForDeletion = flaggedForDeletionArg;
 }
 
 bool data_structures::DeepVertex::allInputEdgesFlaggedForDeletion() {
-    for (const auto &edge: this->getInputEdges()) {
-        if (!edge->isFlaggedForDeletion()) {
-            return false;
-        }
-    }
-    return true;
+    return std::all_of(this->getInputEdges().begin(), this->getInputEdges().end(),
+                       [](const std::shared_ptr<data_structures::Edge> &edge) { return edge->isFlaggedForDeletion(); });
 }
 
 bool data_structures::DeepVertex::allOutputEdgesFlaggedForDeletion() {
-    for (const auto &edge: this->getOutputEdges()) {
-        if (!edge->isFlaggedForDeletion()) {
-            return false;
-        }
-    }
-    return true;
+    return std::all_of(this->getOutputEdges().begin(), this->getOutputEdges().end(),
+                       [](const std::shared_ptr<data_structures::Edge> &edge) { return edge->isFlaggedForDeletion(); });
 }
 
 void data_structures::DeepVertex::combineValue(double argValue) {

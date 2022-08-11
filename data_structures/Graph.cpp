@@ -47,9 +47,7 @@ void data_structures::Graph::addOutputVertex(const std::shared_ptr<data_structur
 void data_structures::Graph::addDeepVertices(unsigned int numberOfDeepVertices, double maxMutationChance) {
     for (unsigned int i = 0; i < numberOfDeepVertices; i++) {
         // initialise chances as values from 0 to 1
-        auto deepVertex = data_structures::DeepVertex::createDeepVertex(i, util::nextBool(),
-                                                                        util::nextDouble(maxMutationChance),
-                                                                        util::nextUnsignedInt(1, 2));
+        auto deepVertex = data_structures::DeepVertex::createDeepVertex(i, util::nextBool());
         this->deepVertices.push_back(deepVertex);
         this->largestDeepVertexIndex = i;
     }
@@ -95,10 +93,7 @@ void data_structures::Graph::addEdge(enums::VertexType inputVertexType, unsigned
                                                                                            index,
                                                                                            weight,
                                                                                            traversalLimit,
-                                                                                           util::nextDouble(
-                                                                                                   maxMutationChance),
-                                                                                           util::nextBool(),
-                                                                                           util::nextUnsignedInt(1, 2));
+                                                                                           util::nextBool());
         this->edges.push_back(newEdge);
         addEdgeAfterAdd(inputVertexType, outputVertexType, input, output, newEdge);
     } else {
@@ -210,9 +205,7 @@ data_structures::Graph::addEdge(enums::VertexType inputVertexType, unsigned int 
         }
         std::shared_ptr<data_structures::Edge> newEdge = data_structures::Edge::createEdge(input, output, index, weight,
                                                                                            traversalLimit,
-                                                                                           crossoverableData.getMutationChance(),
-                                                                                           crossoverableData.isDominant(),
-                                                                                           crossoverableData.getMaxChildren());
+                                                                                           crossoverableData.isDominant());
         this->edges.push_back(newEdge);
         addEdgeAfterAdd(inputVertexType, outputVertexType, input, output, newEdge);
         return newEdge;
@@ -256,7 +249,7 @@ void data_structures::Graph::traverse(const std::shared_ptr<data_structures::Dat
 
         // vertex->getOutputEdges() cannot be empty at this stage
         for (const std::shared_ptr<data_structures::Edge> &edge: vertex->getOutputEdges()) {
-            if (!edge->isAtTaversalLimit()) {
+            if (!edge->isAtTraverseLimit()) {
                 // propagate the values to adjacent vertices and add the output vertex to the pending vertices set
                 // if it has not been visited yet
                 edge->propagateValue();
@@ -431,8 +424,7 @@ std::shared_ptr<data_structures::Graph> data_structures::Graph::deepClone() {
     for (const std::shared_ptr<data_structures::InputVertex> &inputVertex: this->inputVertices) {
         // input vertices have no input edges
         for (const std::shared_ptr<data_structures::Edge> &edge: inputVertex->getOutputEdges()) {
-            data_structures::ICrossoverable crossoverable(edge->getMutationChance(), edge->isDominant(),
-                                                          edge->getMaxChildren());
+            data_structures::ICrossoverable crossoverable(edge->isDominant());
             newGraph->addEdge(edge->getInput()->getType(), edge->getInput()->getIndex(),
                               edge->getOutput()->getType(), edge->getOutput()->getIndex(),
                               edge->getIndex(), edge->getWeight(), edge->getTraverseLimit(), crossoverable);
@@ -442,8 +434,7 @@ std::shared_ptr<data_structures::Graph> data_structures::Graph::deepClone() {
     // recreate edges of deep vertices
     for (const std::shared_ptr<data_structures::DeepVertex> &deepVertex: this->deepVertices) {
         for (const std::shared_ptr<data_structures::Edge> &edge: deepVertex->getOutputEdges()) {
-            data_structures::ICrossoverable crossoverable(edge->getMutationChance(), edge->isDominant(),
-                                                          edge->getMaxChildren());
+            data_structures::ICrossoverable crossoverable(edge->isDominant());
             newGraph->addEdge(edge->getInput()->getType(), edge->getInput()->getIndex(),
                               edge->getOutput()->getType(), edge->getOutput()->getIndex(),
                               edge->getIndex(), edge->getWeight(), edge->getTraverseLimit(), crossoverable);
@@ -510,8 +501,7 @@ std::shared_ptr<data_structures::DeepVertex> data_structures::Graph::getDeepVert
 }
 
 void data_structures::Graph::addEdge(std::shared_ptr<data_structures::Edge> edge) {
-    ICrossoverable crossoverable(edge->getMutationChance(), edge->isDominant(),
-                                 edge->getMaxChildren());
+    ICrossoverable crossoverable(edge->isDominant());
 
     this->addEdge(edge->getInput()->getType(), edge->getInput()->getIndex(), edge->getOutput()->getType(),
                   edge->getOutput()->getIndex(), edge->getIndex(), edge->getWeight(), edge->getTraverseLimit(),

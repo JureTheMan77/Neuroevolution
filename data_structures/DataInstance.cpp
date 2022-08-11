@@ -6,11 +6,11 @@
 #include <memory>
 #include "DataInstance.h"
 
-std::vector<double> data_structures::DataInstance::getValues() {
+std::vector<double> data_structures::DataInstance::getValues() const {
     return this->values;
 }
 
-unsigned int data_structures::DataInstance::getCorrectIndex() {
+unsigned int data_structures::DataInstance::getCorrectIndex() const {
     return this->correctIndex;
 }
 

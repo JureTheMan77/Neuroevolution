@@ -523,10 +523,7 @@ void evolution::Population::mutateThreaded(unsigned long agentIndex) {
                 return;
             }
             // create vertex
-            auto newDeepVertex = data_structures::DeepVertex::createDeepVertex(UINT_MAX, util::nextBool(),
-                                                                               util::nextDouble(
-                                                                                       this->maxMutationChance),
-                                                                               util::nextUnsignedInt(1, 2));
+            auto newDeepVertex = data_structures::DeepVertex::createDeepVertex(UINT_MAX, util::nextBool());
             // add vertex
             childAgent->getGraph()->addDeepVertex(newDeepVertex);
             // edges can have childAgent as input or output
@@ -713,9 +710,7 @@ void evolution::Population::crossoverEdges(std::shared_ptr<evolution::Agent> &ch
                                             edge1->getOutput()->getType(), edge1->getOutput()->getIndex(),
                                             edge1->getIndex(), edge1->getWeight(),
                                             edge1->getTraverseLimit(),
-                                            data_structures::ICrossoverable(edge1->getMutationChance(),
-                                                                            edge1->isDominant(),
-                                                                            edge1->getMaxChildren()));
+                                            data_structures::ICrossoverable(edge1->isDominant()));
         } else {
             // if edge2 was found, then choose a dominant vertex
             // if both edges are dominant or recessive, then always pick the first one
@@ -724,94 +719,11 @@ void evolution::Population::crossoverEdges(std::shared_ptr<evolution::Agent> &ch
                                             dominantEdge->getOutput()->getType(), dominantEdge->getOutput()->getIndex(),
                                             dominantEdge->getIndex(), dominantEdge->getWeight(),
                                             dominantEdge->getTraverseLimit(),
-                                            data_structures::ICrossoverable(dominantEdge->getMutationChance(),
-                                                                            dominantEdge->isDominant(),
-                                                                            dominantEdge->getMaxChildren()));
+                                            data_structures::ICrossoverable(dominantEdge->isDominant()));
             //this->createAndAddEdgeChildren(dominant, childAgent);
         }
         checkedIndices.push_back(edge1->getIndex());
     }
-}
-
-void evolution::Population::createAndAddEdgeChildren(const std::shared_ptr<data_structures::Edge> &edge,
-                                                     std::shared_ptr<evolution::Agent> &childAgent) {
-    std::uniform_real_distribution<double> distDouble(0, 1);
-    std::uniform_real_distribution<double> distWeight(-1, 1);
-    std::mt19937_64 rng64(seeder());
-
-    // get the number of children to produce
-    unsigned int childrenToProduce = this->childrenToProduce(edge);
-    if (childrenToProduce == 0) {
-        // this crossover operation produced no children
-        return;
-    }
-
-    // create children
-    auto childData = this->mutateCrossoverable(edge);
-    // mutate weight
-    double mutationRoll = distDouble(rng64);
-
-    // calculate the weight of the first child
-    double childWeight = edge->getMutationChance() > mutationRoll ? distWeight(rng64) : edge->getWeight();
-
-    // mutate traversal limit
-    mutationRoll = distDouble(rng64);
-    unsigned int childTraversalLimit =
-            edge->getMutationChance() > mutationRoll ? util::nextUnsignedInt(1, this->edgeTraverseLimit)
-                                                     : edge->getTraverseLimit();
-
-    // add the new edge
-    auto childEdge = childAgent->getGraph()->addEdge(edge->getInput()->getType(), edge->getInput()->getIndex(),
-                                                     edge->getOutput()->getType(), edge->getOutput()->getIndex(),
-                                                     edge->getIndex(), childWeight, childTraversalLimit, childData);
-    // end the procedure if no edge was created
-    if (childEdge == nullptr) {
-        return;
-    }
-    // combine weights if multiple children must be created
-    for (int i = 1; i < childrenToProduce; i++) {
-        mutationRoll = distDouble(rng64);
-        childWeight = edge->getMutationChance() > mutationRoll ? distWeight(rng64) : edge->getWeight();
-        childEdge->combineWeight(childWeight);
-    }
-}
-
-data_structures::ICrossoverable
-evolution::Population::mutateCrossoverable(const std::shared_ptr<data_structures::ICrossoverable> &crossoverable) {
-    std::uniform_real_distribution<double> distDouble(0, 1);
-    std::uniform_real_distribution<double> distNewMutationChance(0, this->maxMutationChance);
-    std::mt19937_64 rng64(seeder());
-
-    double mutationRoll = distDouble(rng64);
-    // take the values of the dominant vertex with a possible mutation
-    // dominant
-    bool childDominant = crossoverable->getMutationChance() > mutationRoll ? !crossoverable->isDominant()
-                                                                           : crossoverable->isDominant();
-    // chanceToGetDominated
-    //mutationRoll = distDouble(rng64);
-    //double childChanceToGetDominated = crossoverable->getMutationChance() > mutationRoll ? distDouble(rng64)
-    //                                                                                     : crossoverable->getChanceToGetDominated();
-    // mutationChance
-    mutationRoll = distDouble(rng64);
-    double childMutationChance =
-            crossoverable->getMutationChance() > mutationRoll ? distNewMutationChance(rng64)
-                                                              : crossoverable->getMutationChance();
-    // maxChildren
-    mutationRoll = distDouble(rng64);
-    unsigned int childMaxChildren = crossoverable->getMutationChance() > mutationRoll ? util::nextUnsignedInt(1, 2)
-                                                                                      : crossoverable->getMaxChildren();
-
-    return data_structures::ICrossoverable(childMutationChance, childDominant,
-                                           childMaxChildren);
-}
-
-unsigned int
-evolution::Population::childrenToProduce(const std::shared_ptr<data_structures::ICrossoverable> &crossoverable) {
-    unsigned int childrenToProduce = crossoverable->getMaxChildren();
-    // choose whether this vertex produces one less child (either 0 or 1)
-    double mutationRoll = util::nextDouble();
-    childrenToProduce = crossoverable->getMutationChance() > mutationRoll ? childrenToProduce - 1 : childrenToProduce;
-    return childrenToProduce;
 }
 
 const std::vector<std::shared_ptr<evolution::Agent>> &evolution::Population::getPopulation() const {

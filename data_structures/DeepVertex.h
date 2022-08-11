@@ -20,45 +20,66 @@ namespace data_structures {
          * Creates a new deep vertex object without edges, calls the parent constructor.
          * @param index vertex index
          * @param dominant is this vertex dominant
-         * @param maxChildren maximum amount of children this vertex can produce
          */
-        explicit DeepVertex(unsigned int index, bool dominant, double mutationChance,
-                            unsigned int maxChildren) :
+        explicit DeepVertex(unsigned int index, bool dominant) :
                 Vertex(index),
-                ICrossoverable(mutationChance, dominant, maxChildren) {};
+                ICrossoverable(dominant) {};
 
         /**
          * Creates a new deep vertex object.
          * @param index vertex index
          * @param dominant is this vertex dominant
-         * @param chanceToGetDominated chance to get dominated
-         * @param maxChildren maximum amount of children this vertex can produce
          * @return smart pointer
          */
         static std::shared_ptr<data_structures::DeepVertex>
-        createDeepVertex(unsigned int index, bool dominant, double mutationChanceArg, unsigned int maxChildren);
+        createDeepVertex(unsigned int index, bool dominant);
 
+        /**
+         * Clones this object. Does not copy the vertex value.
+         * @return a new shared pointer with the same field values
+         */
         std::shared_ptr<DeepVertex> deepClone() override;
 
         /**
-         * Deletes the input and output vertex vectors.
+         * Nothing to see here.
          */
         ~DeepVertex() override = default;
 
         /**
          * Get a string with useful information about this object.
+         * @param technical format for https://csacademy.com/app/graph_editor/
          * @return this object's information
          */
         std::string toString(bool technical) override;
 
+        /**
+         * Get vertex type.
+         * @return enums::VertexType::DeepVertex
+         */
         enums::VertexType getType() override;
 
-        bool isFlaggedForDeletion() const;
+        /**
+         * Needed for agent minimization step.
+         * @return should this vertex be kept
+         */
+        [[nodiscard]] bool isFlaggedForDeletion() const;
 
-        void setFlaggedForDeletion(bool flaggedForDeletion);
+        /**
+         * Needed for agent minimization step.
+         * @param flaggedForDeletionArg should this vertex be kept
+         */
+        void setFlaggedForDeletion(bool flaggedForDeletionArg);
 
+        /**
+         * Needed for agent minimization step.
+         * @return should any input edges be kept
+         */
         bool allInputEdgesFlaggedForDeletion();
 
+        /**
+         * Needed for agent minimization step.
+         * @return should any output edges be kept
+         */
         bool allOutputEdgesFlaggedForDeletion();
 
         /**
@@ -70,6 +91,5 @@ namespace data_structures {
 
     };
 }
-
 
 #endif //NEUROEVOLUTION_DEEPVERTEX_H

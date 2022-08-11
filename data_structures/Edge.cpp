@@ -8,29 +8,20 @@
 #include "Edge.h"
 #include "Vertex.h"
 
-std::shared_ptr<data_structures::Vertex> data_structures::Edge::getInput() {
+std::shared_ptr<data_structures::Vertex> data_structures::Edge::getInput() const {
     return this->input.lock();
 }
 
-std::weak_ptr<data_structures::Vertex> data_structures::Edge::getWeakInput() {
-    return this->input;
-}
-
-std::shared_ptr<data_structures::Vertex> data_structures::Edge::getOutput() {
+std::shared_ptr<data_structures::Vertex> data_structures::Edge::getOutput() const {
     return this->output.lock();
-}
-
-std::weak_ptr<data_structures::Vertex> data_structures::Edge::getWeakOutput() {
-    return this->output;
 }
 
 std::shared_ptr<data_structures::Edge>
 data_structures::Edge::createEdge(const std::shared_ptr<data_structures::Vertex> &inputArg,
                                   const std::shared_ptr<data_structures::Vertex> &outputArg, unsigned int indexArg,
-                                  double weightArg, unsigned int traverseLimitArg, double mutationChance, bool dominant,
-                                  unsigned int maxChildren) {
+                                  double weightArg, unsigned int traverseLimitArg, bool dominant) {
     return std::make_shared<data_structures::Edge>(inputArg, outputArg, indexArg, weightArg, traverseLimitArg,
-                                                   mutationChance, dominant, maxChildren);
+                                                   dominant);
 }
 
 double data_structures::Edge::propagateValue() {
@@ -40,16 +31,16 @@ double data_structures::Edge::propagateValue() {
     return outputValue;
 }
 
-bool data_structures::Edge::isTraversed() {
+bool data_structures::Edge::isTraversed() const {
     return this->traverseCount > 0;
 }
 
-bool data_structures::Edge::isAtTaversalLimit() {
+bool data_structures::Edge::isAtTraverseLimit() const {
     return this->traverseLimit == this->traverseCount;
 }
 
 
-std::string data_structures::Edge::toString(bool technical) {
+std::string data_structures::Edge::toString(bool technical) const {
     std::ostringstream stream;
 
     if (technical) {
@@ -76,11 +67,11 @@ void data_structures::Edge::combineWeight(double argWeight) {
     this->weight += argWeight;
 }
 
-double data_structures::Edge::getWeight() {
+double data_structures::Edge::getWeight() const {
     return weight;
 }
 
-unsigned int data_structures::Edge::getTraverseLimit() {
+unsigned int data_structures::Edge::getTraverseLimit() const {
     return traverseLimit;
 }
 
@@ -88,22 +79,22 @@ unsigned int data_structures::Edge::getIndex() const {
     return index;
 }
 
-void data_structures::Edge::setIndex(unsigned int index) {
-    this->index = index;
+void data_structures::Edge::setIndex(unsigned int indexArg) {
+    this->index = indexArg;
 }
 
 bool data_structures::Edge::isFlaggedForDeletion() const {
     return flaggedForDeletion;
 }
 
-void data_structures::Edge::setFlaggedForDeletion(bool flaggedForDeletion) {
-    Edge::flaggedForDeletion = flaggedForDeletion;
+void data_structures::Edge::setFlaggedForDeletion(bool flaggedForDeletionArg) {
+    Edge::flaggedForDeletion = flaggedForDeletionArg;
 }
 
 void data_structures::Edge::setWeight(double weightArg) {
     this->weight = weightArg;
 }
 
-void data_structures::Edge::setTraverseLimit(unsigned int traverseLimit) {
-    this->traverseLimit = traverseLimit;
+void data_structures::Edge::setTraverseLimit(unsigned int traverseLimitArg) {
+    this->traverseLimit = traverseLimitArg;
 }

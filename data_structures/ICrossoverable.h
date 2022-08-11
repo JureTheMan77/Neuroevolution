@@ -8,21 +8,14 @@
 namespace data_structures {
     class ICrossoverable {
     private:
-        double mutationChance{};
         bool dominant{};
-        //double chanceToGetDominated{};
-        unsigned int maxChildren{};
     public:
 
-        explicit ICrossoverable(double mutationChance, bool dominant,
-                                unsigned int maxChildren) : mutationChance(mutationChance), dominant(dominant),
-                                                            maxChildren(maxChildren) {}
-
         /**
-         * Get the mutation chance.
-         * @return
+         * Create a new ICrossoverable object with dominance of your choice.
+         * @param dominant influences crossover step
          */
-        double getMutationChance() const;
+        explicit ICrossoverable(bool dominant) : dominant(dominant) {}
 
         /**
          * Is this object dominant?
@@ -35,14 +28,7 @@ namespace data_structures {
          * @param dominant dominant or recessive
          */
         void setDominant(bool dominant);
-
-        /**
-         * Max number of children this object can produce.
-         * @return value
-         */
-        unsigned int getMaxChildren() const;
     };
 }
-
 
 #endif //NEUROEVOLUTION_ICROSSOVERABLE_H

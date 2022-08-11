@@ -22,28 +22,35 @@ namespace data_structures {
         unsigned int traverseCount{0};
         bool flaggedForDeletion = false;
     public:
+
         /**
-         * Creates a new edge.
+         * New edge constructor.
          * @param input input vertex
          * @param output output vertex
+         * @param index edge index/unique id
          * @param weight weight of the edge
-         * @param traverseLimit how many times can this edge be traversed, minimum is 1
+         * @param traverseLimit how many times this edge can be traversed
+         * @param dominant is this edge dominant
          */
-        Edge(std::shared_ptr<data_structures::Vertex> input, std::shared_ptr<data_structures::Vertex> output,
-             unsigned int index, double weight, unsigned int traverseLimit, double mutationChance, bool dominant,
-             unsigned int maxChildren) : ICrossoverable(mutationChance, dominant, maxChildren),
-                                         input(std::move(input)),
-                                         output(std::move(output)),
-                                         index(index),
-                                         weight(weight),
-                                         traverseLimit(traverseLimit) {};
+        Edge(const std::shared_ptr<data_structures::Vertex> &input,
+             const std::shared_ptr<data_structures::Vertex> &output, unsigned int index, double weight,
+             unsigned int traverseLimit, bool dominant) : ICrossoverable(dominant), input(input), output(output),
+                                                          index(index), weight(weight), traverseLimit(traverseLimit) {};
 
+        /**
+         * Creates a new edge shared pointer.
+         * @param input input vertex
+         * @param output output vertex
+         * @param index edge index/unique id
+         * @param weight weight of the edge
+         * @param traverseLimit how many times this edge can be traversed
+         * @param dominant is this edge dominant
+         * @return new edge shared pointer
+         */
         static std::shared_ptr<data_structures::Edge> createEdge(const std::shared_ptr<data_structures::Vertex> &input,
                                                                  const std::shared_ptr<data_structures::Vertex> &output,
-                                                                 unsigned int index,
-                                                                 double weight, unsigned int traverseLimit,
-                                                                 double mutationChance, bool dominant,
-                                                                 unsigned int maxChildren);
+                                                                 unsigned int index, double weight,
+                                                                 unsigned int traverseLimit, bool dominant);
 
         /**
          * Destroys this object.
@@ -51,47 +58,49 @@ namespace data_structures {
         ~Edge() = default;
 
         /**
-         * Get the reference to the input vertex.
-         * @return input vertex
+         * Get the reference to the input vertex. Calls vertex.lock() internally.
+         * @return input vertex shared pointer
          */
-        std::shared_ptr<data_structures::Vertex> getInput();
-
-        std::weak_ptr<data_structures::Vertex> getWeakInput();
+        [[nodiscard]] std::shared_ptr<data_structures::Vertex> getInput() const;
 
         /**
-         * Get the reference to the output vertex.
-         * @return output vertex
+         * Get the reference to the output vertex. Calls vertex.lock() internally.
+         * @return output vertex shared pointer
          */
-        std::shared_ptr<data_structures::Vertex> getOutput();
-
-        std::weak_ptr<data_structures::Vertex> getWeakOutput();
+        [[nodiscard]] std::shared_ptr<data_structures::Vertex> getOutput() const;
 
         /**
          * Get the weight.
          * @return weight
          */
-        double getWeight();
+        [[nodiscard]] double getWeight() const;
 
+        /**
+         * Set the weight.
+         * @param weightArg weight so set
+         */
         void setWeight(double weightArg);
 
         /**
          * Get the number of times this edge can be traversed.
          * @return traverse limit
          */
-        unsigned int getTraverseLimit();
+        [[nodiscard]] unsigned int getTraverseLimit() const;
 
-        void setTraverseLimit(unsigned int traverseLimit);
+        /**
+         * Set the number of times this edge can be traversed.
+         * @param traverseLimitArg traverse limit
+         */
+        void setTraverseLimit(unsigned int traverseLimitArg);
 
         /**
          * Combines the current weight with the new one. By default, the operation is addition.
-         * x*w1 + x*w2 = y
-         * x * (w1 + w2) = y
          * @param argWeight weight to combine
          */
         void combineWeight(double argWeight);
 
         /**
-         * Gets the value of the input vertex, multiplies is wit the weight, and combines the result with the output
+         * Gets the value of the input vertex, multiplies is with the weight, and combines the result with the output
          * vertex.
          * @return result
          */
@@ -101,32 +110,45 @@ namespace data_structures {
          * Has this edge been traversed at least once?
          * @return true, if this edge has been traversed at least once
          */
-        bool isTraversed();
+        [[nodiscard]] bool isTraversed() const;
 
         /**
          * Has this edge been traversed the maximum number of allowed times?
          * @return true, if traverseCount equals of is greater than traverseLimit
          */
-        bool isAtTaversalLimit();
+        [[nodiscard]] bool isAtTraverseLimit() const;
 
         /**
          * Sets the traverseCount to 0.
          */
         void reset();
 
-        unsigned int getIndex() const;
+        /**
+         * Get the index of this edge.
+         * @return index
+         */
+        [[nodiscard]] unsigned int getIndex() const;
 
-        void setIndex(unsigned int index);
+        void setIndex(unsigned int indexArg);
 
         /**
          * Get a string with useful information about this object.
+         * @param technical format for https://csacademy.com/app/graph_editor/
          * @return this object's information
          */
-        std::string toString(bool technical);
+        [[nodiscard]] std::string toString(bool technical) const;
 
-        bool isFlaggedForDeletion() const;
+        /**
+         * Needed for agent minimization step.
+         * @return should this edge be kept
+         */
+        [[nodiscard]] bool isFlaggedForDeletion() const;
 
-        void setFlaggedForDeletion(bool flaggedForDeletion);
+        /**
+         * Needed for agent minimization step.
+         * @param flaggedForDeletionArg should this edge be kept
+         */
+        void setFlaggedForDeletion(bool flaggedForDeletionArg);
     };
 }
 
