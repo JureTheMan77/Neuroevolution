@@ -19,12 +19,16 @@ int main() {
 
     //auto inputLabels = pop.getInputLabels();
     //auto outputLabels = pop.getOutputLabels();
-    //auto graph = data_structures::Graph::createGraph(4, inputLabels, 16, 3, outputLabels, 1);
-    //graph->addEdge(enums::VertexType::Input, 0, enums::VertexType::Output, 2, 0, 0.499, 1, 1);
-    //graph->addEdge(enums::VertexType::Input, 0, enums::VertexType::Output, 0, 0, 0.0133, 1, 1);
-    //graph->addEdge(enums::VertexType::Input, 1, enums::VertexType::Output, 0, 0, 0.414, 1, 1);
-    //graph->addEdge(enums::VertexType::Input, 1, enums::VertexType::Deep, 6, 0, 0.0211, 1, 1);
-    //graph->addEdge(enums::VertexType::Input, 1, enums::VertexType::Output, 2, 0, 0.72, 2, 1);
+    //auto graph = data_structures::Graph::createGraph(4, inputLabels, 1, 3, outputLabels, 1);
+    //graph->addEdge(enums::VertexType::Input, 1, enums::VertexType::Deep, 0, 0, -0.239, 1, 1);
+    //graph->addEdge(enums::VertexType::Input, 3, enums::VertexType::Deep, 0, 0, 0.648, 1, 1);
+    //graph->addEdge(enums::VertexType::Input, 3, enums::VertexType::Output, 1, 0, -0.869, 1, 1);
+    //graph->addEdge(enums::VertexType::Deep, 0, enums::VertexType::Deep, 0, 0, 0.346, 1, 1);
+    //graph->addEdge(enums::VertexType::Deep, 0, enums::VertexType::Output, 0, 0, -1, 1, 1);
+    //auto agent = evolution::Agent::create(graph);
+    //pop.addAgent(agent);
+    //pop.calculateFitness(enums::FitnessMetric::Accuracy,-0.001,-0.001);
+
     //graph->addEdge(enums::VertexType::Input, 1, enums::VertexType::Deep, 10, 0, 0.147, 1, 1);
     //graph->addEdge(enums::VertexType::Input, 2, enums::VertexType::Output, 1, 0, 0.17, 2, 1);
     //graph->addEdge(enums::VertexType::Input, 2, enums::VertexType::Output, 2, 0, 0.0341, 2, 1);
@@ -83,17 +87,18 @@ int a = 0;
 
 
     std::ofstream fitnessFile("fitness.csv");
+    fitnessFile << "Generation;Average fitness;Best fitness" << std::endl;
 
 
     logging::logs("Start");
-    pop.initialisePopulation(1000, 20, 50, 2, true, 0.2);
+    pop.initialisePopulation(1000, 5, 10, 2, true, 0.2);
     logging::logs("Population initialised.");
     //logging::logs(pop.toString());
 
-    for (int i = 0; i < 500; i++) {
+    for (int i = 0; i < 1000; i++) {
         // std::cout << "\033[2J" << "\033[1;1H" << std::endl;
         logging::logs("Generation " + std::to_string(i));
-        pop.calculateFitness(enums::FitnessMetric::Accuracy, -0.001, -0.001);
+        pop.calculateFitness(enums::FitnessMetric::MatthewsCorrelationCoefficient, -0.000, -0.000);
         //logging::logs("Fitness calculated.");
         //logging::logs(pop.toString());
 
@@ -108,7 +113,7 @@ int a = 0;
         fitnessFile << pop.fitnessToCSVString(';', i) << std::endl;
 
         //logging::logs(pop.getFittestAgent()->toString());
-        if (i == 499) {
+        if (i == 999) {
             fitnessFile.close();
         } else {
             pop.sample(enums::SelectionType::StochasticUniversalSampling, 500, true);
@@ -136,6 +141,10 @@ int a = 0;
     logging::logs(bestAgent->toString(true));
     logging::logs(bestMcm.toString(pop.getOutputLabels()));
     bestAgent->getGraph()->reset();
+    std::ofstream jsonFullFile("/home/jure/CLionProjects/Neuroevolution/visualization/graphFull.json");
+    jsonFullFile << bestAgent->getGraph()->toForceGraphJson();
+    jsonFullFile.close();
+
     auto minimizedBestAgent = pop.minimizeAgent(bestAgent);
     logging::logs(minimizedBestAgent->toString(true));
     auto mcm = data_structures::MulticlassConfusionMatrix(minimizedBestAgent, pop.getTestingValues(),

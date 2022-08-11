@@ -236,7 +236,7 @@ void evolution::Population::calculateFitness(enums::FitnessMetric fitnessMetric,
                                   vertexContribution, edgeContribution, agent);
             futures.push_back(std::move(ftr));
         }
-        //calculateAgentFitness(vertexContribution, edgeContribution, std::ref(agent));
+        //calculateAgentFitness(fitnessMetric, vertexContribution, edgeContribution, std::ref(agent));
     }
     // join the created threads
     for (auto &ftr: futures) {
@@ -512,7 +512,9 @@ void evolution::Population::mutateThreaded(unsigned long agentIndex) {
     // 3 - remove a random edge
     // 4 - change the weight of an edge
     // 5 - change traverse limit of an edge
+    // 6 - minimize agent
     unsigned int choice = this->mutationDistribution(util::rng);
+    //unsigned int choice = 6;
 
     //unsigned int choice = 1;
     switch (choice) {
@@ -585,7 +587,7 @@ void evolution::Population::mutateThreaded(unsigned long agentIndex) {
             if (childAgent->getGraph()->getEdges().size() == maxEdges) {
                 return;
             }
-            this->addRandomEdge(UINT_MAX,childAgent->getGraph());
+            this->addRandomEdge(UINT_MAX, childAgent->getGraph());
             // fix indices for randomly added edges
             childAgent->getGraph()->fixIndices();
             break;
@@ -623,6 +625,11 @@ void evolution::Population::mutateThreaded(unsigned long agentIndex) {
             // get edge
             auto edge = childAgent->getGraph()->getEdges().at(position);
             edge->setTraverseLimit(traverseLimit);
+            break;
+        }
+        case 6: {
+            auto minimizedAgent = this->minimizeAgent(childAgent);
+            childAgent = minimizedAgent;
             break;
         }
         default:
@@ -918,19 +925,23 @@ evolution::Population::minimizeAgent(const std::shared_ptr<evolution::Agent> &ag
                 bool allInputsRecursive = true;
                 for (const auto &edge: deepVertex->getInputEdges()) {
                     if (!edge->isFlaggedForDeletion() &&
-                        edge->getInput()->getIndex() != edge->getOutput()->getIndex()) {
+                        (edge->getInput()->getIndex() != edge->getOutput()->getIndex() ||
+                         edge->getInput()->getType() != edge->getOutput()->getType())) {
                         allInputsRecursive = false;
+                        break;
                     }
                 }
                 // check if all outputs are recursive
                 bool allOutputsRecursive = true;
                 for (const auto &edge: deepVertex->getOutputEdges()) {
                     if (!edge->isFlaggedForDeletion() &&
-                        edge->getInput()->getIndex() != edge->getOutput()->getIndex()) {
+                        (edge->getInput()->getIndex() != edge->getOutput()->getIndex() ||
+                         edge->getInput()->getType() != edge->getOutput()->getType())) {
                         allOutputsRecursive = false;
+                        break;
                     }
                 }
-                // if all inputs or inputs are recursive, then flag vertex and all its edges for deletion
+                // if all inputs or outputs are recursive, then flag vertex and all its edges for deletion
                 if (allInputsRecursive || allOutputsRecursive) {
                     deepVertex->setFlaggedForDeletion(true);
                     for (const auto &edge: deepVertex->getInputEdges()) {
@@ -967,22 +978,24 @@ evolution::Population::minimizeAgent(const std::shared_ptr<evolution::Agent> &ag
 
     // normalize weights from 0 to 1
     // get the largest weight
-    double maxWeight = 0;
-    for (const auto &edge: minimizedAgent->getGraph()->getEdges()) {
-        if (edge->getWeight() > maxWeight) {
-            maxWeight = edge->getWeight();
-        }
-    }
+    //double maxWeight = 0;
+    //for (const auto &edge: minimizedAgent->getGraph()->getEdges())
+    //    if (edge->getWeight() > maxWeight) {
+    //        maxWeight = edge->getWeight();
+    //    }
+
 
     // re-index deep vertices
-    unsigned int newIndex = 0;
-    for (const auto &deepVertex: minimizedAgent->getGraph()->getDeepVertices()) {
-        deepVertex->setIndex(newIndex);
-        newIndex += 1;
-    }
+    //unsigned int newIndex = 0;
+    //for (const auto &deepVertex: minimizedAgent->getGraph()->getDeepVertices()) {
+    //    deepVertex->setIndex(newIndex);
+    //    newIndex += 1;
+    //}
 
-    // copy over the fitness
+    // copy over the fitness, accuracy and mcc
     minimizedAgent->setFitness(agentToMinimize->getFitness());
+    minimizedAgent->setAccuracy(agentToMinimize->getAccuracy());
+    minimizedAgent->setMatthewsCorrelationCoefficient(agentToMinimize->getMatthewsCorrelationCoefficient());
 
 
     return minimizedAgent;
