@@ -21,13 +21,13 @@ namespace data_structures {
          * Is this object dominant?
          * @return true or false
          */
-        bool isDominant() const;
+        [[nodiscard]] bool isDominant() const;
 
         /**
-         * Set the object as dominant or recessive.
-         * @param dominant dominant or recessive
+         * Set the object as dominantArg or recessive.
+         * @param dominantArg dominantArg or recessive
          */
-        void setDominant(bool dominant);
+        void setDominant(bool dominantArg);
     };
 }
 

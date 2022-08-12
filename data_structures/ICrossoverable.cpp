@@ -8,6 +8,6 @@ bool data_structures::ICrossoverable::isDominant() const {
     return dominant;
 }
 
-void data_structures::ICrossoverable::setDominant(bool dominant) {
-    this->dominant = dominant;
+void data_structures::ICrossoverable::setDominant(bool dominantArg) {
+    this->dominant = dominantArg;
 }

@@ -21,13 +21,6 @@ namespace data_structures {
          * @return new instance, wrapped in a shared pointer
          */
         virtual std::shared_ptr<T> deepClone() = 0;
-
-        /**
-         * Deep clones the provided object.
-         * @param arg object to clone
-         * @return new instance
-         */
-        // static T deepClone(T arg) = 0;
     };
 }
 
