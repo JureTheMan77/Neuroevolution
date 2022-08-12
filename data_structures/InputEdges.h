@@ -25,7 +25,7 @@ namespace data_structures {
          * Attaches an input edge.
          * @param edge the edge to attach
          */
-        virtual void addInputEdge(const std::shared_ptr<data_structures::Edge>& edge);
+        virtual void addInputEdge(const std::shared_ptr<data_structures::Edge> &edge);
 
         /**
          * Have all input edges been traversed at least once?
@@ -39,10 +39,10 @@ namespace data_structures {
          */
         virtual std::vector<std::shared_ptr<data_structures::Edge>> getInputEdges();
 
-        virtual void replaceInputEdges(std::vector<std::shared_ptr<data_structures::Edge>> const &newEdges);
-
-        virtual void clearInputEdges();
-
+        /**
+         * Erase an input edge at the specified position within input edge vector.
+         * @param position position within vector
+         */
         virtual void eraseInputEdge(unsigned long position);
     };
 }

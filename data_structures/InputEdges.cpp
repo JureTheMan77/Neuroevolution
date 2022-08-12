@@ -18,15 +18,6 @@ void data_structures::InputEdges::addInputEdge(const std::shared_ptr<data_struct
     this->addEdge(edge);
 }
 
-void
-data_structures::InputEdges::replaceInputEdges(const std::vector<std::shared_ptr<data_structures::Edge>> &newEdges) {
-    this->replaceEdges(newEdges);
-}
-
-void data_structures::InputEdges::clearInputEdges() {
-    this->clearEdges();
-}
-
 void data_structures::InputEdges::eraseInputEdge(unsigned long position) {
     this->eraseEdge(position);
 }

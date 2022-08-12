@@ -21,9 +21,18 @@ namespace data_structures {
          */
         InputVertex(unsigned int index, std::string labelArg) : Vertex(index), label(std::move(labelArg)) {}
 
-        static std::shared_ptr<InputVertex>
-        createInputVertex(unsigned int index,std::string &labelArg);
+        /**
+         * Create a new input vertex shared pointer.
+         * @param index index of the vertex
+         * @param labelArg label of the vertex
+         * @return shared pointer
+         */
+        static std::shared_ptr<InputVertex> createInputVertex(unsigned int index, std::string &labelArg);
 
+        /**
+         * Clone this object. Vertex value and edges are not kept.
+         * @return
+         */
         std::shared_ptr<InputVertex> deepClone() override;
 
         /**
@@ -39,19 +48,28 @@ namespace data_structures {
 
         /**
          * Always returns true.
-         * @return
+         * @return true
          */
         bool allInputEdgesTraversed() override;
 
         /**
          * Get a string with useful information about this object.
+         * @param technical format for https://csacademy.com/app/graph_editor/
          * @return this object's information
          */
         std::string toString(bool technical) override;
 
+        /**
+         * Get type of this vertex. For easier casting.
+         * @return always enums::VertexType::InputVertex
+         */
         enums::VertexType getType() override;
 
-        const std::string &getLabel() const;
+        /**
+         * Get the label of this vertex.
+         * @return label
+         */
+        [[nodiscard]] const std::string &getLabel() const;
     };
 }
 
