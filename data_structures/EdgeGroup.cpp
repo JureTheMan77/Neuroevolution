@@ -8,13 +8,13 @@ void data_structures::EdgeGroup::addEdge(const std::shared_ptr<data_structures::
     this->edges.push_back(edge);
 }
 
-std::vector<std::shared_ptr<data_structures::Edge>> data_structures::EdgeGroup::getEdges() {
+std::vector<std::shared_ptr<data_structures::Edge>> data_structures::EdgeGroup::getEdges() const {
     return this->edges;
 }
 
 void data_structures::EdgeGroup::replaceEdges(std::vector<std::shared_ptr<data_structures::Edge>> const &newEdges) {
     this->edges.clear();
-    for(const auto &edge : newEdges){
+    for (const auto &edge: newEdges) {
         this->edges.push_back(edge);
     }
 }
@@ -24,5 +24,5 @@ void data_structures::EdgeGroup::clearEdges() {
 }
 
 void data_structures::EdgeGroup::eraseEdge(unsigned long position) {
-    this->edges.erase(this->edges.begin() + position);
+    this->edges.erase(this->edges.begin() + (long) position);
 }

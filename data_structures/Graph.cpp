@@ -7,17 +7,16 @@
 #include <string>
 #include <sstream>
 #include "../enums/EnumUtil.h"
-#include "../logging/logging.h"
 #include "../util/util.h"
 #include "../nlohmann/json.hpp"
 
 
 data_structures::Graph::Graph(unsigned int inputVertices, std::vector<std::string> &inputLabels,
                               unsigned int deepVertices, unsigned int outputVertices,
-                              std::vector<std::string> &outputLabels, double maxMutationChance) {
+                              std::vector<std::string> &outputLabels) {
     this->addInputVertices(inputVertices, inputLabels);
     this->addOutputVertices(outputVertices, outputLabels);
-    this->addDeepVertices(deepVertices, maxMutationChance);
+    this->addDeepVertices(deepVertices);
 }
 
 void data_structures::Graph::addInputVertices(unsigned int numberOfInputVertices, std::vector<std::string> &labels) {
@@ -44,19 +43,12 @@ void data_structures::Graph::addOutputVertex(const std::shared_ptr<data_structur
     this->outputVertices.push_back(outputVertex);
 }
 
-void data_structures::Graph::addDeepVertices(unsigned int numberOfDeepVertices, double maxMutationChance) {
+void data_structures::Graph::addDeepVertices(unsigned int numberOfDeepVertices) {
     for (unsigned int i = 0; i < numberOfDeepVertices; i++) {
         // initialise chances as values from 0 to 1
         auto deepVertex = data_structures::DeepVertex::createDeepVertex(i, util::nextBool());
         this->deepVertices.push_back(deepVertex);
         this->largestDeepVertexIndex = i;
-    }
-}
-
-void data_structures::Graph::addDeepVertices(
-        const std::vector<std::shared_ptr<data_structures::DeepVertex>> &deepVerticesArg) {
-    for (const auto &vertex: deepVerticesArg) {
-        this->addDeepVertex(vertex);
     }
 }
 
@@ -70,15 +62,13 @@ void data_structures::Graph::addDeepVertex(const std::shared_ptr<data_structures
 
 void data_structures::Graph::addEdge(enums::VertexType inputVertexType, unsigned int inputVertexIndex,
                                      enums::VertexType outputVertexType, unsigned int outputVertexIndex,
-                                     unsigned int index, double weight, unsigned int traversalLimit,
-                                     double maxMutationChance) {
+                                     unsigned int index, double weight, unsigned int traversalLimit) {
     std::shared_ptr<data_structures::Vertex> input;
     std::shared_ptr<data_structures::Vertex> output;
     std::shared_ptr<data_structures::Edge> commonEdge;
     // if the result of the  function is false, then don't add the edge
     if (!edgeBeforeAdd(inputVertexType, inputVertexIndex, outputVertexType, outputVertexIndex, traversalLimit, input,
-                       output,
-                       commonEdge)) {
+                       output, commonEdge)) {
         return;
     }
 
@@ -89,9 +79,7 @@ void data_structures::Graph::addEdge(enums::VertexType inputVertexType, unsigned
         if (this->largestEdgeIndex < index && index != UINT_MAX) {
             this->largestEdgeIndex = index;
         }
-        std::shared_ptr<data_structures::Edge> newEdge = data_structures::Edge::createEdge(input, output,
-                                                                                           index,
-                                                                                           weight,
+        std::shared_ptr<data_structures::Edge> newEdge = data_structures::Edge::createEdge(input, output, index, weight,
                                                                                            traversalLimit,
                                                                                            util::nextBool());
         this->edges.push_back(newEdge);
@@ -105,7 +93,7 @@ void data_structures::Graph::addEdgeAfterAdd(const enums::VertexType &inputVerte
                                              const enums::VertexType &outputVertexType,
                                              const std::shared_ptr<data_structures::Vertex> &input,
                                              const std::shared_ptr<data_structures::Vertex> &output,
-                                             const std::shared_ptr<data_structures::Edge> &newEdge) const {
+                                             const std::shared_ptr<data_structures::Edge> &newEdge) {
     switch (inputVertexType) {
         case enums::VertexType::Input:
         case enums::VertexType::Deep:
@@ -125,8 +113,8 @@ void data_structures::Graph::addEdgeAfterAdd(const enums::VertexType &inputVerte
     }
 }
 
-bool data_structures::Graph::edgeBeforeAdd(enums::VertexType &inputVertexType, unsigned int inputVertexIndex,
-                                           enums::VertexType &outputVertexType, unsigned int outputVertexIndex,
+bool data_structures::Graph::edgeBeforeAdd(enums::VertexType inputVertexType, unsigned int inputVertexIndex,
+                                           enums::VertexType outputVertexType, unsigned int outputVertexIndex,
                                            unsigned int traversalLimit, std::shared_ptr<data_structures::Vertex> &input,
                                            std::shared_ptr<data_structures::Vertex> &output,
                                            std::shared_ptr<data_structures::Edge> &commonEdge) {
@@ -227,7 +215,7 @@ void data_structures::Graph::traverse(const std::shared_ptr<data_structures::Dat
     }
 
     // add the input vertices to the set of pending vertices
-    // enqueue them only if the have any output edges
+    // enqueue them only if they have any output edges
     for (const auto &v: this->inputVertices) {
         if (!v->getOutputEdges().empty()) {
             this->pendingVertices.enqueue(v);
@@ -274,20 +262,6 @@ void data_structures::Graph::traverse(const std::shared_ptr<data_structures::Dat
         }
         std::shared_ptr<data_structures::Vertex> vertexToEnqueue = nullptr;
         unsigned int leastNonTraversedEdges = UINT32_MAX;
-//        for (const std::shared_ptr<data_structures::Edge> &edge: this->edges) {
-//            if (edge->isTraversed() || edge->getOutput()->getType() != enums::VertexType::Deep) {
-//                continue;
-//            }
-//            for (const std::shared_ptr<data_structures::Edge> &outputVertexEdge: edge->getOutput()->getInputEdges()) {
-//                if (outputVertexEdge->isTraversed()) {
-//                    vertexToEnqueue = edge->getOutput();
-//                    break;
-//                }
-//            }
-//            if (vertexToEnqueue != nullptr) {
-//                break;
-//            }
-//        }
 
         // in case of recursive connections, check if any deep vertex with out/input vertices has not been visited.
         // If such a vertex is found, then check if it has any input edges that have been traversed and save it
@@ -322,7 +296,7 @@ void data_structures::Graph::traverse(const std::shared_ptr<data_structures::Dat
     }
 }
 
-unsigned int data_structures::Graph::getLargestOutputValueIndex() {
+unsigned int data_structures::Graph::getLargestOutputValueIndex() const {
     unsigned int largestIndex = 0;
     double largestValue = -std::numeric_limits<double>::max();
     for (const std::shared_ptr<data_structures::OutputVertex> &v: this->outputVertices) {
@@ -331,10 +305,6 @@ unsigned int data_structures::Graph::getLargestOutputValueIndex() {
             largestIndex = v->getIndex();
         }
     }
-
-    //if (largestValue == 0) {
-    //    return -1;
-    //}
 
     return largestIndex;
 }
@@ -350,26 +320,26 @@ void data_structures::Graph::reset() {
         v->reset();
     }
 
-    for (std::shared_ptr<data_structures::Edge> e: this->edges) {
+    for (const auto &e: this->edges) {
         e->reset();
     }
 
     this->pendingVertices.clear();
 }
 
-std::vector<std::shared_ptr<data_structures::DeepVertex>> data_structures::Graph::getDeepVertices() {
+std::vector<std::shared_ptr<data_structures::DeepVertex>> data_structures::Graph::getDeepVertices() const {
     return this->deepVertices;
 }
 
-std::vector<std::shared_ptr<data_structures::InputVertex >> data_structures::Graph::getInputVertices() {
+std::vector<std::shared_ptr<data_structures::InputVertex >> data_structures::Graph::getInputVertices() const {
     return this->inputVertices;
 }
 
-std::vector<std::shared_ptr<data_structures::OutputVertex>> data_structures::Graph::getOutputVertices() {
+std::vector<std::shared_ptr<data_structures::OutputVertex>> data_structures::Graph::getOutputVertices() const {
     return this->outputVertices;
 }
 
-std::string data_structures::Graph::toString(bool technical) {
+std::string data_structures::Graph::toString(bool technical) const {
     std::ostringstream result;
     result << "Input vertices: " << std::to_string(this->inputVertices.size()) << std::endl;
     result << "Output vertices: " << std::to_string(this->outputVertices.size()) << std::endl;
@@ -390,17 +360,12 @@ std::string data_structures::Graph::toString(bool technical) {
 std::shared_ptr<data_structures::Graph>
 data_structures::Graph::createGraph(unsigned int inputVertices, std::vector<std::string> &inputLabels,
                                     unsigned int deepVertices, unsigned int outputVertices,
-                                    std::vector<std::string> &outputLabels, double maxMutationChance) {
+                                    std::vector<std::string> &outputLabels) {
     return std::make_shared<data_structures::Graph>(inputVertices, inputLabels, deepVertices, outputVertices,
-                                                    outputLabels, maxMutationChance);
+                                                    outputLabels);
 }
 
 std::shared_ptr<data_structures::Graph> data_structures::Graph::deepClone() {
-    /*
-     * unsigned int inputVertices, std::vector<std::string> &inputLabels,
-                              unsigned int deepVertices,
-                              unsigned int outputVertices, std::vector<std::string> &outputLabels
-     */
     // make a new empty instance
     auto newGraph = std::make_shared<data_structures::Graph>();
 
@@ -425,9 +390,9 @@ std::shared_ptr<data_structures::Graph> data_structures::Graph::deepClone() {
         // input vertices have no input edges
         for (const std::shared_ptr<data_structures::Edge> &edge: inputVertex->getOutputEdges()) {
             data_structures::ICrossoverable crossoverable(edge->isDominant());
-            newGraph->addEdge(edge->getInput()->getType(), edge->getInput()->getIndex(),
-                              edge->getOutput()->getType(), edge->getOutput()->getIndex(),
-                              edge->getIndex(), edge->getWeight(), edge->getTraverseLimit(), crossoverable);
+            newGraph->addEdge(edge->getInput()->getType(), edge->getInput()->getIndex(), edge->getOutput()->getType(),
+                              edge->getOutput()->getIndex(), edge->getIndex(), edge->getWeight(),
+                              edge->getTraverseLimit(), crossoverable);
         }
     }
 
@@ -435,9 +400,9 @@ std::shared_ptr<data_structures::Graph> data_structures::Graph::deepClone() {
     for (const std::shared_ptr<data_structures::DeepVertex> &deepVertex: this->deepVertices) {
         for (const std::shared_ptr<data_structures::Edge> &edge: deepVertex->getOutputEdges()) {
             data_structures::ICrossoverable crossoverable(edge->isDominant());
-            newGraph->addEdge(edge->getInput()->getType(), edge->getInput()->getIndex(),
-                              edge->getOutput()->getType(), edge->getOutput()->getIndex(),
-                              edge->getIndex(), edge->getWeight(), edge->getTraverseLimit(), crossoverable);
+            newGraph->addEdge(edge->getInput()->getType(), edge->getInput()->getIndex(), edge->getOutput()->getType(),
+                              edge->getOutput()->getIndex(), edge->getIndex(), edge->getWeight(),
+                              edge->getTraverseLimit(), crossoverable);
         }
     }
 
@@ -445,17 +410,6 @@ std::shared_ptr<data_structures::Graph> data_structures::Graph::deepClone() {
 
     // pendingVertices stays empty
     return newGraph;
-}
-
-unsigned int data_structures::Graph::getLargestDeepVertexIndex() {
-    if (this->largestDeepVertexIndex == -1) {
-        for (const auto &vertex: this->deepVertices) {
-            if (this->largestDeepVertexIndex < vertex->getIndex()) {
-                this->largestDeepVertexIndex = vertex->getIndex();
-            }
-        }
-    }
-    return this->largestDeepVertexIndex;
 }
 
 void data_structures::Graph::fixIndices() {
@@ -479,19 +433,18 @@ std::vector<std::shared_ptr<data_structures::Edge>> data_structures::Graph::getE
 
 std::shared_ptr<data_structures::Edge>
 data_structures::Graph::getEdgeByIndexAndType(unsigned int inputVertexIndex, enums::VertexType inputVertexType,
-                                              unsigned int outputVertexIndex, enums::VertexType outputVertexType) {
+                                              unsigned int outputVertexIndex,
+                                              enums::VertexType outputVertexType) const {
     for (const auto &edge: this->edges) {
-        if (edge->getInput()->getIndex() == inputVertexIndex &&
-            edge->getInput()->getType() == inputVertexType &&
-            edge->getOutput()->getIndex() == outputVertexIndex &&
-            edge->getOutput()->getType() == outputVertexType) {
+        if (edge->getInput()->getIndex() == inputVertexIndex && edge->getInput()->getType() == inputVertexType &&
+            edge->getOutput()->getIndex() == outputVertexIndex && edge->getOutput()->getType() == outputVertexType) {
             return edge;
         }
     }
     return nullptr;
 }
 
-std::shared_ptr<data_structures::DeepVertex> data_structures::Graph::getDeepVertexByIndex(unsigned int index) {
+std::shared_ptr<data_structures::DeepVertex> data_structures::Graph::getDeepVertexByIndex(unsigned int index) const {
     for (auto vertex: this->deepVertices) {
         if (vertex->getIndex() == index) {
             return vertex;
@@ -500,7 +453,7 @@ std::shared_ptr<data_structures::DeepVertex> data_structures::Graph::getDeepVert
     return nullptr;
 }
 
-void data_structures::Graph::addEdge(std::shared_ptr<data_structures::Edge> edge) {
+void data_structures::Graph::addEdge(const std::shared_ptr<data_structures::Edge> &edge) {
     ICrossoverable crossoverable(edge->isDominant());
 
     this->addEdge(edge->getInput()->getType(), edge->getInput()->getIndex(), edge->getOutput()->getType(),
@@ -508,12 +461,13 @@ void data_structures::Graph::addEdge(std::shared_ptr<data_structures::Edge> edge
                   crossoverable);
 }
 
-void data_structures::Graph::normalizeEdgeWeights() {
+void data_structures::Graph::normalizeEdgeWeights() const {
     // find the largest weight
     double maxWeight = 0;
     for (const auto &edge: this->getEdges()) {
-        if (fabs(edge->getWeight()) > maxWeight) {
-            maxWeight = fabs(edge->getWeight());
+        double absoluteWeight = std::fabs(edge->getWeight());
+        if (absoluteWeight > maxWeight) {
+            maxWeight = absoluteWeight;
         }
     }
     // normalize
@@ -530,7 +484,6 @@ void data_structures::Graph::removeEdge(unsigned long position) {
     // remove edge from vertex vectors
     auto vertex = edgeToRemove->getInput();
     // create a new output vertex vector and copy all edges except the one to delete
-    //std::vector<std::shared_ptr<data_structures::Edge>> newOutputEdgesVector;
     for (unsigned long i = 0; i < vertex->getOutputEdges().size(); i++) {
         if (vertex->getOutputEdges().at(i)->getIndex() == edgeToRemove->getIndex()) {
             vertex->eraseOutputEdge(i);
@@ -538,29 +491,24 @@ void data_structures::Graph::removeEdge(unsigned long position) {
         }
     }
 
-
     vertex = edgeToRemove->getOutput();
     // create a new input vertex vector and copy all edges except the one to delete
-    //std::vector<std::shared_ptr<data_structures::Edge>> newInputEdgesVector;
     for (unsigned long i = 0; i < vertex->getInputEdges().size(); i++) {
         if (vertex->getInputEdges().at(i)->getIndex() == edgeToRemove->getIndex()) {
-            //newInputEdgesVector.push_back(vertex->getInputEdges().at(i));
             vertex->eraseInputEdge(i);
         }
     }
-    //vertex->replaceInputEdges(newInputEdgesVector);
-
 
     // remove edge from graph vertex
-    this->edges.erase(this->edges.begin() + position);
+    this->edges.erase(this->edges.begin() + (long) position);
 
 }
 
-std::string data_structures::Graph::toForceGraphJson() {
+std::string data_structures::Graph::toForceGraphJson() const {
     auto nodes = nlohmann::json::array();
     for (const auto &vertex: this->inputVertices) {
         nlohmann::json j;
-        j["id"] =  vertex->getLabel();
+        j["id"] = vertex->getLabel();
         j["name"] = vertex->getLabel();
         j["color"] = "#000";
         j["pos"] = vertex->getIndex();
@@ -573,7 +521,6 @@ std::string data_structures::Graph::toForceGraphJson() {
         j["id"] = label;
         j["name"] = label;
         j["color"] = "#0000FF";
-        //j["pos"] = vertex->getIndex();
         j["group"] = "deep";
         nodes.push_back(j);
     }

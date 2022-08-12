@@ -96,8 +96,7 @@ evolution::Population::createAgent() {
 
     // generate vertices
     auto graph = data_structures::Graph::createGraph(this->numberOfInputs, this->inputLabels, numberOfDeepVertices,
-                                                     this->numberOfOutputs, this->outputLabels,
-                                                     this->maxMutationChance);
+                                                     this->numberOfOutputs, this->outputLabels);
 
     // generate edges
     for (unsigned int i = 0; i < numberOfEdges; i++) {
@@ -142,7 +141,7 @@ void evolution::Population::addRandomEdge(std::shared_ptr<data_structures::Graph
         }
         // create and add edge
         graph->addEdge(inputVertexType, inputVertex->getIndex(), enums::VertexType::Deep, deepVertex->getIndex(),
-                       UINT_MAX, weight, traverseLimit, this->maxMutationChance);
+                       UINT_MAX, weight, traverseLimit);
     } else {
         enums::VertexType outputVertexType = choice ? enums::VertexType::Deep : enums::VertexType::Output;
         // choose a vertex to serve as output
@@ -156,8 +155,7 @@ void evolution::Population::addRandomEdge(std::shared_ptr<data_structures::Graph
         }
         // create and add edge
         graph->addEdge(enums::VertexType::Deep, deepVertex->getIndex(), outputVertexType,
-                       outputVertex->getIndex(), UINT_MAX, weight, traverseLimit,
-                       this->maxMutationChance);
+                       outputVertex->getIndex(), UINT_MAX, weight, traverseLimit);
     }
 }
 
@@ -185,11 +183,11 @@ void evolution::Population::addRandomEdge(unsigned int index, std::shared_ptr<da
             if (type2 == 0) {
                 graph->addEdge(enums::VertexType::Input, inputVerticesDistribution(rng), enums::VertexType::Deep,
                                deepVerticesDistribution(rng), index, util::nextWeight(),
-                               edgeTraverseLimitDistribution(rng), this->maxMutationChance);
+                               edgeTraverseLimitDistribution(rng));
             } else {
                 graph->addEdge(enums::VertexType::Input, inputVerticesDistribution(rng), enums::VertexType::Output,
                                outputVerticesDistribution(rng), index, util::nextWeight(),
-                               edgeTraverseLimitDistribution(rng), this->maxMutationChance);
+                               edgeTraverseLimitDistribution(rng));
             }
         } else {
             type2 = vertexTypeDistribution(rng);
@@ -198,11 +196,11 @@ void evolution::Population::addRandomEdge(unsigned int index, std::shared_ptr<da
             if (type2 == 0) {
                 graph->addEdge(enums::VertexType::Deep, deepVerticesDistribution(rng), enums::VertexType::Deep,
                                deepVerticesDistribution(rng), index, util::nextWeight(),
-                               edgeTraverseLimitDistribution(rng), this->maxMutationChance);
+                               edgeTraverseLimitDistribution(rng));
             } else {
                 graph->addEdge(enums::VertexType::Deep, deepVerticesDistribution(rng), enums::VertexType::Output,
                                outputVerticesDistribution(rng), index, util::nextWeight(),
-                               edgeTraverseLimitDistribution(rng), this->maxMutationChance);
+                               edgeTraverseLimitDistribution(rng));
             }
         }
     } else {
@@ -210,7 +208,7 @@ void evolution::Population::addRandomEdge(unsigned int index, std::shared_ptr<da
         // only legal configuration is input -> output
         graph->addEdge(enums::VertexType::Input, inputVerticesDistribution(rng), enums::VertexType::Output,
                        outputVerticesDistribution(rng), index, util::nextWeight(),
-                       edgeTraverseLimitDistribution(rng), this->maxMutationChance);
+                       edgeTraverseLimitDistribution(rng));
     }
 }
 

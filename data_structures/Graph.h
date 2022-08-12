@@ -28,6 +28,24 @@ namespace data_structures {
         unsigned int largestDeepVertexIndex{0};
         unsigned int largestEdgeIndex{0};
         unsigned int const UINT_MAX = std::numeric_limits<unsigned int>::max();
+
+        /**
+         * First step of adding an edge.
+         */
+        bool edgeBeforeAdd(enums::VertexType inputVertexType, unsigned int inputVertexIndex,
+                           enums::VertexType outputVertexType, unsigned int outputVertexIndex,
+                           unsigned int traversalLimit, std::shared_ptr<data_structures::Vertex> &input,
+                           std::shared_ptr<data_structures::Vertex> &output,
+                           std::shared_ptr<data_structures::Edge> &commonEdge);
+
+        /**
+         * Last step of adding an edge.
+         */
+        static void addEdgeAfterAdd(const enums::VertexType &inputVertexType, const enums::VertexType &outputVertexType,
+                                    const std::shared_ptr<data_structures::Vertex> &input,
+                                    const std::shared_ptr<data_structures::Vertex> &output,
+                                    const std::shared_ptr<data_structures::Edge> &newEdge);
+
     public:
         /**
          * Initializes inputVertices, outputVertices, deepVertices and edges vectors.
@@ -43,18 +61,31 @@ namespace data_structures {
          * @param outputLabels labels of output vertices
          */
         Graph(unsigned int inputVertices, std::vector<std::string> &inputLabels, unsigned int deepVertices,
-              unsigned int outputVertices, std::vector<std::string> &outputLabels, double maxMutationChance);
+              unsigned int outputVertices, std::vector<std::string> &outputLabels);
 
+        /**
+         * Create a new graph shared pointer.
+         * @param inputVertices number of input vertices
+         * @param inputLabels labels of input vertices
+         * @param deepVertices number of deep vertices
+         * @param outputVertices number of output vertices
+         * @param outputLabels labels of output vertices
+         * @return
+         */
         static std::shared_ptr<Graph> createGraph(unsigned int inputVertices, std::vector<std::string> &inputLabels,
                                                   unsigned int deepVertices, unsigned int outputVertices,
-                                                  std::vector<std::string> &outputLabels, double maxMutationChance);
+                                                  std::vector<std::string> &outputLabels);
 
+        /**
+         * Create a copy of this graph.
+         * @return graph clone
+         */
         std::shared_ptr<Graph> deepClone() override;
 
         /**
          * Calls destructors on all edges and vertices.
          */
-        ~Graph() = default;
+        virtual ~Graph() = default;
 
         /**
          * Adds new input vertices.
@@ -63,9 +94,17 @@ namespace data_structures {
          */
         void addInputVertices(unsigned int numberOfInputVertices, std::vector<std::string> &labels);
 
+        /**
+         * Add a new input vertex.
+         * @param inputVertex vertex to add
+         */
         void addInputVertex(const std::shared_ptr<data_structures::InputVertex> &inputVertex);
 
-        std::vector<std::shared_ptr<data_structures::InputVertex>> getInputVertices();
+        /**
+         * Get the vector of input vertices.
+         * @return input vertex vector
+         */
+        std::vector<std::shared_ptr<data_structures::InputVertex>> getInputVertices() const;
 
         /**
          * Adds new output vertices.
@@ -74,18 +113,28 @@ namespace data_structures {
          */
         void addOutputVertices(unsigned int numberOfOutputVertices, std::vector<std::string> &labels);
 
+        /**
+         * Get the vector of output vertices.
+         * @param outputVertex vertex to add
+         */
         void addOutputVertex(const std::shared_ptr<data_structures::OutputVertex> &outputVertex);
 
-        std::vector<std::shared_ptr<data_structures::OutputVertex>> getOutputVertices();
+        /**
+         * Get the vector of output vertices.
+         * @return output vertex vector
+         */
+        std::vector<std::shared_ptr<data_structures::OutputVertex>> getOutputVertices() const;
 
         /**
          * Adds new deep vertices.
          * @param numberOfDeepVertices number of deep vertices to add
          */
-        void addDeepVertices(unsigned int numberOfDeepVertices, double maxMutationChance);
+        void addDeepVertices(unsigned int numberOfDeepVertices);
 
-        void addDeepVertices(const std::vector<std::shared_ptr<data_structures::DeepVertex>> &deepVertices);
-
+        /**
+         * Add a new deep vertex.
+         * @param deepVertex vertex to add
+         */
         void addDeepVertex(const std::shared_ptr<data_structures::DeepVertex> &deepVertex);
 
         /**
@@ -94,19 +143,36 @@ namespace data_structures {
          * @param inputVertexIndex index of the input vertex to connect from
          * @param outputVertexType type of the output vertex
          * @param outputVertexIndex index of the input vertex to connect to
+         * @param index edge index
          * @param weight weight of the edge
          * @param traversalLimit how many times this edge can be traversed, minimum value is 1
          */
         void
         addEdge(enums::VertexType inputVertexType, unsigned int inputVertexIndex, enums::VertexType outputVertexType,
-                unsigned int outputVertexIndex, unsigned int index, double weight, unsigned int traversalLimit,double maxMutationChance);
+                unsigned int outputVertexIndex, unsigned int index, double weight, unsigned int traversalLimit);
 
+        /**
+         * Adds an edge between the input and output vertex with crossoverable data.
+         * @param inputVertexType type of the input vertex
+         * @param inputVertexIndex index of the input vertex to connect from
+         * @param outputVertexType type of the output vertex
+         * @param outputVertexIndex index of the input vertex to connect to
+         * @param index edge index
+         * @param weight weight of the edge
+         * @param traversalLimit how many times this edge can be traversed, minimum value is 1
+         * @param crossoverableData data
+         * @return
+         */
         std::shared_ptr<data_structures::Edge>
         addEdge(enums::VertexType inputVertexType, unsigned int inputVertexIndex, enums::VertexType outputVertexType,
                 unsigned int outputVertexIndex, unsigned int index, double weight, unsigned int traversalLimit,
                 const data_structures::ICrossoverable &crossoverableData);
 
-        void addEdge(std::shared_ptr<data_structures::Edge> edge);
+        /**
+         * Add a new edge.
+         * @param edge edge to add
+         */
+        void addEdge(const std::shared_ptr<data_structures::Edge> &edge);
 
         /**B
          * Propagate the values of the @param dataInstance through the graph.
@@ -118,59 +184,72 @@ namespace data_structures {
          * Get the index of the output vertex with the largest value.
          * @return index of the vertex
          */
-        unsigned int getLargestOutputValueIndex();
+        unsigned int getLargestOutputValueIndex() const;
 
         /**
          * Resets the values of all vertices and edges.
          */
         void reset();
 
-        std::vector<std::shared_ptr<data_structures::DeepVertex>> getDeepVertices();
+        /**
+         * Get the vector of deep vertices.
+         * @return deep vertex vector
+         */
+        std::vector<std::shared_ptr<data_structures::DeepVertex>> getDeepVertices() const;
 
         /**
          * Get a vertex with the correct index.
          * @param index index to search for
          * @return the vertex
          */
-        std::shared_ptr<data_structures::DeepVertex> getDeepVertexByIndex(unsigned int index);
-
-        std::vector<std::shared_ptr<data_structures::Edge>> getEdges() const;
-
-        std::shared_ptr<data_structures::Edge>
-        getEdgeByIndexAndType(unsigned int inputVertexIndex, enums::VertexType inputVertexType,
-                              unsigned int outputVertexIndex, enums::VertexType outputVertexType);
+        std::shared_ptr<data_structures::DeepVertex> getDeepVertexByIndex(unsigned int index) const;
 
         /**
-         * Get the largest deep vertex index.
-         * @return index
+         * Get a vector od all graph's edges.
+         * @return edge vector
          */
-        unsigned int getLargestDeepVertexIndex();
+        std::vector<std::shared_ptr<data_structures::Edge>> getEdges() const;
 
+        /**
+         * Find an edge with the supplied index and input and output vertex types.
+         * @param inputVertexIndex index of the input vertex
+         * @param inputVertexType type of the input vertex
+         * @param outputVertexIndex index of the output vertex
+         * @param outputVertexType type of the output vertex
+         * @return edge
+         */
+        std::shared_ptr<data_structures::Edge>
+        getEdgeByIndexAndType(unsigned int inputVertexIndex, enums::VertexType inputVertexType,
+                              unsigned int outputVertexIndex, enums::VertexType outputVertexType) const;
+
+        /**
+         * Assigns proper index values to vertices and edges with index UINT_MAX.
+         */
         void fixIndices();
 
         /**
          * Get a string with useful information about this object.
+         * @param technical format for https://csacademy.com/app/graph_editor/
          * @return this object's information
          */
-        std::string toString(bool technical);
+        std::string toString(bool technical) const;
 
-        bool
-        edgeBeforeAdd(enums::VertexType &inputVertexType, unsigned int inputVertexIndex,
-                      enums::VertexType &outputVertexType,
-                      unsigned int outputVertexIndex, unsigned int traversalLimit,
-                      std::shared_ptr<data_structures::Vertex> &input, std::shared_ptr<data_structures::Vertex> &output,
-                      std::shared_ptr<data_structures::Edge> &commonEdge);
+        /**
+         * Normalize edge values from -1 to 1.
+         */
+        void normalizeEdgeWeights() const;
 
-        void addEdgeAfterAdd(const enums::VertexType &inputVertexType, const enums::VertexType &outputVertexType,
-                             const std::shared_ptr<data_structures::Vertex> &input,
-                             const std::shared_ptr<data_structures::Vertex> &output,
-                             const std::shared_ptr<data_structures::Edge> &newEdge) const;
-
-        void normalizeEdgeWeights();
-
+        /**
+         * Remove an edge from this graph.
+         * @param position position in edge vector
+         */
         void removeEdge(unsigned long position);
 
-        std::string toForceGraphJson();
+        /**
+         * Create a string for force graph rendering.
+         * @return
+         */
+        std::string toForceGraphJson() const;
     };
 }
 

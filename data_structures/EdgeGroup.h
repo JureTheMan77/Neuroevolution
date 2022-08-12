@@ -33,12 +33,23 @@ namespace data_structures {
          * Edges getter.
          * @return the vector of input edges
          */
-        std::vector<std::shared_ptr<data_structures::Edge>> getEdges();
+        [[nodiscard]] std::vector<std::shared_ptr<data_structures::Edge>> getEdges() const;
 
+        /**
+         * Replace the edge vector.
+         * @param newEdges new edges
+         */
         void replaceEdges(std::vector<std::shared_ptr<data_structures::Edge>> const &newEdges);
 
+        /**
+         * Clear the current edges.
+         */
         void clearEdges();
 
+        /**
+         * Erase a specific edge.
+         * @param position position within vector
+         */
         void eraseEdge(unsigned long position);
     };
 }

@@ -34,8 +34,7 @@ std::shared_ptr<evolution::Agent> evolution::Agent::deepClone() {
 std::shared_ptr<evolution::Agent>
 evolution::Agent::create(unsigned int inputVertices, std::vector<std::string> &inputLabels, unsigned int outputVertices,
                          std::vector<std::string> &outputLabels, double maxMutationChance) {
-    auto graph = data_structures::Graph::createGraph(inputVertices, inputLabels, 0, outputVertices, outputLabels,
-                                                     maxMutationChance);
+    auto graph = data_structures::Graph::createGraph(inputVertices, inputLabels, 0, outputVertices, outputLabels);
     return std::make_shared<evolution::Agent>(graph);
 }
 
