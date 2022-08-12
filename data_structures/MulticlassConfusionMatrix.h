@@ -17,27 +17,51 @@ namespace data_structures {
         double matthewsCorrelationCoefficient = 0;
 
     public:
+        /**
+         * Create a new multiclass confusion matrix.
+         * @param agent agent to test
+         * @param testingSet data to test with
+         * @param numOfClasses number of classes in the testing set
+         */
         MulticlassConfusionMatrix(const std::shared_ptr<evolution::Agent> &agent,
                                   const std::vector<std::shared_ptr<data_structures::DataInstance>> &testingSet,
                                   unsigned int numOfClasses);
 
+        /**
+         * Default destructor.
+         */
         MulticlassConfusionMatrix() = default;
 
-        double getAccuracy();
+        /**
+         * Get the calculated accuracy.
+         * @return accuracy
+         */
+        [[nodiscard]] double getAccuracy() const;
 
-        double getMatthewsCorrelationCoefficient();
+        /**
+         * Get the calculated mcc.
+         * @return mcc
+         */
+        [[nodiscard]] double getMatthewsCorrelationCoefficient() const;
 
+        /**
+         * Get a pretty string representation of this object.
+         * @param labels dataset labels
+         * @return pretty string representation
+         */
         std::string toString(std::vector<std::string> labels);
 
     private:
+        /**
+         * Calculate the accuracy.
+         */
         void calculateAccuracy();
 
         /**
+         * Calculate the mcc.
          * source: https://en.wikipedia.org/wiki/Phi_coefficient#cite_note-gorodkin2004comparing-32
          */
         void calculateMatthewsCorrelationCoefficient();
-
-
     };
 }
 

@@ -11,13 +11,12 @@
 #include "InputEdges.h"
 #include "OutputEdges.h"
 #include "IDeepCloneable.h"
-#include "IVertexType.h"
+#include "../enums/VertexType.h"
 
 namespace data_structures {
     class Vertex
             : public data_structures::InputEdges,
-              public data_structures::OutputEdges,
-              public data_structures::IVertexType {
+              public data_structures::OutputEdges{
     private:
         unsigned int index;
         double value{0};
@@ -88,7 +87,7 @@ namespace data_structures {
          */
         virtual std::string toString(bool technical);
 
-        enums::VertexType getType() override = 0;
+        virtual enums::VertexType getType() = 0;
     };
 }
 

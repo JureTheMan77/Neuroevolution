@@ -3,7 +3,6 @@
 //
 
 #include "MulticlassConfusionMatrix.h"
-#include "../logging/logging.h"
 #include <cmath>
 #include <sstream>
 #include <iomanip>
@@ -115,11 +114,11 @@ void data_structures::MulticlassConfusionMatrix::calculateMatthewsCorrelationCoe
 
 }
 
-double data_structures::MulticlassConfusionMatrix::getAccuracy() {
+double data_structures::MulticlassConfusionMatrix::getAccuracy() const {
     return this->accuracy;
 }
 
-double data_structures::MulticlassConfusionMatrix::getMatthewsCorrelationCoefficient() {
+double data_structures::MulticlassConfusionMatrix::getMatthewsCorrelationCoefficient() const {
     return this->matthewsCorrelationCoefficient;
 }
 
@@ -127,9 +126,9 @@ std::string data_structures::MulticlassConfusionMatrix::toString(std::vector<std
     // print the matrix
     // get the longest output label
     int longestOutputLabel = 0;
-    for (auto label: labels) {
+    for (auto const &label: labels) {
         if (longestOutputLabel < label.length()) {
-            longestOutputLabel = label.length();
+            longestOutputLabel = (int) label.length();
         }
     }
     // extra space
@@ -168,7 +167,7 @@ std::string data_structures::MulticlassConfusionMatrix::toString(std::vector<std
             if (j == numberOfClasses) {
                 stream << std::setw(7) << std::fixed << std::setprecision(3) << this->matrix.at(i).at(j);
             } else {
-                stream << std::setw(labels.at(j).length()) << std::fixed << std::setprecision(3)
+                stream << std::setw((int) labels.at(j).length()) << std::fixed << std::setprecision(3)
                        << this->matrix.at(i).at(j) << " ";
             }
         }
