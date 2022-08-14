@@ -20,8 +20,8 @@ std::string data_structures::OutputVertex::toString(bool technical) {
 }
 
 std::shared_ptr<data_structures::OutputVertex>
-data_structures::OutputVertex::createOutputVertex(unsigned int index, std::string label) {
-    return std::make_shared<data_structures::OutputVertex>(index, label);
+data_structures::OutputVertex::createOutputVertex(unsigned int index, std::string &labelArg) {
+    return std::make_shared<data_structures::OutputVertex>(index, labelArg);
 }
 
 void data_structures::OutputVertex::addOutputEdge(const std::shared_ptr<data_structures::Edge> &edge) {

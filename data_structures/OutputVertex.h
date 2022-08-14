@@ -20,8 +20,18 @@ namespace data_structures {
          */
         OutputVertex(unsigned int index, std::string label) : Vertex(index), label(std::move(label)) {}
 
-        static std::shared_ptr<OutputVertex> createOutputVertex(unsigned int index, std::string label);
+        /**
+         * Create a new output vertex shared pointer.
+         * @param index index of the vertex
+         * @param label label of the vertex
+         * @return a new shared pointer
+         */
+        static std::shared_ptr<OutputVertex> createOutputVertex(unsigned int index, std::string &label);
 
+        /**
+         * Clone this object. Value is not preserved.
+         * @return
+         */
         std::shared_ptr<OutputVertex> deepClone() override;
 
         /**
@@ -37,13 +47,22 @@ namespace data_structures {
 
         /**
          * Get a string with useful information about this object.
+         * @param technical format for https://csacademy.com/app/graph_editor/
          * @return this object's information
          */
         std::string toString(bool technical) override;
 
+        /**
+         * Get type of this vertex. For easier casting.
+         * @return always enums::VertexType::OutputVertex
+         */
         enums::VertexType getType() override;
 
-        const std::string &getLabel() const;
+        /**
+         * Get this vertex's label.
+         * @return label
+         */
+        [[nodiscard]] const std::string &getLabel() const;
     };
 }
 

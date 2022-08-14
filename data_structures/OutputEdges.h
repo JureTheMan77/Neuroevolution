@@ -32,10 +32,10 @@ namespace data_structures {
          */
         virtual std::vector<std::shared_ptr<data_structures::Edge>> getOutputEdges();
 
-        virtual void replaceOutputEdges(std::vector<std::shared_ptr<data_structures::Edge>> const &newEdges);
-
-        virtual void clearOutputEdges();
-
+        /**
+         * Erase an output edge at the specified position.
+         * @param position position within vector
+         */
         virtual void eraseOutputEdge(unsigned long position);
     };
 }
