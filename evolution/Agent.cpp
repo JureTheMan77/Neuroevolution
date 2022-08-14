@@ -4,11 +4,11 @@
 
 #include "Agent.h"
 
-std::shared_ptr<data_structures::Graph> evolution::Agent::getGraph() {
+std::shared_ptr<data_structures::Graph> evolution::Agent::getGraph() const {
     return this->graph;
 }
 
-double evolution::Agent::getFitness() {
+double evolution::Agent::getFitness() const {
     return this->fitness;
 }
 
@@ -16,7 +16,7 @@ void evolution::Agent::setFitness(double newFitness) {
     this->fitness = newFitness;
 }
 
-std::string evolution::Agent::toString(bool technical) {
+std::string evolution::Agent::toString(bool technical) const {
     return "Fitness: " + std::to_string(this->fitness) + "\n" + this->graph->toString(technical);
 }
 
@@ -27,13 +27,14 @@ evolution::Agent::create(const std::shared_ptr<data_structures::Graph> &graphArg
 
 std::shared_ptr<evolution::Agent> evolution::Agent::deepClone() {
     // also copy fitness
-    auto graph = this->getGraph()->deepClone();
-    return std::make_shared<evolution::Agent>(graph, this->fitness, this->accuracy, this->matthewsCorrelationCoefficient);
+    auto newGraph = this->getGraph()->deepClone();
+    return std::make_shared<evolution::Agent>(newGraph, this->fitness, this->accuracy,
+                                              this->matthewsCorrelationCoefficient);
 }
 
 std::shared_ptr<evolution::Agent>
 evolution::Agent::create(unsigned int inputVertices, std::vector<std::string> &inputLabels, unsigned int outputVertices,
-                         std::vector<std::string> &outputLabels, double maxMutationChance) {
+                         std::vector<std::string> &outputLabels) {
     auto graph = data_structures::Graph::createGraph(inputVertices, inputLabels, 0, outputVertices, outputLabels);
     return std::make_shared<evolution::Agent>(graph);
 }
@@ -43,21 +44,21 @@ bool evolution::Agent::isNewAgent() const {
 }
 
 void evolution::Agent::setNewAgent(bool newAgentArg) {
-    Agent::newAgent = newAgentArg;
+    this->newAgent = newAgentArg;
 }
 
 double evolution::Agent::getAccuracy() const {
     return accuracy;
 }
 
-void evolution::Agent::setAccuracy(double accuracy) {
-    Agent::accuracy = accuracy;
+void evolution::Agent::setAccuracy(double accuracyArg) {
+    this->accuracy = accuracyArg;
 }
 
 double evolution::Agent::getMatthewsCorrelationCoefficient() const {
     return matthewsCorrelationCoefficient;
 }
 
-void evolution::Agent::setMatthewsCorrelationCoefficient(double matthewsCorrelationCoefficient) {
-    Agent::matthewsCorrelationCoefficient = matthewsCorrelationCoefficient;
+void evolution::Agent::setMatthewsCorrelationCoefficient(double matthewsCorrelationCoefficientArg) {
+    this->matthewsCorrelationCoefficient = matthewsCorrelationCoefficientArg;
 }

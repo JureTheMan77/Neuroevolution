@@ -19,31 +19,44 @@ namespace evolution {
 
     public:
         /**
-         * Construct a new agent with fitness.
+         * Construct a new agent with fitness, accuracy and mcc.
          * @param graph graph
          * @param fitness fitness
+         * @param accuracy accuracy
+         * @param matthewsCorrelationCoefficient matthewsCorrelationCoefficient
          */
         Agent(std::shared_ptr<data_structures::Graph> graph, double fitness, double accuracy,
               double matthewsCorrelationCoefficient) : graph(std::move(graph)), fitness(fitness), accuracy(accuracy),
                                                        matthewsCorrelationCoefficient(matthewsCorrelationCoefficient) {}
 
-        Agent(Agent const &agent) = default;
-
         /**
-         * Construct a new agent with fitness 0.
+         * Construct a new agent with fitness, accuracy and mcc 0.
          * @param graph graph
          */
         explicit Agent(std::shared_ptr<data_structures::Graph> graph) : graph(std::move(graph)) {}
 
+        /**
+         * Create a new agent shared pointer.
+         * @param graphArg graph
+         * @return shared pointer
+         */
         static std::shared_ptr<Agent> create(const std::shared_ptr<data_structures::Graph> &graphArg);
 
         /**
          * Create an agent with an empty graph.
          * @return a new agent
          */
+        /**
+         * Create an agent with an empty (unconnected) graph.
+         * @param inputVertices number of input vertices
+         * @param inputLabels input vertex labels
+         * @param outputVertices number of output vertices
+         * @param outputLabels output vertex labels
+         * @return new agent shared pointer
+         */
         static std::shared_ptr<Agent>
         create(unsigned int inputVertices, std::vector<std::string> &inputLabels, unsigned int outputVertices,
-               std::vector<std::string> &outputLabels, double maxMutationChance);
+               std::vector<std::string> &outputLabels);
 
         /**
          * Deep clones this object.
@@ -57,21 +70,21 @@ namespace evolution {
         Agent() = default;
 
         /**
-         * Also deletes graph.
+         * Default destructor.
          */
-        ~Agent() = default;
+        virtual ~Agent() = default;
 
         /**
          * Get the agent's graph.
          * @return graph
          */
-        std::shared_ptr<data_structures::Graph> getGraph();
+        [[nodiscard]] std::shared_ptr<data_structures::Graph> getGraph() const;
 
         /**
          * Get the agent's fitness.
          * @return fitness
          */
-        double getFitness();
+        [[nodiscard]] double getFitness() const;
 
         /**
          * Set the agent's newFitness.
@@ -83,19 +96,43 @@ namespace evolution {
          * Get a string with useful information about this object.
          * @return this object's information
          */
-        std::string toString(bool technical);
+        [[nodiscard]] std::string toString(bool technical) const;
 
-        bool isNewAgent() const;
+        /**
+         * Is this agent new? Determines whether traversal happens.
+         * @return if this agent is new
+         */
+        [[nodiscard]] bool isNewAgent() const;
 
+        /**
+         * Sets whether this agent is new.
+         * @param newAgentArg is this agent new?
+         */
         void setNewAgent(bool newAgentArg);
 
-        double getAccuracy() const;
+        /**
+         * Get the accuracy of this agent.
+         * @return accuracy
+         */
+        [[nodiscard]] double getAccuracy() const;
 
-        void setAccuracy(double accuracy);
+        /**
+         * Sets the accuracyArg of this agent.
+         * @param accuracyArg accuracyArg
+         */
+        void setAccuracy(double accuracyArg);
 
-        double getMatthewsCorrelationCoefficient() const;
+        /**
+         * Gets the mcc of this agent.
+         * @return mcc
+         */
+        [[nodiscard]] double getMatthewsCorrelationCoefficient() const;
 
-        void setMatthewsCorrelationCoefficient(double matthewsCorrelationCoefficient);
+        /**
+         * Sets the mcc of this agent.
+         * @param matthewsCorrelationCoefficientArg mcc
+         */
+        void setMatthewsCorrelationCoefficient(double matthewsCorrelationCoefficientArg);
     };
 }
 

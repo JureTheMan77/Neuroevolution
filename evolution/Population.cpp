@@ -458,7 +458,7 @@ evolution::Population::crossoverThreaded(std::uniform_int_distribution<unsigned 
     // create an empty child agent
     std::shared_ptr<evolution::Agent> childAgent = Agent::create(numberOfInputs, inputLabels,
                                                                  numberOfOutputs,
-                                                                 outputLabels, this->maxMutationChance);
+                                                                 outputLabels);
 
     std::shared_ptr<evolution::Agent> agent1 = population.at(firstAgentIndex);
     std::shared_ptr<evolution::Agent> agent2 = population.at(secondAgentIndex);
@@ -556,7 +556,7 @@ void evolution::Population::mutateThreaded(unsigned long agentIndex) {
             // construct the agent
             std::shared_ptr<Agent> mutatedAgent = Agent::create(numberOfInputs, inputLabels,
                                                                 numberOfOutputs,
-                                                                outputLabels, maxMutationChance);
+                                                                outputLabels);
 
             // add the deep vertices
             for (const auto &deepVertex: childAgent->getGraph()->getDeepVertices()) {
@@ -870,7 +870,7 @@ evolution::Population::minimizeAgent(const std::shared_ptr<evolution::Agent> &ag
     // construct the agent
     std::shared_ptr<Agent> minimizedAgent = Agent::create(numberOfInputs, inputLabels,
                                                           numberOfOutputs,
-                                                          outputLabels, maxMutationChance);
+                                                          outputLabels);
 
     // add the deep vertices
     for (const auto &deepVertex: agentToMinimize->getGraph()->getDeepVertices()) {
