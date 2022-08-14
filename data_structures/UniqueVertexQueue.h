@@ -43,7 +43,7 @@ namespace data_structures {
          * Is the queue empty?
          * @return true, if the queue is empty
          */
-        bool empty();
+        bool empty() const;
 
         /**
          * Removes all elements from this queue.

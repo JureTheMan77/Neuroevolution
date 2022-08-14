@@ -24,18 +24,8 @@ namespace data_structures {
         bool visited{};
     public:
         /**
-         * Creates a new vertex object.
-         * @param index
-         * @return smart pointer
-         */
-        // static std::unique_ptr<Vertex> createVertex(unsigned int index);
-
-        /**
          * Create a nev vertex object.
          * @param index vertex index
-         * @param dominant is this vertex dominant
-         * @param chanceToGetDominated chance to get dominated
-         * @param maxChildren maximum amount of children this vertex can produce
          */
         explicit Vertex(unsigned int index) : index(index){};
 
@@ -60,9 +50,7 @@ namespace data_structures {
          * Returns the stored value
          * @return stored value
          */
-        double getValue();
-
-        void setValue(double value);
+        [[nodiscard]] double getValue() const;
 
         /**
          * Sets the stored value to 0.
@@ -75,18 +63,35 @@ namespace data_structures {
          */
         virtual unsigned int getIndex();
 
-        void setIndex(unsigned int index);
+        /**
+         * Sets the indexArg of this vertex.
+         * @param indexArg indexArg to set
+         */
+        void setIndex(unsigned int indexArg);
 
-        bool isVisited() const;
+        /**
+         * Has this vertex already been visited during traversal?
+         * @return true or false
+         */
+        [[nodiscard]] bool isVisited() const;
 
-        void setVisited(bool visited);
+        /**
+         * Sets the visitedArg property.
+         * @param visitedArg has this vertex been visitedArg
+         */
+        void setVisited(bool visitedArg);
 
         /**
          * Get a string with useful information about this object.
+         * @param technical format for https://csacademy.com/app/graph_editor/
          * @return this object's information
          */
         virtual std::string toString(bool technical);
 
+        /**
+         * Vertex type getter virtual function. Do not use this as it is.
+         * @return 0
+         */
         virtual enums::VertexType getType() = 0;
     };
 }

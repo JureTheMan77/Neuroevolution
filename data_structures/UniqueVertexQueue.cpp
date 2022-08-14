@@ -18,7 +18,7 @@ std::shared_ptr<data_structures::Vertex> data_structures::UniqueVertexQueue::deq
     return element;
 }
 
-bool data_structures::UniqueVertexQueue::empty() {
+bool data_structures::UniqueVertexQueue::empty() const {
     return this->queue.empty();
 }
 
