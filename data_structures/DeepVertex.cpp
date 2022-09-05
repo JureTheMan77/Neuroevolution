@@ -4,6 +4,7 @@
 
 #include <sstream>
 #include <algorithm>
+#include <iostream>
 #include "DeepVertex.h"
 
 std::shared_ptr<data_structures::DeepVertex>
@@ -41,13 +42,32 @@ void data_structures::DeepVertex::setFlaggedForDeletion(bool flaggedForDeletionA
 }
 
 bool data_structures::DeepVertex::allInputEdgesFlaggedForDeletion() {
-    return std::all_of(this->getInputEdges().begin(), this->getInputEdges().end(),
-                       [](const std::shared_ptr<data_structures::Edge> &edge) { return edge->isFlaggedForDeletion(); });
+    //bool result = std::all_of(this->getInputEdges().begin(), this->getInputEdges().end(),
+    //                          [](const std::shared_ptr<data_structures::Edge> &edge) { return edge->isFlaggedForDeletion(); });
+    bool result = true;
+    for (const auto &edge: this->getInputEdges()) {
+        if (!edge->isFlaggedForDeletion()) {
+            result = false;
+            break;
+        }
+    }
+    return result;
 }
 
 bool data_structures::DeepVertex::allOutputEdgesFlaggedForDeletion() {
-    return std::all_of(this->getOutputEdges().begin(), this->getOutputEdges().end(),
-                       [](const std::shared_ptr<data_structures::Edge> &edge) { return edge->isFlaggedForDeletion(); });
+    //bool result = std::all_of(this->getOutputEdges().begin(), this->getOutputEdges().end(),
+    //                   [](const std::shared_ptr<data_structures::Edge> &edge) {
+    //    std::cout << edge->getIndex() << std::endl;
+    //    return edge->isFlaggedForDeletion();
+    //});
+    bool result = true;
+    for (const auto &edge: this->getOutputEdges()) {
+        if (!edge->isFlaggedForDeletion()) {
+            result = false;
+            break;
+        }
+    }
+    return result;
 }
 
 void data_structures::DeepVertex::combineValue(double argValue) {

@@ -29,11 +29,11 @@ evolution::Population::Population(const std::string &pathToDataSet) {
             if (counter == 0) {
                 // counter = 0 -> input labels
                 this->inputLabels = util::split(line, delimiter);
-                this->numberOfInputs = (unsigned int)this->inputLabels.size();
+                this->numberOfInputs = (unsigned int) this->inputLabels.size();
             } else if (counter == 1) {
                 // counter = 1 -> output labels
                 this->outputLabels = util::split(line, delimiter);
-                this->numberOfOutputs = (unsigned int)this->outputLabels.size();
+                this->numberOfOutputs = (unsigned int) this->outputLabels.size();
             } else {
                 auto dataInstance = data_structures::DataInstance::createDataInstance(
                         util::splitDouble(line, delimiter));
@@ -126,11 +126,12 @@ void evolution::Population::addRandomEdge(std::shared_ptr<data_structures::Graph
             unsigned int position = this->inputVerticesDistribution(util::rng);
             inputVertex = graph->getInputVertices().at(position);
         } else {
-            unsigned int position = util::nextUnsignedInt(0, (unsigned int)graph->getDeepVertices().size() - 1);
+            unsigned int position = util::nextUnsignedInt(0, (unsigned int) graph->getDeepVertices().size() - 1);
             inputVertex = graph->getDeepVertices().at(position);
         }
         // create and add edge
-        graph->addEdge(inputVertexType, inputVertex->getIndex(), enums::VertexType::Deep, deepVertex->getIndex(),UINT_MAX, weight, traverseLimit);
+        graph->addEdge(inputVertexType, inputVertex->getIndex(), enums::VertexType::Deep, deepVertex->getIndex(),
+                       UINT_MAX, weight, traverseLimit);
     } else {
         enums::VertexType outputVertexType = choice ? enums::VertexType::Deep : enums::VertexType::Output;
         // choose a vertex to serve as output
@@ -150,7 +151,9 @@ void evolution::Population::addRandomEdge(std::shared_ptr<data_structures::Graph
 
 void evolution::Population::addRandomEdge(unsigned int index, std::shared_ptr<data_structures::Graph> const &graph) {
     std::uniform_int_distribution<unsigned int> vertexTypeDistribution(0, 1);
-    std::uniform_int_distribution<unsigned int> deepVerticesDistribution(0, (unsigned int)graph->getDeepVertices().size() - 1);
+    std::uniform_int_distribution<unsigned int> deepVerticesDistribution(0,
+                                                                         (unsigned int) graph->getDeepVertices().size() -
+                                                                         1);
 
     // pick two edges, they can be:
     // 1 input and 1 deep
@@ -170,9 +173,11 @@ void evolution::Population::addRandomEdge(unsigned int index, std::shared_ptr<da
             // 1 - output
             if (type2 == 0) {
                 graph->addEdge(enums::VertexType::Input, inputVerticesDistribution(util::rng), enums::VertexType::Deep,
-                               deepVerticesDistribution(util::rng), index, util::nextWeight(),edgeTraverseLimitDistribution(util::rng));
+                               deepVerticesDistribution(util::rng), index, util::nextWeight(),
+                               edgeTraverseLimitDistribution(util::rng));
             } else {
-                graph->addEdge(enums::VertexType::Input, inputVerticesDistribution(util::rng), enums::VertexType::Output,
+                graph->addEdge(enums::VertexType::Input, inputVerticesDistribution(util::rng),
+                               enums::VertexType::Output,
                                outputVerticesDistribution(util::rng), index, util::nextWeight(),
                                edgeTraverseLimitDistribution(util::rng));
             }
@@ -228,7 +233,9 @@ void evolution::Population::calculateFitness(enums::FitnessMetric fitnessMetric,
     }
 }
 
-void evolution::Population::calculateAgentFitness(enums::FitnessMetric fitnessMetric, double vertexContribution,double edgeContribution,const std::shared_ptr<evolution::Agent> &agent) const {
+void evolution::Population::calculateAgentFitness(enums::FitnessMetric fitnessMetric, double vertexContribution,
+                                                  double edgeContribution,
+                                                  const std::shared_ptr<evolution::Agent> &agent) const {
     data_structures::MulticlassConfusionMatrix mcm(agent, this->trainingValues, this->numberOfOutputs);
 
     // size of the agent can be a penalty, both edges and vertices contribute
@@ -338,10 +345,10 @@ evolution::Population::stochasticUniversalSampling(unsigned int agentsToKeep, bo
 void evolution::Population::crossoverAndMutate() {
     // create new agents until the population is full
     // save child agents in populationPlaceholder
-    unsigned int agentsToCreate = this->populationSize - (unsigned int)this->population.size();
+    unsigned int agentsToCreate = this->populationSize - (unsigned int) this->population.size();
     std::vector<std::future<std::shared_ptr<evolution::Agent>>> crossoverFutures;
     // create the population distribution here since it's the same for all threads
-    std::uniform_int_distribution<unsigned int> populationDistribution(0, (unsigned int)this->population.size() - 1);
+    std::uniform_int_distribution<unsigned int> populationDistribution(0, (unsigned int) this->population.size() - 1);
 
     for (int i = 0; i < agentsToCreate; i++) {
         auto ftr = std::async(&evolution::Population::crossoverThreaded, this, populationDistribution);
@@ -373,6 +380,16 @@ void evolution::Population::crossoverAndMutate() {
         mutationFutures.push_back(std::move(ftr));
     }
     for (auto &ftr: mutationFutures) {
+        ftr.get();
+    }
+
+    // normalize child agent weights
+    std::vector<std::future<void>> normalizationFutures;
+    for (const auto &agent: this->populationPlaceholder) {
+        auto ftr = std::async(&data_structures::Graph::normalizeEdgeWeights, agent->getGraph());
+        normalizationFutures.push_back(std::move(ftr));
+    }
+    for (auto &ftr: normalizationFutures) {
         ftr.get();
     }
 
@@ -419,7 +436,7 @@ evolution::Population::crossoverThreaded(std::uniform_int_distribution<unsigned 
     crossoverEdges(childAgent, agent2, agent1, checkedIndices);
 
     // normalize edge weights
-    childAgent->getGraph()->normalizeEdgeWeights();
+    // childAgent->getGraph()->normalizeEdgeWeights();
 
     if (!this->keepDormantVerticesAndEdges) {
         childAgent = this->minimizeAgent(childAgent);
@@ -547,7 +564,8 @@ void evolution::Population::mutateThreaded(unsigned long agentIndex) {
         }
         case 6: {
             auto minimizedAgent = this->minimizeAgent(childAgent);
-            childAgent = minimizedAgent;
+            // replace the child agent
+            this->populationPlaceholder.at(agentIndex) = minimizedAgent;
             break;
         }
         default:
@@ -555,7 +573,10 @@ void evolution::Population::mutateThreaded(unsigned long agentIndex) {
     }
 }
 
-void evolution::Population::crossoverDeepVertices(const std::shared_ptr<evolution::Agent> &childAgent,const std::shared_ptr<evolution::Agent> &parent1,const std::shared_ptr<evolution::Agent> &parent2,std::vector<unsigned int> &checkedIndices) {
+void evolution::Population::crossoverDeepVertices(const std::shared_ptr<evolution::Agent> &childAgent,
+                                                  const std::shared_ptr<evolution::Agent> &parent1,
+                                                  const std::shared_ptr<evolution::Agent> &parent2,
+                                                  std::vector<unsigned int> &checkedIndices) {
     // loop through all vertices
     for (const auto &deepVertex1: parent1->getGraph()->getDeepVertices()) {
 
@@ -735,12 +756,15 @@ evolution::Population::minimizeAgent(const std::shared_ptr<evolution::Agent> &ag
                 }
                 // check if all outputs are recursive
                 bool allOutputsRecursive = true;
-                for (const auto &edge: deepVertex->getOutputEdges()) {
-                    if (!edge->isFlaggedForDeletion() &&
-                        (edge->getInput()->getIndex() != edge->getOutput()->getIndex() ||
-                         edge->getInput()->getType() != edge->getOutput()->getType())) {
-                        allOutputsRecursive = false;
-                        break;
+                // if all inputs are already recurse, then this check is redundant
+                if (!allInputsRecursive) {
+                    for (const auto &edge: deepVertex->getOutputEdges()) {
+                        if (!edge->isFlaggedForDeletion() &&
+                            (edge->getInput()->getIndex() != edge->getOutput()->getIndex() ||
+                             edge->getInput()->getType() != edge->getOutput()->getType())) {
+                            allOutputsRecursive = false;
+                            break;
+                        }
                     }
                 }
                 // if all inputs or outputs are recursive, then flag vertex and all its edges for deletion
@@ -760,7 +784,7 @@ evolution::Population::minimizeAgent(const std::shared_ptr<evolution::Agent> &ag
     }
 
     // construct the agent
-    std::shared_ptr<Agent> minimizedAgent = Agent::create(numberOfInputs, inputLabels,numberOfOutputs,outputLabels);
+    std::shared_ptr<Agent> minimizedAgent = Agent::create(numberOfInputs, inputLabels, numberOfOutputs, outputLabels);
 
     // add the deep vertices
     for (const auto &deepVertex: agentToMinimize->getGraph()->getDeepVertices()) {
@@ -805,4 +829,12 @@ double evolution::Population::getAverageMatthewsCorrelationCoefficient() const {
         average += agent->getMatthewsCorrelationCoefficient();
     }
     return average / (double) this->population.size();
+}
+
+std::vector<std::string> evolution::Population::getInputLabels() const {
+    return this->inputLabels;
+}
+
+void evolution::Population::addAgent(const std::shared_ptr<evolution::Agent> &agent) {
+    this->population.push_back(agent);
 }

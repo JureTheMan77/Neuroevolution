@@ -6,8 +6,16 @@
 #include "InputEdges.h"
 
 bool data_structures::InputEdges::allInputEdgesTraversed() {
-    return std::all_of(this->edges.begin(), this->edges.end(),
-                       [](const std::shared_ptr<data_structures::Edge> &edge) { return edge->isTraversed(); });
+    //return std::all_of(this->edges.begin(), this->edges.end(),
+    //                   [](const std::shared_ptr<data_structures::Edge> &edge) { return edge->isTraversed(); });
+    bool result = true;
+    for (const auto &edge: this->edges) {
+        if (!edge->isTraversed()) {
+            result = false;
+            break;
+        }
+    }
+    return result;
 }
 
 std::vector<std::shared_ptr<data_structures::Edge>> data_structures::InputEdges::getInputEdges() {

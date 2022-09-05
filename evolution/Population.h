@@ -31,7 +31,7 @@ namespace evolution {
         std::vector<std::shared_ptr<data_structures::DataInstance>> testingValues;
 
         unsigned int const UINT_MAX = std::numeric_limits<unsigned int>::max();
-        std::uniform_int_distribution<unsigned int> mutationDistribution{0, 5};
+        std::uniform_int_distribution<unsigned int> mutationDistribution{0, 6};
         std::uniform_int_distribution<unsigned int> edgeTraverseLimitDistribution;
         std::uniform_int_distribution<unsigned int> inputVerticesDistribution;
         std::uniform_int_distribution<unsigned int> outputVerticesDistribution;
@@ -115,6 +115,8 @@ namespace evolution {
          */
         [[nodiscard]] std::vector<std::string> getOutputLabels() const;
 
+        [[nodiscard]] std::vector<std::string> getInputLabels() const;
+
         /**
          * Return a string representation of this population.
          * @param technical format for https://csacademy.com/app/graph_editor/
@@ -149,6 +151,8 @@ namespace evolution {
          * @return average mcc
          */
         [[nodiscard]] double getAverageMatthewsCorrelationCoefficient() const;
+
+        void addAgent(const std::shared_ptr<evolution::Agent> &agent);
 
     private:
         /**

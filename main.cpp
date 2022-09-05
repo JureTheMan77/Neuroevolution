@@ -7,9 +7,9 @@
 
 int main() {
     // iris
-    auto pop = evolution::Population("/home/jure/CLionProjects/Neuroevolution/datasets/iris/iris.data");
+    //auto pop = evolution::Population("/home/jure/CLionProjects/Neuroevolution/datasets/iris/iris.data");
     // wine
-    //auto pop = evolution::Population("/home/jure/CLionProjects/Neuroevolution/datasets/wine/wine.data");
+    auto pop = evolution::Population("/home/jure/CLionProjects/Neuroevolution/datasets/wine/wine.data");
     //car
     //auto pop = evolution::Population("/home/jure/CLionProjects/Neuroevolution/datasets/car/car.data");
     //statlog
@@ -17,16 +17,34 @@ int main() {
     //transfusion
     //auto pop = evolution::Population("/home/jure/CLionProjects/Neuroevolution/datasets/transfusion/transfusion.data");
 
+    //Alcohol,Malic acid,Ash,Alcalinity of ash,Magnesium,Total phenols,Flavanoids,Nonflavanoid phenols,Proanthocyanins,Color intensity,Hue,OD280/OD315 of diluted wines,Proline
+    //Class 1,Class 2,Class 3
+    //--"Alcohol" 0 "0.238,1"
+    //--"Malic acid" "Class 1" "-0.00963,3"
+    //--"Ash" "Class 1" "-0.712,1"
+    //--"Flavanoids" "Class 1" "1,2"
+    //--"Proanthocyanins" "Class 1" "-0.0214,2"
+    //"Proanthocyanins" "Class 2" "0.289,2"
+    //"Color intensity" "Class 2" "-0.719,1"
+    //0 "Class 2" "1,5"
+    //1 1 "-0.0459,5"
+    //1 2 "0.193,3"
     //auto inputLabels = pop.getInputLabels();
     //auto outputLabels = pop.getOutputLabels();
-    //auto graph = data_structures::Graph::createGraph(4, inputLabels, 1, 3, outputLabels, 1);
-    //graph->addEdge(enums::VertexType::Input, 1, enums::VertexType::Deep, 0, 0, -0.239, 1, 1);
-    //graph->addEdge(enums::VertexType::Input, 3, enums::VertexType::Deep, 0, 0, 0.648, 1, 1);
-    //graph->addEdge(enums::VertexType::Input, 3, enums::VertexType::Output, 1, 0, -0.869, 1, 1);
-    //graph->addEdge(enums::VertexType::Deep, 0, enums::VertexType::Deep, 0, 0, 0.346, 1, 1);
-    //graph->addEdge(enums::VertexType::Deep, 0, enums::VertexType::Output, 0, 0, -1, 1, 1);
+    //auto graph = data_structures::Graph::createGraph(13, inputLabels, 3, 3, outputLabels);
+    //graph->addEdge(enums::VertexType::Input, 0, enums::VertexType::Deep, 0, 0, 0.238, 1);
+    //graph->addEdge(enums::VertexType::Input, 1, enums::VertexType::Output, 0, 1, -0.00963, 3);
+    //graph->addEdge(enums::VertexType::Input, 2, enums::VertexType::Output, 0, 2, -0.712, 1);
+    //graph->addEdge(enums::VertexType::Input, 6, enums::VertexType::Output, 0, 3, 1, 2);
+    //graph->addEdge(enums::VertexType::Input, 8, enums::VertexType::Output, 0, 4, -0.0214, 2);
+    //graph->addEdge(enums::VertexType::Input, 8, enums::VertexType::Output, 1, 5, 0.289, 2);
+    //graph->addEdge(enums::VertexType::Input, 9, enums::VertexType::Output, 1, 6, -0.719, 1);
+    //graph->addEdge(enums::VertexType::Deep, 0, enums::VertexType::Output, 1, 7, 1, 5);
+    //graph->addEdge(enums::VertexType::Deep, 1, enums::VertexType::Deep, 1, 8, -0.0459, 5);
+    //graph->addEdge(enums::VertexType::Deep, 1, enums::VertexType::Deep, 2, 9, 0.193, 3);
     //auto agent = evolution::Agent::create(graph);
     //pop.addAgent(agent);
+    //auto minimized = pop.minimizeAgent(agent);
     //pop.calculateFitness(enums::FitnessMetric::Accuracy,-0.001,-0.001);
 
     //graph->addEdge(enums::VertexType::Input, 1, enums::VertexType::Deep, 10, 0, 0.147, 1, 1);
@@ -91,14 +109,14 @@ int a = 0;
 
 
     logging::logs("Start");
-    pop.initialisePopulation(1000, 5, 10, 2, true, 0.2);
+    pop.initialisePopulation(1000, 20, 50, 5, true, 0.1);
     logging::logs("Population initialised.");
     //logging::logs(pop.toString());
 
     for (int i = 0; i < 1000; i++) {
         // std::cout << "\033[2J" << "\033[1;1H" << std::endl;
         logging::logs("Generation " + std::to_string(i));
-        pop.calculateFitness(enums::FitnessMetric::MatthewsCorrelationCoefficient, -0.000, -0.000);
+        pop.calculateFitness(enums::FitnessMetric::Accuracy, -0.001, -0.001);
         //logging::logs("Fitness calculated.");
         //logging::logs(pop.toString());
 
@@ -125,20 +143,10 @@ int a = 0;
     }
 
     //fittestAgent->minimize();
-    std::shared_ptr<evolution::Agent> bestAgent = pop.getPopulation().at(0);
-    auto bestMcm = data_structures::MulticlassConfusionMatrix(bestAgent,pop.getTestingValues(), pop.getNumberOfOutputs());
-    for (const auto &agent: pop.getPopulation()) {
-        auto mcm = data_structures::MulticlassConfusionMatrix(agent, pop.getTestingValues(), pop.getNumberOfOutputs());
-        if (bestMcm.getAccuracy() < mcm.getAccuracy()) {
-            bestAgent = agent;
-            bestMcm = mcm;
-        }
-        //if(bestAgent == nullptr || bestMcm.getMatthewsCorrelationCoefficient() < mcm.getMatthewsCorrelationCoefficient()){
-        //    bestAgent = agent;
-        //    bestMcm = mcm;
-        //}
-    }
+    std::shared_ptr<evolution::Agent> bestAgent = pop.getFittestAgent();
     logging::logs(bestAgent->toString(true));
+    auto bestMcm = data_structures::MulticlassConfusionMatrix(bestAgent, pop.getTestingValues(),
+                                                                   pop.getNumberOfOutputs());
     logging::logs(bestMcm.toString(pop.getOutputLabels()));
     bestAgent->getGraph()->reset();
     std::ofstream jsonFullFile("/home/jure/CLionProjects/Neuroevolution/visualization/graphFull.json");
@@ -147,9 +155,9 @@ int a = 0;
 
     auto minimizedBestAgent = pop.minimizeAgent(bestAgent);
     logging::logs(minimizedBestAgent->toString(true));
-    auto mcm = data_structures::MulticlassConfusionMatrix(minimizedBestAgent, pop.getTestingValues(),
-                                                          pop.getNumberOfOutputs());
-    logging::logs(mcm.toString(pop.getOutputLabels()));
+    auto minimizedMcm = data_structures::MulticlassConfusionMatrix(minimizedBestAgent, pop.getTestingValues(),
+                                                                   pop.getNumberOfOutputs());
+    logging::logs(minimizedMcm.toString(pop.getOutputLabels()));
 
     //logging::logs(pop->toString());
     //delete pop;
