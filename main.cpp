@@ -5,11 +5,42 @@
 #include "evolution/Population.h"
 #include "data_structures/MulticlassConfusionMatrix.h"
 
-int main() {
+int main(int argc, char *argv[]) {
+
+    // process command line arguments
+    // source https://stackoverflow.com/a/6034177
+    std::vector<std::string> cmdArgs(&argv[0], &argv[0 + argc]);
+
+    // first argument: path to dataset
+    std::string pathToDataset = cmdArgs.at(1);
+    // second argument: population size
+    unsigned int populationSize = std::stoi(cmdArgs.at(2));
+    // third argument: maximum number of deep vertices
+    unsigned int maxDeepVertexCount = std::stoi(cmdArgs.at(3));
+    // fourth argument: maximum number od edges
+    unsigned int maxEdgeCount = std::stoi(cmdArgs.at(4));
+    // fifth argument: maximum number of times edges can be traversed
+    unsigned int edgeTraverseLimit = std::stoi(cmdArgs.at(5));
+    // sixth argument: should dormant vertices and edges be kept (preform minimization step after every crossover + mutation step)
+    bool keepDormant = cmdArgs.at(6) == "true";
+    // seventh argument: percentage of children to be mutated
+    double mutationChance = std::stod(cmdArgs.at(7));
+    // eighth argument: agents to keep after sampling
+    unsigned int agentsToKeep = std::stoi(cmdArgs.at(8));
+    // ninth argument: keep fittest agent
+    bool keepFittestAgent = cmdArgs.at(9) == "true";
+    // tenth argument: edge contribution
+    double edgeContribution = std::stod(cmdArgs.at(10));
+    // eleventh argument: vertex contribution
+    double vertexContribution = std::stod(cmdArgs.at(11));
+    // twelfth argument: number of iterations
+    unsigned int numIterations = std::stoi(cmdArgs.at(12));
+
+
     // iris
     //auto pop = evolution::Population("/home/jure/CLionProjects/Neuroevolution/datasets/iris/iris.data");
     // wine
-    auto pop = evolution::Population("/home/jure/CLionProjects/Neuroevolution/datasets/wine/wine.data");
+    auto pop = evolution::Population(pathToDataset);
     //car
     //auto pop = evolution::Population("/home/jure/CLionProjects/Neuroevolution/datasets/car/car.data");
     //statlog
@@ -109,14 +140,14 @@ int a = 0;
 
 
     logging::logs("Start");
-    pop.initialisePopulation(1000, 20, 50, 5, true, 0.1);
+    pop.initialisePopulation(populationSize, maxDeepVertexCount, maxEdgeCount, edgeTraverseLimit, keepDormant, mutationChance);
     logging::logs("Population initialised.");
     //logging::logs(pop.toString());
 
-    for (int i = 0; i < 1000; i++) {
+    for (int i = 0; i < numIterations; i++) {
         // std::cout << "\033[2J" << "\033[1;1H" << std::endl;
         logging::logs("Generation " + std::to_string(i));
-        pop.calculateFitness(enums::FitnessMetric::Accuracy, -0.001, -0.001);
+        pop.calculateFitness(enums::FitnessMetric::Accuracy, vertexContribution, edgeContribution);
         //logging::logs("Fitness calculated.");
         //logging::logs(pop.toString());
 
@@ -131,10 +162,10 @@ int a = 0;
         fitnessFile << pop.fitnessToCSVString(';', i) << std::endl;
 
         //logging::logs(pop.getFittestAgent()->toString());
-        if (i == 999) {
+        if (i == numIterations - 1) {
             fitnessFile.close();
         } else {
-            pop.sample(enums::SelectionType::StochasticUniversalSampling, 500, true);
+            pop.sample(enums::SelectionType::StochasticUniversalSampling, agentsToKeep, keepFittestAgent);
             //logging::logs("Population sampled.");
 
             pop.crossoverAndMutate();
