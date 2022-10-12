@@ -10,6 +10,7 @@
 #include "Population.h"
 #include "../util/util.h"
 #include "../data_structures/MulticlassConfusionMatrix.h"
+#include "Metrics.h"
 
 evolution::Population::Population(const std::string &pathToDataSet) {
     if (!std::filesystem::exists(pathToDataSet)) {
@@ -215,8 +216,9 @@ std::string evolution::Population::toString(bool technical) {
     return result.str();
 }
 
-void evolution::Population::calculateFitness(enums::FitnessMetric fitnessMetric, double vertexContribution,
-                                             double edgeContribution) {
+evolution::Metrics
+evolution::Population::calculateFitness(enums::FitnessMetric fitnessMetric, double vertexContribution,
+                                        double edgeContribution) {
     // run all data instances on all agents
     std::vector<std::future<void>> futures;
     for (const std::shared_ptr<evolution::Agent> &agent: this->population) {
@@ -231,6 +233,40 @@ void evolution::Population::calculateFitness(enums::FitnessMetric fitnessMetric,
     for (auto &ftr: futures) {
         ftr.get();
     }
+    // cache the fittest agent
+    this->fittestAgent = this->population.at(0);
+    for (auto const &agent: this->population) {
+        if (this->fittestAgent->getFitness() < agent->getFitness()) {
+            this->fittestAgent = agent;
+        }
+    }
+
+    // calculate average fitness
+    double average = 0;
+    evolution::Metrics m{};
+    for (const auto &agent: this->population) {
+        average += agent->getFitness();
+        m.addFitness(agent->getFitness());
+    }
+    this->averageFittness = average / (double) this->population.size();
+
+    // calculate average accuracy
+    average = 0;
+    for (const auto &agent: this->population) {
+        average += agent->getAccuracy();
+        m.addAccuracy(agent->getAccuracy());
+    }
+    this->averageAccuracy = average / (double) this->population.size();
+
+    // calculate average mcc
+    average = 0;
+    for (const auto &agent: this->population) {
+        average += agent->getMatthewsCorrelationCoefficient();
+        m.addMcc(agent->getMatthewsCorrelationCoefficient());
+    }
+    this->averageMatthewsCorrelationCoefficient = average / (double) this->population.size();
+    m.lock();
+    return m;
 }
 
 void evolution::Population::calculateAgentFitness(enums::FitnessMetric fitnessMetric, double vertexContribution,
@@ -667,22 +703,12 @@ std::vector<std::shared_ptr<evolution::Agent>> evolution::Population::getPopulat
     return this->population;
 }
 
-std::shared_ptr<evolution::Agent> evolution::Population::getFittestAgent() {
-    std::shared_ptr<evolution::Agent> fittestAgent = this->population.at(0);
-    for (auto const &agent: this->population) {
-        if (fittestAgent->getFitness() < agent->getFitness()) {
-            fittestAgent = agent;
-        }
-    }
-    return fittestAgent;
+std::shared_ptr<evolution::Agent> evolution::Population::getFittestAgent() const {
+    return this->fittestAgent;
 }
 
 double evolution::Population::getAverageFitness() const {
-    double average = 0;
-    for (const auto &agent: this->population) {
-        average += agent->getFitness();
-    }
-    return average / (double) this->population.size();
+    return this->averageFittness;
 }
 
 std::vector<std::shared_ptr<data_structures::DataInstance>> evolution::Population::getTestingValues() const {
@@ -816,19 +842,11 @@ evolution::Population::minimizeAgent(const std::shared_ptr<evolution::Agent> &ag
 }
 
 double evolution::Population::getAverageAccuracy() const {
-    double average = 0;
-    for (const auto &agent: this->population) {
-        average += agent->getAccuracy();
-    }
-    return average / (double) this->population.size();
+    return this->averageAccuracy;
 }
 
 double evolution::Population::getAverageMatthewsCorrelationCoefficient() const {
-    double average = 0;
-    for (const auto &agent: this->population) {
-        average += agent->getMatthewsCorrelationCoefficient();
-    }
-    return average / (double) this->population.size();
+    return this->averageMatthewsCorrelationCoefficient;
 }
 
 std::vector<std::string> evolution::Population::getInputLabels() const {

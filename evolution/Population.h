@@ -10,6 +10,7 @@
 #include "Agent.h"
 #include "../enums/SelectionType.h"
 #include "../enums/FitnessMetric.h"
+#include "Metrics.h"
 
 namespace evolution {
     class Population {
@@ -35,6 +36,12 @@ namespace evolution {
         std::uniform_int_distribution<unsigned int> edgeTraverseLimitDistribution;
         std::uniform_int_distribution<unsigned int> inputVerticesDistribution;
         std::uniform_int_distribution<unsigned int> outputVerticesDistribution;
+
+        std::shared_ptr<evolution::Agent> fittestAgent;
+        double averageFittness{0};
+        double averageAccuracy{0};
+        double averageMatthewsCorrelationCoefficient{0};
+
     public:
 
         /**
@@ -64,7 +71,7 @@ namespace evolution {
         /**
          * Calculate the fitness of the population.
          */
-        void calculateFitness(enums::FitnessMetric fitnessMetric, double vertexContribution, double edgeContribution);
+        evolution::Metrics calculateFitness(enums::FitnessMetric fitnessMetric, double vertexContribution, double edgeContribution);
 
         /**
          * Sample the population.
@@ -89,7 +96,7 @@ namespace evolution {
          * Get the fittest agent of this population.
          * @return fittest agent
          */
-        std::shared_ptr<evolution::Agent> getFittestAgent();
+        [[nodiscard]] std::shared_ptr<evolution::Agent> getFittestAgent() const;
 
         /**
          * Calculate average population fitness.

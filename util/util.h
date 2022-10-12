@@ -9,6 +9,8 @@
 #include <vector>
 #include <iostream>
 #include <random>
+#include <algorithm>
+#include "../evolution/Metrics.h"
 
 namespace util {
 
@@ -93,6 +95,45 @@ namespace util {
     inline unsigned long nextUnsignedLong(unsigned long min, unsigned long max) {
         std::uniform_int_distribution<unsigned long> longDist(min, max);
         return longDist(rng);
+    }
+
+    inline std::string fitnessToCsv(unsigned int generation, evolution::Metrics m) {
+        std::string row = std::to_string(generation);
+        for (unsigned int i = 10; i <= 100; i += 10) {
+            std::string part = std::to_string(m.getFitnessPercentile(i));
+            std::replace(part.begin(), part.end(), '.', ',');
+            row += ";" + part;
+        }
+        std::string best = std::to_string(m.getBestFitness());
+        std::replace(best.begin(), best.end(), '.', ',');
+        row += ";" + best;
+        return row;
+    }
+
+    inline std::string accuracyToCsv(unsigned int generation, evolution::Metrics m) {
+        std::string row = std::to_string(generation);
+        for (unsigned int i = 10; i <= 100; i += 10) {
+            std::string part = std::to_string(m.getAccuracyPercentile(i));
+            std::replace(part.begin(), part.end(), '.', ',');
+            row += ";" + part;
+        }
+        std::string best = std::to_string(m.getBestAccuracy());
+        std::replace(best.begin(), best.end(), '.', ',');
+        row += ";" + best;
+        return row;
+    }
+
+    inline std::string mccToCsv(unsigned int generation, evolution::Metrics m) {
+        std::string row = std::to_string(generation);
+        for (unsigned int i = 10; i <= 100; i += 10) {
+            std::string part = std::to_string(m.getMccPercentile(i));
+            std::replace(part.begin(), part.end(), '.', ',');
+            row += ";" + part;
+        }
+        std::string best = std::to_string(m.getBestMcc());
+        std::replace(best.begin(), best.end(), '.', ',');
+        row += ";" + best;
+        return row;
     }
 }
 

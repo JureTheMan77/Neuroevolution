@@ -4,6 +4,7 @@
 #include "logging//logging.h"
 #include "evolution/Population.h"
 #include "data_structures/MulticlassConfusionMatrix.h"
+#include "util/util.h"
 
 int main(int argc, char *argv[]) {
 
@@ -48,22 +49,17 @@ int main(int argc, char *argv[]) {
     //transfusion
     //auto pop = evolution::Population("/home/jure/CLionProjects/Neuroevolution/datasets/transfusion/transfusion.data");
 
-    //Alcohol,Malic acid,Ash,Alcalinity of ash,Magnesium,Total phenols,Flavanoids,Nonflavanoid phenols,Proanthocyanins,Color intensity,Hue,OD280/OD315 of diluted wines,Proline
-    //Class 1,Class 2,Class 3
-    //--"Alcohol" 0 "0.238,1"
-    //--"Malic acid" "Class 1" "-0.00963,3"
-    //--"Ash" "Class 1" "-0.712,1"
-    //--"Flavanoids" "Class 1" "1,2"
-    //--"Proanthocyanins" "Class 1" "-0.0214,2"
-    //"Proanthocyanins" "Class 2" "0.289,2"
-    //"Color intensity" "Class 2" "-0.719,1"
-    //0 "Class 2" "1,5"
-    //1 1 "-0.0459,5"
-    //1 2 "0.193,3"
-    //auto inputLabels = pop.getInputLabels();
-    //auto outputLabels = pop.getOutputLabels();
-    //auto graph = data_structures::Graph::createGraph(13, inputLabels, 3, 3, outputLabels);
-    //graph->addEdge(enums::VertexType::Input, 0, enums::VertexType::Deep, 0, 0, 0.238, 1);
+//    auto inputLabels = pop.getInputLabels();
+//    auto outputLabels = pop.getOutputLabels();
+//    auto graph = data_structures::Graph::createGraph(13, inputLabels, 3, 3, outputLabels);
+//
+//    graph->addEdge(enums::VertexType::Input, 0, enums::VertexType::Deep, 0, 0, 1, 1);
+//    graph->addEdge(enums::VertexType::Deep, 0, enums::VertexType::Deep, 1, 0, 0.5, 1);
+//    graph->addEdge(enums::VertexType::Deep, 1, enums::VertexType::Deep, 2, 0, 0.5, 1);
+//    graph->addEdge(enums::VertexType::Deep, 2, enums::VertexType::Deep, 0, 0, 0.5, 1);
+//    graph->addEdge(enums::VertexType::Deep, 0, enums::VertexType::Output, 0, 0, 0.5, 2);
+
+
     //graph->addEdge(enums::VertexType::Input, 1, enums::VertexType::Output, 0, 1, -0.00963, 3);
     //graph->addEdge(enums::VertexType::Input, 2, enums::VertexType::Output, 0, 2, -0.712, 1);
     //graph->addEdge(enums::VertexType::Input, 6, enums::VertexType::Output, 0, 3, 1, 2);
@@ -102,7 +98,7 @@ int main(int argc, char *argv[]) {
     //logging::logs(mcmtest.toString(pop.getOutputLabels()));
     //logging::logs(minimizedAgent->toString(true));
 
-int a = 0;
+    int a = 0;
     //graph->addEdge(enums::VertexType::Input, 1, enums::VertexType::Output, 1, 0.45, 1);
     // recursive
     //graph->addEdge(enums::VertexType::Input,2,enums::VertexType::Deep,1,1,1);
@@ -136,30 +132,31 @@ int a = 0;
 
 
     std::ofstream fitnessFile("fitness.csv");
-    fitnessFile << "Generation;Average fitness;Best fitness" << std::endl;
+    fitnessFile << "Generation;10%;20%;30%;40%;50%;60%;70%;80%;90%;Average;Best" << std::endl;
 
 
     logging::logs("Start");
-    pop.initialisePopulation(populationSize, maxDeepVertexCount, maxEdgeCount, edgeTraverseLimit, keepDormant, mutationChance);
+    pop.initialisePopulation(populationSize, maxDeepVertexCount, maxEdgeCount, edgeTraverseLimit, keepDormant,
+                             mutationChance);
     logging::logs("Population initialised.");
     //logging::logs(pop.toString());
 
     for (int i = 0; i < numIterations; i++) {
         // std::cout << "\033[2J" << "\033[1;1H" << std::endl;
         logging::logs("Generation " + std::to_string(i));
-        pop.calculateFitness(enums::FitnessMetric::Accuracy, vertexContribution, edgeContribution);
-        //logging::logs("Fitness calculated.");
-        //logging::logs(pop.toString());
+        evolution::Metrics m = pop.calculateFitness(enums::FitnessMetric::Accuracy, vertexContribution,
+                                                    edgeContribution);
 
-        logging::logs("AVERAGES - fitness: " + std::to_string(pop.getAverageFitness()) +
-        ", accuracy: " + std::to_string(pop.getAverageAccuracy()) +
-        ", Matthews correlation coefficient: " + std::to_string(pop.getAverageMatthewsCorrelationCoefficient()));
-        logging::logs("FITTEST AGENT - fitness: " + std::to_string(pop.getFittestAgent()->getFitness()) +
-        ", accuracy: " + std::to_string(pop.getFittestAgent()->getAccuracy()) +
-        ", Matthews correlation coefficient: " + std::to_string(pop.getFittestAgent()->getMatthewsCorrelationCoefficient()));
+
+        logging::logs("AVERAGES - fitness: " + std::to_string(m.getFitnessPercentile(100)) +
+                      ", accuracy: " + std::to_string(m.getAccuracyPercentile(100)) +
+                      ", Matthews correlation coefficient: " + std::to_string(m.getMccPercentile(100)));
+        logging::logs("FITTEST AGENT - fitness: " + std::to_string(m.getBestFitness()) +
+                      ", accuracy: " + std::to_string(m.getBestAccuracy()) +
+                      ", Matthews correlation coefficient: " + std::to_string(m.getBestMcc()));
 
         // write pop info to files
-        fitnessFile << pop.fitnessToCSVString(';', i) << std::endl;
+        fitnessFile << util::fitnessToCsv(i, m) << std::endl;
 
         //logging::logs(pop.getFittestAgent()->toString());
         if (i == numIterations - 1) {
@@ -177,7 +174,7 @@ int a = 0;
     std::shared_ptr<evolution::Agent> bestAgent = pop.getFittestAgent();
     logging::logs(bestAgent->toString(true));
     auto bestMcm = data_structures::MulticlassConfusionMatrix(bestAgent, pop.getTestingValues(),
-                                                                   pop.getNumberOfOutputs());
+                                                              pop.getNumberOfOutputs());
     logging::logs(bestMcm.toString(pop.getOutputLabels()));
     bestAgent->getGraph()->reset();
     std::ofstream jsonFullFile("/home/jure/CLionProjects/Neuroevolution/visualization/graphFull.json");

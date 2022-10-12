@@ -272,6 +272,18 @@ void data_structures::Graph::traverse(const std::shared_ptr<data_structures::Dat
                 deepVertex->getInputEdges().empty()) {
                 continue;
             }
+            // check any of deepVertex's input vertices have been visited
+            bool hasVisitedInput = false;
+            for (const auto &inputEdge: deepVertex->getInputEdges()) {
+                if (inputEdge->getInput()->isVisited()) {
+                    hasVisitedInput = true;
+                    break;
+                }
+            }
+            if (!hasVisitedInput) {
+                continue;
+            }
+
             // count non-traversed edges
             unsigned int numNonTraversed = 0;
             for (const std::shared_ptr<data_structures::Edge> &inputEdge: deepVertex->getInputEdges()) {
