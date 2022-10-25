@@ -71,7 +71,8 @@ void data_structures::MulticlassConfusionMatrix::calculateAccuracy() {
     for (int i = 0; i < this->numberOfClasses; i++) {
         acc += this->matrix.at(i).at(i);
     }
-    acc = acc / this->matrix.at(this->numberOfClasses).at(this->numberOfClasses);
+    unsigned int total = this->matrix.at(this->numberOfClasses).at(this->numberOfClasses);
+    acc = acc / total;
     this->accuracy = acc;
 }
 

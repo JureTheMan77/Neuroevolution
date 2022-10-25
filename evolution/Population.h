@@ -78,8 +78,9 @@ namespace evolution {
          * @param type selection type
          * @param agentsToKeep number of agents to keep
          * @param keepFittest should the fittest agent be kept
+         * @param fitnessMetric metric to use in case fitness is equal to the fittest agent
          */
-        void sample(enums::SelectionType type, unsigned int agentsToKeep, bool keepFittest);
+        void sample(enums::SelectionType type, unsigned int agentsToKeep, bool keepFittest, enums::FitnessMetric fitnessMetric);
 
         /**
          * Crossover the population and mutate the children. Operations are threaded.
@@ -173,7 +174,8 @@ namespace evolution {
          * @param agentsToKeep number of agents to keep
          * @param keepFittest should the fittest agent be kept
          */
-        std::vector<unsigned int> stochasticUniversalSampling(unsigned int agentsToKeep, bool keepFittest);
+        std::vector<unsigned int> stochasticUniversalSampling(unsigned int agentsToKeep, bool keepFittest,
+                                                              enums::FitnessMetric fitnessMetric);
 
         /**
          * Creates new deep vertices for childAgent. More info in the implementation.

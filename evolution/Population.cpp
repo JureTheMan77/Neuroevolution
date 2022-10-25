@@ -301,14 +301,15 @@ void evolution::Population::calculateAgentFitness(enums::FitnessMetric fitnessMe
     agent->setMatthewsCorrelationCoefficient(mcm.getMatthewsCorrelationCoefficient());
 }
 
-void evolution::Population::sample(enums::SelectionType type, unsigned int agentsToKeep, bool keepFittest) {
+void evolution::Population::sample(enums::SelectionType type, unsigned int agentsToKeep, bool keepFittest,
+                                   enums::FitnessMetric fitnessMetric) {
     std::vector<unsigned int> indexesToKeep{};
     if (this->populationSize < agentsToKeep) {
         throw std::invalid_argument("Number of agents to keep cannot be higher than the population size.");
     }
 
     if (type == enums::SelectionType::StochasticUniversalSampling) {
-        indexesToKeep = stochasticUniversalSampling(agentsToKeep, keepFittest);
+        indexesToKeep = stochasticUniversalSampling(agentsToKeep, keepFittest, fitnessMetric);
     } else {
         throw std::invalid_argument("This selection type is not supported.");
     }
@@ -330,14 +331,29 @@ void evolution::Population::sample(enums::SelectionType type, unsigned int agent
 }
 
 std::vector<unsigned int>
-evolution::Population::stochasticUniversalSampling(unsigned int agentsToKeep, bool keepFittest) {
+evolution::Population::stochasticUniversalSampling(unsigned int agentsToKeep, bool keepFittest,
+                                                   enums::FitnessMetric fitnessMetric) {
     // get highest fitness
-    double highestFitness = -std::numeric_limits<double>::max();
     unsigned int fittestAgentIndex = 0;
-    for (unsigned int i = 0; i < this->population.size(); i++) {
+    double highestFitness = this->population.at(fittestAgentIndex)->getFitness();
+    for (unsigned int i = 1; i < this->population.size(); i++) {
         if (highestFitness < this->population.at(i)->getFitness()) {
             highestFitness = this->population.at(i)->getFitness();
             fittestAgentIndex = i;
+        } else if (highestFitness == this->population.at(i)->getFitness()) {
+            switch (fitnessMetric) {
+                case enums::FitnessMetric::Accuracy:
+                    if (this->population.at(fittestAgentIndex)->getAccuracy() < this->population.at(i)->getAccuracy()) {
+                        fittestAgentIndex = i;
+                    }
+                    break;
+                case enums::FitnessMetric::MatthewsCorrelationCoefficient:
+                    if (this->population.at(fittestAgentIndex)->getMatthewsCorrelationCoefficient() <
+                        this->population.at(i)->getMatthewsCorrelationCoefficient()) {
+                        fittestAgentIndex = i;
+                    }
+                    break;
+            }
         }
     }
 
@@ -821,7 +837,7 @@ evolution::Population::minimizeAgent(const std::shared_ptr<evolution::Agent> &ag
     }
     // add the edges
     for (const auto &edge: agentToMinimize->getGraph()->getEdges()) {
-        if (!edge->isFlaggedForDeletion()) {
+        if (edge != nullptr && !edge->isFlaggedForDeletion()) {
             minimizedAgent->getGraph()->addEdge(edge);
         }
     }

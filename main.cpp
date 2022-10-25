@@ -36,6 +36,12 @@ int main(int argc, char *argv[]) {
     double vertexContribution = std::stod(cmdArgs.at(11));
     // twelfth argument: number of iterations
     unsigned int numIterations = std::stoi(cmdArgs.at(12));
+    // thirteenth argument: fitness metric, default is Accuracy
+    std::string fitnessMetricTemp = cmdArgs.at(13);
+    enums::FitnessMetric fitnessMetric = enums::FitnessMetric::Accuracy;
+    if (fitnessMetricTemp == "MatthewsCorrelationCoefficient") {
+        fitnessMetric = enums::FitnessMetric::MatthewsCorrelationCoefficient;
+    }
 
 
     // iris
@@ -131,9 +137,13 @@ int main(int argc, char *argv[]) {
     //logging::logs(pop.getFittestAgent()->toString());
 
 
+    std::string csvHeader = "Generation;Worst;0-10%;10-20%;20-30%;30-40%;40-50%;50-60%;60-70%;70-80%;80-90%;90-100%;Best;Average";
     std::ofstream fitnessFile("fitness.csv");
-    fitnessFile << "Generation;10%;20%;30%;40%;50%;60%;70%;80%;90%;Average;Best" << std::endl;
-
+    fitnessFile << csvHeader << std::endl;
+    std::ofstream accuracyFile("accuracy.csv");
+    accuracyFile << csvHeader << std::endl;
+    std::ofstream mccFile("mcc.csv");
+    mccFile << csvHeader << std::endl;
 
     logging::logs("Start");
     pop.initialisePopulation(populationSize, maxDeepVertexCount, maxEdgeCount, edgeTraverseLimit, keepDormant,
@@ -144,25 +154,32 @@ int main(int argc, char *argv[]) {
     for (int i = 0; i < numIterations; i++) {
         // std::cout << "\033[2J" << "\033[1;1H" << std::endl;
         logging::logs("Generation " + std::to_string(i));
-        evolution::Metrics m = pop.calculateFitness(enums::FitnessMetric::Accuracy, vertexContribution,
+        evolution::Metrics m = pop.calculateFitness(fitnessMetric, vertexContribution,
                                                     edgeContribution);
 
 
-        logging::logs("AVERAGES - fitness: " + std::to_string(m.getFitnessPercentile(100)) +
-                      ", accuracy: " + std::to_string(m.getAccuracyPercentile(100)) +
-                      ", Matthews correlation coefficient: " + std::to_string(m.getMccPercentile(100)));
-        logging::logs("FITTEST AGENT - fitness: " + std::to_string(m.getBestFitness()) +
-                      ", accuracy: " + std::to_string(m.getBestAccuracy()) +
-                      ", Matthews correlation coefficient: " + std::to_string(m.getBestMcc()));
+        logging::logs("AVERAGES - fitness: " + std::to_string(m.getBottomFitnessPercentile(100)) +
+                      ", accuracy: " + std::to_string(m.getBottomAccuracyPercentile(100)) +
+                      ", Matthews correlation coefficient: " + std::to_string(m.getBottomMccPercentile(100)));
+        auto fittestAgent = pop.getFittestAgent();
+        logging::logs("FITTEST AGENT - fitness: " + std::to_string(fittestAgent->getFitness()) +
+                      ", accuracy: " + std::to_string(fittestAgent->getAccuracy()) +
+                      ", Matthews correlation coefficient: " +
+                      std::to_string(fittestAgent->getMatthewsCorrelationCoefficient()));
 
         // write pop info to files
         fitnessFile << util::fitnessToCsv(i, m) << std::endl;
+        accuracyFile << util::accuracyToCsv(i, m) << std::endl;
+        mccFile << util::mccToCsv(i, m) << std::endl;
 
         //logging::logs(pop.getFittestAgent()->toString());
         if (i == numIterations - 1) {
             fitnessFile.close();
+            accuracyFile.close();
+            mccFile.close();
         } else {
-            pop.sample(enums::SelectionType::StochasticUniversalSampling, agentsToKeep, keepFittestAgent);
+            pop.sample(enums::SelectionType::StochasticUniversalSampling, agentsToKeep, keepFittestAgent,
+                       fitnessMetric);
             //logging::logs("Population sampled.");
 
             pop.crossoverAndMutate();

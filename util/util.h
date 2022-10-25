@@ -97,42 +97,39 @@ namespace util {
         return longDist(rng);
     }
 
+    inline std::string doubleToCsv(double n) {
+        std::string str = std::to_string(n);
+        std::replace(str.begin(), str.end(), '.', ',');
+        return str;
+    }
+
     inline std::string fitnessToCsv(unsigned int generation, evolution::Metrics m) {
-        std::string row = std::to_string(generation);
-        for (unsigned int i = 10; i <= 100; i += 10) {
-            std::string part = std::to_string(m.getFitnessPercentile(i));
-            std::replace(part.begin(), part.end(), '.', ',');
-            row += ";" + part;
+        std::string row = std::to_string(generation) + ";" + util::doubleToCsv(m.getWorstFitness());
+        for (unsigned int i = 0; i <= 90; i += 10) {
+            row += ";" + util::doubleToCsv(m.getAverageSliceFitness(i, i + 10));
         }
-        std::string best = std::to_string(m.getBestFitness());
-        std::replace(best.begin(), best.end(), '.', ',');
-        row += ";" + best;
+        row += ";" + util::doubleToCsv(m.getBestFitness());
+        row += ";" + util::doubleToCsv(m.getAverageSliceFitness(0,100));
         return row;
     }
 
     inline std::string accuracyToCsv(unsigned int generation, evolution::Metrics m) {
-        std::string row = std::to_string(generation);
-        for (unsigned int i = 10; i <= 100; i += 10) {
-            std::string part = std::to_string(m.getAccuracyPercentile(i));
-            std::replace(part.begin(), part.end(), '.', ',');
-            row += ";" + part;
+        std::string row = std::to_string(generation) + ";" + util::doubleToCsv(m.getWorstAccuracy());
+        for (unsigned int i = 0; i <= 90; i += 10) {
+            row += ";" + util::doubleToCsv(m.getAverageSliceAccuracy(i, i + 10));
         }
-        std::string best = std::to_string(m.getBestAccuracy());
-        std::replace(best.begin(), best.end(), '.', ',');
-        row += ";" + best;
+        row += ";" + util::doubleToCsv(m.getBestAccuracy());
+        row += ";" + util::doubleToCsv(m.getAverageSliceAccuracy(0,100));
         return row;
     }
 
     inline std::string mccToCsv(unsigned int generation, evolution::Metrics m) {
-        std::string row = std::to_string(generation);
-        for (unsigned int i = 10; i <= 100; i += 10) {
-            std::string part = std::to_string(m.getMccPercentile(i));
-            std::replace(part.begin(), part.end(), '.', ',');
-            row += ";" + part;
+        std::string row = std::to_string(generation) + ";" + util::doubleToCsv(m.getWorstMcc());
+        for (unsigned int i = 0; i <= 90; i += 10) {
+            row += ";" + util::doubleToCsv(m.getAverageSliceMcc(i, i + 10));
         }
-        std::string best = std::to_string(m.getBestMcc());
-        std::replace(best.begin(), best.end(), '.', ',');
-        row += ";" + best;
+        row += ";" + util::doubleToCsv(m.getBestMcc());
+        row += ";" + util::doubleToCsv(m.getAverageSliceMcc(0,100));
         return row;
     }
 }
