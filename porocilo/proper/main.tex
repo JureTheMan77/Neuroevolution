@@ -1,0 +1,623 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% datoteka diploma-FRI-vzorec.tex
+%
+%POZOR: ta verzija ne producira pdf datoteke v pdf/A formatu!!!
+%namenjena je le za nalogo pri Diplomskem seminarju!
+%
+% vzorčna datoteka za pisanje diplomskega dela v formatu LaTeX
+% na UL Fakulteti za računalništvo in informatiko
+%
+% na osnovi starejših verzij vkup spravil Franc Solina, maj 2021
+% prvo verzijo je leta 2010 pripravil Gašper Fijavž
+%
+% za upravljanje z literaturo ta vezija uporablja BibLaTeX
+%
+% svetujemo uporabo Overleaf.com - na tej spletni implementaciji LaTeXa ta vzorec zagotovo pravilno deluje
+%
+
+\documentclass[a4paper,12pt,openright]{book}
+%\documentclass[a4paper, 12pt, openright, draft]{book}  Nalogo preverite tudi z opcijo draft, ki pokaže, katere vrstice so predolge! Pozor, v draft opciji, se slike ne pokažejo!
+
+\usepackage[utf8]{inputenc}   % omogoča uporabo slovenskih črk kodiranih v formatu UTF-8
+\usepackage[slovene,english]{babel}    % naloži, med drugim, slovenske delilne vzorce
+\usepackage[pdftex]{graphicx}  % omogoča vlaganje slik različnih formatov
+\usepackage{fancyhdr}          % poskrbi, na primer, za glave strani
+\usepackage{amssymb}           % dodatni matematični simboli
+\usepackage{amsmath}           % eqref, npr.
+\usepackage{hyperxmp}
+\usepackage[hyphens]{url}
+\usepackage{csquotes}
+\usepackage[pdftex, colorlinks=true,
+    citecolor=black, filecolor=black,
+    linkcolor=black, urlcolor=black,
+    pdfproducer={LaTeX}, pdfcreator={LaTeX}]{hyperref}
+
+\usepackage{color}
+\usepackage{soul}
+
+\usepackage[
+    backend=biber,
+    style=numeric,
+    sorting=nty,
+]{biblatex}
+
+
+\addbibresource{literatura.bib} %Imports bibliography file
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	DIPLOMA INFO
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\ttitle}{Nevroevolucija za strojno učenje}
+\newcommand{\ttitleEn}{Neuroevolution for machine learning}
+\newcommand{\tsubject}{\ttitle}
+\newcommand{\tsubjectEn}{\ttitleEn}
+\newcommand{\tauthor}{Jure Vreček}
+\newcommand{\tkeywords}{nevroevolucija, strojno učenje, rekurentne nevronske mreže, genetski algoritem}
+\newcommand{\tkeywordsEn}{neuroevolution, machine learning, recurrent neural networks, genetic algorithm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	HYPERREF SETUP
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\hypersetup{pdftitle={\ttitle}}
+\hypersetup{pdfsubject=\ttitleEn}
+\hypersetup{pdfauthor={\tauthor}}
+\hypersetup{pdfkeywords=\tkeywordsEn}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% postavitev strani
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\addtolength{\marginparwidth}{-20pt} % robovi za tisk
+\addtolength{\oddsidemargin}{40pt}
+\addtolength{\evensidemargin}{-40pt}
+
+\renewcommand{\baselinestretch}{1.3} % ustrezen razmik med vrsticami
+\setlength{\headheight}{15pt}        % potreben prostor na vrhu
+\renewcommand{\chaptermark}[1]%
+{\markboth{\MakeUppercase{\thechapter.\ #1}}{}} \renewcommand{\sectionmark}[1]%
+{\markright{\MakeUppercase{\thesection.\ #1}}} \renewcommand{\headrulewidth}{0.5pt} \renewcommand{\footrulewidth}{0pt}
+\fancyhf{}
+\fancyhead[LE,RO]{\sl \thepage}
+%\fancyhead[LO]{\sl \rightmark} \fancyhead[RE]{\sl \leftmark}
+\fancyhead[RE]{\sc \tauthor}              % dodal Solina
+\fancyhead[LO]{\sc Diplomska naloga}     % dodal Solina
+
+
+\newcommand{\BibLaTeX}{{\sc Bib}\LaTeX}
+\newcommand{\BibTeX}{{\sc Bib}\TeX}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% naslovi
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\autfont}{\Large}
+\newcommand{\titfont}{\LARGE\bf}
+\newcommand{\clearemptydoublepage}{\newpage{\pagestyle{empty}\cleardoublepage}}
+\setcounter{tocdepth}{1}          % globina kazala
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% konstrukti
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtheorem{izrek}{Izrek}[chapter]
+\newtheorem{trditev}{Trditev}[izrek]
+\newenvironment{dokaz}{\emph{Dokaz.}\ }{\hspace{\fill}{$\Box$}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% PDF-A
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% define medatata
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\Title{\ttitle}
+\def\Author{\tauthor, jv9074@fri.uni-lj.si}
+\def\Subject{\ttitleEn}
+\def\Keywords{\tkeywordsEn}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \convertDate converts D:20080419103507+02'00' to 2008-04-19T10:35:07+02:00
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\convertDate{%
+    \getYear
+}
+
+{\catcode`\D=12
+\gdef\getYear D:#1#2#3#4{\edef\xYear{#1#2#3#4}\getMonth}
+}
+\def\getMonth#1#2{\edef\xMonth{#1#2}\getDay}
+\def\getDay#1#2{\edef\xDay{#1#2}\getHour}
+\def\getHour#1#2{\edef\xHour{#1#2}\getMin}
+\def\getMin#1#2{\edef\xMin{#1#2}\getSec}
+\def\getSec#1#2{\edef\xSec{#1#2}\getTZh}
+\def\getTZh +#1#2{\edef\xTZh{#1#2}\getTZm}
+\def\getTZm '#1#2'{%
+    \edef\xTZm{#1#2}%
+    \edef\convDate{\xYear-\xMonth-\xDay T\xHour:\xMin:\xSec+\xTZh:\xTZm}%
+}
+
+%\expandafter\convertDate\pdfcreationdate
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% get pdftex version string
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcount\countA
+\countA=\pdftexversion
+\advance \countA by -100
+\def\pdftexVersionStr{pdfTeX-1.\the\countA.\pdftexrevision}
+\interfootnotelinepenalty=10000
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% XMP data
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{xmpincl}
+%\includexmp{pdfa-1b}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% pdfInfo
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pdfinfo{%
+    /Title    (\ttitle)
+    /Author   (\tauthor, damjan@cvetan.si)
+    /Subject  (\ttitleEn)
+    /Keywords (\tkeywordsEn)
+    /ModDate  (\pdfcreationdate)
+    /Trapped /False
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% znaki za copyright stran
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\CcImageCc}[1]{%
+    \includegraphics[scale=#1]{cc_cc_30.pdf}%
+}
+\newcommand{\CcImageBy}[1]{%
+    \includegraphics[scale=#1]{cc_by_30.pdf}%
+}
+\newcommand{\CcImageSa}[1]{%
+    \includegraphics[scale=#1]{cc_sa_30.pdf}%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+    \selectlanguage{slovene}
+    \frontmatter
+    \setcounter{page}{1} %
+    \renewcommand{\thepage}{}       % preprečimo težave s številkami strani v kazalu
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%naslovnica
+
+    \thispagestyle{empty}%
+    \begin{center}
+    {\large\sc Univerza v Ljubljani\\%
+    Fakulteta za računalništvo in informatiko\\%
+    }
+        \vskip 10em%
+            {\autfont \tauthor\par}%
+            {\titfont \ttitle \par}%
+            {\vskip 3em \textsc{DIPLOMSKO DELO\\[5mm]         % dodal Solina za ostale študijske programe
+%    VISOKOŠOLSKI STROKOVNI ŠTUDIJSKI PROGRAM\\ PRVE STOPNJE\\ RAČUNALNIŠTVO IN INFORMATIKA}\par}%
+        UNIVERZITETNI ŠTUDIJSKI PROGRAM\\ PRVE STOPNJE\\ RAČUNALNIŠTVO IN INFORMATIKA}\par}%
+%    INTERDISCIPLINARNI UNIVERZITETNI\\ ŠTUDIJSKI PROGRAM PRVE STOPNJE\\ MULTIMEDIJA}\par}%
+%    INTERDISCIPLINARNI UNIVERZITETNI\\ ŠTUDIJSKI PROGRAM PRVE STOPNJE\\ UPRAVNA INFORMATIKA}\par}%
+%    INTERDISCIPLINARNI UNIVERZITETNI\\ ŠTUDIJSKI PROGRAM PRVE STOPNJE\\ RAČUNALNIŠTVO IN MATEMATIKA}\par}%
+        \vfill\null%
+% izberite pravi habilitacijski naziv mentorja!
+        {\large \textsc{Mentor}: prof. dr. Marko Robnik Šikonja\par}%
+%   {\large \textsc{Somentor}:  viš. pred./doc./izr. prof./prof. dr.  Martin Krpan \par}%
+        {\vskip 2em \large Ljubljana, \the\year \par}%
+    \end{center}
+% prazna stran
+%\clearemptydoublepage
+% izjava o licencah itd. se izpiše na hrbtni strani naslovnice
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%copyright stran
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \newpage
+    \thispagestyle{empty}
+
+    \vspace*{5cm}
+    {\small \noindent
+    To delo je ponujeno pod licenco \textit{Creative Commons Priznanje avtorstva-Deljenje pod enakimi pogoji 2.5 Slovenija} (ali novej\v so razli\v cico).
+    To pomeni, da se tako besedilo, slike, grafi in druge sestavine dela kot tudi rezultati diplomskega dela lahko prosto distribuirajo,
+        reproducirajo, uporabljajo, priobčujejo javnosti in predelujejo, pod pogojem, da se jasno in vidno navede avtorja in naslov tega
+    dela in da se v primeru spremembe, preoblikovanja ali uporabe tega dela v svojem delu, lahko distribuira predelava le pod
+    licenco, ki je enaka tej.
+    Podrobnosti licence so dostopne na spletni strani \href{http://creativecommons.si}{creativecommons.si} ali na Inštitutu za
+    intelektualno lastnino, Streliška 1, 1000 Ljubljana.
+
+    \vspace*{1cm}
+        \begin{center}% 0.66 / 0.89 = 0.741573033707865
+            \CcImageCc{0.741573033707865}\hspace*{1ex}\CcImageBy{1}\hspace*{1ex}\CcImageSa{1}%
+        \end{center}
+    }
+
+    \vspace*{1cm}
+    {\small \noindent
+    Izvorna koda diplomskega dela, njeni rezultati in v ta namen razvita programska oprema je ponujena pod licenco GNU General Public License,
+        različica 3 (ali novejša). To pomeni, da se lahko prosto distribuira in/ali predeluje pod njenimi pogoji.
+    Podrobnosti licence so dostopne na spletni strani \url{http://www.gnu.org/licenses/}.
+    }
+
+    \vfill
+    \begin{center}
+        \ \\ \vfill
+        {\em
+        Besedilo je oblikovano z urejevalnikom besedil \LaTeX.}
+    \end{center}
+
+% prazna stran
+    \clearemptydoublepage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% stran 3 med uvodnimi listi
+    \thispagestyle{empty}
+    \
+    \vfill
+
+    \bigskip
+    \noindent\textbf{Kandidat:} Jure Vreček\\
+    \noindent\textbf{Naslov:} Neuroevolucija za strojno učenje\\
+% vstavite ustrezen naziv študijskega programa!
+    \noindent\textbf{Vrsta naloge:} Diplomska naloga na univerzitetnem programu prve stopnje Računalništvo in informatika \\
+% izberite pravi habilitacijski naziv mentorja!
+    \noindent\textbf{Mentor:} prof. dr. Marko Robnik Šikonja\\
+    %\noindent\textbf{Somentor:} isto kot za mentorja
+
+    \bigskip
+    \noindent\textbf{Opis:}\\
+    Besedilo teme diplomskega dela študent prepiše iz študijskega informacijskega sistema, kamor ga je vnesel mentor.
+    V nekaj stavkih bo opisal, kaj pričakuje od kandidatovega diplomskega dela.
+    Kaj so cilji, kakšne metode naj uporabi, morda bo zapisal tudi ključno literaturo.
+
+    \bigskip
+    \noindent\textbf{Title:} Neuroevolution for machine learning
+
+    \bigskip
+    \noindent\textbf{Description:}\\
+    opis diplome v angleščini
+
+    \vfill
+
+
+
+    \vspace{2cm}
+
+% prazna stran
+    \clearemptydoublepage
+
+% zahvala
+    \thispagestyle{empty}\mbox{}\vfill\null\it%
+    \noindent
+    Zahvaljujem se svojemu mentorju za njegovo potrpežljivost.
+    \rm\normalfont
+
+% prazna stran
+    \clearemptydoublepage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% posvetilo, če sama zahvala ne zadošča :-)
+    %\thispagestyle{empty}\mbox{}{\vskip0.20\textheight}\mbox{}\hfill\begin{minipage}{0.55\textwidth}%
+    %                                                                    Svoji dragi Alenčici.
+    %                                                                    \normalfont
+    %\end{minipage}
+
+% prazna stran
+    \clearemptydoublepage
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% kazalo
+    \pagestyle{empty}
+    \def\thepage{}% preprečimo težave s številkami strani v kazalu
+    \tableofcontents{}
+
+
+% prazna stran
+    \clearemptydoublepage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% seznam kratic
+
+    \chapter*{Seznam uporabljenih kratic}
+
+    \noindent\begin{tabular}{p{0.11\textwidth}|p{.39\textwidth}|p{.39\textwidth}}    % po potrebi razširi prvo kolono tabele na račun drugih dveh!
+    \textbf{kratica}
+                 & \textbf{angleško}             & \textbf{slovensko}                        \\ \hline
+                 \textbf{CA}    &   classification accuracy &   klasifikacijska točnost \\
+                 \textbf{ANN}   &   artificial neural network   &   umetna nevronska mreža \\
+                 \textbf{NN}    &   neural network    & nevronska mreža \\
+                 \textbf{ReLU}    &   rectified linear unit    & TBD \\
+%  \dots & \dots & \dots \\
+    \end{tabular}
+
+
+
+    \clearemptydoublepage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% povzetek
+    \addcontentsline{toc}{chapter}{Povzetek}
+    \chapter*{Povzetek}
+
+    \noindent\textbf{Naslov:} \ttitle
+    \bigskip
+
+    \noindent\textbf{Avtor:} \tauthor
+    \bigskip
+
+%\noindent\textbf{Povzetek:}
+    %\noindent V vzorcu je predstavljen postopek priprave diplomskega dela z uporabo okolja \LaTeX. Vaš povzetek mora sicer vsebovati približno 100 besed, ta tukaj je odločno prekratek.
+    %Dober povzetek vključuje: (1) kratek opis obravnavanega problema, (2) kratek opis vašega pristopa za reševanje tega problema in (3) (najbolj uspešen) rezultat ali prispevek diplomske naloge.
+    \noindent To diplomsko delo pokriva opis izdelave rekurentnih nevronskih mrež s pomočjo namenskega programa, ki
+    pokriva inicializacijo začetne populacije, vzorčenje, križanje, mutiranje in izračun kvalitete.
+    Nevronske mreže, ki jih program izdela, so namenjene večrazredni klasifikaciji nad podatkovnimi množicami z zveznimi ali distkretnimi atributi.
+    Algoritmi inicializacije, križanja in mutiranja so specifični za namen tega dela.
+    Vzorčenje je implementirano s prilagojenim stohastičnim univerzalnem vzorčenjem, kjer se vedno obdrži najboljši agent prejšnje
+    generacije, kvaliteta pa se izračuna na podlagi točnosti napovedi ali pa z večrazrednim Matthewsovim korelacijskim koeficientom s pomočjo matrike zmot.
+    Pri obeh metodah se lahko upošteva tudi število vozlišč in povezav posamezne nevronske mreže.
+    Program je bil razvit s pomočjo množic Iris, Wine, Blood Transfusion Service Center, Car Evaluation in Statlog (Shuttle), ki so
+    na voljo na UCI Machine Learning Repository~\cite{Dua:2019}.
+    V tem poročilu je vključena tudi primerjava z nekaterimi odprtokodnimi rešitvami strojnega učenja, ki so trenutno na voljo.
+
+    \bigskip
+
+    \noindent\textbf{Ključne besede:} \tkeywords.
+% prazna stran
+    \clearemptydoublepage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% abstract
+    \selectlanguage{english}
+    \addcontentsline{toc}{chapter}{Abstract}
+    \chapter*{Abstract}
+
+    \noindent\textbf{Title:} \ttitleEn
+    \bigskip
+
+    \noindent\textbf{Author:} \tauthor
+    \bigskip
+
+%\noindent\textbf{Abstract:}
+    \noindent This diploma thesis describes the creation of recurrent neural networks with a custom program that covers the
+    initialization of the initial population, sampling, crossover, mutation and fitness calculation.
+    Neural networks, created by the program, are designed for multiclass classification of data in data sets with continuous or discrete attributes.
+    Initialization, crossover and mutation algorithms are specific for this thesis.
+    Crossover is implemented with a modified stochastic universal sampling algorithm, where the previous generation's fittest agent is always kept.
+    Fitness is calculated based on prediction accuracy or on the Matthews correlation coefficient with the help of a confusion matrix.
+    Both methods can also take into account the number of vertices and edges of each neural network.
+    The program was developed with the help of the following datasets, which are available in the UCI Machine Learning Repository~\cite{Dua:2019}:
+    Iris, Wine, Blood Transfusion Service Center, Car Evaluation and Statlog (Shuttle).
+    This report also includes comparisons with a few open source machine learning solutions available at the time of writing.
+    \bigskip
+
+    \noindent\textbf{Keywords:} \tkeywordsEn.
+    \selectlanguage{slovene}
+% prazna stran
+    \clearemptydoublepage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \mainmatter
+    \setcounter{page}{1}
+    \pagestyle{fancy}
+
+
+    \chapter{Uvod}\label{ch:uvod}
+    Ob pisanju tega poročila je na področju strojnega učenja v akademskih in komercialnih sferah izjemno priljubljena
+    uporaba nevronskih mrež za napovedovanje rezultatov na podlagi vnaprej pripravljenih podatkovnih množic in za reševanje
+    problemov s principi spodbujevalnega učenja.
+    Topologija teh nevronskih mrež se giblje od najbolj enostavnih brez skritih nivojev, do izjemno kompleksnih večnivojskih
+    z dvosmernimi povezavami.
+    Učenje le-teh pa velikokrat poteka z metodo vzvratnega razširjanja, kjer se prilagodi le utež povezav med vozlišči,
+    topologija pa ostane enaka.
+    Motivacija za tem diplomskim delom je raziskati, ali učenje z metodo nevroevolucije, kjer naša implementacija poleg uteži nevronskih
+    mrež spreminja tudi topologijo, prinese dodano vrednost pri točnosti, hitrosti učenja in velikosti končnih nevronskih
+    mrež v primerjavi z zgoraj omenjenimi rešitvami.
+
+    Program, ki smo ga napisali za raziskovanje tega problema v jeziku C++, ustvarja nevronske mreže na podlagi vhodne
+    podatkovne množice, izračuna njihovo kvaliteto, nato pa izbere najboljših $n$ za na naslednjo generacijo (oziroma iteracijo).
+    Ta postopek ponavlja, dokler ne zaključi $m$-te iteracije, nato pa v datoteko shrani najboljšo nevronsko mrežo v JSON obliki.
+    Več podrobnosti je o programu je na voljo v poglavju~\ref{ch:evolucija-nevronske-mreze}.
+
+    V obseg dela te diplomske naloge poleg programa spada tudi primerjava rezultatov z nekaterimi odprtokodnimi rešitvami (poglavje~\ref{ch:evalvacija})
+    in seveda pisanje tega poročila.
+
+    \section{Kaj so nevronske mreže}\label{sec:kaj-so-nevronske-mreze}
+    Nevronske mreže (kratica ANN ali NN) so množice povezanih vozlišč oziroma ``nevronov''.
+    Njihove lastnosti določajo topologija in lastnosti samih vozlišč~\cite{russell_norvig_2016}.
+    Povezave vsebujejo zvezno vrednost uteži, vozlišča pa poljubno aktivacijsko funkcijo, ki transformira vsoto uteženih
+    aktivacijskih vrednosti vhodnih vozlišč.
+    Preprost model vozlišča je naslednji~\cite{russell_norvig_2016}:
+    \begin{equation}
+        a_j=f(\sum_{i=0}^{n} a_i w_{i,j})
+        \label{eq:neuron_model_splosno}
+    \end{equation}
+    kjer je:
+    \begin{itemize}
+        \item $a_j$ aktivacijska vrednost vozlišča
+        \item $f(x)$ aktivacijska funkcija
+        \item $n$ število vhodnih povezav trenutnega vozlišča
+        \item $a_i$ aktivacijska vrednost $i$-tega vhodnega vozlišča
+        \item $w_{i,j}$ utež povezave med $i$-tim in trenutnim vozliščem.
+    \end{itemize}
+
+    V splošnem vsebujejo fiksno število vhodnih in izhodnih vozlišč ter poljubno število vmesnih oz.\ globokih vozlišč.
+    Odvisno od tipa nevronske mreže, so lahko globoka vozlišča združena v skupine, ti.\ sloje.
+
+    \subsection{Rekurentne nevronske mreže}\label{subsec:rekurentne-nevronske-mreze}
+    Če zahtevamo, da povezave med vozlišči lahko tvorijo cikel, potem potrebujemo poseben razred nevronskih mrež~\cite{recurrent_neural_network_wiki}.
+    Z razliko od acikličnih feed-forward mrež, rekurentne mreže vsebujejo povezave, ki aktivacijsko vrednost nekaterih vozlišč
+    sklenejo z njihovimi predhodniki.
+
+    Koncept združevanja globokih vozlišč v sloje je v teh mrežah malce zamegljen.
+    Namreč, sloji se pojavijo pri vsakem časovnem koraku propagacije vhodnih vrednosti skozi topologijo.
+    Zaradi ciklov je povsem možno, da se neko vozlišče pojavi v več slojih.
+
+
+    \section{Kaj so genetski algoritmi}\label{sec:kaj-so-genetski-algoritmi}
+    Genetski algoritmi črpajo navdih iz procesa naravne selekcije.
+    Večinoma so uporabljeni so za reševanje optimizacijskih in iskalnih problemov, ne zagotavljajo pa optimalnih rešitev.
+    Namesto enega pravilnega rezultata po navadi najdejo nabor rešitev visoke kvalitete, ki so primerne za nadaljnjo uporabo
+    ~\cite{inteligentni_sistemi_2010,genetic_algorithm_wiki_2022}.
+    
+    V splošnem so sestavljeni iz inicializacije začetne populacije, vzorčenja, križanja, mutiranja in izračuna kvalitete agentov.
+    %inicializacijo začetne populacije, vzorčenje, križanje, mutiranje in izračun kvalitete
+    \begin{description}
+        \item[Agent]{je predstavitev posamezne vmesne ali končne rešitve. Lahko je zgrajen v obliki vektorja binarnih ali realnih
+            števil, znakov, ali pa v obliki drevesa oz. grafa. Posamezno vrednost imenujemo gen, ki lahko predstavlja navodilo za
+            reševanje problema (npr. premik gor, dol, levo ali desno pri sprehodu skozi labirint), lahko pa predstavlja
+            vrednost nekega optimiziranega parametra. }
+        \item[Izračun kvalitete]{agentov je specifičen glede problem, ki ga želimo rešiti. Vsebino vsakega agenta lahko uporabimo
+            kot vhodne parametre našega problema, kvaliteto rezultata pa ustrezno ocenimo. Na primer, pri nevroevoluciji
+            je kvaliteta agenta lahko kar točnost klasificiranja.}
+        \item[Inicializacija populacije]{je prvi korak genetskega algoritma.
+            Tukaj se ustvari začetni nabor naključnih agentov v obliki izbrane predstavitve.
+            Velikost populacije je poljubna vrednost, priporočljiva pa je proporcionalnost kompleksnosti agentov in zahtevnosti problema.}
+        \item[Vzorčenje]{je proces izbire podmnožice agentov za kreiranje naslednje populacije.
+            Največkrat izberemo agente glede na njihovo kvaliteto, zagotoviti pa moramo tudi zadostno raznolikost genetskega
+            materjala, da ne obtičimo v lokalnih maksimumih. Poznamo več načinov vzorčenja, na primer~\cite{inteligentni_sistemi_2010}:
+            \begin{itemize}
+                \item proporcionalna izbira, kjer je verjetnost izbire agenta odvisna od njegove kvalitete glede na populacijo
+                \item rangovna izbira, kjer agente sortiramo po kvaliteti padajoče in jim priredimo rang glede na pozicijo, verjetnost izbire pa je odvisna od velikosti ranga
+                \item turnirska izbira
+                \item stohastično univerzalno vzorčenje, ki je podrobneje opisan v poglavju~\ref{sec:vzorcenje}
+            \end{itemize}
+            Nič nam ne preprečuje, da nekega agenta izberemo večkrat.
+            Taki agenti imajo po navadi v primerjavi s preostalo populacijo zelo visoko kvaliteto, kar pomeni večkratno udeležbo
+            v križanju in s tem boljše širjenje kvalitetnih genov v potomce.
+            Prav tako ni nujno, da zamenjamo vse agente. V naslednjo populacijo lahko prenesemo nek delež osebkov, pri
+            čemer moramo še bolj paziti na raznolikost genetskega materiala. Ta koncept imenujemo elitizem~\cite{inteligentni_sistemi_2010}.
+            \item}
+        \item[Križanje]{je postopek izmenjave genov med agenti in je zelo odvisen od njihove oblike in tega, kakšno informacijo posamezen gen predstavlja. Na primer, potomce agentov,
+            ki so predstavljeni v vektorskem načinu, lahko ustvarimo tako, da vzamemo prvo polovico genov prvega in drugo polovico genov
+            drugega starša. Križanje agentov, ki so predstavljeni z drevesnimi strukturami ali grafi, je bistveno težje
+            (naša implementacija je opisana v poglavju~\ref{sec:krizanje}).
+            Rezultat križanja je lahko en agent ali več, nastopata pa lahko tudi več kot dva starša. }
+        \item[Mutiranje]{je postopek naključne spremembe gena/genov agenta. Omogoča obstoj genov, ki jih
+            s postopkom križanja ne bi mogli ustvariti. Paziti moramo, število mutiranih osebkov ni preveliko, saj
+            smo tako efektivno implementirali naključno preiskovanje rešitev našega problema.}
+    \end{description}
+
+    Splošna psevdokoda genetskih algoritmov je naslednja~\cite{inteligentni_sistemi_2010}:
+    \begin{verbatim}
+var populacija = inicializacija_populacije();
+for (dokler nismo zavodoljni z agenti populacije) {
+    izračun_kvalitete(populacija);
+    vzorčenje(populacija);
+    križanje(populacija);
+    mutiranje(populacija);
+}
+    \end{verbatim}
+
+
+    \section{Kaj je nevroevolucija}\label{sec:kaj-je-nevroevolucija}
+    Nevroevolucija je tip strojnega učenja, kjer agente ustvarimo z uporabo genetskih algoritmov.
+    Agenti vedno predstavljajo nek tip nevronskih mrež.
+    Posamezen gen lahko predstavlja vozlišče ali povezavo (direktno enkodiranje), lahko pa
+    predstavlja tudi načrt konstruiranja delčka nevronske mreže (posredno enkodiranje)~\cite{kassahun2007common}.
+
+    Nevroevolucija je zelo primerna na področju spodbujevalnega učenja, kjer nas za izračun kvalitete zanima le uspešnost
+    kreirane mreže.
+    Na primer, rezultat neke igre lahko enostavno izmerimo (ali je agent zmagal, koliko točk je dobil, kako hiter je bil\ldots),
+    vrednost pa uporabimo kot kvaliteto.
+    Pri nadzorovanem učenju bi potrebovali podatkovno množico agentovih potez s pričakovanimi rezultati igre.
+    V kolikor sama igra vsebuje elemente naključnosti, se izdelava take množice lahko izkaže kot izjemno težaven problem.
+
+    Z razliko od konvencionalnih metod strojnega učenja z vzvratnim razširjanjem, ki operirajo nad nevronskimi mrežami
+    fiksne topologije, nevroevolucija lahko optimizira topologijo, uteži povezav med vozlišči in druge parametre naše
+    predstavitve mrež.
+    Za primer vzemimo parametrični ReLU~\cite{he2015delving}, ki je definiran z:
+    \begin{equation}
+        f(x)=
+        \begin{cases}
+            \text{x} & \quad\text{če je x}\ge0\\
+            \text{ax} & \quad\text{sicer}\\
+        \end{cases}
+        \label{eq:parametric_relu}
+    \end{equation}
+    Če bi se odločili za to aktivacijsko funkcijo, bi v postopku križanja in mutiranja mrež lahko spreminjali tudi
+    parameter $a$, ki določa prepustnost negativnih aktivacijskih vrednosti.
+
+    \chapter{Evolucija nevronske mreže}\label{ch:evolucija-nevronske-mreze}
+    To poglavje pokriva konkretno implementacijo konceptov v našem programu, opisanih v poglavju~\ref{ch:uvod}.
+    Razvoj je potekal s pomočjo podatkovnih množic Iris, Wine, Blood Transfusion Service Center, Car Evaluation in Statlog (Shuttle), ki so
+    na voljo na UCI Machine Learning Repository~\cite{Dua:2019}.
+    Izdelani program lahko teče nad poljubno množico z zveznimi ali distkretnimi atributi, katere cilj je večrazredna klasifikacija.
+
+    \section{Agenti}\label{sec:agenti}
+    Agenti v našem programu so direktno enkodirane rekurentne nevronske mreže v obliki usmerjenega grafa, kjer vsak gen
+    predstavlja povezavo ali vozlišče.
+    Njihova struktura je delno pogojena z izbrano podatkovno množico;
+    število vhodnih vozlišč mora biti enako številu atributov, število izhodnih vozlišč pa mora biti enako številu razredov.
+    Količina globokih vozlišč se giblje od 0 do izbrane vrednosti vhodnega parametra.
+    Za zgoraj omenjene množice vrednost $20$ predstavlja dovolj dobro razmerje med dovoljeno kompleksnostjo agentov in
+    računsko zahtevnostjo.
+
+    V pomnilniku so vozlišča in povezave samostojni objekti, ki hranijo medsebojne reference.
+    Matrika sosednosti prostorsko ni najbolj primerna za naše agente, saj bi bila zaradi načina mutiranja (\ref{sec:mutiranje})
+    v veliki večini primerov raztresena\footnote{Redke oz. raztresene matrike so matrike, v katerih ima večina elementov vrednost 0.
+    V primeru predstavitve nevronskih mrež s tako podatkovno strukturo, vrednost posameznega elementa pomeni utež povezave
+    med vozliščema $x_i$ in $y_j$.
+    Če je vrednost 0, potem povezava med vozliščema ne obstaja.}.
+
+    V naši implementaciji so vrednosti uteži na nivoju ene nevronske mreže normalizirane med -1 in 1, aktivacijska
+    funkcija pa je ``leaky ReLU''~\cite{maas2013rectifier}:
+    \begin{equation}
+        f(x)=
+        \begin{cases}
+            \text{x} & \quad\text{če je x}\ge0\\
+            \text{0.01x} & \quad\text{sicer}\\
+        \end{cases}
+        \label{eq:leaky_relu}
+    \end{equation}
+    Leaky ReLU je variacija ReLU aktivacijske funkcije $f(x)=max(0,x)$, ki dopušča propagiranje negativnih aktivacijskih
+    vrednosti skozi nevronsko mrežo.
+    Sorodna je parametričnem ReLU iz poglavja~\ref{sec:kaj-je-nevroevolucija}.
+
+
+    \section{Populacija}
+
+    \section{Inicializacija populacije}
+
+    %inicializacijo začetne populacije, vzorčenje, križanje, mutiranje in izračun kvalitete.
+    \section{Vzorčenje}\label{sec:vzorcenje}
+
+
+    \section{Križanje}\label{sec:krizanje}
+
+
+    \section{Mutiranje}\label{sec:mutiranje}
+
+
+    \section{Izračun kvalitete}
+
+
+    \chapter{Predstavitev metodologije}
+
+    \chapter{Evalvacija}\label{ch:evalvacija}
+
+
+    \chapter{Zaključki, sklep}
+
+
+
+%\cleardoublepage
+%\addcontentsline{toc}{chapter}{Literatura}
+
+    \printbibliography[heading=bibintoc,type=article,title={Članki v revijah}]
+
+    \printbibliography[heading=bibintoc,type=inproceedings,title={Članki v zbornikih}]
+
+    \printbibliography[heading=bibintoc,type=incollection,title={Poglavja v knjigah}]
+
+    \printbibliography[heading=bibintoc,title={Celotna literatura}]
+
+
+\end{document}
+
