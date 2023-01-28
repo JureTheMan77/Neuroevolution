@@ -220,6 +220,10 @@ void evolution::Metrics::checkLocked() const {
     }
 }
 
+std::vector<double> evolution::Metrics::getFitnessList()  {
+    return this->fitnessList;
+}
+
 
 
 

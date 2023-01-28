@@ -44,6 +44,8 @@
 
 \addbibresource{literatura.bib} %Imports bibliography file
 
+\usepackage{svg}
+\usepackage{tikz}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %	DIPLOMA INFO
@@ -331,9 +333,9 @@
     \textbf{kratica}
                  & \textbf{angleško}             & \textbf{slovensko}                        \\ \hline
                  \textbf{CA}    &   classification accuracy &   klasifikacijska točnost \\
-                 \textbf{ANN}   &   artificial neural network   &   umetna nevronska mreža \\
                  \textbf{NN}    &   neural network    & nevronska mreža \\
                  \textbf{ReLU}    &   rectified linear unit    & TBD \\
+                 \textbf{GA}    &   genetic algorithm    & genetski algoritem \\
 %  \dots & \dots & \dots \\
     \end{tabular}
 
@@ -362,7 +364,7 @@
     Vzorčenje je implementirano s prilagojenim stohastičnim univerzalnem vzorčenjem, kjer se vedno obdrži najboljši agent prejšnje
     generacije, kvaliteta pa se izračuna na podlagi točnosti napovedi ali pa z večrazrednim Matthewsovim korelacijskim koeficientom s pomočjo matrike zmot.
     Pri obeh metodah se lahko upošteva tudi število vozlišč in povezav posamezne nevronske mreže.
-    Program je bil razvit s pomočjo množic Iris, Wine, Blood Transfusion Service Center, Car Evaluation in Statlog (Shuttle), ki so
+    Program je bil razvit s pomočjo množic Iris, Wine, Car Evaluation in Statlog (Shuttle), ki so
     na voljo na UCI Machine Learning Repository~\cite{Dua:2019}.
     V tem poročilu je vključena tudi primerjava z nekaterimi odprtokodnimi rešitvami strojnega učenja, ki so trenutno na voljo.
 
@@ -393,7 +395,7 @@
     Fitness is calculated based on prediction accuracy or on the Matthews correlation coefficient with the help of a confusion matrix.
     Both methods can also take into account the number of vertices and edges of each neural network.
     The program was developed with the help of the following datasets, which are available in the UCI Machine Learning Repository~\cite{Dua:2019}:
-    Iris, Wine, Blood Transfusion Service Center, Car Evaluation and Statlog (Shuttle).
+    Iris, Wine, Car Evaluation and Statlog (Shuttle).
     This report also includes comparisons with a few open source machine learning solutions available at the time of writing.
     \bigskip
 
@@ -407,31 +409,33 @@
     \setcounter{page}{1}
     \pagestyle{fancy}
 
-
     \chapter{Uvod}\label{ch:uvod}
-    Ob pisanju tega poročila je na področju strojnega učenja v akademskih in komercialnih sferah izjemno priljubljena
-    uporaba nevronskih mrež za napovedovanje rezultatov na podlagi vnaprej pripravljenih podatkovnih množic in za reševanje
-    problemov s principi spodbujevalnega učenja.
-    Topologija teh nevronskih mrež se giblje od najbolj enostavnih brez skritih nivojev, do izjemno kompleksnih večnivojskih
+    Na področju strojnega učenja je priljubljena
+    uporaba nevronskih mrež za napovedovanje na podlagi učenja z podatkovnimi množicami.
+    Topologija teh nevronskih mrež se giblje od enostavnih brez skritih nivojev, do kompleksnih večnivojskih
     z dvosmernimi povezavami.
-    Učenje le-teh pa velikokrat poteka z metodo vzvratnega razširjanja, kjer se prilagodi le utež povezav med vozlišči,
+    Učenje večinoma poteka z metodo vzvratnega razširjanja napake, kjer se prilagajajo le uteži povezav med vozlišči,
     topologija pa ostane enaka.
-    Motivacija za tem diplomskim delom je raziskati, ali učenje z metodo nevroevolucije, kjer naša implementacija poleg uteži nevronskih
-    mrež spreminja tudi topologijo, prinese dodano vrednost pri točnosti, hitrosti učenja in velikosti končnih nevronskih
-    mrež v primerjavi z zgoraj omenjenimi rešitvami.
+    Motivacija diplomskega dela je raziskati, ali učenje z metodo nevroevolucije, kjer poleg uteži spreminjamo tudi topologijo,
+    prinese izboljšave pri točnosti, hitrosti učenja in velikosti končnih nevronskih
+    mrež v primerjavi s standardnimi rešitvami.
 
-    Program, ki smo ga napisali za raziskovanje tega problema v jeziku C++, ustvarja nevronske mreže na podlagi vhodne
-    podatkovne množice, izračuna njihovo kvaliteto, nato pa izbere najboljših $n$ za na naslednjo generacijo (oziroma iteracijo).
-    Ta postopek ponavlja, dokler ne zaključi $m$-te iteracije, nato pa v datoteko shrani najboljšo nevronsko mrežo v JSON obliki.
-    Več podrobnosti je o programu je na voljo v poglavju~\ref{ch:evolucija-nevronske-mreze}.
+    Naš pristop ustvarja nevronske mreže na podlagi vhodne
+    podatkovne množice, izračuna njihovo kvaliteto, nato pa izbere najboljših $n$ za na naslednjo generacijo.
+    Postopek $m$-krat ponovi, nato pa shrani najboljšo nevronsko mrežo.
+    Podrobnosti pristopa so opisane v poglavju~\ref{ch:implementacija-nevroevolucije}.
 
-    V obseg dela te diplomske naloge poleg programa spada tudi primerjava rezultatov z nekaterimi odprtokodnimi rešitvami (poglavje~\ref{ch:evalvacija})
-    in seveda pisanje tega poročila.
+    Rezultate smo primerjali z nekaterimi odprtokodnimi rešitvami, ki so trenutno na voljo (poglavje~\ref{ch:evalvacija}).
 
-    \section{Kaj so nevronske mreže}\label{sec:kaj-so-nevronske-mreze}
-    Nevronske mreže (kratica ANN ali NN) so množice povezanih vozlišč oziroma ``nevronov''.
-    Njihove lastnosti določajo topologija in lastnosti samih vozlišč~\cite{russell_norvig_2016}.
-    Povezave vsebujejo zvezno vrednost uteži, vozlišča pa poljubno aktivacijsko funkcijo, ki transformira vsoto uteženih
+
+    \chapter{Ozadje problema}\label{ch:ozadje-problema}
+    Poglavje zajema razlago pojmov, na katerih temelji to diplomsko delo: opis nevronskih mrež (\ref{sec:nevronske-mreze}),
+    principov genetskih algoritmov (\ref{sec:genetski-algoritmi}) in nevroevolucije (\ref{sec:nevroevolucija}).
+
+    \section{Nevronske mreže}\label{sec:nevronske-mreze}
+    Nevronske mreže (NN) so množice povezanih vozlišč oziroma ``nevronov''.
+    Njihove lastnosti določata topologija in lastnosti vozlišč~\cite{russell_norvig_2016}.
+    Povezave vsebujejo zvezno vrednost uteži, vozlišča pa aktivacijsko funkcijo, ki transformira vsoto uteženih
     aktivacijskih vrednosti vhodnih vozlišč.
     Preprost model vozlišča je naslednji~\cite{russell_norvig_2016}:
     \begin{equation}
@@ -440,68 +444,90 @@
     \end{equation}
     kjer je:
     \begin{itemize}
-        \item $a_j$ aktivacijska vrednost vozlišča
+        \item $a_j$ aktivacijska vrednost trenutnega izhodnega vozlišča
         \item $f(x)$ aktivacijska funkcija
         \item $n$ število vhodnih povezav trenutnega vozlišča
         \item $a_i$ aktivacijska vrednost $i$-tega vhodnega vozlišča
         \item $w_{i,j}$ utež povezave med $i$-tim in trenutnim vozliščem.
     \end{itemize}
 
-    V splošnem vsebujejo fiksno število vhodnih in izhodnih vozlišč ter poljubno število vmesnih oz.\ globokih vozlišč.
-    Odvisno od tipa nevronske mreže, so lahko globoka vozlišča združena v skupine, ti.\ sloje.
+    V splošnem vsebujejo fiksno število vhodnih in izhodnih vozlišč ter poljubno število vmesnih vozlišč.
+    Odvisno od tipa nevronske mreže, so lahko globoka vozlišča združena v skupine, t.i.\ sloje.
+
+    \begin{figure}[htb]
+        \begin{center}
+            \includesvg[width=12cm]{diagram-nevron.svg}
+        \end{center}
+        \caption{Diagram nevrona z $n$ vhodnimi povezavami in sigmoidno aktivacijsko funkcijo $f( x) =\frac{1}{1+e^{-x}}$.}
+        \label{fig:diagram-nevrona}
+    \end{figure}
+
+    \begin{figure}[htb]
+        \begin{center}
+            \includesvg[width=12cm]{diagram-mreza.svg}
+        \end{center}
+        \caption{Diagram nevronske mreže s štirimi vhodnimi vozlišči $i$, $n$ globokimi vozlišči $d$ in tremi izhodnimi vozlišči $o$.}
+        \label{fig:diagram-mreze}
+    \end{figure}
+
 
     \subsection{Rekurentne nevronske mreže}\label{subsec:rekurentne-nevronske-mreze}
-    Če zahtevamo, da povezave med vozlišči lahko tvorijo cikel, potem potrebujemo poseben razred nevronskih mrež~\cite{recurrent_neural_network_wiki}.
-    Z razliko od acikličnih feed-forward mrež, rekurentne mreže vsebujejo povezave, ki aktivacijsko vrednost nekaterih vozlišč
+    Če povezave med vozlišči lahko tvorijo cikel, nevronske mreže imenujemo rekurentne~\cite{recurrent_neural_network_wiki}.
+    Z razliko od acikličnih mrež, rekurentne mreže vsebujejo povezave, ki aktivacijsko vrednost nekaterih vozlišč
     sklenejo z njihovimi predhodniki.
 
     Koncept združevanja globokih vozlišč v sloje je v teh mrežah malce zamegljen.
-    Namreč, sloji se pojavijo pri vsakem časovnem koraku propagacije vhodnih vrednosti skozi topologijo.
-    Zaradi ciklov je povsem možno, da se neko vozlišče pojavi v več slojih.
+    Namreč, sloji se pojavijo pri vsakem časovnem koraku propagacije vhodnih vrednosti skozi topologijo, zaradi ciklov pa je povsem možno,
+    da se neko vozlišče pojavi v več slojih.
+    \begin{figure}[htb]
+        \begin{center}
+            \includesvg[width=12cm]{diagram-rekurentne-mreze.svg}
+        \end{center}
+        \caption{Primer rekurentne nevronske mreže s štirimi vhodnimi vozlišči $i$, tremi globokimi vozlišči $d$ in tremi izhodnimi vozlišči $o$.
+        Vozlišča $d_0$, $d_1$, $d_2$ med seboj tvorijo cikel.}
+        \label{fig:diagram-rekurentne-mreze}
+    \end{figure}
 
-
-    \section{Kaj so genetski algoritmi}\label{sec:kaj-so-genetski-algoritmi}
-    Genetski algoritmi črpajo navdih iz procesa naravne selekcije.
+    \section{Genetski algoritmi}\label{sec:genetski-algoritmi}
+    Genetski algoritmi (GA) črpajo navdih iz procesa naravne selekcije.
     Večinoma so uporabljeni so za reševanje optimizacijskih in iskalnih problemov, ne zagotavljajo pa optimalnih rešitev.
-    Namesto enega pravilnega rezultata po navadi najdejo nabor rešitev visoke kvalitete, ki so primerne za nadaljnjo uporabo
+    Namesto enega rezultata po navadi najdejo nabor rešitev dobre kakovosti, ki so primerne za nadaljnjo uporabo
     ~\cite{inteligentni_sistemi_2010,genetic_algorithm_wiki_2022}.
     
-    V splošnem so sestavljeni iz inicializacije začetne populacije, vzorčenja, križanja, mutiranja in izračuna kvalitete agentov.
+    V splošnem so GA sestavljeni iz inicializacije začetne populacije, vzorčenja, križanja, mutiranja in izračuna kvalitete agentov.
     %inicializacijo začetne populacije, vzorčenje, križanje, mutiranje in izračun kvalitete
     \begin{description}
-        \item[Agent]{je predstavitev posamezne vmesne ali končne rešitve. Lahko je zgrajen v obliki vektorja binarnih ali realnih
-            števil, znakov, ali pa v obliki drevesa oz. grafa. Posamezno vrednost imenujemo gen, ki lahko predstavlja navodilo za
-            reševanje problema (npr. premik gor, dol, levo ali desno pri sprehodu skozi labirint), lahko pa predstavlja
-            vrednost nekega optimiziranega parametra. }
-        \item[Izračun kvalitete]{agentov je specifičen glede problem, ki ga želimo rešiti. Vsebino vsakega agenta lahko uporabimo
-            kot vhodne parametre našega problema, kvaliteto rezultata pa ustrezno ocenimo. Na primer, pri nevroevoluciji
-            je kvaliteta agenta lahko kar točnost klasificiranja.}
-        \item[Inicializacija populacije]{je prvi korak genetskega algoritma.
-            Tukaj se ustvari začetni nabor naključnih agentov v obliki izbrane predstavitve.
-            Velikost populacije je poljubna vrednost, priporočljiva pa je proporcionalnost kompleksnosti agentov in zahtevnosti problema.}
+        \item[Agent]{je predstavitev posamezne (vmesne ali končne) rešitve. Lahko je zgrajen v obliki vektorja binarnih ali realnih
+            števil, znakov, ali pa v obliki drevesa oz. grafa. Posamezno vrednost imenujemo gen in lahko predstavlja navodilo za
+            reševanje problema (npr. premik gor, dol, levo ali desno pri sprehodu skozi labirint) ali vrednost nekega parametra problema.}
+        \item[Izračun kakovosti]{agentov je specifičen glede problem, ki ga želimo rešiti. Predstavitev agenta lahko uporabimo
+            kot vhodne parametre našega problema in kvaliteto rezultata ustrezno ocenimo. Pri nevroevoluciji
+            je kakovost agenta kar točnost klasificiranja.}
+        \item[Inicializacija populacije]{je prvi korak GA.
+            Ustvarimo začetni nabor naključnih agentov v obliki izbrane predstavitve.
+            Velikost populacije je poljubna vrednost, tipično proporcionalna kompleksnosti agentov in zahtevnosti problema.}
         \item[Vzorčenje]{je proces izbire podmnožice agentov za kreiranje naslednje populacije.
-            Največkrat izberemo agente glede na njihovo kvaliteto, zagotoviti pa moramo tudi zadostno raznolikost genetskega
-            materjala, da ne obtičimo v lokalnih maksimumih. Poznamo več načinov vzorčenja, na primer~\cite{inteligentni_sistemi_2010}:
+            Največkrat izberemo agente glede na njihovo kvaliteto, zagotoviti pa moramo tudi zadostno raznolikost populacije,
+            da ne obtičimo v lokalnih maksimumih. Poznamo več načinov vzorčenja, na primer~\cite{inteligentni_sistemi_2010}:
             \begin{itemize}
-                \item proporcionalna izbira, kjer je verjetnost izbire agenta odvisna od njegove kvalitete glede na populacijo
-                \item rangovna izbira, kjer agente sortiramo po kvaliteti padajoče in jim priredimo rang glede na pozicijo, verjetnost izbire pa je odvisna od velikosti ranga
-                \item turnirska izbira
-                \item stohastično univerzalno vzorčenje, ki je podrobneje opisan v poglavju~\ref{sec:vzorcenje}
+                \item proporcionalna izbira, kjer je verjetnost izbire agenta odvisna od njegove kakovosti glede na populacijo,
+                \item rangovna izbira, kjer agente sortiramo po kvaliteti padajoče in jim priredimo rang glede na pozicijo, verjetnost izbire pa je odvisna od velikosti ranga,
+                \item turnirska izbira,
+                \item stohastično univerzalno vzorčenje, ki je podrobneje opisana v poglavju~\ref{sec:vzorcenje}.
             \end{itemize}
-            Nič nam ne preprečuje, da nekega agenta izberemo večkrat.
-            Taki agenti imajo po navadi v primerjavi s preostalo populacijo zelo visoko kvaliteto, kar pomeni večkratno udeležbo
-            v križanju in s tem boljše širjenje kvalitetnih genov v potomce.
-            Prav tako ni nujno, da zamenjamo vse agente. V naslednjo populacijo lahko prenesemo nek delež osebkov, pri
-            čemer moramo še bolj paziti na raznolikost genetskega materiala. Ta koncept imenujemo elitizem~\cite{inteligentni_sistemi_2010}.
+            Agenta lahko izberemo večkrat.
+            Taki agenti imajo po navadi visoko kakovost, kar pomeni večkratno udeležbo v križanju in s tem boljše širjenje kakovostnih genov na potomce.
+            Prav tako ni nujno, da zamenjamo vse agente. V naslednjo populacijo lahko prenesemo del osebkov, pri
+            čemer moramo paziti na raznolikost genetskega materiala. Ta koncept imenujemo elitizem~\cite{inteligentni_sistemi_2010}.
             \item}
-        \item[Križanje]{je postopek izmenjave genov med agenti in je zelo odvisen od njihove oblike in tega, kakšno informacijo posamezen gen predstavlja. Na primer, potomce agentov,
-            ki so predstavljeni v vektorskem načinu, lahko ustvarimo tako, da vzamemo prvo polovico genov prvega in drugo polovico genov
-            drugega starša. Križanje agentov, ki so predstavljeni z drevesnimi strukturami ali grafi, je bistveno težje
+        \item[Križanje]{je postopek izmenjave genov med agenti in je odvisen od njihove predstavitve in tega, kakšno informacijo posamezen gen predstavlja.
+            Na primer, potomce agentov, ki so predstavljeni v vektorskem načinu, lahko ustvarimo tako, da vzamemo prvo polovico genov prvega in drugo polovico genov
+            drugega starša. Križanje agentov, ki so predstavljeni z drevesnimi strukturami ali grafi, je težje
             (naša implementacija je opisana v poglavju~\ref{sec:krizanje}).
-            Rezultat križanja je lahko en agent ali več, nastopata pa lahko tudi več kot dva starša. }
-        \item[Mutiranje]{je postopek naključne spremembe gena/genov agenta. Omogoča obstoj genov, ki jih
-            s postopkom križanja ne bi mogli ustvariti. Paziti moramo, število mutiranih osebkov ni preveliko, saj
-            smo tako efektivno implementirali naključno preiskovanje rešitev našega problema.}
+            Rezultat križanja je lahko eden ali več agentov, nastopata pa lahko tudi več kot dva starša. }
+        \item[Mutacija]{je postopek naključne spremembe enega ali več genov agenta. Omogoča nastanek genov, ki jih
+            s postopkom križanja ne bi mogli ustvariti. Paziti moramo, da število mutiranih osebkov ni preveliko,
+            da se izognemo naključnemu preiskovanju.}
     \end{description}
 
     Splošna psevdokoda genetskih algoritmov je naslednja~\cite{inteligentni_sistemi_2010}:
@@ -516,23 +542,23 @@ for (dokler nismo zavodoljni z agenti populacije) {
     \end{verbatim}
 
 
-    \section{Kaj je nevroevolucija}\label{sec:kaj-je-nevroevolucija}
-    Nevroevolucija je tip strojnega učenja, kjer agente ustvarimo z uporabo genetskih algoritmov.
+    \section{Nevroevolucija}\label{sec:nevroevolucija}
+    Nevroevolucija je področje strojnega učenja, kjer agente (napovedne modele) ustvarimo z uporabo genetskih algoritmov.
     Agenti vedno predstavljajo nek tip nevronskih mrež.
     Posamezen gen lahko predstavlja vozlišče ali povezavo (direktno enkodiranje), lahko pa
-    predstavlja tudi načrt konstruiranja delčka nevronske mreže (posredno enkodiranje)~\cite{kassahun2007common}.
+    predstavlja tudi načrt konstrukcije dela nevronske mreže (posredno kodiranje)~\cite{kassahun2007common}.
 
-    Nevroevolucija je zelo primerna na področju spodbujevalnega učenja, kjer nas za izračun kvalitete zanima le uspešnost
+    Nevroevolucija je primerna na področju spodbujevalnega učenja, kjer nas za izračun kvalitete zanima le uspešnost
     kreirane mreže.
     Na primer, rezultat neke igre lahko enostavno izmerimo (ali je agent zmagal, koliko točk je dobil, kako hiter je bil\ldots),
-    vrednost pa uporabimo kot kvaliteto.
+    vrednost pa uporabimo kot kakovost.
     Pri nadzorovanem učenju bi potrebovali podatkovno množico agentovih potez s pričakovanimi rezultati igre.
-    V kolikor sama igra vsebuje elemente naključnosti, se izdelava take množice lahko izkaže kot izjemno težaven problem.
+    V kolikor igra vsebuje elemente naključnosti, se izdelava take množice lahko izkaže kot težaven problem.
 
-    Z razliko od konvencionalnih metod strojnega učenja z vzvratnim razširjanjem, ki operirajo nad nevronskimi mrežami
-    fiksne topologije, nevroevolucija lahko optimizira topologijo, uteži povezav med vozlišči in druge parametre naše
+    Z razliko od konvencionalnih metod strojnega učenja z vzvratnim razširjanjem napake, ki uporabljajo nevronske mreže
+    fiksne topologije, nevroevolucija lahko optimizira topologijo, uteži povezav med vozlišči in druge parametre
     predstavitve mrež.
-    Za primer vzemimo parametrični ReLU~\cite{he2015delving}, ki je definiran z:
+    Za primer vzemimo aktivacijsko funkcijo ReLU~\cite{he2015delving}, ki je definirana z:
     \begin{equation}
         f(x)=
         \begin{cases}
@@ -541,49 +567,112 @@ for (dokler nismo zavodoljni z agenti populacije) {
         \end{cases}
         \label{eq:parametric_relu}
     \end{equation}
-    Če bi se odločili za to aktivacijsko funkcijo, bi v postopku križanja in mutiranja mrež lahko spreminjali tudi
-    parameter $a$, ki določa prepustnost negativnih aktivacijskih vrednosti.
+   V postopku križanja in mutiranja mrež bi lahko optimizirali tudi parameter $a$, ki določa prepustnost negativnih aktivacijskih vrednosti.
+    TODO podrobnejši opis nevroevolucije
 
-    \chapter{Evolucija nevronske mreže}\label{ch:evolucija-nevronske-mreze}
-    To poglavje pokriva konkretno implementacijo konceptov v našem programu, opisanih v poglavju~\ref{ch:uvod}.
-    Razvoj je potekal s pomočjo podatkovnih množic Iris, Wine, Blood Transfusion Service Center, Car Evaluation in Statlog (Shuttle), ki so
-    na voljo na UCI Machine Learning Repository~\cite{Dua:2019}.
-    Izdelani program lahko teče nad poljubno množico z zveznimi ali distkretnimi atributi, katere cilj je večrazredna klasifikacija.
+
+
+    \chapter{Implementacija nevroevolucije}\label{ch:implementacija-nevroevolucije}
+    To poglavje pokriva konkretno implementacijo konceptov nevroevolucije iz poglavja~\ref{sec:nevroevolucija}.
+
+    Program izdela nevronsko mrežo za poljubno učno množico z zveznimi ali diskretnimi atributi, s ciljem je večrazredne klasifikacije.
+    V tem poglavju je opisano:
+    \begin{itemize}
+        \item implementacija agentov (\ref{sec:agenti}) v obliki samostojnih objektov
+        \item implementacija populacije (\ref{sec:populacija}) in parametri
+        \item inicializacija populacije (\ref{sec:inicializacija-populacije}) in dovoljeni parametri
+        \item vzorčenje (\ref{sec:vzorcenje}) z algoritmom stohastičnega univerzalnega vzorčenja
+        \item križanje (\ref{sec:krizanje}) agentov z združevanjem dveh usmerjenih grafov
+        \item mutiranje (\ref{sec:mutiranje}) potomcev in implementirane vrste mutacij
+        \item izračun kvalitete (\ref{sec:izracun-kakovosti}) agentov na podlagi točnosti in Matthewsovega korelacijskega koeficienta
+    \end{itemize}
 
     \section{Agenti}\label{sec:agenti}
-    Agenti v našem programu so direktno enkodirane rekurentne nevronske mreže v obliki usmerjenega grafa, kjer vsak gen
+    Agenti v našem pristopu so direktno zakodirane rekurentne nevronske mreže v obliki usmerjenega grafa, kjer vsak gen
     predstavlja povezavo ali vozlišče.
-    Njihova struktura je delno pogojena z izbrano podatkovno množico;
-    število vhodnih vozlišč mora biti enako številu atributov, število izhodnih vozlišč pa mora biti enako številu razredov.
-    Količina globokih vozlišč se giblje od 0 do izbrane vrednosti vhodnega parametra.
-    Za zgoraj omenjene množice vrednost $20$ predstavlja dovolj dobro razmerje med dovoljeno kompleksnostjo agentov in
-    računsko zahtevnostjo.
+    Vsak agent hrani informacijo o svoji kvaliteti, točnosti in MCC, ki se ob inicializaciji populacije (\ref{sec:inicializacija-populacije})
+    in kreiranju novega agenta v koraku križanja (\ref{sec:krizanje}) nastavijo na 0.
+    V koraku izračuna kakovosti (\ref{sec:izracun-kakovosti}) se v polja shrani izračunana vrednost.
 
-    V pomnilniku so vozlišča in povezave samostojni objekti, ki hranijo medsebojne reference.
-    Matrika sosednosti prostorsko ni najbolj primerna za naše agente, saj bi bila zaradi načina mutiranja (\ref{sec:mutiranje})
-    v veliki večini primerov raztresena\footnote{Redke oz. raztresene matrike so matrike, v katerih ima večina elementov vrednost 0.
+    Vozlišča in povezave usmerjenega grafa so v naši implementaciji samostojni objekti, ki hranijo medsebojne reference.
+    Matrika sosednosti ni najbolj primerna za naše agente, saj bi bila zaradi načina mutiranja (\ref{sec:mutiranje})
+    v veliki večini primerov redka\footnote{Redke oz. raztresene matrike so matrike, v katerih ima večina elementov vrednost 0.
     V primeru predstavitve nevronskih mrež s tako podatkovno strukturo, vrednost posameznega elementa pomeni utež povezave
     med vozliščema $x_i$ in $y_j$.
     Če je vrednost 0, potem povezava med vozliščema ne obstaja.}.
 
-    V naši implementaciji so vrednosti uteži na nivoju ene nevronske mreže normalizirane med -1 in 1, aktivacijska
-    funkcija pa je ``leaky ReLU''~\cite{maas2013rectifier}:
-    \begin{equation}
-        f(x)=
-        \begin{cases}
-            \text{x} & \quad\text{če je x}\ge0\\
-            \text{0.01x} & \quad\text{sicer}\\
-        \end{cases}
-        \label{eq:leaky_relu}
-    \end{equation}
-    Leaky ReLU je variacija ReLU aktivacijske funkcije $f(x)=max(0,x)$, ki dopušča propagiranje negativnih aktivacijskih
-    vrednosti skozi nevronsko mrežo.
-    Sorodna je parametričnem ReLU iz poglavja~\ref{sec:kaj-je-nevroevolucija}.
+    \subsection{Usmerjeni grafi}\label{subsec:usmerjeni-grafi}
+    Objekti razreda \enquote{Graph} vsebujejo seznam referenc na vsa vhodna, izhodna in globoka vozlišča ter seznam referenc
+    na vse povezave.
+    Čeprav so reference shranjene tudi v posameznih vozliščih in povezavah, nam ti redundantni seznami olajšajo
+    implementacijo funkcije sprehoda skozi graf, ki je opisana v poglavju~\ref{sec:izracun-kakovosti}.
+
+    Struktura grafov je delno pogojena z izbrano podatkovno množico;
+    število vhodnih vozlišč mora biti enako številu atributov podatkovne množice, število izhodnih vozlišč pa mora biti enako številu razredov.
+    Količina notranjih vozlišč se giblje od 0 do izbrane vrednosti parametra.
+    Za zgoraj omenjene množice vrednost $20$ predstavlja dovolj dobro razmerje med dovoljeno kompleksnostjo agentov in
+    računsko zahtevnostjo.
+
+    \subsection{Vozlišča}\label{subsec:vozlisca}
+    Vozlišča v usmerjenih grafih izhajajo iz enostavnega razreda \enquote{Vertex}, ki vsebuje seznam referenc
+    na svoje vhodne in izhodne povezave, indeks in vrednost.
+    Razred implementira trivialno aktivacijsko funkcijo $f(x)=x$.
+
+    Indeks je unikatna številka vozlišča, ki se nastavi ob kreiranju le-tega znotraj usmerjenega grafa.
+    Začne se z 0, vsako novo vozlišče pa dobi indeks, ki je za 1 večje od prejšnjega največjega.
+    Vhodna, globoka in izhodna vozlišča se indeksirajo medsebojno neodvisno.
+
+    Vrednost se nastavi v koraku~\ref{sec:izracun-kakovosti}.
+    Vsebuje rezultat aktivacijske funkcije.
+
+    Omenili smo, da obstajajo trije tipi vozlišč, ki so medsebojno logično in strukturno drugačni, izhajajo
+    pa iz razreda \enquote{Vertex}.
+    \begin{description}
+        \item[Vhodna vozlišča (oznaka $i$)]{Vsebujejo dodatno besedilno labelo ustreznega atributa podatkovne množice.
+        Logike dodajanja \textbf{vhodnih} povezav ne implementirajo.\ Njihova aktivacijska funkcija je nespremenjena, ker
+        želimo skozi graf propagirati natanko takšne vrednosti, kot jih prejmemo iz podatkovne množice. }
+        \item[Globoka vozlišča (oznaka $d$)]{Vsebujejo logiko dodajanja vhodnih in izhodnih povezav, hkrati pa prepišejo
+        privzeto aktivacijsko funkcijo s puščajočo (leaky) ReLU\footnote{Puščajoča ReLU je variacija ReLU aktivacijske funkcije $f(x)=\max(0,x)$, ki dopušča propagiranje negativnih aktivacijskih
+        vrednosti skozi nevronsko mrežo. Sorodna je parametričnem ReLU iz poglavja~\ref{sec:nevroevolucija}.}~\cite{maas2013rectifier}:
+        \begin{equation}
+            f(x)=
+            \begin{cases}
+                \text{x} & \quad\text{če je x}\ge0\\
+                \text{0.01x} & \quad\text{sicer}\\
+            \end{cases}
+            \label{eq:leaky_relu}
+        \end{equation}}
+        \item[Izhodna vozlišča (oznaka $o$)]{Tako kot vhodna vozlišča, vsebujejo dodatno besedilno labelo, ki predstavlja
+        ustrezen razred podatkovne množice.\ Logike dodajanja \textbf{izhodnih} povezav ne implementirajo.
+        Njihova aktivacijska funkcija je nespremenjena, ker je v koraku~\ref{sec:izracun-kakovosti} pomembna samo največja
+        vrednost vseh izhodnih vozlišč grafa. }
+    \end{description}
+
+    \subsection{Povezave}\label{subsec:povezave}
+    Vsaka povezava razreda \enquote{Edge} vsebuje naslednje informacije:
+    \begin{itemize}
+        \item referenco na eno vhodno vozlišče
+        \item referenco na eno izhodno vozlišče
+        \item indeks, ki je unikaten glede na celoten graf (določi se na enak način kot za vozlišča~\ref{subsec:vozlisca})
+        \item utež, ki se v koraku križanja~\ref{sec:krizanje} in mutiranja~\ref{sec:mutiranje} normalizira med -1 in 1
+        \item največje število prečkanj
+    \end{itemize}
+    Največje število prečkanj je polje, ki v klasičnih nevronskih mrežah ni potrebno, saj postopek sprehoda skozi graf
+    vsako povezavo prečka največ ali natanko enkrat.
+    Ker so naši agenti enkodirani kot rekurentne nevronske mreže, kjer so dovoljeni cikli, nam to polje preprečuje
+    neskončne sprehode skozi graf.
+    Največja vrednost je ena od inicializacijskih parametrov.
 
 
-    \section{Populacija}
+    \section{Populacija}\label{sec:populacija}
+    Populacija je samostojen razred, ki vsebuje seznam oz.\ vektor kazalcev vektor kazalcev na agente.
+    Hrani naslednje parametre, ki so potrebni v koraku inicializacije populacije:
+    \begin{itemize}
+        \item
+    \end{itemize}
 
-    \section{Inicializacija populacije}
+
+    \section{Inicializacija populacije}\label{sec:inicializacija-populacije}
 
     %inicializacijo začetne populacije, vzorčenje, križanje, mutiranje in izračun kvalitete.
     \section{Vzorčenje}\label{sec:vzorcenje}
@@ -595,16 +684,50 @@ for (dokler nismo zavodoljni z agenti populacije) {
     \section{Mutiranje}\label{sec:mutiranje}
 
 
-    \section{Izračun kvalitete}
+    \section{Izračun kakovosti}\label{sec:izracun-kakovosti}
 
 
-    \chapter{Predstavitev metodologije}
+    \chapter{Predstavitev metodologije}\label{ch:predstavitev-metodologije}
+
+    \section{Izbrane podatkovne množice}\label{sec:izbrane-podatkovne-mnozice}
+    Razvoj je potekal s pomočjo podatkovnih množic Iris, Wine, Car Evaluation in Statlog (Shuttle), ki so
+    na voljo na UCI Machine Learning Repository~\cite{Dua:2019}.
+    Množica Iris je najenostavnejša od izbranih (vsebuje tri razrede po 50 instanc), zato je bila uporabljena tekom razvoja programa.
+
+    Vse podatkovne množice, ki smo jih izbrali, vsebujejo učne primerov brez manjkajočih vrednosti,
+    zvezne ali distkretne atribute in najmanj tri razrede.
+    Javno so dostopne na \href{https://archive.ics.uci.edu/}{UCI Machine Learning Repository}.
+
+    \begin{description}
+        \item[Iris]{ Ta učna množica je najenostavnejša izmed izbranih. Vsebuje tri razrede po 50 učnih primerov s štirimi atributi,
+            ki predstavljajo širino in dolžino cvetnih in čašnih listov cvetlic v rodu iris oz. perunik. Vsak razred predstavlja vrsto perunike.  }
+        \item[Wine]{Je rezultat kemične analize italijanskih vin, pridobljenih iz treh različnih kultivarjev iz iste regije.
+        Vsebuje tri kvalitetne razrede vin od 1 do 3 s skupaj 178 učnimi primeri s 13 atributi. }
+        \item[Car Evaluation]
+        \item[Statlog (Shuttle)]
+    \end{description}
+
+    \begin{center}
+        \begin{tabular}{||c c c c||}
+            \hline
+            ime & št. učnih primerov & št. atributov & št. razredov \\ [0.5ex]
+            \hline
+            Iris & 150 & 4 & 3 \\
+            \hline
+            Wine & 178 & 13 & 3 \\
+            \hline
+            Car Evaluation & 545 & 18744 & 7560 \\
+            \hline
+            Statlog (Shuttle) & 88 & 788 & 6344 \\ [1ex]
+            \hline
+        \end{tabular}
+    \end{center}
+
 
     \chapter{Evalvacija}\label{ch:evalvacija}
 
 
-    \chapter{Zaključki, sklep}
-
+    \chapter{Zaključki, sklep}\label{ch:zakljucki-sklep}
 
 
 %\cleardoublepage

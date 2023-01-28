@@ -171,6 +171,14 @@ int main(int argc, char *argv[]) {
         fitnessFile << util::fitnessToCsv(i, m) << std::endl;
         accuracyFile << util::accuracyToCsv(i, m) << std::endl;
         mccFile << util::mccToCsv(i, m) << std::endl;
+        // write entire population fitness into a file
+        std::ofstream fitnessGenFile("fitnessGen.csv");
+        int ccc = 0;
+        for(const auto fitness : m.getFitnessList()){
+            fitnessGenFile << std::to_string(ccc) + ";" + util::doubleToCsv(fitness) << std::endl;
+            ccc+=1;
+        }
+        fitnessFile.close();
 
         //logging::logs(pop.getFittestAgent()->toString());
         if (i == numIterations - 1) {
@@ -212,6 +220,10 @@ int main(int argc, char *argv[]) {
     std::ofstream jsonFile("/home/jure/CLionProjects/Neuroevolution/visualization/graph.json");
     jsonFile << json;
     jsonFile.close();
+
+    fitnessFile.close();
+    accuracyFile.close();
+    mccFile.close();
 
     logging::logs("done");
 

@@ -69,6 +69,8 @@ namespace evolution {
         double getAverageSliceMcc(double bottomStartPercentage, double bottomEndPercentage);
 
         void lock();
+
+        std::vector<double> getFitnessList();
     };
 }
 
