@@ -485,7 +485,7 @@
             \includesvg[width=12cm]{diagram-rekurentne-mreze.svg}
         \end{center}
         \caption{Primer rekurentne nevronske mreže s štirimi vhodnimi vozlišči $i$, tremi globokimi vozlišči $d$ in tremi izhodnimi vozlišči $o$.
-        Vozlišča $d_0$, $d_1$, $d_2$ med seboj tvorijo cikel.}
+        Vozlišča $d_0$, $d_1$, $d_2$ tvorijo medsebojni cikel.}
         \label{fig:diagram-rekurentne-mreze}
     \end{figure}
 
@@ -568,8 +568,9 @@ for (dokler nismo zavodoljni z agenti populacije) {
         \end{cases}
         \label{eq:parametric_relu}
     \end{equation}
-   V postopku križanja in mutiranja mrež bi lahko optimizirali tudi parameter $a$, ki določa prepustnost negativnih aktivacijskih vrednosti.
-    TODO podrobnejši opis nevroevolucije
+    V postopku križanja in mutiranja mrež bi lahko optimizirali tudi parameter $a$, ki določa prepustnost negativnih aktivacijskih vrednosti.
+
+    \textbf{TODO} podrobnejši opis nevroevolucije, obstoječi pristopi
 
 
 
@@ -613,8 +614,8 @@ for (dokler nismo zavodoljni z agenti populacije) {
     Čeprav so te reference shranjene tudi v posameznih vozliščih in povezavah, nam redundantni seznami olajšajo
     implementacijo funkcije sprehoda skozi graf, ki je opisana v poglavju~\ref{sec:izracun-kakovosti}.
 
-    Struktura grafov je delno pogojena z izbrano podatkovno množico;
-    število vhodnih vozlišč mora biti enako številu atributov podatkovne mno\-ži\-ce, šte\-vi\-lo izhodnih vozlišč pa mora biti enako številu razredov.
+    Struktura grafov je pogojena izbrani podatkovni množici.
+    Število vhodnih vozlišč mora biti enako številu atributov podatkovne mno\-ži\-ce, šte\-vi\-lo izhodnih vozlišč pa mora biti enako številu razredov.
     Količina notranjih vozlišč se giblje od 0 do izbrane vrednosti parametra.
     Za zgoraj omenjene množice vrednost $20$ predstavlja dovolj dobro razmerje med dovoljeno kompleksnostjo agentov in
     računsko zahtevnostjo.
@@ -628,8 +629,7 @@ for (dokler nismo zavodoljni z agenti populacije) {
     Začne se z 0, vsako novo vozlišče pa dobi indeks, ki je za 1 večje od prejšnjega največjega.
     Vhodna, globoka in izhodna vozlišča se indeksirajo medsebojno neodvisno.
 
-    Vrednost se nastavi v koraku~\ref{sec:izracun-kakovosti}.
-    Vsebuje rezultat aktivacijske funkcije.
+    Vrednost se nastavi v koraku~\ref{sec:izracun-kakovosti}, vsebuje pa rezultat aktivacijske funkcije.
 
     Omenili smo, da obstajajo trije tipi vozlišč, ki so medsebojno logično in strukturno drugačni, izhajajo
     pa iz razreda \enquote{Vertex}.
@@ -653,14 +653,21 @@ for (dokler nismo zavodoljni z agenti populacije) {
         Njihova aktivacijska funkcija je nespremenjena, ker je v koraku~\ref{sec:izracun-kakovosti} pomembna samo največja
         vrednost vseh izhodnih vozlišč grafa. }
     \end{description}
+    V grafih dopuščamo obstoj \enquote{mirujočih} globokih vozlišč, ki:
+    \begin{itemize}
+        \item niso dostopna preko nobenega vhodnega vozlišča
+        \item ne vplivajo na rezultat aktivacijskih funkcij drugih vozlišč
+        \item preko katerih ne moremo doseči nobenih izhodnih vozlišč
+    \end{itemize}
+    Mirujoča vozlišča lahko postanejo aktivna, če je izbrana prava mutacija v koraku~\ref{sec:mutiranje}.
 
     \subsection{Povezave}\label{subsec:povezave}
     Vsaka povezava razreda \enquote{Edge} vsebuje naslednje informacije:
     \begin{itemize}
-        \item referenco na eno vhodno vozlišče
-        \item referenco na eno izhodno vozlišče
-        \item indeks, ki je unikaten glede na celoten graf (določi se na enak način kot za vozlišča~\ref{subsec:vozlisca})
-        \item utež, ki se v koraku križanja~\ref{sec:krizanje} in mutiranja~\ref{sec:mutiranje} normalizira med -1 in 1
+        \item referenco na eno izvorno vozlišče
+        \item referenco na eno ponorno vozlišče
+        \item indeks, ki je unikaten glede na celoten graf (določi se na enak način kot za vozlišča v~\ref{subsec:vozlisca})
+        \item utež, ki se v koraku inicializacije populacije (\ref{sec:inicializacija-populacije}) in mutiranja (\ref{sec:mutiranje}) normalizira med -1 in 1
         \item največje število prečkanj
     \end{itemize}
     Največje število prečkanj je lastnost, ki v klasičnih nevronskih mrežah ni potrebna, saj postopek sprehoda skozi graf
@@ -668,6 +675,21 @@ for (dokler nismo zavodoljni z agenti populacije) {
     Ker so naši agenti enkodirani kot rekurentne nevronske mreže, kjer so dovoljeni cikli (\ref{subsec:rekurentne-nevronske-mreze}),
     nam to polje preprečuje neskončne sprehode skozi graf.
     Največja vrednost polja je ena od inicializacijskih parametrov.
+
+    Tipa izvornega in ponornega vozlišča ene povezave se lahko pojavita samo v naslednjih kombinacijah:
+    \begin{itemize}
+        \item vhodni izvor, globok ponor
+        \item vhodni izvor, izhodni ponor
+        \item globok izvor in ponor
+        \item globok izvor, izhodni ponor
+    \end{itemize}
+    Na ta način preprečimo pojav grafov, kjer:
+    \begin{itemize}
+        \item rezultat aktivacijskih funkcij vhodnih, globokih ali izhodnih vozlišč vpliva na
+        rezultat aktivacijskih funkcij vhodnih vozlišč
+        \item rezultat aktivacijskih funkcij izhodnih vozlišč vpliva na rezultat aktivacijskih funkcij vhodnih,
+        globokih ali izhodnih vozlišč
+    \end{itemize}
 
 
     \section{Populacija}\label{sec:populacija}
@@ -684,13 +706,14 @@ for (dokler nismo zavodoljni z agenti populacije) {
         agenti te populacije. Korak mutiranja (\ref{sec:mutiranje}) lahko povzroči izgubo ali pridobitev novega globokega
         vozlišča, dokler je skupno število med 0 in vrednostjo tega parametra.}
         \item[Največje število povezav]{Pozitivna celoštevilska vrednosti, ki določi, naj\-več koliko povezav lahko obstaja
-        znotraj posameznega agenta. Skupno število vhodnih in izhodnih povezav posameznih vozlišč ni posebej omejeno. }
+        znotraj posameznega agenta. Korak mutiranja (\ref{sec:mutiranje}) lahko povzroči izgubo ali pridobitev nove povezave,
+        dokler je skupno število med 0 in vrednostjo tega parametra. Skupno število vhodnih in izhodnih povezav posameznih vozlišč ni posebej omejeno. }
         \item[Delež mutiranih potomcev]{Delež potomcev, ustvarjenih v koraku kri\-žan\-ja (\ref{sec:krizanje}), ki jih bomo
         mutirali.}
         \item[Največje število prečkanj]{Pozitivno celo število, ki določa naj\-več preč\-kanj povezav grafov
         celotne populacije. Uporabi se v koraku izračuna kakovosti agentov (\ref{sec:izracun-kakovosti}).}
         \item[Seznam label atributov in razredov]{Labele se pripišejo vhodnim in izhodnim vozliščem. Uporabijo se pri izpisu
-        agentov na konzolo in pri shranjevanju v JSON datoteko. }
+        agentov na konzolo in pri shranjevanju grafov agentov v JSON datoteke. }
     \end{description}
 
 
@@ -705,22 +728,9 @@ for (dokler nismo zavodoljni z agenti populacije) {
         vsebovali štiri vhodna vozlišča z labelami \enquote{sepal length in cm}, \enquote{sepal width in cm}, \enquote{petal length in cm} in
         \enquote{petal width in cm} ter tri izhodna vozlišča z labelami \enquote{Iris Setosa}, \enquote{Iris Versicolour} in
         \enquote{Iris Virginica}.
-        \item Vozlišča grafa se povežejo z $n$ povezavami, kjer je $n$ naključno celo število med 0 in vrednostjo
+        \item Vozlišča grafa se povežejo z $m$ povezavami, kjer je $m$ naključno celo število med 0 in vrednostjo
         parametra \enquote{največje število povezav}.\ Vhodna in izhodna vozlišča povezav se izberejo naključno, kombinacije tipov pa
-        morajo slediti naslednjim pravilom:
-        \begin{itemize}
-            \item vhodni izvor, globok ponor
-            \item vhodni izvor, izhodni ponor
-            \item globok izvor in ponor
-            \item globok izvor, izhodni ponor
-        \end{itemize}
-        Na ta način preprečimo pojav grafov, kjer:
-        \begin{itemize}
-            \item rezultat aktivacijskih funkcij vhodnih, globokih ali izhodnih vozlišč vpliva na
-            rezultat aktivacijskih funkcij vhodnih vozlišč
-            \item rezultat aktivacijskih funkcij izhodnih vozlišč vpliva na rezultat aktivacijskih funkcij vhodnih ali
-            globokih vozlišč
-        \end{itemize}
+        morajo slediti pravilom poglavja~\ref{subsec:povezave}.
         V tem koraku vsaki povezavi določimo tudi naključno utež med -1 in 1 ter največje število prečkanj, ki je naključno število med 0 in parametrom
         \enquote{največje število prečkanj}.
         \item Normaliziramo uteži povezav grafa med -1 in 1.
@@ -733,11 +743,11 @@ for (dokler nismo zavodoljni z agenti populacije) {
     \section{Vzorčenje}\label{sec:vzorcenje}
     Vzorčenje je v programu implementirano s prilagojenim algoritmom stohastičnega univerzalnega vzorčenja~\cite{inteligentni_sistemi_2010},
     kjer vedno obdržimo najkvalitetnejšega agenta populacije.
-    Metoda prejme naslednja dva argumenta, ki vplivata na izbiro:
+    Metoda prejme dva argumenta, ki vplivata na izbiro:
     \begin{description}
         \item[Število agentov, ki jih želimo obdržati]{Vrednost mora biti večja od 0 in manjša od ali enaka velikosti populacije.
         Večja vrednost povzroči manj potomcev in manj mutacij.}
-        \item[Metrika kvalitete]{Metrika, po kateri želimo izvajati vzorčenje. Lahko je točnost ali MCC.}
+        \item[Metrika kvalitete]{Metrika, po kateri želimo izvajati vzorčenje. Lahko je točnost ali MCC (\ref{subsec:matthewsov-korelacijski-koeficient}).}
     \end{description}
     Rezultat metode je podmnožica populacije, ki se napolni do polne kapacitete v koraku križanja (\ref{sec:krizanje}).
 
@@ -752,12 +762,15 @@ for (dokler nismo zavodoljni z agenti populacije) {
 
     SUS je v našem programu prilagojen tako, da vedno obdrži najboljšega agenta, implementiran pa je na naslednji način:
     \begin{enumerate}
-        \item Poišče agenta z največjo kvaliteto glede na izbrano metriko.\ Njegov indeks shrani v seznam izbranih.
+        \item Poišče agenta z največjo kvaliteto, izračunano v koraku izračuna kakovosti (\ref{sec:izracun-kakovosti}), ki
+        lahko upošteva tudi njegovo število globokih vozlišč in povezav s poljubno utežjo poleg izbrane metrike.
+        V primeru, da imata dva agenta enako kvaliteto, izbere tistega, ki ima največjo kvaliteto brez velikostne kazni.
+        Njegov indeks shrani v seznam izbranih.
         \item Izračuna vsoto kvalitete vseh agentov populacije.
         \item Izračuna dolžino intervala kot razmerje med vsoto kvalitete in številom agentov, ki jih hočemo obdržati.
-        \item Izberemo naključno vrednost med 0 in dolžino intervala, ki bo služila kot začetni odmik.
-        \item Vstopimo v zanko, ki izbira agente glede na njihovo širino na številskem traku.
-        Predstavljena je s spodnjo psevdokodo.
+        \item Izbere naključno vrednost med 0 in dolžino intervala, ki bo služila kot začetni odmik.
+        \item Vstopi v zanko, ki izbira agente glede na njihovo širino na številskem traku (slika~\ref{fig:sus}).
+        Zanka je predstavljena s spodnjo psevdokodo.
         \begin{verbatim}
 // nastavitev kazalca z naključnim začetnim odmikom
 double pointer = zacetni_odmik;
@@ -795,24 +808,70 @@ while (seznam_izbranih.size() < agentsToKeep) {
         \begin{center}
             \includesvg[width=12cm]{sus.svg}
         \end{center}
-        \caption{Ilustracija SUS, kjer želimo obdržati 3 agente. Izbrani agenti bodo A, B in D.}
+        \caption{Ilustracija SUS, kjer želimo obdržati 3 agente. Izbrani agenti bodo A, B in D. Če bi bil začetni odmik
+        večji, bi bili izbrani agenti A, C in E.}
         \label{fig:sus}
     \end{figure}
 
 
-
     \section{Križanje}\label{sec:krizanje}
+    Korak križanja agentov napolni podmnožico populacije iz koraka vzorčenja (\ref{sec:vzorcenje}) s potomci.
+    Operiramo samo nad globokimi vozlišči in povezavami.
+    Vhodna in izhodna vozlišča morajo ustrezati podatkovni množici, zato so enaka vsem agentih populacije.
+
+    Vsak potomec je izdelan v svoji procesorski niti, saj je proces neodvisen od ostalih potomcev, hkrati pa ne
+    spreminja vzorčenih agentov.
+
+    Algoritem križanja je naslednji:
+    \begin{enumerate}
+        \item Iz populacije izberemo dva različna naključna agenta oz.\ starša.
+        \item Ustvarimo instanco potomca z vhodnimi in izhodnimi vozlišči, ki ustrezajo podatkovni množici.
+        \item Najdemo unijo globokih vozlišč obeh staršev, nato pa ta vozlišča ustvarimo v potomcu.
+        Dve vozlišči obravnavamo kot enaki, če imata enak indeks.
+        \item Najdemo unijo povezav obeh staršev, nato pa te povezave ustvarimo v potomcu.
+        Dve povezavi obravnavamo kot enaki, če v obeh starših povezujeta vozlišči enakega tipa in indeksa v enaki smeri.
+        Če taki povezavi obstajata, potem izberemo utež in največje število prečkanj od naključnega starša.
+    \end{enumerate}
 
 
     \section{Mutiranje}\label{sec:mutiranje}
+    Po vsakem končanem postopku križanja na podlagi parametra \enquote{delež mutiranih potomcev} izračunamo delež potomcev,
+    ki jim bomo mutirali.
+    Izbira potomcev za mutacijo in tip mutacije sta naključna. 
+    Vzorčenih agentov nikoli ne mutiramo.
+
+    Implementirali smo sedem različnih tipov mutacij z enako možnostjo izbire:
+    \begin{description}
+        \item[Dodajanje globokega vozlišča]{Dodamo novo globoko vozlišče z na\-klju\-čno vhodno in izhodno povezavo, če
+        potomec še nima maksimalnega dovoljenega števila vozlišč tega tipa.}
+        \item[Odstranitev globokega vozlišča]{Odstranimo naključno globoko vozlišče z vsemi povezavami.}
+        \item[Dodajanje povezave]{Dodamo novo povezavo z naključno utežjo in naključnim največjim
+        številom prečkanj, če potomec še nima maksimalnega dovoljenega števila povezav. Izvorno in ponorno vozlišče je
+        izbrano naključno po pravilih v poglavju~\ref{subsec:povezave}. }
+        \item[Odstranitev povezave]{Odstranimo naključno povezavo.}
+        \item[Sprememba uteži]{Spremenimo utež naključne povezave.}
+        \item[Sprememba števila dovoljenih prečkanj]{Spremenimo šte\-vi\-lo dovoljenih prečkanj naključne povezave.}
+        \item[Minimizacija]{Agentu odstranimo vsa mirujoča globoka vozlišča in vse pripadajoče povezave. \enquote{Verig} globokih
+        vozlišč ne združujemo zaradi nelinearnosti puščajoče ReLU aktivacijske funkcije.}
+    \end{description}
+
+    Mutiranje vsakega potomca izvajamo v svoji procesorski niti.
+
+    Po končanem postopku mutiranja vsakemu potomcu normaliziramo uteži v svoji procesorski niti.
 
 
     \section{Izračun kakovosti}\label{sec:izracun-kakovosti}
+    \textbf{TODO}
+
+    \subsection{Matthewsov korelacijski koeficient}\label{subsec:matthewsov-korelacijski-koeficient}
+    \textbf{TODO}
 
 
-    \chapter{Predstavitev metodologije}\label{ch:predstavitev-metodologije}
+    \chapter{Evalvacija}\label{ch:evalvacija}
 
     \section{Izbrane podatkovne množice}\label{sec:izbrane-podatkovne-mnozice}
+    \textbf{TODO}
+
     Razvoj je potekal s pomočjo podatkovnih množic Iris, Wine, Car Evaluation in Statlog (Shuttle), ki so
     na voljo na UCI Machine Learning Repository~\cite{Dua:2019}.
     Množica Iris je najenostavnejša od izbranih (vsebuje tri razrede po 50 instanc), zato je bila uporabljena tekom razvoja programa.
@@ -846,21 +905,26 @@ while (seznam_izbranih.size() < agentsToKeep) {
         \end{tabular}
     \end{center}
 
-
-    \chapter{Evalvacija}\label{ch:evalvacija}
+    \subsection{Načrt poskusov}\label{subsec:nacrt-poskusov}
+    \textbf{TODO}
+    \subsection{Rezultati}\label{subsec:rezultati}
+    \textbf{TODO}
+    \subsection{Primerjava z obstoječimi pristopi strojnega učenja}\label{subsec:primerjava-z-obstojecimi-pristopi-strojnega-ucenja}
+    \textbf{TODO}
 
 
     \chapter{Zaključki, sklep}\label{ch:zakljucki-sklep}
+    \textbf{TODO}
 
 
 %\cleardoublepage
 %\addcontentsline{toc}{chapter}{Literatura}
 
-    \printbibliography[heading=bibintoc,type=article,title={Članki v revijah}]
+    %\printbibliography[heading=bibintoc,type=article,title={Članki v revijah}]
 
-    \printbibliography[heading=bibintoc,type=inproceedings,title={Članki v zbornikih}]
+    %\printbibliography[heading=bibintoc,type=inproceedings,title={Članki v zbornikih}]
 
-    \printbibliography[heading=bibintoc,type=incollection,title={Poglavja v knjigah}]
+    %\printbibliography[heading=bibintoc,type=incollection,title={Poglavja v knjigah}]
 
     \printbibliography[heading=bibintoc,title={Celotna literatura}]
 
