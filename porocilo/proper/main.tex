@@ -46,6 +46,7 @@
 
 \usepackage{svg}
 \usepackage{tikz}
+\usepackage{float}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %	DIPLOMA INFO
@@ -55,7 +56,7 @@
 \newcommand{\tsubject}{\ttitle}
 \newcommand{\tsubjectEn}{\ttitleEn}
 \newcommand{\tauthor}{Jure Vreček}
-\newcommand{\tkeywords}{nevroevolucija, strojno učenje, nevronske mreže, rekurentne nevronske mreže, genetski algoritem}
+\newcommand{\tkeywords}{nevroevolucija, strojno učenje, nevronske mreže, rekurenčne nevronske mreže, genetski algoritem}
 \newcommand{\tkeywordsEn}{neuroevolution, machine learning, neural networks, recurrent neural networks, genetic algorithm}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -334,7 +335,7 @@
                  & \textbf{angleško}             & \textbf{slovensko}                        \\ \hline
                  \textbf{CA}    &   classification accuracy &   klasifikacijska točnost \\
                  \textbf{NN}    &   neural network    & nevronska mreža \\
-                 \textbf{ReLU}    &   rectified linear unit    & TBD \\
+                 \textbf{ReLU}    &   rectified linear unit    & usmerjena linearna enota \\
                  \textbf{GA}    &   genetic algorithm    & genetski algoritem \\
                  \textbf{SUS}    &   stochastic universal sampling    & stohastično univerzalno vzorčenje \\
 %  \dots & \dots & \dots \\
@@ -358,7 +359,7 @@
 %\noindent\textbf{Povzetek:}
     %\noindent V vzorcu je predstavljen postopek priprave diplomskega dela z uporabo okolja \LaTeX. Vaš povzetek mora sicer vsebovati približno 100 besed, ta tukaj je odločno prekratek.
     %Dober povzetek vključuje: (1) kratek opis obravnavanega problema, (2) kratek opis vašega pristopa za reševanje tega problema in (3) (najbolj uspešen) rezultat ali prispevek diplomske naloge.
-    \noindent To diplomsko delo pokriva opis izdelave rekurentnih nevronskih mrež z namenskim programom, ki
+    \noindent To diplomsko delo pokriva opis izdelave rekurenčnih nevronskih mrež z namenskim programom, ki
     pokriva inicializacijo začetne populacije, vzorčenje, križanje, mutiranje in izračun kvalitete.
     Nevronske mreže, ki jih program izdela, so namenjene večrazredni klasifikaciji nad podatkovnimi množicami z zveznimi ali distkretnimi atributi.
     Algoritmi inicializacije, križanja in mutiranja so specifični za namen tega dela.
@@ -412,9 +413,9 @@
 
     \chapter{Uvod}\label{ch:uvod}
     Na področju strojnega učenja je priljubljena
-    uporaba nevronskih mrež za napovedovanje na podlagi učenja z podatkovnimi množicami.
+    uporaba nevronskih mrež za napovedovanje na podlagi učenja iz podatkov.
     Topologija teh nevronskih mrež se giblje od enostavnih brez skritih nivojev, do kompleksnih večnivojskih
-    z dvosmernimi povezavami.
+    s povratnimi povezavami.
     Učenje večinoma poteka z metodo vzvratnega razširjanja napake, kjer se prilagajajo le uteži povezav med vozlišči,
     topologija pa ostane enaka.
     Motivacija diplomskega dela je raziskati, ali učenje z metodo nevroevolucije, kjer poleg uteži spreminjamo tudi topologijo,
@@ -422,40 +423,38 @@
     mrež v primerjavi s standardnimi rešitvami.
 
     Naš pristop ustvarja nevronske mreže na podlagi vhodne
-    podatkovne množice, izračuna njihovo kvaliteto, nato pa izbere najboljših $n$ za na naslednjo generacijo.
+    podatkovne množice, izračuna njihovo kvaliteto, nato pa izbere najboljših $n$ za naslednjo generacijo.
     Postopek $m$-krat ponovi, nato pa shrani najboljšo nevronsko mrežo.
     Podrobnosti pristopa so opisane v poglavju~\ref{ch:implementacija-nevroevolucije}.
 
-    Rezultate smo primerjali z nekaterimi odprtokodnimi rešitvami, ki so trenutno na voljo (poglavje~\ref{ch:evalvacija}).
+    Rezultate smo ovrednotili in primerjali z nekaterimi odprtokodnimi rešitvami, ki so trenutno na voljo (poglavje~\ref{ch:evalvacija}).
+    % TODO kaj je v zaključku
 
 
     \chapter{Ozadje problema}\label{ch:ozadje-problema}
-    Poglavje zajema razlago pojmov, na katerih temelji to diplomsko delo: opis nevronskih mrež (\ref{sec:nevronske-mreze}),
-    principov genetskih algoritmov (\ref{sec:genetski-algoritmi}) in nevroevolucije (\ref{sec:nevroevolucija}).
+    Poglavje zajema razlago tehnologij, ki jih uporabljamo v tem diplomskem delu: nevronske mreže (razdelek~\ref{sec:nevronske-mreze}),
+    genetske algoritme (razdelek~\ref{sec:genetski-algoritmi}) in nevroevolucijo (razdelek~\ref{sec:nevroevolucija}).
 
     \section{Nevronske mreže}\label{sec:nevronske-mreze}
-    Nevronske mreže (NN) so množice povezanih vozlišč oziroma ``nevronov''.
+    Nevronske mreže (NN) so množice povezanih vozlišč oziroma \enquote{nevronov}.
     Njihove lastnosti določata topologija in lastnosti vozlišč~\cite{russell_norvig_2016}.
     Povezave vsebujejo zvezno vrednost uteži, vozlišča pa aktivacijsko funkcijo, ki transformira vsoto uteženih
     aktivacijskih vrednosti vhodnih vozlišč.
-    Preprost model vozlišča je naslednji~\cite{russell_norvig_2016}:
+    Preprost model vozlišča, predstavljen z diagramom~\ref{fig:diagram-nevrona}, je naslednji~\cite{russell_norvig_2016}:
     \begin{equation}
-        a_j=f(\sum_{i=0}^{n} a_i w_{i,j})
+        a_j=f(\sum_{i=0}^{n} a_i w_{i,j}),
         \label{eq:neuron_model_splosno}
     \end{equation}
     kjer je:
     \begin{itemize}
-        \item $a_j$ aktivacijska vrednost trenutnega izhodnega vozlišča
-        \item $f(x)$ aktivacijska funkcija
-        \item $n$ število vhodnih povezav trenutnega vozlišča
-        \item $a_i$ aktivacijska vrednost $i$-tega vhodnega vozlišča
+        \item $a_j$ aktivacijska vrednost trenutnega izhodnega vozlišča,
+        \item $f(x)$ aktivacijska funkcija,
+        \item $n$ število vhodnih povezav trenutnega vozlišča,
+        \item $a_i$ aktivacijska vrednost $i$-tega vhodnega vozlišča in
         \item $w_{i,j}$ utež povezave med $i$-tim in trenutnim vozliščem.
     \end{itemize}
 
-    V splošnem vsebujejo fiksno število vhodnih in izhodnih vozlišč ter poljubno število vmesnih vozlišč.
-    Odvisno od tipa nevronske mreže, so lahko globoka vozlišča združena v skupine, t.i.\ sloje.
-
-    \begin{figure}[htb]
+    \begin{figure}[H]
         \begin{center}
             \includesvg[width=12cm]{diagram-nevron.svg}
         \end{center}
@@ -463,7 +462,10 @@
         \label{fig:diagram-nevrona}
     \end{figure}
 
-    \begin{figure}[htb]
+    V splošnem nevronske mreže (slika~\ref{fig:diagram-mreze}) vsebujejo fiksno število vhodnih in izhodnih vozlišč ter poljubno število vmesnih vozlišč.
+    Odvisno od tipa nevronske mreže, so lahko globoka vozlišča združena v skupine, t.i.\ sloje.
+
+    \begin{figure}[H]
         \begin{center}
             \includesvg[width=12cm]{diagram-mreza.svg}
         \end{center}
@@ -472,26 +474,26 @@
     \end{figure}
 
 
-    \subsection{Rekurentne nevronske mreže}\label{subsec:rekurentne-nevronske-mreze}
-    Če povezave med vozlišči lahko tvorijo cikel, nevronske mreže imenujemo rekurentne~\cite{recurrent_neural_network_wiki}.
-    Z razliko od acikličnih mrež, rekurentne mreže vsebujejo povezave, ki aktivacijsko vrednost nekaterih vozlišč
+    \subsection{Rekurenčne nevronske mreže}\label{subsec:rekurencne-nevronske-mreze}
+    Če povezave med vozlišči lahko tvorijo cikel, nevronske mreže imenujemo rekurenčne~\cite{recurrent_neural_network_wiki} (slika~\ref{fig:diagram-rekurencne-mreze}).
+    Z razliko od acikličnih mrež, rekurenčne mreže vsebujejo povezave, ki aktivacijsko vrednost nekaterih vozlišč
     sklenejo z njihovimi predhodniki.
 
-    Koncept združevanja globokih vozlišč v sloje je v teh mrežah malce zamegljen.
+    Koncept združevanja globokih vozlišč v sloje je v teh mrežah zamegljen.
     Namreč, sloji se pojavijo pri vsakem časovnem koraku propagacije vhodnih vrednosti skozi topologijo, zaradi ciklov pa je povsem možno,
     da se neko vozlišče pojavi v več slojih.
-    \begin{figure}[htb]
+    \begin{figure}[H]
         \begin{center}
-            \includesvg[width=12cm]{diagram-rekurentne-mreze.svg}
+            \includesvg[width=12cm]{diagram-rekurencne-mreze.svg}
         \end{center}
-        \caption{Primer rekurentne nevronske mreže s štirimi vhodnimi vozlišči $i$, tremi globokimi vozlišči $d$ in tremi izhodnimi vozlišči $o$.
+        \caption{Primer rekurencne nevronske mreže s štirimi vhodnimi vozlišči $i$, tremi globokimi vozlišči $d$ in tremi izhodnimi vozlišči $o$.
         Vozlišča $d_0$, $d_1$, $d_2$ tvorijo medsebojni cikel.}
-        \label{fig:diagram-rekurentne-mreze}
+        \label{fig:diagram-rekurencne-mreze}
     \end{figure}
 
     \section{Genetski algoritmi}\label{sec:genetski-algoritmi}
     Genetski algoritmi (GA) črpajo navdih iz evolucijskega procesa naravne selekcije.
-    Večinoma so uporabljeni so za reševanje optimizacijskih in iskalnih problemov, ne zagotavljajo pa optimalnih rešitev.
+    Večinoma so uporabljeni za reševanje optimizacijskih in iskalnih problemov, ne zagotavljajo pa optimalnih rešitev.
     Namesto enega rezultata po navadi najdejo nabor rešitev dobre kakovosti, ki so primerne za nadaljnjo uporabo
     ~\cite{inteligentni_sistemi_2010,genetic_algorithm_wiki_2022}.
     
@@ -501,7 +503,7 @@
         \item[Agent]{je predstavitev posamezne (vmesne ali končne) rešitve. Lahko je zgrajen v obliki vektorja binarnih ali realnih
             števil, znakov, ali pa v obliki drevesa oz. grafa. Posamezno vrednost imenujemo gen in lahko predstavlja navodilo za
             reševanje problema (npr. premik gor, dol, levo ali desno pri sprehodu skozi labirint) ali vrednost nekega parametra problema.}
-        \item[Izračun kakovosti]{agentov je specifičen glede problem, ki ga želimo rešiti. Predstavitev agenta lahko uporabimo
+        \item[Izračun kakovosti]{agentov je specifičen glede na problem, ki ga želimo rešiti. Predstavitev agenta lahko uporabimo
             kot vhodne parametre našega problema in kvaliteto rezultata ustrezno ocenimo. Pri nevroevoluciji
             je kakovost agenta kar točnost klasificiranja.}
         \item[Inicializacija populacije]{je prvi korak GA.
@@ -513,8 +515,10 @@
             \begin{itemize}
                 \item proporcionalna izbira, kjer je verjetnost izbire agenta odvisna od njegove kakovosti glede na populacijo,
                 \item rangovna izbira, kjer agente sortiramo po kvaliteti padajoče in jim priredimo rang glede na pozicijo, verjetnost izbire pa je odvisna od velikosti ranga,
-                \item turnirska izbira,
-                \item stohastično univerzalno vzorčenje (SUS), ki je podrobneje opisana v poglavju~\ref{sec:vzorcenje}.
+                \item turnirska izbira, kjer izberemo naključno število agentov iz populacije, za križanje pa izberemo najkakovostnejšega
+                z verjetnostjo $p$, drugega po vrsti z verjetnostjo $p*(1-p)$, tretjega z verjetnostjo $p*(1-p)^2$ itd.
+                ($n$-tega izberemo z verjetnostjo $p*(1-p)^{n-1}$),
+                \item stohastično univerzalno vzorčenje (SUS), ki je podrobneje opisano v razdelku~\ref{sec:vzorcenje}.
             \end{itemize}
             Agenta lahko izberemo večkrat.
             Taki agenti imajo po navadi visoko kakovost, kar pomeni večkratno udeležbo v križanju in s tem boljše širjenje kakovostnih genov na potomce.
@@ -524,7 +528,7 @@
         \item[Križanje]{je postopek izmenjave genov med agenti in je odvisen od njihove predstavitve in tega, kakšno informacijo posamezen gen predstavlja.
             Na primer, potomce agentov, ki so predstavljeni v vektorskem načinu, lahko ustvarimo tako, da vzamemo prvo polovico genov prvega in drugo polovico genov
             drugega starša. Križanje agentov, ki so predstavljeni z drevesnimi strukturami ali grafi, je težje
-            (naša implementacija je opisana v poglavju~\ref{sec:krizanje}).
+            (naša implementacija je opisana v razdelku~\ref{sec:krizanje}).
             Rezultat križanja je lahko eden ali več agentov, nastopata pa lahko tudi več kot dva starša. }
         \item[Mutacija]{je postopek naključne spremembe enega ali več genov agenta. Omogoča nastanek genov, ki jih
             s postopkom križanja ne bi mogli ustvariti. Paziti moramo, da število mutiranih osebkov ni preveliko,
@@ -545,20 +549,19 @@ for (dokler nismo zavodoljni z agenti populacije) {
 
     \section{Nevroevolucija}\label{sec:nevroevolucija}
     Nevroevolucija je področje strojnega učenja, kjer agente (napovedne modele) ustvarimo z uporabo genetskih algoritmov.
-    Agenti vedno predstavljajo nek tip nevronskih mrež.
-    Posamezen gen lahko predstavlja vozlišče ali povezavo (direktno enkodiranje), lahko pa
+    Agenti predstavljajo nek tip nevronskih mrež.
+    Posamezen gen predstavlja vozlišče ali povezavo (direktno kodiranje), lahko pa
     predstavlja tudi načrt konstrukcije dela nevronske mreže (posredno kodiranje)~\cite{kassahun2007common}.
 
-    Nevroevolucija je primerna na področju spodbujevalnega učenja, kjer nas za izračun kvalitete zanima le uspešnost
+    Nevroevolucija je primerna na področju spodbujevanega učenja, kjer nas za izračun kvalitete zanima le uspešnost
     kreirane mreže.
-    Na primer, rezultat neke igre lahko enostavno izmerimo (ali je agent zmagal, koliko točk je dobil, kako hiter je bil\ldots),
+    Na primer, rezultat neke igre lahko enostavno izmerimo (ali je agent zmagal, koliko točk je dobil, kako hiter je bil),
     vrednost pa uporabimo kot kakovost.
     Pri nadzorovanem učenju bi potrebovali podatkovno množico agentovih potez s pričakovanimi rezultati igre.
     V kolikor igra vsebuje elemente naključnosti, se izdelava take množice lahko izkaže kot težaven problem.
 
     Z razliko od konvencionalnih metod strojnega učenja z vzvratnim raz\-šir\-ja\-njem napake, ki uporabljajo nevronske mreže
-    fiksne topologije, nevroevolucija lahko optimizira topologijo, uteži povezav med vozlišči in druge parametre
-    predstavitve mrež.
+    fiksne topologije, nevroevolucija optimizira topologijo, uteži povezav med vozlišči in druge parametre mrež.
     Za primer vzemimo aktivacijsko funkcijo ReLU~\cite{he2015delving}, ki je definirana z:
     \begin{equation}
         f(x)=
@@ -575,36 +578,36 @@ for (dokler nismo zavodoljni z agenti populacije) {
 
 
     \chapter{Implementacija nevroevolucije}\label{ch:implementacija-nevroevolucije}
-    To poglavje pokriva konkretno implementacijo konceptov nevroevolucije iz poglavja~\ref{sec:nevroevolucija}.
+    To poglavje pokriva konkretno implementacijo konceptov nevroevolucije iz razdelka~\ref{sec:nevroevolucija}.
 
-    Program izdela nevronsko mrežo za poljubno učno množico z zveznimi ali diskretnimi atributi, s ciljem je večrazredne klasifikacije.
+    Na pristop izdela nevronsko mrežo za poljubno učno množico z zveznimi ali diskretnimi atributi, s ciljem je večrazredne klasifikacije.
     V tem poglavju je opisano:
     \begin{itemize}
-        \item implementacija agentov (\ref{sec:agenti}) v obliki samostojnih objektov
-        \item implementacija populacije (\ref{sec:populacija}) in parametri
-        \item inicializacija populacije (\ref{sec:inicializacija-populacije}) in dovoljeni parametri
-        \item vzorčenje (\ref{sec:vzorcenje}) z algoritmom stohastičnega univerzalnega vzorčenja
-        \item križanje (\ref{sec:krizanje}) agentov z združevanjem dveh usmerjenih grafov
-        \item mutiranje (\ref{sec:mutiranje}) potomcev in implementirane vrste mutacij
-        \item izračun kvalitete (\ref{sec:izracun-kakovosti}) agentov na podlagi točnosti in Matthewsovega korelacijskega koeficienta
+        \item implementacija agentov (razdelek~\ref{sec:agenti}) v obliki samostojnih objektov,
+        \item implementacija populacije (razdelek~\ref{sec:populacija}) in njeni parametri,
+        \item postopek inicializacije populacije (razdelek~\ref{sec:inicializacija-populacije}),
+        \item vzorčenje (razdelek~\ref{sec:vzorcenje}) z algoritmom stohastičnega univerzalnega vzorčenja,
+        \item križanje (razdelek~\ref{sec:krizanje}) agentov z združevanjem dveh usmerjenih grafov,
+        \item mutiranje (razdelek~\ref{sec:mutiranje}) potomcev in implementirane vrste mutacij,
+        \item izračun kvalitete (\ref{sec:izracun-kakovosti}) agentov na podlagi točnosti in Matthewsovega korelacijskega koeficienta.
     \end{itemize}
 
     \section{Agenti}\label{sec:agenti}
-    Agenti v našem pristopu so direktno zakodirane rekurentne nevronske mreže v obliki usmerjenega grafa, kjer vsak gen
+    Agenti v našem pristopu so direktno zakodirane rekurenčne nevronske mreže v obliki usmerjenega grafa, kjer vsak gen
     predstavlja povezavo ali vozlišče.
-    Vsak agent hrani informacijo o svoji kvaliteti, točnosti in MCC, ki se ob inicializaciji populacije (\ref{sec:inicializacija-populacije})
-    in kreiranju novega agenta v koraku križanja (\ref{sec:krizanje}) nastavijo na 0.
-    V koraku izračuna kakovosti (\ref{sec:izracun-kakovosti}) se v polja shrani izračunana vrednost.
+    Vsak agent hrani informacijo o svoji kvaliteti, točnosti in MCC (razdelek~\ref{subsec:matthewsov-korelacijski-koeficient}), ki se ob inicializaciji populacije (razdelek~\ref{sec:inicializacija-populacije})
+    in kreiranju novega agenta v koraku križanja (razdelek~\ref{sec:krizanje}) nastavijo na 0.
+    V koraku izračuna kakovosti (razdelek~\ref{sec:izracun-kakovosti}) se v polja shrani izračunana vrednost.
 
-    Polje \enquote{newAgent} hrani informacijo, ali je ta agent v trenutni iteraciji populacije nov oz.\ je bil vzorčen
+    Polje \enquote{newAgent} hrani informacijo, ali je agent v trenutni iteraciji populacije nov oz.\ je bil vzorčen
     iz prejšnje iteracije.
-    V kolikor je vrednost \textbf{false}, korak izračuna kakovosti vse take agente preskoči, saj bi ponoven izračun
+    V kolikor je vrednost \textbf{false}, korak izračuna kakovosti take agente preskoči, saj bi ponoven izračun
     vrnil enako kvaliteto.
 
     Vozlišča in povezave usmerjenega grafa so v naši implementaciji samostojni objekti, ki hranijo medsebojne reference.
-    Matrika sosednosti ni najbolj primerna za naše agente, saj bi bila zaradi načina mutiranja (\ref{sec:mutiranje})
+    Matrika sosednosti ni najbolj primerna, saj bi bila zaradi načina mutiranja (razdelek~\ref{sec:mutiranje})
     v veliki večini primerov redka\footnote{Redke oz. raztresene matrike so matrike, v katerih ima večina elementov vrednost 0.
-    V primeru predstavitve nevronskih mrež s tako podatkovno strukturo, vrednost posameznega elementa pomeni utež povezave
+    V primeru predstavitve nevronskih mrež s tako podatkovno strukturo vrednost posameznega elementa pomeni utež povezave
     med vozliščema $x_i$ in $y_j$.
     Če je vrednost 0, potem povezava med vozliščema ne obstaja.}.
 
@@ -612,12 +615,12 @@ for (dokler nismo zavodoljni z agenti populacije) {
     Objekti razreda \enquote{Graph} vsebujejo seznam referenc na vsa vhodna, izhodna in globoka vozlišča ter seznam referenc
     na vse povezave.
     Čeprav so te reference shranjene tudi v posameznih vozliščih in povezavah, nam redundantni seznami olajšajo
-    implementacijo funkcije sprehoda skozi graf, ki je opisana v poglavju~\ref{sec:izracun-kakovosti}.
+    implementacijo funkcije sprehoda skozi graf, ki je opisana v razdelku~\ref{sec:izracun-kakovosti}.
 
-    Struktura grafov je pogojena izbrani podatkovni množici.
-    Število vhodnih vozlišč mora biti enako številu atributov podatkovne mno\-ži\-ce, šte\-vi\-lo izhodnih vozlišč pa mora biti enako številu razredov.
+    Struktura grafa je pogojena z izbrano podatkovno množico.
+    Število vhodnih vozlišč mora biti enako številu atributov podatkovne mno\-ži\-ce, šte\-vi\-lo izhodnih vozlišč pa enako številu razredov.
     Količina notranjih vozlišč se giblje od 0 do izbrane vrednosti parametra.
-    Za zgoraj omenjene množice vrednost $20$ predstavlja dovolj dobro razmerje med dovoljeno kompleksnostjo agentov in
+    Za množice razdelka~\ref{sec:izbrane-podatkovne-mnozice} vrednost $20$ predstavlja dovolj dobro razmerje med dovoljeno kompleksnostjo agentov in
     računsko zahtevnostjo.
 
     \subsection{Vozlišča}\label{subsec:vozlisca}
@@ -629,17 +632,17 @@ for (dokler nismo zavodoljni z agenti populacije) {
     Začne se z 0, vsako novo vozlišče pa dobi indeks, ki je za 1 večje od prejšnjega največjega.
     Vhodna, globoka in izhodna vozlišča se indeksirajo medsebojno neodvisno.
 
-    Vrednost se nastavi v koraku~\ref{sec:izracun-kakovosti}, vsebuje pa rezultat aktivacijske funkcije.
+    Vrednost se nastavi v koraku izračuna kakovosti (razdelek~\ref{sec:izracun-kakovosti}), vsebuje pa rezultat aktivacijske funkcije.
 
     Omenili smo, da obstajajo trije tipi vozlišč, ki so medsebojno logično in strukturno drugačni, izhajajo
     pa iz razreda \enquote{Vertex}.
     \begin{description}
         \item[Vhodna vozlišča (oznaka $i$)]{Vsebujejo dodatno besedilno labelo pripadajočega atributa podatkovne množice.
-        Logike dodajanja \textbf{vhodnih} povezav ne implementirajo.\ Njihova aktivacijska funkcija je nespremenjena, ker
+        Logike dodajanja \textbf{vhodnih} povezav ta vozlišča ne implementirajo.\ Njihova aktivacijska funkcija je nespremenjena, ker
         želimo skozi graf propagirati natanko takšne vrednosti, kot jih prejmemo iz podatkovne množice. }
         \item[Globoka vozlišča (oznaka $d$)]{Vsebujejo logiko dodajanja vhodnih in izhodnih povezav, hkrati pa prepišejo
         privzeto aktivacijsko funkcijo s puščajočo (leaky) ReLU\footnote{Puščajoča ReLU je variacija ReLU aktivacijske funkcije $f(x)=\max(0,x)$, ki dopušča propagiranje negativnih aktivacijskih
-        vrednosti skozi nevronsko mrežo. Sorodna je parametričnem ReLU iz poglavja~\ref{sec:nevroevolucija}.}~\cite{maas2013rectifier}:
+        vrednosti skozi nevronsko mrežo. Sorodna je parametričnem ReLU iz razdelka~\ref{sec:nevroevolucija}.}~\cite{maas2013rectifier}:
         \begin{equation}
             f(x)=
             \begin{cases}
@@ -648,47 +651,47 @@ for (dokler nismo zavodoljni z agenti populacije) {
             \end{cases}
             \label{eq:leaky_relu}
         \end{equation}}
-        \item[Izhodna vozlišča (oznaka $o$)]{Tako kot vhodna vozlišča, vsebujejo dodatno besedilno labelo, ki predstavlja
+        \item[Izhodna vozlišča (oznaka $o$)]{Tako kot vhodna vozlišča, tudi izhodna vsebujejo dodatno besedilno labelo, ki predstavlja
         ustrezen razred podatkovne mno\-ži\-ce.\ Logike dodajanja \textbf{izhodnih} povezav ne implementirajo.
-        Njihova aktivacijska funkcija je nespremenjena, ker je v koraku~\ref{sec:izracun-kakovosti} pomembna samo največja
+        Njihova aktivacijska funkcija je nespremenjena, ker je v koraku izračuna kakovosti pomembna samo največja
         vrednost vseh izhodnih vozlišč grafa. }
     \end{description}
     V grafih dopuščamo obstoj \enquote{mirujočih} globokih vozlišč, ki:
     \begin{itemize}
-        \item niso dostopna preko nobenega vhodnega vozlišča
-        \item ne vplivajo na rezultat aktivacijskih funkcij drugih vozlišč
-        \item preko katerih ne moremo doseči nobenih izhodnih vozlišč
+        \item niso dostopna preko nobenega vhodnega vozlišča,
+        \item ne vplivajo na rezultat aktivacijskih funkcij drugih vozlišč,
+        \item preko katerih ne moremo doseči izhodnih vozlišč.
     \end{itemize}
-    Mirujoča vozlišča lahko postanejo aktivna, če je izbrana prava mutacija v koraku~\ref{sec:mutiranje}.
+    Mirujoča vozlišča lahko postanejo aktivna, če je izbrana prava mutacija v koraku mutiranja agentov (razdelek~\ref{sec:mutiranje}).
 
     \subsection{Povezave}\label{subsec:povezave}
     Vsaka povezava razreda \enquote{Edge} vsebuje naslednje informacije:
     \begin{itemize}
-        \item referenco na eno izvorno vozlišče
-        \item referenco na eno ponorno vozlišče
-        \item indeks, ki je unikaten glede na celoten graf (določi se na enak način kot za vozlišča v~\ref{subsec:vozlisca})
-        \item utež, ki se v koraku inicializacije populacije (\ref{sec:inicializacija-populacije}) in mutiranja (\ref{sec:mutiranje}) normalizira med -1 in 1
-        \item največje število prečkanj
+        \item referenco na eno izvorno vozlišče,
+        \item referenco na eno ponorno vozlišče,
+        \item indeks, ki je unikaten glede na celoten graf (določi se na enak način kot za vozlišča v razdelku~\ref{subsec:vozlisca}),
+        \item utež, ki se v koraku inicializacije populacije (razdelek~\ref{sec:inicializacija-populacije}) in mutiranja (razdelek~\ref{sec:mutiranje}) normalizira na vrednost med -1 in 1,
+        \item največje število prečkanj.
     \end{itemize}
     Največje število prečkanj je lastnost, ki v klasičnih nevronskih mrežah ni potrebna, saj postopek sprehoda skozi graf
     vsako povezavo prečka največ ali natanko enkrat.
-    Ker so naši agenti enkodirani kot rekurentne nevronske mreže, kjer so dovoljeni cikli (\ref{subsec:rekurentne-nevronske-mreze}),
+    Ker so naši agenti kodirani kot rekurenčne nevronske mreže, kjer so dovoljeni cikli (razdelek~\ref{subsec:rekurencne-nevronske-mreze}),
     nam to polje preprečuje neskončne sprehode skozi graf.
     Največja vrednost polja je ena od inicializacijskih parametrov.
 
     Tipa izvornega in ponornega vozlišča ene povezave se lahko pojavita samo v naslednjih kombinacijah:
     \begin{itemize}
-        \item vhodni izvor, globok ponor
-        \item vhodni izvor, izhodni ponor
-        \item globok izvor in ponor
-        \item globok izvor, izhodni ponor
+        \item vhodni izvor, globok ponor,
+        \item vhodni izvor, izhodni ponor,
+        \item globok izvor in ponor,
+        \item globok izvor, izhodni ponor.
     \end{itemize}
     Na ta način preprečimo pojav grafov, kjer:
     \begin{itemize}
         \item rezultat aktivacijskih funkcij vhodnih, globokih ali izhodnih vozlišč vpliva na
-        rezultat aktivacijskih funkcij vhodnih vozlišč
+        rezultat aktivacijskih funkcij vhodnih vozlišč,
         \item rezultat aktivacijskih funkcij izhodnih vozlišč vpliva na rezultat aktivacijskih funkcij vhodnih,
-        globokih ali izhodnih vozlišč
+        globokih ali izhodnih vozlišč.
     \end{itemize}
 
 
@@ -698,22 +701,22 @@ for (dokler nismo zavodoljni z agenti populacije) {
     Hrani naslednje parametre, ki so potrebni v koraku inicializacije populacije:
     \begin{description}
         \item[Velikost populacije]{Pozitivno celo število, ki določa število agentov v populaciji po koraku inicializacije
-            (\ref{sec:inicializacija-populacije}) in križanja (\ref{sec:krizanje}). Večje število pomeni večjo začetno raznolikost
+            (razdelek~\ref{sec:inicializacija-populacije}) in križanja (razdelek~\ref{sec:krizanje}). Večje število pomeni večjo začetno raznolikost
         agentov in več prostora za agente z nišnimi geni. }
         \item[Število vhodnih vozlišč]{Pozitivno celo število, ki je enako šte\-vi\-lu atributov izbrane podatkovne množice.}
         \item[Število izhodnih vozlišč]{Pozitivna celoštevilska vrednost, ki je enaka šte\-vi\-lu razredov izbrane podatkovne množice.}
         \item[Največje število globokih vozlišč]{Pozitivno celo število, ki do\-lo\-ča, naj\-več koliko globokih vozlišč lahko vsebujejo
-        agenti te populacije. Korak mutiranja (\ref{sec:mutiranje}) lahko povzroči izgubo ali pridobitev novega globokega
+        agenti te populacije. Korak mutiranja (razdelek~\ref{sec:mutiranje}) lahko povzroči izgubo ali pridobitev novega globokega
         vozlišča, dokler je skupno število med 0 in vrednostjo tega parametra.}
         \item[Največje število povezav]{Pozitivna celoštevilska vrednosti, ki določi, naj\-več koliko povezav lahko obstaja
-        znotraj posameznega agenta. Korak mutiranja (\ref{sec:mutiranje}) lahko povzroči izgubo ali pridobitev nove povezave,
+        znotraj posameznega agenta. Korak mutiranja (razdelek~\ref{sec:mutiranje}) lahko povzroči izgubo ali pridobitev nove povezave,
         dokler je skupno število med 0 in vrednostjo tega parametra. Skupno število vhodnih in izhodnih povezav posameznih vozlišč ni posebej omejeno. }
-        \item[Delež mutiranih potomcev]{Delež potomcev, ustvarjenih v koraku kri\-žan\-ja (\ref{sec:krizanje}), ki jih bomo
+        \item[Delež mutiranih potomcev]{Delež potomcev, ustvarjenih v koraku kri\-žan\-ja (razdelek~\ref{sec:krizanje}), ki jih bomo
         mutirali.}
         \item[Največje število prečkanj]{Pozitivno celo število, ki določa naj\-več preč\-kanj povezav grafov
-        celotne populacije. Uporabi se v koraku izračuna kakovosti agentov (\ref{sec:izracun-kakovosti}).}
+        celotne populacije. Uporabi se v koraku izračuna kakovosti agentov (razdelek~\ref{sec:izracun-kakovosti}).}
         \item[Seznam label atributov in razredov]{Labele se pripišejo vhodnim in izhodnim vozliščem. Uporabijo se pri izpisu
-        agentov na konzolo in pri shranjevanju grafov agentov v JSON datoteke. }
+        agentov na konzolo in pri shranjevanju grafov v JSON datoteke. }
     \end{description}
 
 
@@ -723,19 +726,19 @@ for (dokler nismo zavodoljni z agenti populacije) {
     \begin{enumerate}
         \item Ustvari se nova instanca razreda \enquote{Graph} s številom vhodnih in izhodnih vozlišč podanih
         preko parametrov.\ Število globokih vozlišč je naključno med 0 in vrednostjo parametra \enquote{največje število globokih vozlišč}.
-        Ustvarjena vozlišča se označijo po pravilu, opisanem v poglavju~\ref{subsec:vozlisca}.\ Vsa vhodna in izhodna vozlišča
+        Ustvarjena vozlišča se označijo po pravilu, opisanem v razdelku~\ref{subsec:vozlisca}.\ Vsa vhodna in izhodna vozlišča
         dobijo besedilno labelo pripadajočega atributa oz.\ razreda.\ V primeru podatkovne množice Iris bodo vsi agenti
         vsebovali štiri vhodna vozlišča z labelami \enquote{sepal length in cm}, \enquote{sepal width in cm}, \enquote{petal length in cm} in
         \enquote{petal width in cm} ter tri izhodna vozlišča z labelami \enquote{Iris Setosa}, \enquote{Iris Versicolour} in
         \enquote{Iris Virginica}.
         \item Vozlišča grafa se povežejo z $m$ povezavami, kjer je $m$ naključno celo število med 0 in vrednostjo
         parametra \enquote{največje število povezav}.\ Vhodna in izhodna vozlišča povezav se izberejo naključno, kombinacije tipov pa
-        morajo slediti pravilom poglavja~\ref{subsec:povezave}.
+        morajo slediti pravilom razdelka~\ref{subsec:povezave}.
         V tem koraku vsaki povezavi določimo tudi naključno utež med -1 in 1 ter največje število prečkanj, ki je naključno število med 0 in parametrom
         \enquote{največje število prečkanj}.
         \item Normaliziramo uteži povezav grafa med -1 in 1.
         \item Ustvarimo novo instanco razreda \enquote{Agent}, kjer je edini argument instanca grafa.\ Polje \enquote{newAgent}
-        je privzeto \textbf{true}, kar bo sprožilo izračun kvalitete (\ref{sec:izracun-kakovosti}).
+        je privzeto \textbf{true}, kar bo sprožilo izračun kvalitete (razdelek\ref{sec:izracun-kakovosti}).
     \end{enumerate}
     Po inicializiranju začetne populacije sledi korak izračuna kakovosti.
 
@@ -747,22 +750,23 @@ for (dokler nismo zavodoljni z agenti populacije) {
     \begin{description}
         \item[Število agentov, ki jih želimo obdržati]{Vrednost mora biti večja od 0 in manjša od ali enaka velikosti populacije.
         Večja vrednost povzroči manj potomcev in manj mutacij.}
-        \item[Metrika kvalitete]{Metrika, po kateri želimo izvajati vzorčenje. Lahko je točnost ali MCC (\ref{subsec:matthewsov-korelacijski-koeficient}).}
+        \item[Metrika kvalitete]{Metrika, po kateri želimo izvajati vzorčenje. Lahko je točnost ali MCC (razdelek~\ref{subsec:matthewsov-korelacijski-koeficient}).}
     \end{description}
-    Rezultat metode je podmnožica populacije, ki se napolni do polne kapacitete v koraku križanja (\ref{sec:krizanje}).
+    Rezultat metode je podmnožica populacije, ki se v koraku križanja napolni do polne kapacitete (razdelek~\ref{sec:krizanje}).
 
-    \subsection{Stohastično univerzalno vzorčenje}\label{subsec:stohasticno-univerzalno-vzorcenje}
-    Prednost algoritma SUS je manjša varianca glede na funkcijo kvalitete od metod izbire v poglavju~\ref{sec:genetski-algoritmi}.
-    Zagotavlja verjetnejšo izbiro kvalitetnih agentov, hkrati pa dopušča mero naključnosti.
+    \subsection{Stohastično univerzalno vzorčenje (SUS)}\label{subsec:stohasticno-univerzalno-vzorcenje}
+    Prednost algoritma SUS~\cite{inteligentni_sistemi_2010} () je manjša varianca glede na funkcijo kvalitete od metod izbire v razdelku~\ref{sec:genetski-algoritmi}.
+    Zagotavlja verjetnejšo izbiro kvalitetnih agentov, hkrati pa dopušča nekaj naključnosti.
     Zaradi teh lastnosti pomaga preprečiti prezgodnjo konvergenco agentov in ohranjati raznolikost.
-    V primeru, kjer želimo obdržati samo polovico populacije, bo SUS večino agentov izbral izmed najboljših 50\%,
+    V primeru, da želimo obdržati samo polovico populacije, bo SUS večino agentov izbral izmed najboljših 50\%,
     nekaj pa izmed slabše polovice.
     Ne zagotavlja izbire npr.\ vseh najboljših 10\% agentov.
-    Elitne agente lahko izbere večkrat, če je njihova kvaliteta proporcionalno velika glede na preostalo populacijo.
+    Elitne agente lahko izbere večkrat, če je njihova kvaliteta dovolj velika glede na preostalo populacijo.
 
-    SUS je v našem programu prilagojen tako, da vedno obdrži najboljšega agenta, implementiran pa je na naslednji način:
+    SUS je v našem programu prilagojen tako, da vedno obdrži najboljšega agenta.
+    Implementiran je na naslednji način:
     \begin{enumerate}
-        \item Poišče agenta z največjo kvaliteto, izračunano v koraku izračuna kakovosti (\ref{sec:izracun-kakovosti}), ki
+        \item Poišče agenta z največjo kvaliteto, izračunano v koraku izračuna kakovosti (razdelek~\ref{sec:izracun-kakovosti}), ki
         lahko upošteva tudi njegovo število globokih vozlišč in povezav s poljubno utežjo poleg izbrane metrike.
         V primeru, da imata dva agenta enako kvaliteto, izbere tistega, ki ima največjo kvaliteto brez velikostne kazni.
         Njegov indeks shrani v seznam izbranih.
@@ -804,18 +808,18 @@ while (seznam_izbranih.size() < agentsToKeep) {
         \end{verbatim}
     \end{enumerate}
 
-    \begin{figure}[htb]
+    \begin{figure}[H]
         \begin{center}
             \includesvg[width=12cm]{sus.svg}
         \end{center}
-        \caption{Ilustracija SUS, kjer želimo obdržati 3 agente. Izbrani agenti bodo A, B in D. Če bi bil začetni odmik
+        \caption{Ilustracija SUS algoritma, kjer želimo obdržati 3 agente. Izbrani agenti bodo A, B in D. Če bi bil začetni odmik
         večji, bi bili izbrani agenti A, C in E.}
         \label{fig:sus}
     \end{figure}
 
 
     \section{Križanje}\label{sec:krizanje}
-    Korak križanja agentov napolni podmnožico populacije iz koraka vzorčenja (\ref{sec:vzorcenje}) s potomci.
+    Korak križanja agentov napolni podmnožico populacije iz koraka vzorčenja (razdelek~\ref{sec:vzorcenje}) s potomci.
     Operiramo samo nad globokimi vozlišči in povezavami.
     Vhodna in izhodna vozlišča morajo ustrezati podatkovni množici, zato so enaka vsem agentih populacije.
 
@@ -847,7 +851,7 @@ while (seznam_izbranih.size() < agentsToKeep) {
         \item[Odstranitev globokega vozlišča]{Odstranimo naključno globoko vozlišče z vsemi povezavami.}
         \item[Dodajanje povezave]{Dodamo novo povezavo z naključno utežjo in naključnim največjim
         številom prečkanj, če potomec še nima maksimalnega dovoljenega števila povezav. Izvorno in ponorno vozlišče je
-        izbrano naključno po pravilih v poglavju~\ref{subsec:povezave}. }
+        izbrano naključno po pravilih iz razdelka~\ref{subsec:povezave}. }
         \item[Odstranitev povezave]{Odstranimo naključno povezavo.}
         \item[Sprememba uteži]{Spremenimo utež naključne povezave.}
         \item[Sprememba števila dovoljenih prečkanj]{Spremenimo šte\-vi\-lo dovoljenih prečkanj naključne povezave.}
@@ -855,13 +859,14 @@ while (seznam_izbranih.size() < agentsToKeep) {
         vozlišč ne združujemo zaradi nelinearnosti puščajoče ReLU aktivacijske funkcije.}
     \end{description}
 
-    Mutiranje vsakega potomca izvajamo v svoji procesorski niti.
-
-    Po končanem postopku mutiranja vsakemu potomcu normaliziramo uteži v svoji procesorski niti.
+    Mutiranje vsakega potomca in normaliziranje uteži po končanem postopku izvajamo v svoji procesorski niti.
 
 
     \section{Izračun kakovosti}\label{sec:izracun-kakovosti}
-    \textbf{TODO}
+    Izračun kakovosti sledi korakoma inicializacije populacije in mutiranja potomcev.
+    Proces propagira vse zapise učne množice skozi vse agente populacije, preveri pravilnost napovedi in
+    izpolni matriko zmot.
+
 
     \subsection{Matthewsov korelacijski koeficient}\label{subsec:matthewsov-korelacijski-koeficient}
     \textbf{TODO}
