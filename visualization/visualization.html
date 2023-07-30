@@ -123,7 +123,8 @@
                 if (textAngle > Math.PI / 2) textAngle = -(Math.PI - textAngle);
                 if (textAngle < -Math.PI / 2) textAngle = -(-Math.PI - textAngle);
 
-                const label = link.value.toFixed(5);
+                //const label = link.value.toFixed(5);
+                const label = link.value;
 
                 // estimate fontSize to fit in link length
                 ctx.font = '1px Sans-Serif';

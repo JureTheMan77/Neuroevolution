@@ -28,7 +28,7 @@ void data_structures::InputVertex::addInputEdge(const std::shared_ptr<data_struc
     // ignored
 }
 
-bool data_structures::InputVertex::allInputEdgesTraversed() {
+bool data_structures::InputVertex::allInputEdgesTraversedOnce() {
     return true;
 }
 

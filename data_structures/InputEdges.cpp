@@ -5,12 +5,12 @@
 #include <algorithm>
 #include "InputEdges.h"
 
-bool data_structures::InputEdges::allInputEdgesTraversed() {
+bool data_structures::InputEdges::allInputEdgesTraversedOnce() {
     //return std::all_of(this->edges.begin(), this->edges.end(),
-    //                   [](const std::shared_ptr<data_structures::Edge> &edge) { return edge->isTraversed(); });
+    //                   [](const std::shared_ptr<data_structures::Edge> &edge) { return edge->isTraversedOnce(); });
     bool result = true;
     for (const auto &edge: this->edges) {
-        if (!edge->isTraversed()) {
+        if (!edge->isTraversedOnce()) {
             result = false;
             break;
         }
@@ -28,4 +28,12 @@ void data_structures::InputEdges::addInputEdge(const std::shared_ptr<data_struct
 
 void data_structures::InputEdges::eraseInputEdge(unsigned long position) {
     this->eraseEdge(position);
+}
+
+unsigned int data_structures::InputEdges::inputEdgeTraversalsRemaining() {
+    unsigned int sum = 0;
+    for (const auto &edge: this->edges) {
+        sum += edge->traversalsRemaining();
+    }
+    return sum;
 }

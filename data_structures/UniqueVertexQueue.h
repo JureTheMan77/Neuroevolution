@@ -28,7 +28,7 @@ namespace data_structures {
         ~UniqueVertexQueue() = default;
 
         /**
-         * Adds @param element to the back of the queue if it has not been added before.
+         * Adds @param element if it has not been added before.
          * @param element element to add
          */
         void enqueue(const std::shared_ptr<data_structures::Vertex> &element);

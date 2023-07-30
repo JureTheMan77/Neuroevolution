@@ -1,0 +1,22 @@
+// nastavitev kazalca z naključnim začetnim odmikom
+double pointer = zacetni_odmik;
+// zaporedna številka agenta v populaciji
+int counter = 0;
+// izberemo prvega agenta populacije
+double cumulativeFitness = this->population.at(0)->getFitness();
+// preverimo, če smo že izbrali dovolj agentov
+while (seznam_izbranih.size() < agentsToKeep) {
+    // preverimo, če je skupna kvaliteta večja od kazalca
+    if (cumulativeFitness >= pointer) {
+        // agenta shranimo v seznam izbranih
+        indexesToKeep.push_back(counter);
+        // kazalec povečamo za dolžino intervala
+        pointer += dolzina_intervala;
+        // na naslednjega agenta v populaciji se na tej točki še ne premaknemo, saj je možno, da je skupna kvaliteta trenutnega agenta večja tudi od povečanega kazalca; agent bo posledično izbran večkrat
+    } else {
+        // premaknemo se na naslednjega agenta populacije
+        counter += 1;
+        // kvaliteto naslednjega agenta prištejemo skupni kvaliteti
+        cumulativeFitness += this-> population.at(counter)->getFitness();
+    }
+}

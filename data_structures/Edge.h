@@ -101,7 +101,7 @@ namespace data_structures {
 
         /**
          * Gets the value of the input vertex, multiplies is with the weight, and combines the result with the output
-         * vertex.
+         * vertex. If the edge is at it's traverse limit, then don't propagate and return 0.
          * @return result
          */
         double propagateValue();
@@ -110,13 +110,19 @@ namespace data_structures {
          * Has this edge been traversed at least once?
          * @return true, if this edge has been traversed at least once
          */
-        [[nodiscard]] bool isTraversed() const;
+        [[nodiscard]] bool isTraversedOnce() const;
 
         /**
          * Has this edge been traversed the maximum number of allowed times?
-         * @return true, if traverseCount equals of is greater than traverseLimit
+         * @return true, if traverseCount equals of is greater or equal to traverseLimit
          */
         [[nodiscard]] bool isAtTraverseLimit() const;
+
+        /**
+         * How many times can this edge still be traversed?
+         * @return traversals remaining
+         */
+        unsigned int traversalsRemaining() const;
 
         /**
          * Sets the traverseCount to 0.

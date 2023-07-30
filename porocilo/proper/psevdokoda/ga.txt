@@ -1,0 +1,7 @@
+Population populacija = inicializacija_populacije();
+for (dokler nismo zavodoljni z agenti populacije) {
+    izračun_kvalitete(populacija);
+    vzorčenje(populacija);
+    križanje(populacija);
+    mutiranje(populacija);
+}

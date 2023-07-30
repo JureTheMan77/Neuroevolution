@@ -1,0 +1,16 @@
+// iteriraj skozi vse zapise testne množice
+for (const std::shared_ptr<data_structures::DataInstance> &di: testingSet) {
+    // ponastavi agenta; vrednosti vozlišč in število prečkanj povezav nastavi na 0
+    agent->getGraph()->reset();
+
+    // propagiraj vhodne vrednosti testne množice skozi graf
+    agent->getGraph()->traverse(di);
+
+    // preveri pravilnost napovedi
+    unsigned int predictedIndex = agent->getGraph()->getLargestOutputValueIndex();
+
+    // povečaj celico v matriki zmot za 1
+    // indeks vrstice je indeks pravilne napovedi, indeks stolpca pa indeks napovedi agenta; v kolikor je rezultat agenta pravilen, sta indeksa vrstice in stolpca enaka
+    this->matrix.at(di->getCorrectIndex())
+          .at(predictedIndex) += 1;
+}

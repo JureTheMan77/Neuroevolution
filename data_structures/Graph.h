@@ -21,7 +21,6 @@ namespace data_structures {
         std::vector<std::shared_ptr<data_structures::InputVertex>> inputVertices{};
         std::vector<std::shared_ptr<data_structures::OutputVertex>> outputVertices{};
         std::vector<std::shared_ptr<data_structures::DeepVertex>> deepVertices{};
-        data_structures::UniqueVertexQueue pendingVertices{};
 
         std::vector<std::shared_ptr<data_structures::Edge>> edges{};
 

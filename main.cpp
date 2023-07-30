@@ -104,6 +104,20 @@ int main(int argc, char *argv[]) {
     //logging::logs(mcmtest.toString(pop.getOutputLabels()));
     //logging::logs(minimizedAgent->toString(true));
 
+    //auto graph = data_structures::Graph::createGraph(4,inputLabels,2,3,outputLabels);
+    //graph->addEdge(enums::VertexType::Input,1,enums::VertexType::Output,2,0,-1.01,2);
+    //graph->addEdge(enums::VertexType::Input,1,enums::VertexType::Output,1,1,-0.49755895629207125,2);
+    //graph->addEdge(enums::VertexType::Input,1,enums::VertexType::Deep,0,2,0.13420725976756206,2);
+    //graph->addEdge(enums::VertexType::Input,2,enums::VertexType::Output,0,3,-0.6040223462636878,2);
+    //graph->addEdge(enums::VertexType::Input,2,enums::VertexType::Output,2,4,0.23177392817540032,2);
+    //graph->addEdge(enums::VertexType::Deep,0,enums::VertexType::Output,1,5,-1.0,2);
+    //graph->addEdge(enums::VertexType::Deep,0,enums::VertexType::Deep,1,6,1,2);
+    //graph->addEdge(enums::VertexType::Deep,1,enums::VertexType::Deep,0,7,1,2);
+    //auto agent = evolution::Agent::create(graph);
+    //std::shared_ptr<data_structures::DataInstance> di = data_structures::DataInstance::createDataInstance({5.1,3.5,1.4,0.2,0});
+    //agent->getGraph()->traverse(di);
+
+
     int a = 0;
     //graph->addEdge(enums::VertexType::Input, 1, enums::VertexType::Output, 1, 0.45, 1);
     // recursive
@@ -172,13 +186,12 @@ int main(int argc, char *argv[]) {
         accuracyFile << util::accuracyToCsv(i, m) << std::endl;
         mccFile << util::mccToCsv(i, m) << std::endl;
         // write entire population fitness into a file
-        std::ofstream fitnessGenFile("fitnessGen.csv");
-        int ccc = 0;
-        for(const auto fitness : m.getFitnessList()){
-            fitnessGenFile << std::to_string(ccc) + ";" + util::doubleToCsv(fitness) << std::endl;
-            ccc+=1;
-        }
-        fitnessFile.close();
+        //std::ofstream fitnessGenFile("fitnessGen.csv");
+        //int ccc = 0;
+        //for(const auto fitness : m.getFitnessList()){
+        //    fitnessGenFile << std::to_string(ccc) + ";" + util::doubleToCsv(fitness) << std::endl;
+        //    ccc+=1;
+        //}
 
         //logging::logs(pop.getFittestAgent()->toString());
         if (i == numIterations - 1) {

@@ -214,96 +214,82 @@ void data_structures::Graph::traverse(const std::shared_ptr<data_structures::Dat
         this->inputVertices.at(i)->combineValue(dataInstance->getValues().at(i));
     }
 
-    // add the input vertices to the set of pending vertices
-    // enqueue them only if they have any output edges
+    // queue of pending vertices
+    data_structures::UniqueVertexQueue pendingVertices;
+    // set of unique backup vertices in case the above one is empty
+    std::unordered_set<std::shared_ptr<data_structures::Vertex>> backupVertices;
+
+    // add the input vertices to the queue of pending vertices
+    // enqueue them only if they can be traversed out from
     for (const auto &v: this->inputVertices) {
-        if (!v->getOutputEdges().empty()) {
-            this->pendingVertices.enqueue(v);
+        if (v->canTraverseOut()) {
+            pendingVertices.enqueue(v);
         }
     }
 
     // propagate the values through the graph
     // repeat until the set of pending vertices is empty
-    std::shared_ptr<data_structures::Vertex> vertex;
-    std::vector<std::shared_ptr<data_structures::Edge>> outputEdges;
-    while (!this->pendingVertices.empty()) {
-        vertex = this->pendingVertices.dequeue();
-        vertex->setVisited(true);
-
-        // skip deep vertices without input edges
-        if (vertex->getType() == enums::VertexType::Deep && vertex->getInputEdges().empty()) {
-            continue;
-        }
+    //std::vector<std::shared_ptr<data_structures::Edge>> outputEdges;
+    while (!pendingVertices.empty()) {
+        std::shared_ptr<data_structures::Vertex> vertex = pendingVertices.dequeue();
 
         // vertex->getOutputEdges() cannot be empty at this stage
         for (const std::shared_ptr<data_structures::Edge> &edge: vertex->getOutputEdges()) {
             if (!edge->isAtTraverseLimit()) {
-                // propagate the values to adjacent vertices and add the output vertex to the pending vertices set
-                // if it has not been visited yet
+                // propagate the value to adjacent vertex
                 edge->propagateValue();
-                // only add the output vertex if:
-                // - all input edges of the output vertex have been traversed (the value stored in the output vertex is final)
-                // - output vertex has not yet been visited
-                // - output vertex has at lest one output edge
-                // - cyclic connections are handled further on
+
+                // only add the output vertex to the pending vertices set queue if:
+                // - its type is "deep"
+                // - has output edges that can still be traversed
+                // - its input edges have been fully traversed; if only this condition is false, then add the
+                // vertex to the set of unique backup vertices (possible cycle)
                 if (edge->getOutput()->getType() == enums::VertexType::Deep &&
-                    edge->getOutput()->allInputEdgesTraversed() && !edge->getOutput()->isVisited() &&
-                    !edge->getOutput()->getOutputEdges().empty()) {
-                    this->pendingVertices.enqueue(edge->getOutput());
+                    edge->getOutput()->canTraverseOut()) {
+                    if (edge->getOutput()->inputEdgeTraversalsRemaining() == 0) {
+                        pendingVertices.enqueue(edge->getOutput());
+                        // just in case the backup set already contains the same vertex
+                        backupVertices.erase(edge->getOutput());
+                    } else {
+                        backupVertices.insert(edge->getOutput());
+                    }
                 }
             }
         }
 
-        // in case of recursive connections, check if any edge has not been traversed. If such an edge is found, then
-        // check if its output vertex has any input edges that have been traversed and enqueue it (should always be a deep vertex)
-        // otherwise, end
-        if (!this->pendingVertices.empty()) {
+        // continue if there are still vertices pending
+        if (!pendingVertices.empty()) {
             continue;
         }
+
+        // if the set of backup vertices is empty here, break the loop as there is no more processing to be done
+        if (backupVertices.empty()) {
+            break;
+        }
+
+        // if the queue of pending vertices is empty, select a pending vertex with the least remaining input traversals
+        // and add it to the pending queue
+        // this can happen if the graph has cycles or the input edges have too high of a traversal limit
+        // if multiple vertices have the same remaining traversals, choose the one with the lowest index
         std::shared_ptr<data_structures::Vertex> vertexToEnqueue = nullptr;
-        unsigned int leastNonTraversedEdges = UINT32_MAX;
+        unsigned int leastTraversalsRemaining = UINT32_MAX;
 
-        // in case of recursive connections, check if any deep vertex with out/input vertices has not been visited.
-        // If such a vertex is found, then check if it has any input edges that have been traversed and save it
-        // enqueue the vertex with the least amount of non-traversed edges
-        // otherwise, end
-        for (const std::shared_ptr<data_structures::DeepVertex> &deepVertex: this->deepVertices) {
-            if (deepVertex->isVisited() || deepVertex->getOutputEdges().empty() ||
-                deepVertex->getInputEdges().empty()) {
-                continue;
-            }
-            // check any of deepVertex's input vertices have been visited
-            bool hasVisitedInput = false;
-            for (const auto &inputEdge: deepVertex->getInputEdges()) {
-                if (inputEdge->getInput()->isVisited()) {
-                    hasVisitedInput = true;
-                    break;
-                }
-            }
-            if (!hasVisitedInput) {
-                continue;
-            }
-
-            // count non-traversed edges
-            unsigned int numNonTraversed = 0;
-            for (const std::shared_ptr<data_structures::Edge> &inputEdge: deepVertex->getInputEdges()) {
-                if (!inputEdge->isTraversed()) {
-                    numNonTraversed += 1;
-                }
-            }
-            // all edges have been traversed, continue
-            if (numNonTraversed == 0) {
-                continue;
-            }
-            // handle the computed value
-            if (leastNonTraversedEdges > numNonTraversed) {
-                leastNonTraversedEdges = numNonTraversed;
-                vertexToEnqueue = deepVertex;
+        for (const std::shared_ptr<data_structures::Vertex> &backupVertex: backupVertices) {
+            // the above loop has already checked that these vertices can be traversed out of
+            // no additional validation is necessary
+            unsigned int traversalsRemaining = backupVertex->inputEdgeTraversalsRemaining();
+            if (traversalsRemaining < leastTraversalsRemaining) {
+                vertexToEnqueue = backupVertex;
+                leastTraversalsRemaining = traversalsRemaining;
+            } else if (traversalsRemaining == leastTraversalsRemaining &&
+                       backupVertex->getIndex() < vertexToEnqueue->getIndex()) {
+                vertexToEnqueue = backupVertex;
             }
         }
 
         if (vertexToEnqueue != nullptr) {
-            this->pendingVertices.enqueue(vertexToEnqueue);
+            pendingVertices.enqueue(vertexToEnqueue);
+            backupVertices.erase(vertexToEnqueue);
         }
     }
 }
@@ -335,8 +321,6 @@ void data_structures::Graph::reset() {
     for (const auto &e: this->edges) {
         e->reset();
     }
-
-    this->pendingVertices.clear();
 }
 
 std::vector<std::shared_ptr<data_structures::DeepVertex>> data_structures::Graph::getDeepVertices() const {
@@ -566,7 +550,7 @@ std::string data_structures::Graph::toForceGraphJson() const {
         nlohmann::json j;
         j["source"] = sourceId;
         j["target"] = targetId;
-        j["value"] = edge->getWeight();
+        j["value"] = std::to_string(edge->getWeight()) + "|" + std::to_string(edge->getTraverseLimit());
         links.push_back(j);
     }
 

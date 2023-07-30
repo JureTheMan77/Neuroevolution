@@ -21,10 +21,11 @@ data_structures::MulticlassConfusionMatrix::MulticlassConfusionMatrix(const std:
     }
     this->matrix = confusionMatrix;
 
-    // reset the testing agent
-    agent->getGraph()->reset();
     // run through all the testing values
     for (const std::shared_ptr<data_structures::DataInstance> &di: testingSet) {
+        // reset the testing agent
+        agent->getGraph()->reset();
+
         agent->getGraph()->traverse(di);
 
         // check if the prediction is correct
@@ -33,7 +34,7 @@ data_structures::MulticlassConfusionMatrix::MulticlassConfusionMatrix(const std:
         this->matrix.at(di->getCorrectIndex()).at(predictedIndex) += 1;
 
         // reset the agent
-        agent->getGraph()->reset();
+        // agent->getGraph()->reset();
     }
 
     // sum the rows

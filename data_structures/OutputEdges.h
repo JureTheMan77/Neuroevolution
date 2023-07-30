@@ -37,6 +37,13 @@ namespace data_structures {
          * @param position position within vector
          */
         virtual void eraseOutputEdge(unsigned long position);
+
+        /**
+         * Can any of these output edges be traversed?
+         * If the vector is empty, return false.
+         * @return true if at least one edge is not at it's traverse limit
+         */
+        bool canTraverseOut();
     };
 }
 

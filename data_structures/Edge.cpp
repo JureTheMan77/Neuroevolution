@@ -25,18 +25,21 @@ data_structures::Edge::createEdge(const std::shared_ptr<data_structures::Vertex>
 }
 
 double data_structures::Edge::propagateValue() {
+    if (this->isAtTraverseLimit()) {
+        return 0;
+    }
     double outputValue = this->input.lock()->getValue() * this->weight;
     this->output.lock()->combineValue(outputValue);
     this->traverseCount += 1;
     return outputValue;
 }
 
-bool data_structures::Edge::isTraversed() const {
+bool data_structures::Edge::isTraversedOnce() const {
     return this->traverseCount > 0;
 }
 
 bool data_structures::Edge::isAtTraverseLimit() const {
-    return this->traverseLimit == this->traverseCount;
+    return this->traverseLimit <= this->traverseCount;
 }
 
 
@@ -97,4 +100,12 @@ void data_structures::Edge::setWeight(double weightArg) {
 
 void data_structures::Edge::setTraverseLimit(unsigned int traverseLimitArg) {
     this->traverseLimit = traverseLimitArg;
+}
+
+unsigned int data_structures::Edge::traversalsRemaining() const {
+    if (this->isAtTraverseLimit()) {
+        return 0;
+    } else {
+        return this->traverseLimit - this->traverseCount;
+    }
 }

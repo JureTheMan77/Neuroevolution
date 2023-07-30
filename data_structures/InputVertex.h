@@ -50,7 +50,7 @@ namespace data_structures {
          * Always returns true.
          * @return true
          */
-        bool allInputEdgesTraversed() override;
+        bool allInputEdgesTraversedOnce() override;
 
         /**
          * Get a string with useful information about this object.

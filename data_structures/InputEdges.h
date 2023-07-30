@@ -31,7 +31,13 @@ namespace data_structures {
          * Have all input edges been traversed at least once?
          * @return true if all input edges have been traversed at least once
          */
-        virtual bool allInputEdgesTraversed();
+        virtual bool allInputEdgesTraversedOnce();
+
+        /**
+         * The sum of all remaining traversals.
+         * @return sum
+         */
+        unsigned int inputEdgeTraversalsRemaining();
 
         /**
          * Input edges getter.
