@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
     // thirteenth argument: fitness metric, default is Accuracy
     std::string fitnessMetricTemp = cmdArgs.at(13);
     enums::FitnessMetric fitnessMetric = enums::FitnessMetric::Accuracy;
-    if (fitnessMetricTemp == "MatthewsCorrelationCoefficient") {
+    if (fitnessMetricTemp == "MCC") {
         fitnessMetric = enums::FitnessMetric::MatthewsCorrelationCoefficient;
     }
 

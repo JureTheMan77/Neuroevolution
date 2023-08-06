@@ -582,7 +582,7 @@
     \chapter{Implementacija nevroevolucije}\label{ch:implementacija-nevroevolucije}
     To poglavje pokriva konkretno implementacijo konceptov nevroevolucije iz razdelka~\ref{sec:nevroevolucija}.
 
-    Na pristop izdela nevronsko mrežo za poljubno učno množico z zveznimi ali diskretnimi atributi, s ciljem je večrazredne klasifikacije.
+    Naš pristop izdela nevronsko mrežo za poljubno učno množico z zveznimi ali diskretnimi atributi, s ciljem je večrazredne klasifikacije.
     V tem poglavju je opisano:
     \begin{itemize}
         \item implementacija agentov (razdelek~\ref{sec:agenti}) v obliki samostojnih objektov,
@@ -720,7 +720,10 @@
         \item[Seznam label atributov in razredov]{Labele se pripišejo vhodnim in izhodnim vozliščem. Uporabijo se pri izpisu
         agentov na konzolo in pri shranjevanju grafov v JSON datoteke. }
         \item[Metrika kvalitete]{Dve možni besedilni vrednosti, ki določata način izra\-ču\-na kakovosti v razdelku~\ref{sec:izracun-kakovosti};
-        \enquote{Accuracy}, ki predstavlja točnost, in \enquote{MCC}, ki predstavlja Matthewsov korelacijski koeficient.}
+        \enquote{ACC}, ki predstavlja točnost, in \enquote{MCC}, ki predstavlja Matthewsov korelacijski koeficient.}
+        \item[Prispevek vozlišč]{Decimalna vrednost, ki je lahko negativna ali pozitivna.\ Vpliva na izračun kvalitete agenta v razdelku~\ref{sec:izracun-kakovosti}.
+        Pozitivna vrednost povzroči, da v koraku vzorčenja~\ref{sec:vzorcenje} obdržimo agente z več vozlišči, negativna pa obratno.}
+        \item[Prispevek povezav]{Decimalna vrednost, ki je lahko negativna ali pozitivna. Vpliv je podoben prispevku vozlišč.}
     \end{description}
 
 
@@ -888,7 +891,7 @@
     Z izpolnjeno matriko zmot program izračuna kvaliteto agenta s pomočjo točnosti ali MCC, odvisno od inicializacijskega parametra populacije \enquote{metrika kvalitete}.
     Točnost izračuna s pomočjo naslednje formule:
     \begin{equation}
-        ACC=\frac{c}{s},
+        \text{ACC}=\frac{c}{s},
         \label{eq:tocnost}
     \end{equation}
     kjer je:
@@ -901,7 +904,7 @@
     V kontekstu matrike zmot so spremenljivke oz.\ pravilni in napovedani razredi pozitivno asociativni, če se večina pravilnih napovedi nahaja na ali blizu diagonale.
     Splošna formula je naslednja:
     \begin{equation}
-        MCC={\frac {cs-{\vec {t}}\cdot {\vec {p}}}{{\sqrt {s^{2}-{\vec {p}}\cdot {\vec {p}}}}{\sqrt {s^{2}-{\vec {t}}\cdot {\vec {t}}}}}} ,
+        \text{MCC}={\frac {cs-{\vec {t}}\cdot {\vec {p}}}{{\sqrt {s^{2}-{\vec {p}}\cdot {\vec {p}}}}{\sqrt {s^{2}-{\vec {t}}\cdot {\vec {t}}}}}}\:,
         \label{eq:mcc}
     \end{equation}
     kjer je:
@@ -912,7 +915,25 @@
         \item $\vec{p}$ število napovedi vseh razredov.
     \end{itemize}
 
-
+    Kvaliteti nato prištejemo oz.\ odštejemo prispevek velikosti grafa na podlagi inicializacijskih parametrov \enquote{prispevek vozlišč}
+    in \enquote{prispevek povezav} na naslednji način:
+    \begin{equation}
+        \text{Kvaliteta}=
+        \begin{cases}
+            \text{ACC}+(m \cdot c_v+n \cdot c_p), & \text{če je metrika ACC} \\
+            \text{MCC}+(m \cdot c_v+n \cdot c_p), & \text{če je metrika MCC}
+        \end{cases},
+        \label{eq:prispevek_velikosti}
+    \end{equation}
+    kjer je:
+    \begin{itemize}
+        \item $m$ število vozlišč,
+        \item $n$ število povezav,
+        \item $c_v$ prispevek vozlišč in
+        \item $c_p$ prispevek povezav.
+    \end{itemize}
+    Negativna prispevka povzročita, da bodo v koraku vzorčenja~\ref{sec:vzorcenje} bolj pogosto izbrani tisti agenti, ki imajo večjo točnost oz.
+    MCC in so hkrati manj kompleksni.
 
     Za lažjo predstavo algoritma vzemimo prvi zapis izmišljene učne množice z atributi A, B in C ter dvema razredoma in ga propagirajmo skozi preprost acikličen graf.
     Vrednosti so zaokrožene na tri decimalna mesta.
@@ -1439,19 +1460,19 @@
     V programu take primere obravnavamo enako kot $0$.
 
     \chapter{Evalvacija}\label{ch:evalvacija}
+    To poglavje pokriva poganjanje programa na podatkovnih množicah Iris, Wine, Car Evaluation in Statlog (Shuttle) in predstavitev rezultatov.
+    Vse podatkovne množice, ki smo jih izbrali, vsebujejo učne primerov brez manjkajočih vrednosti, zvezne ali diskretne atribute in najmanj tri razrede.
+    Na voljo so na UCI Machine Learning Repository~\cite{Dua:2019}.
 
-    \section{Izbrane podatkovne množice}\label{sec:izbrane-podatkovne-mnozice}
-    \textbf{TODO}
+    V tem poglavju je opisano:
+    \begin{itemize}
+        \item podatkovna množica Iris (razdelek~\ref{sec:iris}), na kateri je potekala večina razvoja programa,
+        \item podatkovna množica Wine (razdelek~\ref{sec:wine}), kjer je cilj uvrstiti vina v tri kvalitetne razrede na podlagi trinajstih atributov,
+        \item podatkovna množica Car Evaluation (razdelek~\ref{sec:car-evaluation}), kjer je cilj klasificirati avtomobile v štiri kvalitetne razrede,
+        \item podatkovna množica Statlog (Shuttle) (razdelek~\ref{sec:statlog-shuttle}) s 58000 vrsticami, od katerih okoli 80\% pripada enemu razredu.
+    \end{itemize}
 
-    Razvoj je potekal s pomočjo podatkovnih množic Iris, Wine, Car Evaluation in Statlog (Shuttle), ki so
-    na voljo na UCI Machine Learning Repository~\cite{Dua:2019}.
-    Množica Iris je najenostavnejša od izbranih (vsebuje tri razrede po 50 instanc), zato je bila uporabljena tekom razvoja programa.
-
-    Vse podatkovne množice, ki smo jih izbrali, vsebujejo učne primerov brez manjkajočih vrednosti,
-    zvezne ali distkretne atribute in najmanj tri razrede.
-    Javno so dostopne na \href{https://archive.ics.uci.edu/}{UCI Machine Learning Repository}.
-
-    \subsection{Iris}\label{subsec:iris}
+    \section{Iris}\label{sec:iris}
 
     \begin{description}
         \item[Iris]{ Ta učna množica je najenostavnejša izmed izbranih. Vsebuje tri razrede po 50 učnih primerov s štirimi atributi,
@@ -1477,6 +1498,12 @@
             \hline
         \end{tabular}
     \end{center}
+
+    \section{Wine}\label{sec:wine}
+
+    \section{Car Evaluation}\label{sec:car-evaluation}
+
+    \section{Statlog (Shuttle)}\label{sec:statlog-shuttle}
 
     \subsection{Načrt poskusov}\label{subsec:nacrt-poskusov}
     \textbf{TODO}
