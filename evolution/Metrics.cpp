@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <stdexcept>
 #include "Metrics.h"
 
 void evolution::Metrics::addFitness(double fitness) {

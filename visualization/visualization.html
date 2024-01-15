@@ -57,12 +57,13 @@
         (document.getElementById('graph'))
             .cooldownTicks(100)
             .graphData(data)
-            .linkDirectionalArrowLength(4)
+            .linkDirectionalArrowLength(10)
             .linkDirectionalArrowRelPos(1)
             .linkCurvature('curvature')
+            .linkWidth(3)
             .nodeCanvasObject((node, ctx, globalScale) => {
                 const label = node.name;
-                const fontSize = 16/globalScale;
+                const fontSize = 36/globalScale;
                 ctx.font = `${fontSize}px Sans-Serif`;
                 const textWidth = ctx.measureText(label).width;
                 const bckgDimensions = [textWidth, fontSize].map(n => n + fontSize * 0.2); // some padding
@@ -81,12 +82,12 @@
                     //node.fx = 100*node.pos;
                     //node.fy = 0;
                     node.fx = 0;
-                    node.fy = 100*node.pos;
+                    node.fy = 50*node.pos;
                 } else if(node.group === "output"){
                     //node.fx = 100*node.pos;
                     //node.fy = 250;
-                    node.fx = 300;
-                    node.fy = 100*node.pos;
+                    node.fx = 350;
+                    node.fy = 50*node.pos+50;
                 }
 
             })
@@ -100,7 +101,7 @@
                 if(link.curvature !== undefined){
                     return;
                 }
-                const MAX_FONT_SIZE = 3;
+                const MAX_FONT_SIZE = 8;
                 const LABEL_NODE_MARGIN = Graph.nodeRelSize() * 1.5;
 
                 const start = link.source;

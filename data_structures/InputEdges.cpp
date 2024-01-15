@@ -3,6 +3,7 @@
 //
 
 #include <algorithm>
+#include <iostream>
 #include "InputEdges.h"
 
 bool data_structures::InputEdges::allInputEdgesTraversedOnce() {
@@ -23,6 +24,10 @@ std::vector<std::shared_ptr<data_structures::Edge>> data_structures::InputEdges:
 }
 
 void data_structures::InputEdges::addInputEdge(const std::shared_ptr<data_structures::Edge> &edge) {
+    if(edge == nullptr){
+        std::cout<<"InputEdges.cpp:27";
+        std::invalid_argument("Edge is null!");
+    }
     this->addEdge(edge);
 }
 

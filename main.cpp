@@ -166,6 +166,7 @@ int main(int argc, char *argv[]) {
     //logging::logs(pop.toString());
 
     for (int i = 0; i < numIterations; i++) {
+        pop.uncacheFittestAgent();
         // std::cout << "\033[2J" << "\033[1;1H" << std::endl;
         logging::logs("Generation " + std::to_string(i));
         evolution::Metrics m = pop.calculateFitness(fitnessMetric, vertexContribution,
@@ -215,7 +216,7 @@ int main(int argc, char *argv[]) {
                                                               pop.getNumberOfOutputs());
     logging::logs(bestMcm.toString(pop.getOutputLabels()));
     bestAgent->getGraph()->reset();
-    std::ofstream jsonFullFile("/home/jure/CLionProjects/Neuroevolution/visualization/graphFull.json");
+    std::ofstream jsonFullFile("/Users/admin/Documents/Neuroevolution/visualization/graphFull.json");
     jsonFullFile << bestAgent->getGraph()->toForceGraphJson();
     jsonFullFile.close();
 
@@ -230,7 +231,7 @@ int main(int argc, char *argv[]) {
 
 
     auto json = minimizedBestAgent->getGraph()->toForceGraphJson();
-    std::ofstream jsonFile("/home/jure/CLionProjects/Neuroevolution/visualization/graph.json");
+    std::ofstream jsonFile("/Users/admin/Documents/Neuroevolution/visualization/graph.json");
     jsonFile << json;
     jsonFile.close();
 

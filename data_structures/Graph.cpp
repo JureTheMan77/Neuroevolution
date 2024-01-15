@@ -82,6 +82,10 @@ void data_structures::Graph::addEdge(enums::VertexType inputVertexType, unsigned
         std::shared_ptr<data_structures::Edge> newEdge = data_structures::Edge::createEdge(input, output, index, weight,
                                                                                            traversalLimit,
                                                                                            util::nextBool());
+        if(newEdge == nullptr){
+            std::cout<<"Graph.cpp:86";
+            std::invalid_argument("Edge is null!");
+        }
         this->edges.push_back(newEdge);
         addEdgeAfterAdd(inputVertexType, outputVertexType, input, output, newEdge);
     } else {
@@ -194,6 +198,10 @@ data_structures::Graph::addEdge(enums::VertexType inputVertexType, unsigned int 
         std::shared_ptr<data_structures::Edge> newEdge = data_structures::Edge::createEdge(input, output, index, weight,
                                                                                            traversalLimit,
                                                                                            crossoverableData.isDominant());
+        if(newEdge == nullptr){
+            std::cout<<"Graph.cpp:202";
+            std::invalid_argument("Edge is null!");
+        }
         this->edges.push_back(newEdge);
         addEdgeAfterAdd(inputVertexType, outputVertexType, input, output, newEdge);
         return newEdge;
@@ -319,7 +327,9 @@ void data_structures::Graph::reset() {
     }
 
     for (const auto &e: this->edges) {
-        e->reset();
+        if(e != nullptr) {
+            e->reset();
+        }
     }
 }
 
@@ -416,7 +426,7 @@ void data_structures::Graph::fixIndices() {
         }
     }
     for (const auto &edge: this->edges) {
-        if (edge->getIndex() == UINT_MAX) {
+        if (edge != nullptr && edge->getIndex() == UINT_MAX) {
             this->largestEdgeIndex += 1;
             edge->setIndex(this->largestEdgeIndex);
         }
@@ -461,15 +471,19 @@ void data_structures::Graph::normalizeEdgeWeights() const {
     // find the largest weight
     double maxWeight = 0;
     for (const auto &edge: this->getEdges()) {
-        double absoluteWeight = std::fabs(edge->getWeight());
-        if (absoluteWeight > maxWeight) {
-            maxWeight = absoluteWeight;
+        if(edge != nullptr) {
+            double absoluteWeight = std::fabs(edge->getWeight());
+            if (absoluteWeight > maxWeight) {
+                maxWeight = absoluteWeight;
+            }
         }
     }
     // normalize
     for (const auto &edge: this->getEdges()) {
-        double newWeight = edge->getWeight() / maxWeight;
-        edge->setWeight(newWeight);
+        if (edge != nullptr) {
+            double newWeight = edge->getWeight() / maxWeight;
+            edge->setWeight(newWeight);
+        }
     }
 }
 
@@ -479,7 +493,7 @@ void data_structures::Graph::removeEdge(unsigned long position) {
 
     // remove edge from vertex vectors
     auto vertex = edgeToRemove->getInput();
-    // create a new output vertex vector and copy all edges except the one to delete
+
     for (unsigned long i = 0; i < vertex->getOutputEdges().size(); i++) {
         if (vertex->getOutputEdges().at(i)->getIndex() == edgeToRemove->getIndex()) {
             vertex->eraseOutputEdge(i);
@@ -488,7 +502,6 @@ void data_structures::Graph::removeEdge(unsigned long position) {
     }
 
     vertex = edgeToRemove->getOutput();
-    // create a new input vertex vector and copy all edges except the one to delete
     for (unsigned long i = 0; i < vertex->getInputEdges().size(); i++) {
         if (vertex->getInputEdges().at(i)->getIndex() == edgeToRemove->getIndex()) {
             vertex->eraseInputEdge(i);

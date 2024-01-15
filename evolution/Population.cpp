@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <thread>
 #include <future>
+#include <sstream>
 #include "Population.h"
 #include "../util/util.h"
 #include "../data_structures/MulticlassConfusionMatrix.h"
@@ -46,15 +47,26 @@ evolution::Population::Population(const std::string &pathToDataSet) {
         file.close();
     }
 
-    // shuffle fullDataSet
+    // split fullDataSet into subsets according to class
+    std::vector<std::vector<std::shared_ptr<data_structures::DataInstance>>> splitDataSet(this->numberOfOutputs);
+    for (std::shared_ptr<data_structures::DataInstance> &instance: fullDataSet) {
+        splitDataSet.at(instance->getCorrectIndex()).push_back(instance);
+    }
+
+    // shuffle splitDataSet
     auto rng = std::default_random_engine{this->seeder()};
     std::shuffle(std::begin(fullDataSet), std::end(fullDataSet), rng);
+    for (std::vector<std::shared_ptr<data_structures::DataInstance>> &subset: splitDataSet) {
+        std::shuffle(std::begin(subset), std::end(subset), rng);
+        // split the full dataset into training and testing
+        // use a 70/30 split
+        auto splitMark = (unsigned int) round((double) subset.size() * 0.7);
+        this->trainingValues.insert(trainingValues.end(), subset.begin(), subset.begin() + splitMark);
+        this->testingValues.insert(testingValues.end(), subset.begin() + splitMark, subset.end());
+    }
 
-    // split the full dataset into training and testing
-    // use a 70/30 split
-    auto splitMark = (unsigned int) round((double) fullDataSet.size() * 0.7);
-    this->trainingValues.insert(trainingValues.begin(), fullDataSet.begin(), fullDataSet.begin() + splitMark);
-    this->testingValues.insert(testingValues.begin(), fullDataSet.begin() + splitMark, fullDataSet.end());
+    //this->trainingValues.insert(trainingValues.begin(), fullDataSet.begin(), fullDataSet.end());
+    //this->testingValues.insert(testingValues.begin(), fullDataSet.begin(), fullDataSet.end());
 
     this->population = std::vector<std::shared_ptr<evolution::Agent>>();
     this->populationPlaceholder = std::vector<std::shared_ptr<evolution::Agent>>();
@@ -500,6 +512,9 @@ void evolution::Population::mutateThreaded(unsigned long agentIndex) {
     // choose a random agent
     auto childAgent = this->populationPlaceholder.at(agentIndex);
 
+    // sanitize agent
+
+
     // choose a property to mutate
     // 0 - add a deep vertex with a random input and output edge (random dominance)
     // 1 - remove a deep vertex and all connecting edges
@@ -561,7 +576,7 @@ void evolution::Population::mutateThreaded(unsigned long agentIndex) {
             }
             // add the edges
             for (const auto &edge: childAgent->getGraph()->getEdges()) {
-                if (!edge->isFlaggedForDeletion()) {
+                if (edge != nullptr && !edge->isFlaggedForDeletion()) {
                     mutatedAgent->getGraph()->addEdge(edge);
                 }
             }
@@ -692,7 +707,6 @@ void evolution::Population::crossoverEdges(const std::shared_ptr<evolution::Agen
                                                                 edge1->getInput()->getType(),
                                                                 edge1->getOutput()->getIndex(),
                                                                 edge1->getOutput()->getType());
-        std::vector<std::shared_ptr<data_structures::Edge>> childEdges;
         if (edge2 == nullptr) {
             // similar edge1 was not found in parent2
             // keep edge1
@@ -871,4 +885,8 @@ std::vector<std::string> evolution::Population::getInputLabels() const {
 
 void evolution::Population::addAgent(const std::shared_ptr<evolution::Agent> &agent) {
     this->population.push_back(agent);
+}
+
+void evolution::Population::uncacheFittestAgent() {
+    this->fittestAgent = nullptr;
 }

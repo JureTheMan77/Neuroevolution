@@ -31,7 +31,7 @@ namespace evolution {
         std::vector<std::shared_ptr<data_structures::DataInstance>> trainingValues;
         std::vector<std::shared_ptr<data_structures::DataInstance>> testingValues;
 
-        unsigned int const UINT_MAX = std::numeric_limits<unsigned int>::max();
+        //unsigned int const UINT_MAX = std::numeric_limits<unsigned int>::max();
         std::uniform_int_distribution<unsigned int> mutationDistribution{0, 6};
         std::uniform_int_distribution<unsigned int> edgeTraverseLimitDistribution;
         std::uniform_int_distribution<unsigned int> inputVerticesDistribution;
@@ -98,6 +98,7 @@ namespace evolution {
          * @return fittest agent
          */
         [[nodiscard]] std::shared_ptr<evolution::Agent> getFittestAgent() const;
+        void uncacheFittestAgent();
 
         /**
          * Calculate average population fitness.

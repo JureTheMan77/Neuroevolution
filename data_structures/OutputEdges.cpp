@@ -2,9 +2,14 @@
 // Created by jure on 18. 08. 21.
 //
 
+#include <iostream>
 #include "OutputEdges.h"
 
 void data_structures::OutputEdges::addOutputEdge(const std::shared_ptr<data_structures::Edge> &edge) {
+    if(edge == nullptr){
+        std::cout<<"OutputEdges.cpp:9";
+        std::invalid_argument("Edge is null!");
+    }
     this->addEdge(edge);
 }
 

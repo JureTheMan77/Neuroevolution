@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <memory>
+#include <limits>
 #include "InputVertex.h"
 #include "OutputVertex.h"
 #include "DeepVertex.h"
@@ -26,7 +27,7 @@ namespace data_structures {
 
         unsigned int largestDeepVertexIndex{0};
         unsigned int largestEdgeIndex{0};
-        unsigned int const UINT_MAX = std::numeric_limits<unsigned int>::max();
+        // unsigned int const UINT_MAX = std::numeric_limits<unsigned int>::max();
 
         /**
          * First step of adding an edge.

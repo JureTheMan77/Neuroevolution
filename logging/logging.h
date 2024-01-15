@@ -9,6 +9,7 @@
 #include <chrono>
 #include <iomanip>
 #include <iostream>
+#include <sstream>
 
 namespace logging {
 

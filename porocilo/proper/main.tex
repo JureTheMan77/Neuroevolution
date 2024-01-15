@@ -50,6 +50,7 @@
 \usepackage{listings}
 \usepackage{booktabs}
 \usepackage{longtable}
+\usepackage{multirow}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %	DIPLOMA INFO
@@ -368,16 +369,7 @@
 %\noindent\textbf{Povzetek:}
     %\noindent V vzorcu je predstavljen postopek priprave diplomskega dela z uporabo okolja \LaTeX. Vaš povzetek mora sicer vsebovati približno 100 besed, ta tukaj je odločno prekratek.
     %Dober povzetek vključuje: (1) kratek opis obravnavanega problema, (2) kratek opis vašega pristopa za reševanje tega problema in (3) (najbolj uspešen) rezultat ali prispevek diplomske naloge.
-    \noindent To diplomsko delo pokriva opis izdelave rekurenčnih nevronskih mrež z namenskim programom, ki
-    pokriva inicializacijo začetne populacije, vzorčenje, križanje, mutiranje in izračun kvalitete.
-    Nevronske mreže, ki jih program izdela, so namenjene večrazredni klasifikaciji nad podatkovnimi množicami z zveznimi ali distkretnimi atributi.
-    Algoritmi inicializacije, križanja in mutiranja so specifični za namen tega dela.
-    Vzorčenje je implementirano s prilagojenim stohastičnim univerzalnem vzorčenjem, kjer se vedno obdrži najboljši agent prejšnje
-    generacije, kvaliteta pa se izračuna na podlagi točnosti napovedi ali pa z večrazrednim Matthewsovim korelacijskim koeficientom s pomočjo matrike zmot.
-    Pri obeh metodah se lahko upošteva tudi število vozlišč in povezav posamezne nevronske mreže.
-    Program je bil razvit s pomočjo množic Iris, Wine, Car Evaluation in Statlog (Shuttle), ki so
-    na voljo na UCI Machine Learning Repository~\cite{Dua:2019}.
-    V tem poročilu je vključena tudi primerjava z nekaterimi odprtokodnimi rešitvami strojnega učenja, ki so trenutno na voljo.
+    \noindent \textbf{TODO}
 
     \bigskip
 
@@ -398,16 +390,7 @@
     \bigskip
 
 %\noindent\textbf{Abstract:}
-    \noindent This diploma thesis describes the creation of recurrent neural networks with a custom program that covers the
-    initialization of the initial population, sampling, crossover, mutation and fitness calculation.
-    Neural networks, created by the program, are designed for multiclass classification of data in data sets with continuous or discrete attributes.
-    Initialization, crossover and mutation algorithms are specific for this thesis.
-    Crossover is implemented with a modified stochastic universal sampling algorithm, where the previous generation's fittest agent is always kept.
-    Fitness is calculated based on prediction accuracy or on the Matthews correlation coefficient with the help of a confusion matrix.
-    Both methods can also take into account the number of vertices and edges of each neural network.
-    The program was developed with the help of the following datasets, which are available in the UCI Machine Learning Repository~\cite{Dua:2019}:
-    Iris, Wine, Car Evaluation and Statlog (Shuttle).
-    This report also includes comparisons with a few open source machine learning solutions available at the time of writing.
+    \noindent \textbf{TODO}
     \bigskip
 
     \noindent\textbf{Keywords:} \tkeywordsEn.
@@ -622,7 +605,7 @@
     Struktura grafa je pogojena z izbrano podatkovno množico.
     Število vhodnih vozlišč mora biti enako številu atributov podatkovne mno\-ži\-ce, šte\-vi\-lo izhodnih vozlišč pa enako številu razredov.
     Količina notranjih vozlišč se giblje od 0 do izbrane vrednosti parametra.
-    Za množice razdelka~\ref{sec:izbrane-podatkovne-mnozice} vrednost $20$ predstavlja dovolj dobro razmerje med dovoljeno kompleksnostjo agentov in
+    Za množice, opisane v poglavju~\ref{ch:evalvacija} vrednost $20$ predstavlja dovolj dobro razmerje med dovoljeno kompleksnostjo agentov in
     računsko zahtevnostjo.
 
     \subsection{Vozlišča}\label{subsec:vozlisca}
@@ -713,10 +696,10 @@
         \item[Največje število povezav]{Pozitivna celoštevilska vrednosti, ki določi, naj\-več koliko povezav lahko obstaja
         znotraj posameznega agenta. Korak mutiranja (razdelek~\ref{sec:mutiranje}) lahko povzroči izgubo ali pridobitev nove povezave,
         dokler je skupno število med 0 in vrednostjo tega parametra. Skupno število vhodnih in izhodnih povezav posameznih vozlišč ni posebej omejeno. }
-        \item[Delež mutiranih potomcev]{Delež potomcev, ustvarjenih v koraku kri\-žan\-ja (razdelek~\ref{sec:krizanje}), ki jih bomo
-        mutirali.}
         \item[Največje število prečkanj]{Pozitivno celo število, ki določa naj\-več preč\-kanj povezav grafov
         celotne populacije. Uporabi se v koraku izračuna kakovosti agentov (razdelek~\ref{sec:izracun-kakovosti}).}
+        \item[Delež mutiranih potomcev]{Delež potomcev, ustvarjenih v koraku kri\-žan\-ja (razdelek~\ref{sec:krizanje}), ki jih bomo
+        mutirali.}
         \item[Seznam label atributov in razredov]{Labele se pripišejo vhodnim in izhodnim vozliščem. Uporabijo se pri izpisu
         agentov na konzolo in pri shranjevanju grafov v JSON datoteke. }
         \item[Metrika kvalitete]{Dve možni besedilni vrednosti, ki določata način izra\-ču\-na kakovosti v razdelku~\ref{sec:izracun-kakovosti};
@@ -724,6 +707,7 @@
         \item[Prispevek vozlišč]{Decimalna vrednost, ki je lahko negativna ali pozitivna.\ Vpliva na izračun kvalitete agenta v razdelku~\ref{sec:izracun-kakovosti}.
         Pozitivna vrednost povzroči, da v koraku vzorčenja~\ref{sec:vzorcenje} obdržimo agente z več vozlišči, negativna pa obratno.}
         \item[Prispevek povezav]{Decimalna vrednost, ki je lahko negativna ali pozitivna. Vpliv je podoben prispevku vozlišč.}
+        \item[Število generacij]{Pozitivno celo število, ki določi število iteracij genetskega algoritma. Ko je to število doseženo, se program ustavi.}
     \end{description}
 
 
@@ -982,21 +966,16 @@
         \label{fig:preprost_aciklicen_graf}
     \end{figure}
 
-    \begin{longtable}[l]{p{0.465\linewidth}p{0.465\linewidth}}
-        \toprule
-        \multicolumn{1}{c}{Korak} & \multicolumn{1}{c}{Ilustracija} \\
-        \midrule
-        \endhead
-        %% prva vrstica
-        Vhodnim vozliščem nastavimo vrednosti, ki so enake atributom zapisa učne množice.
+    \begin{enumerate}
+        \item Vhodnim vozliščem nastavimo vrednosti, ki so enake atributom zapisa učne množice.
         Shranimo jih v $pendingVertices$.
         \begin{flushleft}
-            $pendingVertices: i_0, i_1, i_2$
+            $pendingVertices: i_0, i_1, i_2$\linebreak
             $backupVertices: prazno$
         \end{flushleft}
-        &
-        \raisebox{-0.95\height}{
-            \begin{tikzpicture}[font=\tiny, node distance={19.75mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
+        \begin{figure}[H]
+            \centering
+            \begin{tikzpicture}[font=\scriptsize, node distance={22mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
                 \node[thicc] (i0) {$5.7$};
                 \node[thicc] (i1) [below of=i0] {$2.8$};
                 \node[thicc] (i2) [below of=i1] {$4.2$};
@@ -1016,20 +995,20 @@
                 \draw[->] (d2) -- node[midway, above, sloped, pos=0.5] {0.05, 0/1} (o0);
                 \draw[->] (d2) -- node[midway, above, sloped, pos=0.5] {0.6, 0/1} (o1);
             \end{tikzpicture}
-        } \\
-        \midrule
-        %% druga vrstica
-        Iz $pendingVertices$ vzamemo $i_0$.\ Njegovo vrednost propagiramo do vozlišča $o_0$ tako,
+            \caption{Prvi korak.}
+            \label{fig:izracun_kakovosti_primer_1}
+        \end{figure}
+        \item Iz $pendingVertices$ vzamemo $i_0$.\ Njegovo vrednost propagiramo do vozlišča $o_0$ tako,
         da $5.7$ pomnožimo z utežjo povezave $0.03$, zmnožek pa prištejemo trenutni vrednosti $o_0$.
         Število prečkanj povezave povečamo za $1$.
         Ker je $o_0$ izhodno vozlišče, ga ne dodamo v $pendingVertices$.
         \begin{flushleft}
-            $pendingVertices: i_1, i_2$
+            $pendingVertices: i_1, i_2$\linebreak
             $backupVertices: prazno$
         \end{flushleft}
-        &
-        \raisebox{-0.95\height}{
-            \begin{tikzpicture}[font=\tiny, node distance={19.35mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
+        \begin{figure}[H]
+            \centering
+            \begin{tikzpicture}[font=\scriptsize, node distance={22mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
                 \node[main] (i0) {$5.7$};
                 \node[main] (i1) [below of=i0] {$2.8$};
                 \node[main] (i2) [below of=i1] {$4.2$};
@@ -1049,18 +1028,18 @@
                 \draw[->] (d2) -- node[midway, above, sloped, pos=0.5] {0.05, 0/1} (o0);
                 \draw[->] (d2) -- node[midway, above, sloped, pos=0.5] {0.6, 0/1} (o1);
             \end{tikzpicture}
-        } \\
-        \midrule
-        %% tretja vrstica
-        Iz $pendingVertices$ vzamemo $i_1$.\ Njegovo vrednost propagiramo do vozlišč $d_0$ in $d_1$.
+            \caption{Drugi korak.}
+            \label{fig:izracun_kakovosti_primer_2}
+        \end{figure}
+        \item Iz $pendingVertices$ vzamemo $i_1$.\ Njegovo vrednost propagiramo do vozlišč $d_0$ in $d_1$.
         Vozlišče $d_0$ dodamo v $pendingVertices$, $d_1$ pa v $backupVertices$, ker njegove povezave z $i_2$ še nismo obravnavali.
         \begin{flushleft}
-            $pendingVertices: i_2, d_0$
+            $pendingVertices: i_2, d_0$\linebreak
             $backupVertices: d_1$
         \end{flushleft}
-        &
-        \raisebox{-0.95\height}{
-            \begin{tikzpicture}[font=\tiny, node distance={19.35mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
+        \begin{figure}[H]
+            \centering
+            \begin{tikzpicture}[font=\scriptsize, node distance={22mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
                 \node[main] (i0) {$5.7$};
                 \node[main] (i1) [below of=i0] {$2.8$};
                 \node[main] (i2) [below of=i1] {$4.2$};
@@ -1080,19 +1059,19 @@
                 \draw[->] (d2) -- node[midway, above, sloped, pos=0.5] {0.05, 0/1} (o0);
                 \draw[->] (d2) -- node[midway, above, sloped, pos=0.5] {0.6, 0/1} (o1);
             \end{tikzpicture}
-        } \\
-        \midrule
-        %% četrta vrstica
-        Iz $pendingVertices$ vzamemo $i_2$.\ Njegovo vrednost propagiramo do vozlišča $d_1$.
+            \caption{Tretji korak.}
+            \label{fig:izracun_kakovosti_primer_3}
+        \end{figure}
+        \item Iz $pendingVertices$ vzamemo $i_2$.\ Njegovo vrednost propagiramo do vozlišča $d_1$.
         Tokrat $d_1$ shranimo v $pendingVertices$, ker je število prečkanj vseh njegovih vhodnih povezav enako meji.
         Pobrišemo ga iz $backupVertices$.
         \begin{flushleft}
-            $pendingVertices: d_0, d_1$
+            $pendingVertices: d_0, d_1$\linebreak
             $backupVertices: prazno$
         \end{flushleft}
-        &
-        \raisebox{-0.95\height}{
-            \begin{tikzpicture}[font=\tiny, node distance={19.35mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
+        \begin{figure}[H]
+            \centering
+            \begin{tikzpicture}[font=\scriptsize, node distance={22mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
                 \node[main] (i0) {$5.7$};
                 \node[main] (i1) [below of=i0] {$2.8$};
                 \node[main] (i2) [below of=i1] {$4.2$};
@@ -1112,18 +1091,18 @@
                 \draw[->] (d2) -- node[midway, above, sloped, pos=0.5] {0.05, 0/1} (o0);
                 \draw[->] (d2) -- node[midway, above, sloped, pos=0.5] {0.6, 0/1} (o1);
             \end{tikzpicture}
-        } \\
-        \midrule
-        %% peta vrstica
-        Iz $pendingVertices$ vzamemo $d_0$.\ Njegovo vrednost propagiramo do vozlišča $d_2$.
+            \caption{Četrti korak.}
+            \label{fig:izracun_kakovosti_primer_4}
+        \end{figure}
+        \item Iz $pendingVertices$ vzamemo $d_0$.\ Njegovo vrednost propagiramo do vozlišča $d_2$.
         Vozlišče $d_2$ shranimo v $backupVertices$.
         \begin{flushleft}
-            $pendingVertices: d_1$
+            $pendingVertices: d_1$\linebreak
             $backupVertices: d_2$
         \end{flushleft}
-        &
-        \raisebox{-0.95\height}{
-            \begin{tikzpicture}[font=\tiny, node distance={19.35mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
+        \begin{figure}[H]
+            \centering
+            \begin{tikzpicture}[font=\scriptsize, node distance={22mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
                 \node[main] (i0) {$5.7$};
                 \node[main] (i1) [below of=i0] {$2.8$};
                 \node[main] (i2) [below of=i1] {$4.2$};
@@ -1143,18 +1122,18 @@
                 \draw[->] (d2) -- node[midway, above, sloped, pos=0.5] {0.05, 0/1} (o0);
                 \draw[->] (d2) -- node[midway, above, sloped, pos=0.5] {0.6, 0/1} (o1);
             \end{tikzpicture}
-        } \\
-        \midrule
-        %% šesta vrstica
-        Iz $pendingVertices$ vzamemo $d_1$.\ Njegovo vrednost propagiramo do vozlišč $d_2$ in $d_3$.
+            \caption{Peti korak.}
+            \label{fig:izracun_kakovosti_primer_5}
+        \end{figure}
+        \item Iz $pendingVertices$ vzamemo $d_1$.\ Njegovo vrednost propagiramo do vozlišč $d_2$ in $d_3$.
         Vozlišča $d_3$ ne shranimo nikamor, ker nima izhodnih povezav, $d_2$ pa se že nahaja v $backupVertices$.
         \begin{flushleft}
-            $pendingVertices: prazno$
+            $pendingVertices: prazno$\linebreak
             $backupVertices: d_2$
         \end{flushleft}
-        &
-        \raisebox{-0.95\height}{
-            \begin{tikzpicture}[font=\tiny, node distance={19.35mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
+        \begin{figure}[H]
+            \centering
+            \begin{tikzpicture}[font=\scriptsize, node distance={22mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
                 \node[main] (i0) {$5.7$};
                 \node[main] (i1) [below of=i0] {$2.8$};
                 \node[main] (i2) [below of=i1] {$4.2$};
@@ -1174,19 +1153,19 @@
                 \draw[->] (d2) -- node[midway, above, sloped, pos=0.5] {0.05, 0/1} (o0);
                 \draw[->] (d2) -- node[midway, above, sloped, pos=0.5] {0.6, 0/1} (o1);
             \end{tikzpicture}
-        } \\
-        \midrule
-        %% sedma vrstica
-        Vrsta $pendingVertices$ je prazna, zato iz množice $backupVertices$ vzamemo vozlišče, ki ima najmanjši seštevek
+            \caption{Šesti korak.}
+            \label{fig:izracun_kakovosti_primer_6}
+        \end{figure}
+        \item Vrsta $pendingVertices$ je prazna, zato iz množice $backupVertices$ vzamemo vozlišče, ki ima najmanjši seštevek
         preostalih prečkanj vhodnih povezav.
         V tem primeru v $pendingVertices$ prestavimo $d_2$.
         \begin{flushleft}
-            $pendingVertices: d_2$
+            $pendingVertices: d_2$\linebreak
             $backupVertices: prazno$
         \end{flushleft}
-        &
-        \raisebox{-0.95\height}{
-            \begin{tikzpicture}[font=\tiny, node distance={19.35mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
+        \begin{figure}[H]
+            \centering
+            \begin{tikzpicture}[font=\scriptsize, node distance={22mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
                 \node[main] (i0) {$5.7$};
                 \node[main] (i1) [below of=i0] {$2.8$};
                 \node[main] (i2) [below of=i1] {$4.2$};
@@ -1206,18 +1185,18 @@
                 \draw[->] (d2) -- node[midway, above, sloped, pos=0.5] {0.05, 0/1} (o0);
                 \draw[->] (d2) -- node[midway, above, sloped, pos=0.5] {0.6, 0/1} (o1);
             \end{tikzpicture}
-        } \\
-        \midrule
-        %% osma vrstica
-        Iz $pendingVertices$ vzamemo $d_2$.\ Njegovo vrednost propagiramo do vozlišč $o_0$ in $o_1$.
+            \caption{Sedmi korak.}
+            \label{fig:izracun_kakovosti_primer_7}
+        \end{figure}
+        \item Iz $pendingVertices$ vzamemo $d_2$.\ Njegovo vrednost propagiramo do vozlišč $o_0$ in $o_1$.
         $PendingVertices$ in $backupVertices$ sta prazni, zato zaključimo s postopkom.
         \begin{flushleft}
-            $pendingVertices: prazno$
+            $pendingVertices: prazno$\newline
             $backupVertices: prazno$
         \end{flushleft}
-        &
-        \raisebox{-0.95\height}{
-            \begin{tikzpicture}[font=\tiny, node distance={19.35mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
+        \begin{figure}[H]
+            \centering
+            \begin{tikzpicture}[font=\scriptsize, node distance={22mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
                 \node[main] (i0) {$5.7$};
                 \node[main] (i1) [below of=i0] {$2.8$};
                 \node[main] (i2) [below of=i1] {$4.2$};
@@ -1237,18 +1216,18 @@
                 \draw[->, very thick] (d2) -- node[midway, above, sloped, pos=0.5] {0.05, 1/1} (o0);
                 \draw[->, very thick] (d2) -- node[midway, above, sloped, pos=0.5] {0.6, 1/1} (o1);
             \end{tikzpicture}
-        } \\
-        \midrule
-        %% deveta vrstica
-        Indeks izhodnega vozlišča z največjo vrednostjo primerjamo z razredom vrstice testne množice.
+            \caption{Osmi korak.}
+            \label{fig:izracun_kakovosti_primer_8}
+        \end{figure}
+        \item Indeks izhodnega vozlišča z največjo vrednostjo primerjamo z razredom vrstice testne množice.
         Največja vrednost se nahaja v $o_1$, kar pomeni, da je napoved grafa pravilna.
         \begin{flushleft}
-            $pendingVertices: prazno$
+            $pendingVertices: prazno$\newline
             $backupVertices: prazno$
         \end{flushleft}
-        &
-        \raisebox{-0.95\height}{
-            \begin{tikzpicture}[font=\tiny, node distance={19.35mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
+        \begin{figure}[H]
+            \centering
+            \begin{tikzpicture}[font=\scriptsize, node distance={22mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
                 \node[main] (i0) {$5.7$};
                 \node[main] (i1) [below of=i0] {$2.8$};
                 \node[main] (i2) [below of=i1] {$4.2$};
@@ -1268,183 +1247,186 @@
                 \draw[->] (d2) -- node[midway, above, sloped, pos=0.5] {0.05, 1/1} (o0);
                 \draw[->] (d2) -- node[midway, above, sloped, pos=0.5] {0.6, 1/1} (o1);
             \end{tikzpicture}
-        } \\
-        \midrule
-        %% deseta vrstica
-        Povečamo celico $1,1$ v matriki zmot za $1$.
+            \caption{Deveti korak.}
+            \label{fig:izracun_kakovosti_primer_9}
+        \end{figure}
+        \item Povečamo celico $1,1$ v matriki zmot za $1$.
         Če bi graf napovedal razred 0, bi povečali celico $1,0$.
-        &
         \begin{center}
             \begin{tabular}{||c c c c||}
                 \hline
-                razred & 0 & 1 & vsota \\ [0.5ex]
+                razred & 0 & 1          & vsota \\ [0.5ex]
                 \hline
-                0 & 0 & 0 & 0 \\
+                0      & 0 & 0          & 0     \\
                 \hline
-                1 & 0 & \textbf{1} & 1 \\
+                1      & 0 & \textbf{1} & 1     \\
                 \hline
-                vsota & 0 & 1 & 1 \\
+                vsota  & 0 & 1          & 1     \\
                 \hline
             \end{tabular}
-        \end{center} \\
-        \bottomrule
-    \end{longtable}
+        \end{center}
+    \end{enumerate}
 
     Skozi graf propagirajmo še preostale vrstice učne množice in izpolnimo matriko zmot.
-    \begin{longtable}[l]{p{0.465\linewidth}p{0.465\linewidth}}
-        \toprule
-        \multicolumn{1}{c}{Graf} & \multicolumn{1}{c}{Matrika zmot} \\
-        \midrule
-        \endhead
-        %% prva vrstica
-        \raggedright{$A: 6.6, B:5.8, C: 2.2$\linebreak Pravilen razred: $0$}\linebreak\newline
-            \begin{tikzpicture}[font=\tiny, node distance={19.35mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
-                \node[main] (i0) {$6.6$};
-                \node[main] (i1) [below of=i0] {$5.8$};
-                \node[main] (i2) [below of=i1] {$2.2$};
-                \node[main] (d0) [right of=i1] {$0.87$};
-                \node[main] (d1) [right of=i2] {$2.714$};
-                \node[main] (d2) [right of=d0] {$2.96$};
-                \node[main] (d3) [right of=d1] {$2.714$};
-                \node[main] (o0) [above right of=d2] {$0.346$};
-                \node[thicc] (o1) [below right of=d2] {$1.776$};
-                \draw[->] (i0) -- node[midway, above, sloped, pos=0.5] {0.03, 1/1} (o0);
-                \draw[->] (i1) -- node[midway, above, sloped, pos=0.5] {0.15, 1/1} (d0);
-                \draw[->] (i1) -- node[midway, above, sloped, pos=0.5] {0.21, 1/1} (d1);
-                \draw[->] (i2) -- node[midway, above, sloped, pos=0.5] {0.68, 1/1} (d1);
-                \draw[->] (d0) -- node[midway, above, sloped, pos=0.5] {0.47, 1/2} (d2);
-                \draw[->] (d1) -- node[midway, above, sloped, pos=0.5] {0.94, 1/1} (d2);
-                \draw[->] (d1) -- node[midway, above, sloped, pos=0.5] {1, 1/1} (d3);
-                \draw[->] (d2) -- node[midway, above, sloped, pos=0.5] {0.05, 1/1} (o0);
-                \draw[->] (d2) -- node[midway, above, sloped, pos=0.5] {0.6, 1/1} (o1);
-            \end{tikzpicture}
-        &
-        \begin{center}
-            \begin{tabular}{||c c c c||}
-                \hline
-                razred & 0 & 1 & vsota \\ [0.5ex]
-                \hline
-                0 & 0 & \textbf{1} & 1 \\
-                \hline
-                1 & 0 & 1 & 1 \\
-                \hline
-                vsota & 0 & 2 & 2 \\
-                \hline
-            \end{tabular}
-        \end{center} \\
-        \midrule
-        %% druga vrstica
-        \raggedright{$A: 3.6, B:5.3, C: 3.5$\linebreak Pravilen razred: $0$}\linebreak\newline
-        \begin{tikzpicture}[font=\tiny, node distance={19.35mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
-            \node[main] (i0) {$3.6$};
-            \node[main] (i1) [below of=i0] {$5.3$};
-            \node[main] (i2) [below of=i1] {$3.5$};
-            \node[main] (d0) [right of=i1] {$0.795$};
-            \node[main] (d1) [right of=i2] {$3.493$};
-            \node[main] (d2) [right of=d0] {$3.657$};
-            \node[main] (d3) [right of=d1] {$3.493$};
-            \node[main] (o0) [above right of=d2] {$0.291$};
-            \node[thicc] (o1) [below right of=d2] {$2.194$};
-            \draw[->] (i0) -- node[midway, above, sloped, pos=0.5] {0.03, 1/1} (o0);
-            \draw[->] (i1) -- node[midway, above, sloped, pos=0.5] {0.15, 1/1} (d0);
-            \draw[->] (i1) -- node[midway, above, sloped, pos=0.5] {0.21, 1/1} (d1);
-            \draw[->] (i2) -- node[midway, above, sloped, pos=0.5] {0.68, 1/1} (d1);
-            \draw[->] (d0) -- node[midway, above, sloped, pos=0.5] {0.47, 1/2} (d2);
-            \draw[->] (d1) -- node[midway, above, sloped, pos=0.5] {0.94, 1/1} (d2);
-            \draw[->] (d1) -- node[midway, above, sloped, pos=0.5] {1, 1/1} (d3);
-            \draw[->] (d2) -- node[midway, above, sloped, pos=0.5] {0.05, 1/1} (o0);
-            \draw[->] (d2) -- node[midway, above, sloped, pos=0.5] {0.6, 1/1} (o1);
-        \end{tikzpicture}
-        &
-        \begin{center}
-            \begin{tabular}{||c c c c||}
-                \hline
-                razred & 0 & 1 & vsota \\ [0.5ex]
-                \hline
-                0 & 0 & \textbf{2} & 2 \\
-                \hline
-                1 & 0 & 1 & 1 \\
-                \hline
-                vsota & 0 & 3 & 3 \\
-                \hline
-            \end{tabular}
-        \end{center} \\
-        \midrule
-        %% tretja vrstica
-        \raggedright{$A: 3.8, B:8, C: 6.8$\linebreak Pravilen razred: $1$}\linebreak\newline
-        \begin{tikzpicture}[font=\tiny, node distance={19.35mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
-            \node[main] (i0) {$3.8$};
-            \node[main] (i1) [below of=i0] {$8$};
-            \node[main] (i2) [below of=i1] {$6.8$};
-            \node[main] (d0) [right of=i1] {$1.2$};
-            \node[main] (d1) [right of=i2] {$6.304$};
-            \node[main] (d2) [right of=d0] {$6.49$};
-            \node[main] (d3) [right of=d1] {$6.304$};
-            \node[main] (o0) [above right of=d2] {$0.439$};
-            \node[thicc] (o1) [below right of=d2] {$3.894$};
-            \draw[->] (i0) -- node[midway, above, sloped, pos=0.5] {0.03, 1/1} (o0);
-            \draw[->] (i1) -- node[midway, above, sloped, pos=0.5] {0.15, 1/1} (d0);
-            \draw[->] (i1) -- node[midway, above, sloped, pos=0.5] {0.21, 1/1} (d1);
-            \draw[->] (i2) -- node[midway, above, sloped, pos=0.5] {0.68, 1/1} (d1);
-            \draw[->] (d0) -- node[midway, above, sloped, pos=0.5] {0.47, 1/2} (d2);
-            \draw[->] (d1) -- node[midway, above, sloped, pos=0.5] {0.94, 1/1} (d2);
-            \draw[->] (d1) -- node[midway, above, sloped, pos=0.5] {1, 1/1} (d3);
-            \draw[->] (d2) -- node[midway, above, sloped, pos=0.5] {0.05, 1/1} (o0);
-            \draw[->] (d2) -- node[midway, above, sloped, pos=0.5] {0.6, 1/1} (o1);
-        \end{tikzpicture}
-        &
-        \begin{center}
-            \begin{tabular}{||c c c c||}
-                \hline
-                razred & 0 & 1 & vsota \\ [0.5ex]
-                \hline
-                0 & 0 & 2 & 2 \\
-                \hline
-                1 & 0 & \textbf{2} & 2 \\
-                \hline
-                vsota & 0 & 4 & 4 \\
-                \hline
-            \end{tabular}
-        \end{center} \\
-        \midrule
-        %% četrta vrstica
-        \raggedright{$A: 3.5, B:7.4, C: 9.8$\linebreak Pravilen razred: $0$}\linebreak\newline
-        \begin{tikzpicture}[font=\tiny, node distance={19.35mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
-            \node[main] (i0) {$3.5$};
-            \node[main] (i1) [below of=i0] {$7.4$};
-            \node[main] (i2) [below of=i1] {$9.8$};
-            \node[main] (d0) [right of=i1] {$1.11$};
-            \node[main] (d1) [right of=i2] {$8.218$};
-            \node[main] (d2) [right of=d0] {$8.247$};
-            \node[main] (d3) [right of=d1] {$8.218$};
-            \node[main] (o0) [above right of=d2] {$0.517$};
-            \node[thicc] (o1) [below right of=d2] {$4.948$};
-            \draw[->] (i0) -- node[midway, above, sloped, pos=0.5] {0.03, 1/1} (o0);
-            \draw[->] (i1) -- node[midway, above, sloped, pos=0.5] {0.15, 1/1} (d0);
-            \draw[->] (i1) -- node[midway, above, sloped, pos=0.5] {0.21, 1/1} (d1);
-            \draw[->] (i2) -- node[midway, above, sloped, pos=0.5] {0.68, 1/1} (d1);
-            \draw[->] (d0) -- node[midway, above, sloped, pos=0.5] {0.47, 1/2} (d2);
-            \draw[->] (d1) -- node[midway, above, sloped, pos=0.5] {0.94, 1/1} (d2);
-            \draw[->] (d1) -- node[midway, above, sloped, pos=0.5] {1, 1/1} (d3);
-            \draw[->] (d2) -- node[midway, above, sloped, pos=0.5] {0.05, 1/1} (o0);
-            \draw[->] (d2) -- node[midway, above, sloped, pos=0.5] {0.6, 1/1} (o1);
-        \end{tikzpicture}
-        &
-        \begin{center}
-            \begin{tabular}{||c c c c||}
-                \hline
-                razred & 0 & 1 & vsota \\ [0.5ex]
-                \hline
-                0 & 0 & \textbf{3} & 3 \\
-                \hline
-                1 & 0 & 2 & 2 \\
-                \hline
-                vsota & 0 & 5 & 5 \\
-                \hline
-            \end{tabular}
-        \end{center} \\
-        \bottomrule
-    \end{longtable}
+
+    \begin{description}
+        \item[A: 6.6, B:5.8, C: 2.2]{Pravilen razred: $0$
+            \begin{figure}[H]
+                \centering
+                \begin{tikzpicture}[font=\scriptsize, node distance={22mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
+                    \node[main] (i0) {$6.6$};
+                    \node[main] (i1) [below of=i0] {$5.8$};
+                    \node[main] (i2) [below of=i1] {$2.2$};
+                    \node[main] (d0) [right of=i1] {$0.87$};
+                    \node[main] (d1) [right of=i2] {$2.714$};
+                    \node[main] (d2) [right of=d0] {$2.96$};
+                    \node[main] (d3) [right of=d1] {$2.714$};
+                    \node[main] (o0) [above right of=d2] {$0.346$};
+                    \node[thicc] (o1) [below right of=d2] {$1.776$};
+                    \draw[->] (i0) -- node[midway, above, sloped, pos=0.5] {0.03, 1/1} (o0);
+                    \draw[->] (i1) -- node[midway, above, sloped, pos=0.5] {0.15, 1/1} (d0);
+                    \draw[->] (i1) -- node[midway, above, sloped, pos=0.5] {0.21, 1/1} (d1);
+                    \draw[->] (i2) -- node[midway, above, sloped, pos=0.5] {0.68, 1/1} (d1);
+                    \draw[->] (d0) -- node[midway, above, sloped, pos=0.5] {0.47, 1/2} (d2);
+                    \draw[->] (d1) -- node[midway, above, sloped, pos=0.5] {0.94, 1/1} (d2);
+                    \draw[->] (d1) -- node[midway, above, sloped, pos=0.5] {1, 1/1} (d3);
+                    \draw[->] (d2) -- node[midway, above, sloped, pos=0.5] {0.05, 1/1} (o0);
+                    \draw[->] (d2) -- node[midway, above, sloped, pos=0.5] {0.6, 1/1} (o1);
+                \end{tikzpicture}
+                \caption{Stanje grafa po propagiranju druge vrstice. Napovedan je razred 1, ker izhodno vozlišče $o_1$ vsebuje največjo vrednost.}
+                \label{fig:izracun_kakovosti_primer_2_vrstica}
+            \end{figure}
+            \begin{center}
+                \begin{tabular}{||c c c c||}
+                    \hline
+                    razred & 0 & 1          & vsota \\ [0.5ex]
+                    \hline
+                    0      & 0 & \textbf{1} & 1     \\
+                    \hline
+                    1      & 0 & 1          & 1     \\
+                    \hline
+                    vsota  & 0 & 2          & 2     \\
+                    \hline
+                \end{tabular}
+            \end{center}}
+        \item[A: 3.6, B:5.3, C: 3.5]{Pravilen razred: $0$
+            \begin{figure}[H]
+                \centering
+                \begin{tikzpicture}[font=\scriptsize, node distance={22mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
+                    \node[main] (i0) {$3.6$};
+                    \node[main] (i1) [below of=i0] {$5.3$};
+                    \node[main] (i2) [below of=i1] {$3.5$};
+                    \node[main] (d0) [right of=i1] {$0.795$};
+                    \node[main] (d1) [right of=i2] {$3.493$};
+                    \node[main] (d2) [right of=d0] {$3.657$};
+                    \node[main] (d3) [right of=d1] {$3.493$};
+                    \node[main] (o0) [above right of=d2] {$0.291$};
+                    \node[thicc] (o1) [below right of=d2] {$2.194$};
+                    \draw[->] (i0) -- node[midway, above, sloped, pos=0.5] {0.03, 1/1} (o0);
+                    \draw[->] (i1) -- node[midway, above, sloped, pos=0.5] {0.15, 1/1} (d0);
+                    \draw[->] (i1) -- node[midway, above, sloped, pos=0.5] {0.21, 1/1} (d1);
+                    \draw[->] (i2) -- node[midway, above, sloped, pos=0.5] {0.68, 1/1} (d1);
+                    \draw[->] (d0) -- node[midway, above, sloped, pos=0.5] {0.47, 1/2} (d2);
+                    \draw[->] (d1) -- node[midway, above, sloped, pos=0.5] {0.94, 1/1} (d2);
+                    \draw[->] (d1) -- node[midway, above, sloped, pos=0.5] {1, 1/1} (d3);
+                    \draw[->] (d2) -- node[midway, above, sloped, pos=0.5] {0.05, 1/1} (o0);
+                    \draw[->] (d2) -- node[midway, above, sloped, pos=0.5] {0.6, 1/1} (o1);
+                \end{tikzpicture}
+                \caption{Stanje grafa po propagiranju tretje vrstice. Napovedan je razred 1, ker izhodno vozlišče $o_1$ vsebuje največjo vrednost.}
+                \label{fig:izracun_kakovosti_primer_3_vrstica}
+            \end{figure}
+            \begin{center}
+                \begin{tabular}{||c c c c||}
+                    \hline
+                    razred & 0 & 1          & vsota \\ [0.5ex]
+                    \hline
+                    0      & 0 & \textbf{2} & 2     \\
+                    \hline
+                    1      & 0 & 1          & 1     \\
+                    \hline
+                    vsota  & 0 & 3          & 3     \\
+                    \hline
+                \end{tabular}
+            \end{center}}
+        \item[A: 3.8, B:8, C: 6.8]{Pravilen razred: $1$
+            \begin{figure}[H]
+                \centering
+                \begin{tikzpicture}[font=\scriptsize, node distance={22mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
+                    \node[main] (i0) {$3.8$};
+                    \node[main] (i1) [below of=i0] {$8$};
+                    \node[main] (i2) [below of=i1] {$6.8$};
+                    \node[main] (d0) [right of=i1] {$1.2$};
+                    \node[main] (d1) [right of=i2] {$6.304$};
+                    \node[main] (d2) [right of=d0] {$6.49$};
+                    \node[main] (d3) [right of=d1] {$6.304$};
+                    \node[main] (o0) [above right of=d2] {$0.439$};
+                    \node[thicc] (o1) [below right of=d2] {$3.894$};
+                    \draw[->] (i0) -- node[midway, above, sloped, pos=0.5] {0.03, 1/1} (o0);
+                    \draw[->] (i1) -- node[midway, above, sloped, pos=0.5] {0.15, 1/1} (d0);
+                    \draw[->] (i1) -- node[midway, above, sloped, pos=0.5] {0.21, 1/1} (d1);
+                    \draw[->] (i2) -- node[midway, above, sloped, pos=0.5] {0.68, 1/1} (d1);
+                    \draw[->] (d0) -- node[midway, above, sloped, pos=0.5] {0.47, 1/2} (d2);
+                    \draw[->] (d1) -- node[midway, above, sloped, pos=0.5] {0.94, 1/1} (d2);
+                    \draw[->] (d1) -- node[midway, above, sloped, pos=0.5] {1, 1/1} (d3);
+                    \draw[->] (d2) -- node[midway, above, sloped, pos=0.5] {0.05, 1/1} (o0);
+                    \draw[->] (d2) -- node[midway, above, sloped, pos=0.5] {0.6, 1/1} (o1);
+                \end{tikzpicture}
+                \caption{Stanje grafa po propagiranju četrte vrstice. Napovedan je razred 1, ker izhodno vozlišče $o_1$ vsebuje največjo vrednost.}
+                \label{fig:izracun_kakovosti_primer_4_vrstica}
+            \end{figure}
+            \begin{center}
+                \begin{tabular}{||c c c c||}
+                    \hline
+                    razred & 0 & 1          & vsota \\ [0.5ex]
+                    \hline
+                    0      & 0 & 2          & 2     \\
+                    \hline
+                    1      & 0 & \textbf{2} & 2     \\
+                    \hline
+                    vsota  & 0 & 4          & 4     \\
+                    \hline
+                \end{tabular}
+            \end{center}}
+        \item[A: 3.5, B:7.4, C: 9.8]{Pravilen razred: $0$
+            \begin{figure}[H]
+                \centering
+                \begin{tikzpicture}[font=\scriptsize, node distance={22mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
+                    \node[main] (i0) {$3.5$};
+                    \node[main] (i1) [below of=i0] {$7.4$};
+                    \node[main] (i2) [below of=i1] {$9.8$};
+                    \node[main] (d0) [right of=i1] {$1.11$};
+                    \node[main] (d1) [right of=i2] {$8.218$};
+                    \node[main] (d2) [right of=d0] {$8.247$};
+                    \node[main] (d3) [right of=d1] {$8.218$};
+                    \node[main] (o0) [above right of=d2] {$0.517$};
+                    \node[thicc] (o1) [below right of=d2] {$4.948$};
+                    \draw[->] (i0) -- node[midway, above, sloped, pos=0.5] {0.03, 1/1} (o0);
+                    \draw[->] (i1) -- node[midway, above, sloped, pos=0.5] {0.15, 1/1} (d0);
+                    \draw[->] (i1) -- node[midway, above, sloped, pos=0.5] {0.21, 1/1} (d1);
+                    \draw[->] (i2) -- node[midway, above, sloped, pos=0.5] {0.68, 1/1} (d1);
+                    \draw[->] (d0) -- node[midway, above, sloped, pos=0.5] {0.47, 1/2} (d2);
+                    \draw[->] (d1) -- node[midway, above, sloped, pos=0.5] {0.94, 1/1} (d2);
+                    \draw[->] (d1) -- node[midway, above, sloped, pos=0.5] {1, 1/1} (d3);
+                    \draw[->] (d2) -- node[midway, above, sloped, pos=0.5] {0.05, 1/1} (o0);
+                    \draw[->] (d2) -- node[midway, above, sloped, pos=0.5] {0.6, 1/1} (o1);
+                \end{tikzpicture}
+                \caption{Stanje grafa po propagiranju pete vrstice. Napovedan je razred 1, ker izhodno vozlišče $o_1$ vsebuje največjo vrednost.}
+                \label{fig:izracun_kakovosti_primer_5_vrstica}
+            \end{figure}
+            \begin{center}
+                \begin{tabular}{||c c c c||}
+                    \hline
+                    razred & 0 & 1          & vsota \\ [0.5ex]
+                    \hline
+                    0      & 0 & \textbf{3} & 3     \\
+                    \hline
+                    1      & 0 & 2          & 2     \\
+                    \hline
+                    vsota  & 0 & 5          & 5     \\
+                    \hline
+                \end{tabular}
+            \end{center}}
+    \end{description}
 
     Na podlagi matrike zmot lahko izračunamo točnost in MCC napovedi testne množice.
     \begin{equation}
@@ -1460,74 +1442,198 @@
     V programu take primere obravnavamo enako kot $0$.
 
     \chapter{Evalvacija}\label{ch:evalvacija}
-    To poglavje pokriva poganjanje programa na podatkovnih množicah Iris, Wine, Car Evaluation in Statlog (Shuttle) in predstavitev rezultatov.
+    To poglavje pokriva ovrednotenje programa na nekaj podatkovnih množicah (Iris, Wine, Car Evaluation in Statlog (Shuttle)) ter predstavitev rezultatov.
     Vse podatkovne množice, ki smo jih izbrali, vsebujejo učne primerov brez manjkajočih vrednosti, zvezne ali diskretne atribute in najmanj tri razrede.
     Na voljo so na UCI Machine Learning Repository~\cite{Dua:2019}.
+    V tem poglavju naprej opišemo podatkovne množice, čemur sledi opis evalvacije (razdelek~\ref{sec:nacrt-poskusov}).
+    Rezultati in diskusije se predstavljeni v poglavju~\ref{ch:rezultati}.
 
-    V tem poglavju je opisano:
+    \section{Podatkovne množice}\label{sec:podatkovne-mnozice}
+    V tem razdelku je opisano:
     \begin{itemize}
-        \item podatkovna množica Iris (razdelek~\ref{sec:iris}), na kateri je potekala večina razvoja programa,
-        \item podatkovna množica Wine (razdelek~\ref{sec:wine}), kjer je cilj uvrstiti vina v tri kvalitetne razrede na podlagi trinajstih atributov,
-        \item podatkovna množica Car Evaluation (razdelek~\ref{sec:car-evaluation}), kjer je cilj klasificirati avtomobile v štiri kvalitetne razrede,
-        \item podatkovna množica Statlog (Shuttle) (razdelek~\ref{sec:statlog-shuttle}) s 58000 vrsticami, od katerih okoli 80\% pripada enemu razredu.
+        \item podatkovna množica Iris (podrazdelek~\ref{subsec:iris}), na kateri je potekala večina razvoja programa,
+        \item podatkovna množica Wine (podrazdelek~\ref{subsec:wine}), kjer je cilj uvrstiti vina v tri kvalitetne razrede na podlagi trinajstih atributov,
+        \item podatkovna množica Car Evaluation (podrazdelek~\ref{subsec:car-evaluation}), kjer je cilj klasificirati avtomobile v štiri kvalitetne razrede,
+        \item podatkovna množica Statlog (Shuttle) (podrazdelek~\ref{subsec:statlog-shuttle}) s 58000 vrsticami, od katerih okoli 80\% pripada enemu razredu,
     \end{itemize}
 
-    \section{Iris}\label{sec:iris}
+    \subsection{Iris}\label{subsec:iris}
+    Ta podatkovna množica~\cite{misc_iris_53} je najenostavnejša izmed izbranih.
+    Vsebuje po 150 učnih primerov s štirimi atributi, ki predstavljajo širino in dolžino (v centimetrih) cvetnih in čašnih
+    listov cvetlic v rodu \enquote{iris} oz.\ perunik.
+    Vsak razred predstavlja svojo vrsto perunike:
+    \begin{itemize}
+        \item Iris Setosa,
+        \item Iris Versicolour in
+        \item Iris Virginica.
+    \end{itemize}
+    Učni primeri so enakomerno porazdeljeni med razredi, atributi vsebujejo samo zvezne vrednosti, cilj pa je klasifikacija.
 
+    \subsection{Wine}\label{subsec:wine}
+    Učni primeri te množice~\cite{misc_wine_109} vsebujejo rezultate kemične analize vin, ki so bili pridelani iz grozdja
+    treh različnih kultivarjev v isti regiji Italije.
+    Imajo naslednjih trinajst zveznih atributov:
+    \begin{itemize}
+        \item vsebnost alkohola,
+        \item vsebnost jabolčne kisline,
+        \item vsebnost pepela,
+        \item pH vrednost pepela,
+        \item vsebnost magnezija,
+        \item skupna vsebnost fenolov,
+        \item vsebnost flavanoidov,
+        \item vsebnost neflavanoidnih fenolov,
+        \item vsebnost proantocianidinov,
+        \item intenziteta barve,
+        \item odtenek vina,
+        \item OD280/OD315 razredčenega vina in
+        \item vsebnost prolinov.
+    \end{itemize}
+
+    Cilj učne množice je klasificirati 178 primerov v tri kakovostne razrede, ki niso enakomerno porazdeljeni.
+    Prvi razred ima 59 učnih primerov (33.15\%), drugi 71 (39.89\%), tretji pa 48 (26.97\%).
+
+    \subsection{Car Evaluation}\label{subsec:car-evaluation}
+    Cilj množice Car Evaluation~\cite{misc_car_evaluation_19} je predvideti primernost 1728 avtomobilov oz.\ kako dobro kupčijo predstavljajo.
+    Učni primeri vsebujejo šest diskretnih atributov:
+    \begin{itemize}
+        \item nakupna cena avtomobila
+        \item stroški vzdrževanja
+        \item število vrat
+        \item število sedežev
+        \item velikost prtljažnika
+        \item stopnja varnosti
+    \end{itemize}
+    Cilj je klasificirati primere v štiri razrede, ki med seboj niso enakomerno porazdeljeni:
     \begin{description}
-        \item[Iris]{ Ta učna množica je najenostavnejša izmed izbranih. Vsebuje tri razrede po 50 učnih primerov s štirimi atributi,
-            ki predstavljajo širino in dolžino cvetnih in čašnih listov cvetlic v rodu iris oz. perunik. Vsak razred predstavlja vrsto perunike.  }
-        \item[Wine]{Je rezultat kemične analize italijanskih vin, pridobljenih iz treh različnih kultivarjev iz iste regije.
-        Vsebuje tri kvalitetne razrede vin od 1 do 3 s skupaj 178 učnimi primeri s 13 atributi. }
-        \item[Car Evaluation]
-        \item[Statlog (Shuttle)]
+        \item[nesprejemljivo]{1210 primerov, 70.02\%,}
+        \item[sprejemljivo]{384 primerov, 22.22\%,}
+        \item[dobro]{69 primerov, 3.99\% in}
+        \item[zelo dobro]{65 primerov, 3.76\%.}
     \end{description}
 
+    Diskretnim atributom smo dodelili naslednje številske vrednosti:
     \begin{center}
-        \begin{tabular}{||c c c c||}
+        \begin{tabular}{||l c c||}
             \hline
-            ime & št. učnih primerov & št. atributov & št. razredov \\ [0.5ex]
-            \hline
-            Iris & 150 & 4 & 3 \\
-            \hline
-            Wine & 178 & 13 & 3 \\
-            \hline
-            Car Evaluation & 545 & 18744 & 7560 \\
-            \hline
-            Statlog (Shuttle) & 88 & 788 & 6344 \\ [1ex]
-            \hline
+            atribut                 & diskretne vrednosti   & številske vrednosti \\ \hline
+            nakupna cena avtomobila & low, med, high, vhigh & 1, 2, 3, 4          \\ \hline
+            stroški vzdrževanja     & low, med, high, vhigh & 1, 2, 3, 4          \\ \hline
+            število vrat            & 2, 3, 4, 5more        & 1, 2, 3, 4          \\ \hline
+            število sedežev         & 2, 4, more            & 1, 2, 3             \\ \hline
+            velikost prtljažnika    & small, med in big     & 1, 2, 3             \\ \hline
+            stopnja varnosti        & low, med in high      & 1, 2, 3             \\ \hline
         \end{tabular}
     \end{center}
 
-    \section{Wine}\label{sec:wine}
 
-    \section{Car Evaluation}\label{sec:car-evaluation}
+    \subsection{Shuttle}\label{subsec:statlog-shuttle}
+    Ta množica~\cite{misc_statlog_shuttle_148} je najbolj kompleksa izmed izbranih.
+    Vsebuje $58.000$ dnevniških zapisov Space-shuttlovega računalnika, ki so zelo neenakomerno porazdeljeni med sedem razredov.
+    Vsebuje šest zveznih in dva diskretna atributa:
+    \begin{itemize}
+        \item čas, ko so bile meritve zabeležene,
+        \item rad flow,
+        \item fpv close,
+        \item fpv open,
+        \item high (0 ali 1),
+        \item bypass (0 ali 1),
+        \item bpv close in
+        \item bpv open.
+    \end{itemize}
+    Cilj je napovedati razred od 1 do 7.
+    Od ostalih množic se razlikuje še v tem, da nam nabora primerov ni treba ročno razdeljevati na učno in testno
+    množico, saj so jo avtorji razdelili vnaprej.
+    Učna vsebuje 43500 primerov, testna pa 14500.
+    Distribucija primerov učne in testne množice je naslednja:
+    \begin{center}
+        \begin{tabular}{||c c c||}
+            \hline
+            razred & učna množica     & testna množica \\ [0.5ex]
+            \hline
+            1      & 34108 (78.409\%) & 11478 (79.159\%) \\
+            \hline
+            2      & 37 (0.085)\%     & 13 (0.09)\%      \\
+            \hline
+            3      & 132 (0.303\%)    & 39 (0.269\%)     \\
+            \hline
+            4      & 6748 (15.513\%)  & 2155 (14.862\%)  \\
+            \hline
+            5      & 2458 (5.651\%)   & 809 (5.579\%)    \\
+            \hline
+            6      & 6 (0.014\%)      & 4 (0.028\%)      \\
+            \hline
+            7      & 11 (0.025\%)     & 2 (0.014\%)      \\
+            \hline
+        \end{tabular}
+    \end{center}
+    Diskretnim atributom smo dodelili naslednje številske vrednosti:
+    \begin{center}
+        \begin{tabular}{||l c c||}
+            \hline
+            atribut & diskretne vrednosti & številske vrednosti \\ \hline
+            high    & 0, 1                & 1, 2                \\ \hline
+            bypass  & 0, 1                & 1, 2                \\ \hline
+        \end{tabular}
+    \end{center}
 
-    \section{Statlog (Shuttle)}\label{sec:statlog-shuttle}
+    \section{Načrt poskusov}\label{sec:nacrt-poskusov}
+    %%"/home/jure/CLionProjects/Neuroevolution/datasets/car/car.data" 250 100 300 2 true 0.1 125 true -0.000 -0.000 100 MCC
+    Program smo testirali po naslednjem postopku:
+    \begin{enumerate}
+        \item primere podatkovnih množic smo premešali in razdelili na učno in testno v razmerju 70 proti 30 (razen Shuttle),
+        \item inicializacijske parametre populacije smo določili za vsako množico posebej glede na njeno kompleksnost,
+        \footnote{Števila vhodnih in izhodnih vozlišč in seznama label atributov in razredov med nabori nismo spreminjali, ker so ti parametri določeni s strukturo podatkovnih množic.},
+        \item v vsaki generaciji smo zabeležili podatke o točnosti ali MCC agentov glede na izbrano metriko kvalitete na učni množici,
+        \item najboljšega agenta zadnje generacije smo preverili še na testni množici in zabeležili njegovo točnost ali MCC in matriko zmot,
+        \item program smo pognali desetkrat za vsak nabor parametrov za obe metriki (petkrat na podlagi točnosti in petkrat na podlagi MCC),
+        \item od vseh zagonov za posamezni nabor smo vizualizirali najboljšega agenta s pomočjo odprtokodne knjižnice \enquote{force-graph}~\cite{Vasturiano},
+        hkrati pa izdelali graf spremembe točnosti oz.\ MCC po generacijah na učni množici,
+        \item na koncu smo za vsak nabor parametrov izračunali standardni odklon točnosti in MCC najboljših agentov po formuli~\cite{enwiki:1168408775}:
+        \begin{equation}
+            \sigma=\sqrt{\frac{1}{n}\sum_{i=1}^{n}(x_i-\overline{x})^2},
+            \label{eq:standardni_odklon}
+        \end{equation}
+        kjer je:
+        \begin{itemize}
+            \item $n$ število zagonov programa,
+            \item $x_i$ vrednost točnosti ali MCC i-tega zagona,
+            \item $\overline{x}$ povprečje točnosti ali MCC.
+        \end{itemize}
+    \end{enumerate}
 
-    \subsection{Načrt poskusov}\label{subsec:nacrt-poskusov}
+    Testiranje smo opravili na procesorju AMD Ryzen 7 5800X3D z 8 fizičnimi in 16 logičnimi jedri.
+    Vse vrednosti smo zaokrožili na 3 decimalna mesta.
+
+
+    \chapter{Rezultati}\label{ch:rezultati}
+    Razdelek vsebuje rezultate testiranj programa na zgoraj opisanih podatkovnih množicah po načrtu poglavja~\ref{sec:nacrt-poskusov}.
+    Rezultati so navedeni na naslednji način:
+    \begin{itemize}
+        \item vsak podrazdelek zajema rezultate testiranja programa na določeni podatkovni množici,
+        \item znotraj podrazdelka je navedena tabela z naborom inicializacijskih parametrov, katere bomo uporabili pri testiranju,
+        \item sledijo ji dejanski rezultati za vsak nabor parametrov:
+        \begin{itemize}
+            \item tabela s točnostjo oz.\ MCC najboljših agentov vsakega od petih zagonov,
+            \item matrika zmot najbolj točnega agenta in agenta z največjim MCC,
+            \item graf točnosti in MCC populacije, kateri pripada najboljši agent, skozi generacije,
+            \item vizualizacija najbolj točnega agenta in agenta z največjim MCC.
+        \end{itemize}
+    \end{itemize}
+
+
+
+    \section{Diskusija rezultatov}\label{sec:diskusija-rezultatov}
     \textbf{TODO}
-    \subsection{Rezultati}\label{subsec:rezultati}
-    \textbf{TODO}
+
     \subsection{Primerjava z obstoječimi pristopi strojnega učenja}\label{subsec:primerjava-z-obstojecimi-pristopi-strojnega-ucenja}
-    \textbf{TODO}
+    \textbf{TODO} Ali je potrebno?
 
 
     \chapter{Zaključki, sklep}\label{ch:zakljucki-sklep}
     \textbf{TODO}
 
-
-%\cleardoublepage
-%\addcontentsline{toc}{chapter}{Literatura}
-
-    %\printbibliography[heading=bibintoc,type=article,title={Članki v revijah}]
-
-    %\printbibliography[heading=bibintoc,type=inproceedings,title={Članki v zbornikih}]
-
-    %\printbibliography[heading=bibintoc,type=incollection,title={Poglavja v knjigah}]
-
-    \printbibliography[heading=bibintoc,title={Celotna literatura}]
-
+    \chapter{Dodatek}
+    \input{dodatek}
 
 \end{document}
 
