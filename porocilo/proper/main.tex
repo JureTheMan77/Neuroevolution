@@ -1442,7 +1442,7 @@
     V programu take primere obravnavamo enako kot $0$.
 
     \chapter{Evalvacija}\label{ch:evalvacija}
-    To poglavje pokriva ovrednotenje programa na nekaj podatkovnih množicah (Iris, Wine, Car Evaluation in Statlog (Shuttle)) ter predstavitev rezultatov.
+    To poglavje pokriva ovrednotenje programa na nekaj podatkovnih množicah (Iris, Wine, Car Evaluation in Shuttle) ter predstavitev rezultatov.
     Vse podatkovne množice, ki smo jih izbrali, vsebujejo učne primerov brez manjkajočih vrednosti, zvezne ali diskretne atribute in najmanj tri razrede.
     Na voljo so na UCI Machine Learning Repository~\cite{Dua:2019}.
     V tem poglavju naprej opišemo podatkovne množice, čemur sledi opis evalvacije (razdelek~\ref{sec:nacrt-poskusov}).
@@ -1454,7 +1454,7 @@
         \item podatkovna množica Iris (podrazdelek~\ref{subsec:iris}), na kateri je potekala večina razvoja programa,
         \item podatkovna množica Wine (podrazdelek~\ref{subsec:wine}), kjer je cilj uvrstiti vina v tri kvalitetne razrede na podlagi trinajstih atributov,
         \item podatkovna množica Car Evaluation (podrazdelek~\ref{subsec:car-evaluation}), kjer je cilj klasificirati avtomobile v štiri kvalitetne razrede,
-        \item podatkovna množica Statlog (Shuttle) (podrazdelek~\ref{subsec:statlog-shuttle}) s 58000 vrsticami, od katerih okoli 80\% pripada enemu razredu,
+        \item podatkovna množica Shuttle (podrazdelek~\ref{subsec:statlog-shuttle}) s 58000 vrsticami, od katerih okoli 80\% pripada enemu razredu,
     \end{itemize}
 
     \subsection{Iris}\label{subsec:iris}
@@ -1529,18 +1529,19 @@
     \subsection{Shuttle}\label{subsec:statlog-shuttle}
     Ta množica~\cite{misc_statlog_shuttle_148} je najbolj kompleksa izmed izbranih.
     Vsebuje $58.000$ dnevniških zapisov Space-shuttlovega računalnika, ki so zelo neenakomerno porazdeljeni med sedem razredov.
-    Vsebuje šest zveznih in dva diskretna atributa:
+    Vsebuje devet zveznih atributov.\ Prvi je \enquote{čas}, ostali pa niso poimenovani.
+    Razredi so naslednji:
     \begin{itemize}
-        \item čas, ko so bile meritve zabeležene,
         \item rad flow,
         \item fpv close,
         \item fpv open,
-        \item high (0 ali 1),
-        \item bypass (0 ali 1),
+        \item high,
+        \item bypass,
         \item bpv close in
         \item bpv open.
     \end{itemize}
-    Cilj je napovedati razred od 1 do 7.
+    Atribut \enquote{čas} smo izpustili, ker v tej podatkovni množici služi kot zaporedna številka.
+
     Od ostalih množic se razlikuje še v tem, da nam nabora primerov ni treba ročno razdeljevati na učno in testno
     množico, saj so jo avtorji razdelili vnaprej.
     Učna vsebuje 43500 primerov, testna pa 14500.
@@ -1566,23 +1567,13 @@
             \hline
         \end{tabular}
     \end{center}
-    Diskretnim atributom smo dodelili naslednje številske vrednosti:
-    \begin{center}
-        \begin{tabular}{||l c c||}
-            \hline
-            atribut & diskretne vrednosti & številske vrednosti \\ \hline
-            high    & 0, 1                & 1, 2                \\ \hline
-            bypass  & 0, 1                & 1, 2                \\ \hline
-        \end{tabular}
-    \end{center}
 
     \section{Načrt poskusov}\label{sec:nacrt-poskusov}
     %%"/home/jure/CLionProjects/Neuroevolution/datasets/car/car.data" 250 100 300 2 true 0.1 125 true -0.000 -0.000 100 MCC
     Program smo testirali po naslednjem postopku:
     \begin{enumerate}
         \item primere podatkovnih množic smo premešali in razdelili na učno in testno v razmerju 70 proti 30 (razen Shuttle),
-        \item inicializacijske parametre populacije smo določili za vsako množico posebej glede na njeno kompleksnost,
-        \footnote{Števila vhodnih in izhodnih vozlišč in seznama label atributov in razredov med nabori nismo spreminjali, ker so ti parametri določeni s strukturo podatkovnih množic.},
+        \item inicializacijske parametre populacije smo določili za vsako množico posebej glede na njeno kompleksnost\footnote{Števila vhodnih in izhodnih vozlišč in seznama label atributov in razredov med nabori nismo spreminjali, ker so ti parametri določeni s strukturo podatkovnih množic.},
         \item v vsaki generaciji smo zabeležili podatke o točnosti ali MCC agentov glede na izbrano metriko kvalitete na učni množici,
         \item najboljšega agenta zadnje generacije smo preverili še na testni množici in zabeležili njegovo točnost ali MCC in matriko zmot,
         \item program smo pognali desetkrat za vsak nabor parametrov za obe metriki (petkrat na podlagi točnosti in petkrat na podlagi MCC),
@@ -1605,25 +1596,60 @@
     Vse vrednosti smo zaokrožili na 3 decimalna mesta.
 
 
+
     \chapter{Rezultati}\label{ch:rezultati}
-    Razdelek vsebuje rezultate testiranj programa na zgoraj opisanih podatkovnih množicah po načrtu poglavja~\ref{sec:nacrt-poskusov}.
-    Rezultati so navedeni na naslednji način:
+    To poglavje vsebuje povzetke rezultatov podatkovnih množic, pridobljenih po načrtu iz razdelka~\ref{sec:nacrt-poskusov}.
+    Pri vseh izvedenih poskusih je bil naš cilj preseči točnost večinskega razreda:
     \begin{itemize}
-        \item vsak podrazdelek zajema rezultate testiranja programa na določeni podatkovni množici,
-        \item znotraj podrazdelka je navedena tabela z naborom inicializacijskih parametrov, katere bomo uporabili pri testiranju,
-        \item sledijo ji dejanski rezultati za vsak nabor parametrov:
-        \begin{itemize}
-            \item tabela s točnostjo oz.\ MCC najboljših agentov vsakega od petih zagonov,
-            \item matrika zmot najbolj točnega agenta in agenta z največjim MCC,
-            \item graf točnosti in MCC populacije, kateri pripada najboljši agent, skozi generacije,
-            \item vizualizacija najbolj točnega agenta in agenta z največjim MCC.
-        \end{itemize}
+        \item{Iris (razdelek~\ref{sec:rezultati-iris}): $33\%$}
+        \item{Wine (razdelek~\ref{sec:rezultati-wine}): $39.89\%$}
+        \item{Car Evaluation (razdelek~\ref{sec:rezultati-car-evaluation}): $70.02\%$}
+        \item{Shuttle (razdelek~\ref{sec:rezultati-shuttle}): $79.159\%$}
     \end{itemize}
 
+    \section{Iris}\label{sec:rezultati-iris}
+    Iz rezultatov~\ref{subsec:iris_test} je razvidno, da generirane nevronske mreže dosežejo visoko točnost tudi pri majhnih velikostih.
+    Najboljša nevronska mreža prvega nabora parametrov (slika~\ref{fig:iris_acc_1_g}) vsebuje 7 povezav in nobenega globokega vozlišča
+    (vhodno vozlišče~\enquote{sepal length in cm} nima izhodnih povezav), doseže pa $80\%$ točnost.
 
+    Poskusi z drugim in tretjim naborom parametrov so konsistentno generirali večje in boljše mreže (sliki~\ref{fig:iris_acc_2_g} in~\ref{fig:iris_acc_3_g}).
+    Dva poskusa s tretjim naborom parametrov sta ustvarila mreži s $100\%$ točnostjo (tabela~\ref{tab:iris_result_3}).
 
-    \section{Diskusija rezultatov}\label{sec:diskusija-rezultatov}
-    \textbf{TODO}
+    Točnost večinskega razreda je bila presežena v vseh poskusih.
+
+    \section{Wine}\label{sec:rezultati-wine}
+    Zaradi precej večjega števila atributov v primerjavi z Iris, smo pri poskusih te množice začeli z večjimi dovoljenimi mrežami.
+    Posledica je bila, da velikih izboljšav med različnimi nabori parametrov ni bilo.
+
+    Poskusi prvega nabora so ustvarili mrežo s točnostjo $92.6\%$ (tabela~\ref{tab:wine_acc_1}, slika~\ref{fig:wine_acc_1_g}),
+    najboljša mreža pa je bila generirana pri tretjem naboru parametrov preko metrike MCC (slika~\ref{fig:wine_mcc_3_g}),
+    in sicer z vrednostjo $0.972$ oz.\ $98.1\%$ točnostjo (tabela~\ref{tab:wine_mcc_3}).
+
+    Pri poskusih z drugim in tretjim naborom se je na več mestih pojavila tudi divergenca agentov zaradi naključnih mutacij
+    in posledično padec povprečne kvalitete populacij, nato pa ponovna konvergenca
+    (slike~\ref{fig:wine_acc_2},~\ref{fig:wine_mcc_2} in~\ref{fig:wine_acc_3}).
+
+    Točnost večinskega razreda je bila presežena v vseh poskusih, $100\%$ točnost pa ni bila nikoli dosežena.
+
+    \section{Car Evaluation}\label{sec:rezultati-car-evaluation}
+    Poskusi so pokazali, da naš pristop ni brez pomanjkljivosti.\ Namreč, noben poskus ni ustvaril mreže, ki bi lahko
+    klasificirala primere učnih in testnih množic v vse štiri razrede.
+    Najboljši agenti poskusov posameznih naborov so lahko pravilno klasificirali samo v večinski in še en razred.
+
+    Najboljša mreža je bila generirana s pomočjo metrike MCC (slika~\ref{fig:car_mcc_2_g}) z vrednostjo $0.530$
+    oz.\ $73.7\%$ točnostjo (tabela~\ref{tab:car_mcc_2}).
+    Klasificirala je lahko samo v dva razreda, in sicer \enquote{sprejemljivo} in \enquote{nesprejemljivo}.
+
+    Populacije agentov v poskusih, kjer smo uporabili metriko točnosti, so konvergirale zelo hitro, sprememba kvalitete
+    pa se je pojavila večinoma v najslabših desetih odstotkih oz.\ v mutiranem delu populacije.
+    Metrika MCC je povzročila hiter skok k vrednosti $0$, nato pa počasno konvergenco, v tretjem naboru pa tudi precejšnjo
+    divergenco v najslabših $20\%$ populacije s ponovno konvergenco (slika~\ref{fig:car_mcc_3}).
+
+    Točnost najboljših agentov posameznih naborov je sicer presegla točnost večinskega razreda, kar pa ne velja za
+    najboljše agente vseh poskusov.
+    Večanje dovoljene velikosti mrež ni vplivalo na kvaliteto agentov.
+
+    \section{Shuttle}\label{sec:rezultati-shuttle}
 
     \subsection{Primerjava z obstoječimi pristopi strojnega učenja}\label{subsec:primerjava-z-obstojecimi-pristopi-strojnega-ucenja}
     \textbf{TODO} Ali je potrebno?

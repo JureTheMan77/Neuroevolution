@@ -1,3 +1,17 @@
+Poglavje vsebuje rezultate testiranj programa na zgoraj opisanih podatkovnih množicah po načrtu poglavja~\ref{sec:nacrt-poskusov}.
+Rezultati so navedeni na naslednji način:
+\begin{itemize}
+    \item vsak podrazdelek zajema rezultate testiranja programa na določeni podatkovni množici,
+    \item znotraj podrazdelka je navedena tabela z naborom inicializacijskih parametrov, katere bomo uporabili pri testiranju,
+    \item sledijo ji dejanski rezultati za vsak nabor parametrov:
+    \begin{itemize}
+        \item tabela s točnostjo oz.\ MCC najboljših agentov vsakega od petih zagonov,
+        \item matrika zmot najbolj točnega agenta in agenta z največjim MCC,
+        \item graf točnosti in MCC populacije, kateri pripada najboljši agent, skozi generacije,
+        \item vizualizacija najbolj točnega agenta in agenta z največjim MCC.
+    \end{itemize}
+\end{itemize}
+
 \subsection{Iris}\label{subsec:iris_test}
 %% arrowLength=4
 %% linkWidth=5
@@ -876,24 +890,61 @@
     \label{fig:car_mcc_3}
 \end{figure}
 
-%%\begin{figure}[H]
-%%    \begin{center}
-%%        \includegraphics[width=13cm]{car/2/acc_g}
-%%    \end{center}
-%%    \caption{Vizualizacija najbolj točnega agenta drugega nabora. Vsebuje 5 globokih vozlišč in 36 povezav.}
-%%    \label{fig:car_acc_2_g}
-%%\end{figure}
-%%
-%%\begin{figure}[H]
-%%    \begin{center}
-%%        \includegraphics[width=13cm]{car/2/mcc_g}
-%%    \end{center}
-%%    \caption{Vizualizacija agenta z največjim MCC drugega nabora. Vsebuje 8 globokih vozlišč in 39 povezav.}
-%%    \label{fig:car_mcc_2_g}
-%%\end{figure}
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[width=13cm]{car/3/acc_g}
+    \end{center}
+    \caption{Vizualizacija najbolj točnega agenta tretjega nabora. Vsebuje 15 globokih vozlišč in 64 povezav.}
+    \label{fig:car_acc_3_g}
+\end{figure}
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[width=13cm]{car/3/mcc_g}
+    \end{center}
+    \caption{Vizualizacija agenta z največjim MCC drugega nabora. Vsebuje 15 globokih vozlišč in 67 povezav.}
+    \label{fig:car_mcc_3_g}
+\end{figure}
 
 
-\subsection{Statlog (Shuttle)}\label{subsec:statlog_test}
+\subsection{Shuttle}\label{subsec:statlog_test}
+%% arrowLength=10
+%% linkWidth=3
+%% input fy=50*node.pos
+%% output fx=550
+%% output fy=50*node.pos+25
+%% MAX_FONT_SIZE=8
+\begin{table}[H]
+    \caption{Nabori inicializacijskih parametrov poganjanja na množici Shuttle.}
+    \begin{center}
+        \begin{tabular}{||l c c c||}
+            \hline
+            & 1        & 2        & 3 \\ [0.5ex]
+            \hline
+            velikost populacije               & 200      & 250      & 350      \\
+            \hline
+            največje število globokih vozlišč & 15       & 20       & 40       \\
+            \hline
+            največje število povezav          & 30       & 50       & 100      \\
+            \hline
+            največje število prečkanj         & 2        & 3        & 4        \\
+            \hline
+            delež mutiranih potomcev          & 10\%     & 10\%     & 10\%     \\
+            \hline
+            prispevek vozlišč                 & -0.00001 & -0.00001 & -0.00001 \\
+            \hline
+            prispevek povezav                 & -0.00001 & -0.00001 & -0.00001 \\
+            \hline
+            število generacij                 & 200      & 250      & 300      \\
+            \hline
+        \end{tabular}
+    \end{center}
+    \label{tab:param_statlog}
+\end{table}
+
+\subsubsection{Prvi nabor}
+%% branch shuttle
+%% 200 15 30 2 true 0.1 100 true -0.00001 -0.00001 200 ACC
 
 
 %\cleardoublepage
