@@ -1599,19 +1599,55 @@
 
     \chapter{Rezultati}\label{ch:rezultati}
     To poglavje vsebuje povzetke rezultatov podatkovnih množic, pridobljenih po načrtu iz razdelka~\ref{sec:nacrt-poskusov}.
+    Pri vseh izvedenih poskusih je bil naš cilj preseči točnost večinskega razreda:
+    \begin{itemize}
+        \item{Iris (razdelek~\ref{sec:rezultati-iris}): $33\%$}
+        \item{Wine (razdelek~\ref{sec:rezultati-wine}): $39.89\%$}
+        \item{Car Evaluation (razdelek~\ref{sec:rezultati-car-evaluation}): $70.02\%$}
+        \item{Shuttle (razdelek~\ref{sec:rezultati-shuttle}): $79.159\%$}
+    \end{itemize}
 
     \section{Iris}\label{sec:rezultati-iris}
     Iz rezultatov~\ref{subsec:iris_test} je razvidno, da generirane nevronske mreže dosežejo visoko točnost tudi pri majhnih velikostih.
     Najboljša nevronska mreža prvega nabora parametrov (slika~\ref{fig:iris_acc_1_g}) vsebuje 7 povezav in nobenega globokega vozlišča
-    (vhodno vozlišče~\enquote{sepal length in cm} nima izhodnih povezav), doseže pa 80\% točnost.
+    (vhodno vozlišče~\enquote{sepal length in cm} nima izhodnih povezav), doseže pa $80\%$ točnost.
+
     Poskusi z drugim in tretjim naborom parametrov so konsistentno generirali večje in boljše mreže (sliki~\ref{fig:iris_acc_2_g} in~\ref{fig:iris_acc_3_g}).
-    Tretji nabor parametrov je generiral tudi 2 mreži s 100\% točnostjo (tabela~\ref{tab:iris_result_3}).
+    Dva poskusa s tretjim naborom parametrov sta ustvarila mreži s $100\%$ točnostjo (tabela~\ref{tab:iris_result_3}).
+
+    Točnost večinskega razreda je bila presežena v vseh poskusih.
 
     \section{Wine}\label{sec:rezultati-wine}
+    Zaradi precej večjega števila atributov v primerjavi z Iris, smo pri poskusih te množice začeli z večjimi dovoljenimi mrežami.
+    Posledica je bila, da velikih izboljšav med različnimi nabori parametrov ni bilo.
 
+    Poskusi prvega nabora so ustvarili mrežo s točnostjo $92.6\%$ (tabela~\ref{tab:wine_acc_1}, slika~\ref{fig:wine_acc_1_g}),
+    najboljša mreža pa je bila generirana pri tretjem naboru parametrov preko metrike MCC (slika~\ref{fig:wine_mcc_3_g}),
+    in sicer z vrednostjo $0.972$ oz.\ $98.1\%$ točnostjo (tabela~\ref{tab:wine_mcc_3}).
+
+    Pri poskusih z drugim in tretjim naborom se je na več mestih pojavila tudi divergenca agentov zaradi naključnih mutacij
+    in posledično padec povprečne kvalitete populacij, nato pa ponovna konvergenca
+    (slike~\ref{fig:wine_acc_2},~\ref{fig:wine_mcc_2} in~\ref{fig:wine_acc_3}).
+
+    Točnost večinskega razreda je bila presežena v vseh poskusih, $100\%$ točnost pa ni bila nikoli dosežena.
 
     \section{Car Evaluation}\label{sec:rezultati-car-evaluation}
+    Poskusi so pokazali, da naš pristop ni brez pomanjkljivosti.\ Namreč, noben poskus ni ustvaril mreže, ki bi lahko
+    klasificirala primere učnih in testnih množic v vse štiri razrede.
+    Najboljši agenti poskusov posameznih naborov so lahko pravilno klasificirali samo v večinski in še en razred.
 
+    Najboljša mreža je bila generirana s pomočjo metrike MCC (slika~\ref{fig:car_mcc_2_g}) z vrednostjo $0.530$
+    oz.\ $73.7\%$ točnostjo (tabela~\ref{tab:car_mcc_2}).
+    Klasificirala je lahko samo v dva razreda, in sicer \enquote{sprejemljivo} in \enquote{nesprejemljivo}.
+
+    Populacije agentov v poskusih, kjer smo uporabili metriko točnosti, so konvergirale zelo hitro, sprememba kvalitete
+    pa se je pojavila večinoma v najslabših desetih odstotkih oz.\ v mutiranem delu populacije.
+    Metrika MCC je povzročila hiter skok k vrednosti $0$, nato pa počasno konvergenco, v tretjem naboru pa tudi precejšnjo
+    divergenco v najslabših $20\%$ populacije s ponovno konvergenco (slika~\ref{fig:car_mcc_3}).
+
+    Točnost najboljših agentov posameznih naborov je sicer presegla točnost večinskega razreda, kar pa ne velja za
+    najboljše agente vseh poskusov.
+    Večanje dovoljene velikosti mrež ni vplivalo na kvaliteto agentov.
 
     \section{Shuttle}\label{sec:rezultati-shuttle}
 
