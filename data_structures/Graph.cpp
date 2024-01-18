@@ -133,6 +133,9 @@ bool data_structures::Graph::edgeBeforeAdd(enums::VertexType inputVertexType, un
             break;
         case enums::VertexType::Deep:
             input = this->getDeepVertexByIndex(inputVertexIndex);
+            //if (input == nullptr) {
+            //    throw std::invalid_argument("[INPUT] Deep vertex with index " + std::to_string(inputVertexIndex) + " doesn't exist.");
+            //}
             break;
         default:
             throw std::invalid_argument("Vertex of type " + enums::EnumUtil::VertexTypeToString(inputVertexType) +
@@ -150,6 +153,9 @@ bool data_structures::Graph::edgeBeforeAdd(enums::VertexType inputVertexType, un
             break;
         case enums::VertexType::Deep:
             output = this->getDeepVertexByIndex(outputVertexIndex);
+            //if (output == nullptr) {
+            //    throw std::invalid_argument("[OUTPUT] Deep vertex with index " + std::to_string(outputVertexIndex) + " doesn't exist.");
+            //}
             break;
         default:
             throw std::invalid_argument("Vertex of type " + enums::EnumUtil::VertexTypeToString(outputVertexType) +
@@ -327,9 +333,9 @@ void data_structures::Graph::reset() {
     }
 
     for (const auto &e: this->edges) {
-        if(e != nullptr) {
+        //if(e != nullptr) {
             e->reset();
-        }
+        //}
     }
 }
 
@@ -426,7 +432,7 @@ void data_structures::Graph::fixIndices() {
         }
     }
     for (const auto &edge: this->edges) {
-        if (edge != nullptr && edge->getIndex() == UINT_MAX) {
+        if (/*edge != nullptr &&*/ edge->getIndex() == UINT_MAX) {
             this->largestEdgeIndex += 1;
             edge->setIndex(this->largestEdgeIndex);
         }
@@ -471,19 +477,19 @@ void data_structures::Graph::normalizeEdgeWeights() const {
     // find the largest weight
     double maxWeight = 0;
     for (const auto &edge: this->getEdges()) {
-        if(edge != nullptr) {
+        //if(edge != nullptr) {
             double absoluteWeight = std::fabs(edge->getWeight());
             if (absoluteWeight > maxWeight) {
                 maxWeight = absoluteWeight;
             }
-        }
+        //}
     }
     // normalize
     for (const auto &edge: this->getEdges()) {
-        if (edge != nullptr) {
+        //if (edge != nullptr) {
             double newWeight = edge->getWeight() / maxWeight;
             edge->setWeight(newWeight);
-        }
+        //}
     }
 }
 

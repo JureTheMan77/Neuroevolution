@@ -431,12 +431,16 @@ void evolution::Population::crossoverAndMutate() {
     std::vector<unsigned long> indexesToMutate;
     while (indexesToMutate.size() < childrenToMutate) {
         unsigned long index = childPopulationDistribution(util::rng);
+        bool sameIndexFound = false;
         for (const auto &generatedIndex: indexesToMutate) {
             if (generatedIndex == index) {
-                continue;
+                sameIndexFound = true;
+                break;
             }
         }
-        indexesToMutate.push_back(index);
+        if (!sameIndexFound) {
+            indexesToMutate.push_back(index);
+        }
     }
 
     for (const auto &index: indexesToMutate) {
@@ -576,7 +580,7 @@ void evolution::Population::mutateThreaded(unsigned long agentIndex) {
             }
             // add the edges
             for (const auto &edge: childAgent->getGraph()->getEdges()) {
-                if (edge != nullptr && !edge->isFlaggedForDeletion()) {
+                if (/*edge != nullptr &&*/ !edge->isFlaggedForDeletion()) {
                     mutatedAgent->getGraph()->addEdge(edge);
                 }
             }
@@ -608,7 +612,8 @@ void evolution::Population::mutateThreaded(unsigned long agentIndex) {
                 return;
             }
             // choose a random edge
-            unsigned long position = util::nextUnsignedLong(0, childAgent->getGraph()->getEdges().size() - 1);
+            unsigned long maxPos = childAgent->getGraph()->getEdges().size() - 1;
+            unsigned long position = util::nextUnsignedLong(0, maxPos);
             // choose a random weight
             double weight = util::nextWeight();
             // get edge
@@ -621,7 +626,8 @@ void evolution::Population::mutateThreaded(unsigned long agentIndex) {
                 return;
             }
             // choose a random edge
-            unsigned long position = util::nextUnsignedLong(0, childAgent->getGraph()->getEdges().size() - 1);
+            unsigned long maxPos = childAgent->getGraph()->getEdges().size() - 1;
+            unsigned long position = util::nextUnsignedLong(0, maxPos);
             // choose a random weight
             unsigned int traverseLimit = this->edgeTraverseLimitDistribution(util::rng);
             // get edge
@@ -855,7 +861,7 @@ evolution::Population::minimizeAgent(const std::shared_ptr<evolution::Agent> &ag
     }
     // add the edges
     for (const auto &edge: agentToMinimize->getGraph()->getEdges()) {
-        if (edge != nullptr && !edge->isFlaggedForDeletion()) {
+        if (/*edge != nullptr &&*/ !edge->isFlaggedForDeletion()) {
             minimizedAgent->getGraph()->addEdge(edge);
         }
     }
