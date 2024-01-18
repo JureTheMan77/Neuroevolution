@@ -670,9 +670,13 @@ void evolution::Population::crossoverDeepVertices(const std::shared_ptr<evolutio
         }
         // get the vertex with the same index from parent2
         auto deepVertex2 = parent2->getGraph()->getDeepVertexByIndex(deepVertex1->getIndex());
-        // if no second vertex was found, clone vertex1
+        // if no second vertex was found, clone vertex1 with a 50% chance
         std::shared_ptr<data_structures::DeepVertex> childVertex;
         if (deepVertex2 == nullptr) {
+            bool choice = util::nextBool();
+            if (!choice) {
+                continue;
+            }
             childVertex = deepVertex1->deepClone();
         } else {
             // choose a random vertex
@@ -715,9 +719,9 @@ void evolution::Population::crossoverEdges(const std::shared_ptr<evolution::Agen
                                                                 edge1->getOutput()->getType());
         if (edge2 == nullptr) {
             // similar edge1 was not found in parent2
-            // keep edge1
+            // 50% chance to keep edge1
             bool choice = util::nextBool();
-            if(!choice){
+            if (!choice) {
                 continue;
             }
             childAgent->getGraph()->addEdge(edge1->getInput()->getType(), edge1->getInput()->getIndex(),
