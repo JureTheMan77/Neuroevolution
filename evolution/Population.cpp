@@ -692,16 +692,16 @@ void evolution::Population::crossoverEdges(const std::shared_ptr<evolution::Agen
         }
 
         // check if this edge1 was already crossovered
-        bool matchFound = false;
-        for (unsigned int index: checkedIndices) {
-            if (edge1->getIndex() == index) {
-                matchFound = true;
-                break;
-            }
-        }
-        if (matchFound) {
-            continue;
-        }
+        //bool matchFound = false;
+        //for (unsigned int index: checkedIndices) {
+        //    if (edge1->getIndex() == index) {
+        //        matchFound = true;
+        //        break;
+        //    }
+        //}
+        //if (matchFound) {
+        //    continue;
+        //}
         // get the edge1 with the same input and output indices (and types) from the second parent
         auto edge2 = parent2->getGraph()->getEdgeByIndexAndType(edge1->getInput()->getIndex(),
                                                                 edge1->getInput()->getType(),
@@ -710,6 +710,10 @@ void evolution::Population::crossoverEdges(const std::shared_ptr<evolution::Agen
         if (edge2 == nullptr) {
             // similar edge1 was not found in parent2
             // keep edge1
+            bool choice = util::nextBool();
+            if(!choice){
+                continue;
+            }
             childAgent->getGraph()->addEdge(edge1->getInput()->getType(), edge1->getInput()->getIndex(),
                                             edge1->getOutput()->getType(), edge1->getOutput()->getIndex(),
                                             edge1->getIndex(), edge1->getWeight(),

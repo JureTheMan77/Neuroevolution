@@ -189,7 +189,7 @@ data_structures::Graph::addEdge(enums::VertexType inputVertexType, unsigned int 
     }
 
     // if a common edge has not been found, create a new one
-    // otherwise, combine the weights
+    // otherwise, return it
     if (commonEdge == nullptr) {
         // assume that there are no edges with the same index
         if (this->largestEdgeIndex < index && index != UINT_MAX) {
@@ -206,7 +206,7 @@ data_structures::Graph::addEdge(enums::VertexType inputVertexType, unsigned int 
         addEdgeAfterAdd(inputVertexType, outputVertexType, input, output, newEdge);
         return newEdge;
     } else {
-        commonEdge->combineWeight(weight);
+        //commonEdge->combineWeight(weight);
         return commonEdge;
     }
 }
