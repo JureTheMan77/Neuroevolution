@@ -86,9 +86,11 @@ void evolution::Population::initialisePopulation(unsigned int populationSizeArg,
     this->maxMutationChance = mutationChanceArg;
     this->keepDormantVerticesAndEdges = keepDormantVerticesAndEdgesArg;
     this->edgeTraverseLimitDistribution = std::uniform_int_distribution<unsigned int>(1, edgeTraverseLimitArg);
-    for (unsigned int i = 0; i < populationSizeArg; i++) {
+    while (this->population.size() < populationSizeArg) {
         auto agent = this->createAgent();
-        this->population.push_back(agent);
+        if(agent != nullptr) {
+            this->population.push_back(agent);
+        }
     }
 }
 
@@ -107,6 +109,12 @@ evolution::Population::createAgent() {
     // generate edges
     for (unsigned int i = 0; i < numberOfEdges; i++) {
         this->addRandomEdge(i, graph);
+    }
+
+    for(const auto &vertex : graph->getOutputVertices()){
+        if(vertex->getInputEdges().empty()){
+            return nullptr;
+        }
     }
 
     // normalize edge weights
@@ -305,8 +313,8 @@ void evolution::Population::calculateAgentFitness(enums::FitnessMetric fitnessMe
             break;
     }
 
-    if (fitness < 0) {
-        fitness = 0;
+    if (fitness < 0.001) {
+        fitness = 0.001;
     }
     agent->setFitness(fitness);
     agent->setAccuracy(mcm.getAccuracy());
