@@ -1,668 +1,952 @@
-/Users/admin/Documents/Neuroevolution/cmake-build-debug/Neuroevolution /Users/admin/Documents/Neuroevolution/datasets/car/car.data 200 15 30 2 true 0.1 100 true -0.00001 -0.00001 200 MCC
-[23:27:15:325] Start
-[23:27:15:336] Population initialised.
-[23:27:15:336] Generation 0
-[23:27:15:735] AVERAGES - fitness: 0.415470, accuracy: 0.319347, Matthews correlation coefficient: -0.584421
-[23:27:15:735] FITTEST AGENT - fitness: 1.279133, accuracy: 0.695868, Matthews correlation coefficient: 0.279293
-[23:27:15:743] Generation 1
-[23:27:16:8] AVERAGES - fitness: 0.957810, accuracy: 0.257438, Matthews correlation coefficient: -0.041911
-[23:27:16:8] FITTEST AGENT - fitness: 1.279133, accuracy: 0.695868, Matthews correlation coefficient: 0.279293
-[23:27:16:17] Generation 2
-[23:27:16:306] AVERAGES - fitness: 0.977394, accuracy: 0.266087, Matthews correlation coefficient: -0.022301
-[23:27:16:306] FITTEST AGENT - fitness: 1.321682, accuracy: 0.552066, Matthews correlation coefficient: 0.322002
-[23:27:16:316] Generation 3
-[23:27:16:616] AVERAGES - fitness: 0.993441, accuracy: 0.297178, Matthews correlation coefficient: -0.006232
-[23:27:16:616] FITTEST AGENT - fitness: 1.370792, accuracy: 0.698347, Matthews correlation coefficient: 0.371182
-[23:27:16:626] Generation 4
-[23:27:16:918] AVERAGES - fitness: 0.970255, accuracy: 0.294893, Matthews correlation coefficient: -0.029410
-[23:27:16:918] FITTEST AGENT - fitness: 1.370792, accuracy: 0.698347, Matthews correlation coefficient: 0.371182
-[23:27:16:930] Generation 5
-[23:27:17:229] AVERAGES - fitness: 0.985892, accuracy: 0.286207, Matthews correlation coefficient: -0.013748
-[23:27:17:229] FITTEST AGENT - fitness: 1.370792, accuracy: 0.698347, Matthews correlation coefficient: 0.371182
-[23:27:17:240] Generation 6
-[23:27:17:540] AVERAGES - fitness: 1.009216, accuracy: 0.270789, Matthews correlation coefficient: 0.009595
-[23:27:17:540] FITTEST AGENT - fitness: 1.432941, accuracy: 0.650413, Matthews correlation coefficient: 0.433371
-[23:27:17:551] Generation 7
-[23:27:17:866] AVERAGES - fitness: 0.979793, accuracy: 0.273657, Matthews correlation coefficient: -0.019834
-[23:27:17:866] FITTEST AGENT - fitness: 1.432941, accuracy: 0.650413, Matthews correlation coefficient: 0.433371
-[23:27:17:877] Generation 8
-[23:27:18:200] AVERAGES - fitness: 1.003612, accuracy: 0.263058, Matthews correlation coefficient: 0.004006
-[23:27:18:200] FITTEST AGENT - fitness: 1.432941, accuracy: 0.650413, Matthews correlation coefficient: 0.433371
-[23:27:18:212] Generation 9
-[23:27:18:571] AVERAGES - fitness: 0.988967, accuracy: 0.242971, Matthews correlation coefficient: -0.010640
-[23:27:18:571] FITTEST AGENT - fitness: 1.432941, accuracy: 0.650413, Matthews correlation coefficient: 0.433371
-[23:27:18:583] Generation 10
-[23:27:18:937] AVERAGES - fitness: 1.000844, accuracy: 0.251438, Matthews correlation coefficient: 0.001249
-[23:27:18:937] FITTEST AGENT - fitness: 1.432941, accuracy: 0.650413, Matthews correlation coefficient: 0.433371
-[23:27:18:949] Generation 11
-[23:27:19:275] AVERAGES - fitness: 0.982107, accuracy: 0.247145, Matthews correlation coefficient: -0.017489
-[23:27:19:275] FITTEST AGENT - fitness: 1.432941, accuracy: 0.650413, Matthews correlation coefficient: 0.433371
-[23:27:19:287] Generation 12
-[23:27:19:608] AVERAGES - fitness: 1.027878, accuracy: 0.280260, Matthews correlation coefficient: 0.028298
-[23:27:19:608] FITTEST AGENT - fitness: 1.432941, accuracy: 0.650413, Matthews correlation coefficient: 0.433371
-[23:27:19:621] Generation 13
-[23:27:19:943] AVERAGES - fitness: 0.998246, accuracy: 0.282736, Matthews correlation coefficient: -0.001345
-[23:27:19:943] FITTEST AGENT - fitness: 1.432941, accuracy: 0.650413, Matthews correlation coefficient: 0.433371
-[23:27:19:956] Generation 14
-[23:27:20:280] AVERAGES - fitness: 0.983195, accuracy: 0.310008, Matthews correlation coefficient: -0.016400
-[23:27:20:280] FITTEST AGENT - fitness: 1.432941, accuracy: 0.650413, Matthews correlation coefficient: 0.433371
-[23:27:20:292] Generation 15
-[23:27:20:615] AVERAGES - fitness: 0.979608, accuracy: 0.361785, Matthews correlation coefficient: -0.019987
-[23:27:20:615] FITTEST AGENT - fitness: 1.432941, accuracy: 0.650413, Matthews correlation coefficient: 0.433371
-[23:27:20:627] Generation 16
-[23:27:20:949] AVERAGES - fitness: 1.005841, accuracy: 0.365537, Matthews correlation coefficient: 0.006258
-[23:27:20:949] FITTEST AGENT - fitness: 1.432941, accuracy: 0.650413, Matthews correlation coefficient: 0.433371
-[23:27:20:961] Generation 17
-[23:27:21:308] AVERAGES - fitness: 1.026966, accuracy: 0.382421, Matthews correlation coefficient: 0.027390
-[23:27:21:308] FITTEST AGENT - fitness: 1.432941, accuracy: 0.650413, Matthews correlation coefficient: 0.433371
-[23:27:21:320] Generation 18
-[23:27:21:655] AVERAGES - fitness: 1.044995, accuracy: 0.373240, Matthews correlation coefficient: 0.045424
-[23:27:21:655] FITTEST AGENT - fitness: 1.432941, accuracy: 0.650413, Matthews correlation coefficient: 0.433371
-[23:27:21:666] Generation 19
-[23:27:22:18] AVERAGES - fitness: 1.049509, accuracy: 0.398872, Matthews correlation coefficient: 0.049935
-[23:27:22:18] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:22:29] Generation 20
-[23:27:22:370] AVERAGES - fitness: 1.059450, accuracy: 0.408640, Matthews correlation coefficient: 0.059882
-[23:27:22:370] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:22:382] Generation 21
-[23:27:22:745] AVERAGES - fitness: 1.061762, accuracy: 0.381008, Matthews correlation coefficient: 0.062199
-[23:27:22:745] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:22:758] Generation 22
-[23:27:23:97] AVERAGES - fitness: 1.041701, accuracy: 0.394376, Matthews correlation coefficient: 0.042120
-[23:27:23:97] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:23:110] Generation 23
-[23:27:23:425] AVERAGES - fitness: 1.061987, accuracy: 0.417826, Matthews correlation coefficient: 0.062420
-[23:27:23:425] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:23:437] Generation 24
-[23:27:23:769] AVERAGES - fitness: 1.045536, accuracy: 0.450512, Matthews correlation coefficient: 0.045958
-[23:27:23:769] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:23:781] Generation 25
-[23:27:24:126] AVERAGES - fitness: 1.028077, accuracy: 0.427314, Matthews correlation coefficient: 0.028503
-[23:27:24:126] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:24:139] Generation 26
-[23:27:24:464] AVERAGES - fitness: 1.071977, accuracy: 0.427810, Matthews correlation coefficient: 0.072415
-[23:27:24:464] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:24:476] Generation 27
-[23:27:24:823] AVERAGES - fitness: 1.015769, accuracy: 0.402657, Matthews correlation coefficient: 0.016186
-[23:27:24:824] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:24:836] Generation 28
-[23:27:25:179] AVERAGES - fitness: 1.035467, accuracy: 0.397661, Matthews correlation coefficient: 0.035892
-[23:27:25:179] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:25:192] Generation 29
-[23:27:25:547] AVERAGES - fitness: 1.084503, accuracy: 0.367810, Matthews correlation coefficient: 0.084944
-[23:27:25:547] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:25:559] Generation 30
-[23:27:25:904] AVERAGES - fitness: 1.060976, accuracy: 0.380074, Matthews correlation coefficient: 0.061411
-[23:27:25:904] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:25:916] Generation 31
-[23:27:26:268] AVERAGES - fitness: 1.089364, accuracy: 0.385331, Matthews correlation coefficient: 0.089807
-[23:27:26:268] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:26:281] Generation 32
-[23:27:26:642] AVERAGES - fitness: 1.048247, accuracy: 0.395508, Matthews correlation coefficient: 0.048674
-[23:27:26:642] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:26:654] Generation 33
-[23:27:27:22] AVERAGES - fitness: 1.033427, accuracy: 0.425132, Matthews correlation coefficient: 0.033849
-[23:27:27:22] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:27:35] Generation 34
-[23:27:27:396] AVERAGES - fitness: 1.059857, accuracy: 0.441322, Matthews correlation coefficient: 0.060286
-[23:27:27:396] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:27:408] Generation 35
-[23:27:27:758] AVERAGES - fitness: 1.080545, accuracy: 0.480397, Matthews correlation coefficient: 0.080977
-[23:27:27:758] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:27:770] Generation 36
-[23:27:28:135] AVERAGES - fitness: 1.087733, accuracy: 0.485979, Matthews correlation coefficient: 0.088166
-[23:27:28:135] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:28:147] Generation 37
-[23:27:28:506] AVERAGES - fitness: 1.051960, accuracy: 0.498041, Matthews correlation coefficient: 0.052376
-[23:27:28:506] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:28:518] Generation 38
-[23:27:28:869] AVERAGES - fitness: 1.083174, accuracy: 0.482640, Matthews correlation coefficient: 0.083603
-[23:27:28:869] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:28:881] Generation 39
-[23:27:29:227] AVERAGES - fitness: 1.063256, accuracy: 0.448140, Matthews correlation coefficient: 0.063681
-[23:27:29:227] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:29:239] Generation 40
-[23:27:29:592] AVERAGES - fitness: 1.088981, accuracy: 0.430975, Matthews correlation coefficient: 0.089412
-[23:27:29:593] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:29:605] Generation 41
-[23:27:29:941] AVERAGES - fitness: 1.107541, accuracy: 0.454810, Matthews correlation coefficient: 0.107971
-[23:27:29:941] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:29:953] Generation 42
-[23:27:30:287] AVERAGES - fitness: 1.082844, accuracy: 0.471616, Matthews correlation coefficient: 0.083267
-[23:27:30:287] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:30:299] Generation 43
-[23:27:30:672] AVERAGES - fitness: 1.082892, accuracy: 0.468442, Matthews correlation coefficient: 0.083317
-[23:27:30:672] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:30:684] Generation 44
-[23:27:31:26] AVERAGES - fitness: 1.101014, accuracy: 0.455281, Matthews correlation coefficient: 0.101445
-[23:27:31:26] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:31:38] Generation 45
-[23:27:31:399] AVERAGES - fitness: 1.139264, accuracy: 0.467657, Matthews correlation coefficient: 0.139703
-[23:27:31:399] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:31:411] Generation 46
-[23:27:31:757] AVERAGES - fitness: 1.122119, accuracy: 0.482661, Matthews correlation coefficient: 0.122547
-[23:27:31:757] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:31:769] Generation 47
-[23:27:32:123] AVERAGES - fitness: 1.129834, accuracy: 0.478190, Matthews correlation coefficient: 0.130261
-[23:27:32:123] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:32:135] Generation 48
-[23:27:32:484] AVERAGES - fitness: 1.134613, accuracy: 0.467645, Matthews correlation coefficient: 0.135042
-[23:27:32:484] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:32:496] Generation 49
-[23:27:32:845] AVERAGES - fitness: 1.108380, accuracy: 0.459921, Matthews correlation coefficient: 0.108810
-[23:27:32:845] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:32:857] Generation 50
-[23:27:33:196] AVERAGES - fitness: 1.076191, accuracy: 0.451921, Matthews correlation coefficient: 0.076607
-[23:27:33:196] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:33:209] Generation 51
-[23:27:33:551] AVERAGES - fitness: 1.108385, accuracy: 0.456640, Matthews correlation coefficient: 0.108811
-[23:27:33:551] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:33:563] Generation 52
-[23:27:33:919] AVERAGES - fitness: 1.125565, accuracy: 0.452269, Matthews correlation coefficient: 0.126001
-[23:27:33:919] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:33:931] Generation 53
-[23:27:34:291] AVERAGES - fitness: 1.095356, accuracy: 0.450298, Matthews correlation coefficient: 0.095783
-[23:27:34:291] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:34:303] Generation 54
-[23:27:34:663] AVERAGES - fitness: 1.079294, accuracy: 0.501112, Matthews correlation coefficient: 0.079706
-[23:27:34:663] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:34:675] Generation 55
-[23:27:35:28] AVERAGES - fitness: 1.114881, accuracy: 0.512736, Matthews correlation coefficient: 0.115305
-[23:27:35:28] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:35:40] Generation 56
-[23:27:35:399] AVERAGES - fitness: 1.105780, accuracy: 0.518120, Matthews correlation coefficient: 0.106198
-[23:27:35:399] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:35:411] Generation 57
-[23:27:35:785] AVERAGES - fitness: 1.134347, accuracy: 0.537372, Matthews correlation coefficient: 0.134770
-[23:27:35:785] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:35:797] Generation 58
-[23:27:36:163] AVERAGES - fitness: 1.159300, accuracy: 0.523095, Matthews correlation coefficient: 0.159733
-[23:27:36:163] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:36:175] Generation 59
-[23:27:36:538] AVERAGES - fitness: 1.140171, accuracy: 0.524264, Matthews correlation coefficient: 0.140602
-[23:27:36:538] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:36:551] Generation 60
-[23:27:36:918] AVERAGES - fitness: 1.148882, accuracy: 0.510099, Matthews correlation coefficient: 0.149317
-[23:27:36:918] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:36:930] Generation 61
-[23:27:37:285] AVERAGES - fitness: 1.150981, accuracy: 0.482876, Matthews correlation coefficient: 0.151422
-[23:27:37:285] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:37:297] Generation 62
-[23:27:37:660] AVERAGES - fitness: 1.127598, accuracy: 0.499120, Matthews correlation coefficient: 0.128029
-[23:27:37:660] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:37:672] Generation 63
-[23:27:38:31] AVERAGES - fitness: 1.127533, accuracy: 0.479802, Matthews correlation coefficient: 0.127965
-[23:27:38:31] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:38:44] Generation 64
-[23:27:38:390] AVERAGES - fitness: 1.118751, accuracy: 0.483847, Matthews correlation coefficient: 0.119180
-[23:27:38:390] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:38:402] Generation 65
-[23:27:38:743] AVERAGES - fitness: 1.122825, accuracy: 0.509909, Matthews correlation coefficient: 0.123252
-[23:27:38:743] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:38:755] Generation 66
-[23:27:39:102] AVERAGES - fitness: 1.127437, accuracy: 0.515909, Matthews correlation coefficient: 0.127865
-[23:27:39:102] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:39:114] Generation 67
-[23:27:39:450] AVERAGES - fitness: 1.174652, accuracy: 0.492012, Matthews correlation coefficient: 0.175098
-[23:27:39:450] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:39:462] Generation 68
-[23:27:39:791] AVERAGES - fitness: 1.146919, accuracy: 0.488347, Matthews correlation coefficient: 0.147355
-[23:27:39:791] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:39:803] Generation 69
-[23:27:40:145] AVERAGES - fitness: 1.163548, accuracy: 0.492157, Matthews correlation coefficient: 0.163989
-[23:27:40:145] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:40:157] Generation 70
-[23:27:40:511] AVERAGES - fitness: 1.123158, accuracy: 0.492496, Matthews correlation coefficient: 0.123583
-[23:27:40:511] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:40:523] Generation 71
-[23:27:40:878] AVERAGES - fitness: 1.173195, accuracy: 0.485140, Matthews correlation coefficient: 0.173636
-[23:27:40:878] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:40:890] Generation 72
-[23:27:41:239] AVERAGES - fitness: 1.144429, accuracy: 0.491149, Matthews correlation coefficient: 0.144858
-[23:27:41:239] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:41:251] Generation 73
-[23:27:41:593] AVERAGES - fitness: 1.144024, accuracy: 0.499591, Matthews correlation coefficient: 0.144454
-[23:27:41:593] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:41:605] Generation 74
-[23:27:41:942] AVERAGES - fitness: 1.171361, accuracy: 0.504612, Matthews correlation coefficient: 0.171792
-[23:27:41:942] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:41:955] Generation 75
-[23:27:42:308] AVERAGES - fitness: 1.205076, accuracy: 0.510674, Matthews correlation coefficient: 0.205513
-[23:27:42:308] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:42:320] Generation 76
-[23:27:42:667] AVERAGES - fitness: 1.185948, accuracy: 0.525806, Matthews correlation coefficient: 0.186381
-[23:27:42:667] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:42:679] Generation 77
-[23:27:43:57] AVERAGES - fitness: 1.192240, accuracy: 0.539269, Matthews correlation coefficient: 0.192672
-[23:27:43:57] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:43:69] Generation 78
-[23:27:43:435] AVERAGES - fitness: 1.198186, accuracy: 0.541595, Matthews correlation coefficient: 0.198622
-[23:27:43:435] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:43:447] Generation 79
-[23:27:43:803] AVERAGES - fitness: 1.203060, accuracy: 0.534599, Matthews correlation coefficient: 0.203496
-[23:27:43:803] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:43:815] Generation 80
-[23:27:44:196] AVERAGES - fitness: 1.213085, accuracy: 0.536128, Matthews correlation coefficient: 0.213521
-[23:27:44:196] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:44:208] Generation 81
-[23:27:44:569] AVERAGES - fitness: 1.195395, accuracy: 0.548897, Matthews correlation coefficient: 0.195828
-[23:27:44:569] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:44:581] Generation 82
-[23:27:44:943] AVERAGES - fitness: 1.191933, accuracy: 0.534946, Matthews correlation coefficient: 0.192366
-[23:27:44:943] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:44:955] Generation 83
-[23:27:45:311] AVERAGES - fitness: 1.215925, accuracy: 0.525136, Matthews correlation coefficient: 0.216361
-[23:27:45:311] FITTEST AGENT - fitness: 1.435773, accuracy: 0.709091, Matthews correlation coefficient: 0.436223
-[23:27:45:323] Generation 84
-[23:27:45:689] AVERAGES - fitness: 1.219230, accuracy: 0.571512, Matthews correlation coefficient: 0.219663
-[23:27:45:689] FITTEST AGENT - fitness: 1.439008, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:27:45:700] Generation 85
-[23:27:46:66] AVERAGES - fitness: 1.248564, accuracy: 0.576996, Matthews correlation coefficient: 0.249001
-[23:27:46:66] FITTEST AGENT - fitness: 1.439008, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:27:46:78] Generation 86
-[23:27:46:445] AVERAGES - fitness: 1.265499, accuracy: 0.582760, Matthews correlation coefficient: 0.265942
-[23:27:46:445] FITTEST AGENT - fitness: 1.439008, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:27:46:457] Generation 87
-[23:27:46:814] AVERAGES - fitness: 1.244767, accuracy: 0.581926, Matthews correlation coefficient: 0.245210
-[23:27:46:814] FITTEST AGENT - fitness: 1.439008, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:27:46:826] Generation 88
-[23:27:47:193] AVERAGES - fitness: 1.198769, accuracy: 0.580872, Matthews correlation coefficient: 0.199201
-[23:27:47:193] FITTEST AGENT - fitness: 1.439008, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:27:47:205] Generation 89
-[23:27:47:567] AVERAGES - fitness: 1.213758, accuracy: 0.570624, Matthews correlation coefficient: 0.214193
-[23:27:47:567] FITTEST AGENT - fitness: 1.439008, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:27:47:579] Generation 90
-[23:27:47:942] AVERAGES - fitness: 1.231158, accuracy: 0.556211, Matthews correlation coefficient: 0.231598
-[23:27:47:942] FITTEST AGENT - fitness: 1.439008, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:27:47:954] Generation 91
-[23:27:48:331] AVERAGES - fitness: 1.233010, accuracy: 0.560120, Matthews correlation coefficient: 0.233452
-[23:27:48:331] FITTEST AGENT - fitness: 1.439008, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:27:48:343] Generation 92
-[23:27:48:712] AVERAGES - fitness: 1.238388, accuracy: 0.553632, Matthews correlation coefficient: 0.238829
-[23:27:48:712] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:27:48:724] Generation 93
-[23:27:49:95] AVERAGES - fitness: 1.251908, accuracy: 0.563698, Matthews correlation coefficient: 0.252347
-[23:27:49:96] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:27:49:109] Generation 94
-[23:27:49:477] AVERAGES - fitness: 1.286170, accuracy: 0.568289, Matthews correlation coefficient: 0.286614
-[23:27:49:477] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:27:49:489] Generation 95
-[23:27:49:870] AVERAGES - fitness: 1.272058, accuracy: 0.581475, Matthews correlation coefficient: 0.272500
-[23:27:49:870] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:27:49:883] Generation 96
-[23:27:50:270] AVERAGES - fitness: 1.269865, accuracy: 0.582380, Matthews correlation coefficient: 0.270308
-[23:27:50:270] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:27:50:282] Generation 97
-[23:27:50:661] AVERAGES - fitness: 1.243438, accuracy: 0.588273, Matthews correlation coefficient: 0.243880
-[23:27:50:661] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:27:50:673] Generation 98
-[23:27:51:36] AVERAGES - fitness: 1.232652, accuracy: 0.599500, Matthews correlation coefficient: 0.233092
-[23:27:51:36] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:27:51:48] Generation 99
-[23:27:51:420] AVERAGES - fitness: 1.247417, accuracy: 0.605628, Matthews correlation coefficient: 0.247856
-[23:27:51:420] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:27:51:432] Generation 100
-[23:27:51:794] AVERAGES - fitness: 1.223768, accuracy: 0.582545, Matthews correlation coefficient: 0.224200
-[23:27:51:794] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:27:51:806] Generation 101
-[23:27:52:177] AVERAGES - fitness: 1.198051, accuracy: 0.570471, Matthews correlation coefficient: 0.198479
-[23:27:52:177] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:27:52:189] Generation 102
-[23:27:52:569] AVERAGES - fitness: 1.196528, accuracy: 0.561140, Matthews correlation coefficient: 0.196956
-[23:27:52:569] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:27:52:582] Generation 103
-[23:27:52:963] AVERAGES - fitness: 1.222194, accuracy: 0.562992, Matthews correlation coefficient: 0.222629
-[23:27:52:963] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:27:52:975] Generation 104
-[23:27:53:355] AVERAGES - fitness: 1.205899, accuracy: 0.539963, Matthews correlation coefficient: 0.206324
-[23:27:53:355] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:27:53:366] Generation 105
-[23:27:53:744] AVERAGES - fitness: 1.225942, accuracy: 0.553050, Matthews correlation coefficient: 0.226379
-[23:27:53:744] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:27:53:756] Generation 106
-[23:27:54:139] AVERAGES - fitness: 1.217565, accuracy: 0.535008, Matthews correlation coefficient: 0.218000
-[23:27:54:139] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:27:54:151] Generation 107
-[23:27:54:533] AVERAGES - fitness: 1.235823, accuracy: 0.539083, Matthews correlation coefficient: 0.236262
-[23:27:54:533] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:27:54:545] Generation 108
-[23:27:54:932] AVERAGES - fitness: 1.227283, accuracy: 0.537434, Matthews correlation coefficient: 0.227718
-[23:27:54:932] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:27:54:944] Generation 109
-[23:27:55:331] AVERAGES - fitness: 1.206221, accuracy: 0.523537, Matthews correlation coefficient: 0.206656
-[23:27:55:331] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:27:55:343] Generation 110
-[23:27:55:727] AVERAGES - fitness: 1.230120, accuracy: 0.524471, Matthews correlation coefficient: 0.230564
-[23:27:55:727] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:27:55:739] Generation 111
-[23:27:56:136] AVERAGES - fitness: 1.213345, accuracy: 0.549748, Matthews correlation coefficient: 0.213784
-[23:27:56:136] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:27:56:148] Generation 112
-[23:27:56:519] AVERAGES - fitness: 1.164414, accuracy: 0.526207, Matthews correlation coefficient: 0.164830
-[23:27:56:519] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:27:56:532] Generation 113
-[23:27:56:937] AVERAGES - fitness: 1.236536, accuracy: 0.547884, Matthews correlation coefficient: 0.236974
-[23:27:56:937] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:27:56:949] Generation 114
-[23:27:57:344] AVERAGES - fitness: 1.241723, accuracy: 0.560021, Matthews correlation coefficient: 0.242159
-[23:27:57:344] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:27:57:356] Generation 115
-[23:27:57:750] AVERAGES - fitness: 1.252751, accuracy: 0.575132, Matthews correlation coefficient: 0.253189
-[23:27:57:750] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:27:57:762] Generation 116
-[23:27:58:179] AVERAGES - fitness: 1.263045, accuracy: 0.558884, Matthews correlation coefficient: 0.263482
-[23:27:58:180] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:27:58:192] Generation 117
-[23:27:58:603] AVERAGES - fitness: 1.274164, accuracy: 0.543256, Matthews correlation coefficient: 0.274598
-[23:27:58:603] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:27:58:615] Generation 118
-[23:27:59:4] AVERAGES - fitness: 1.288832, accuracy: 0.552058, Matthews correlation coefficient: 0.289274
-[23:27:59:4] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:27:59:16] Generation 119
-[23:27:59:385] AVERAGES - fitness: 1.257267, accuracy: 0.550537, Matthews correlation coefficient: 0.257697
-[23:27:59:385] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:27:59:397] Generation 120
-[23:27:59:757] AVERAGES - fitness: 1.292553, accuracy: 0.575566, Matthews correlation coefficient: 0.292990
-[23:27:59:757] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:27:59:769] Generation 121
-[23:28:00:160] AVERAGES - fitness: 1.290936, accuracy: 0.595876, Matthews correlation coefficient: 0.291375
-[23:28:00:160] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:00:172] Generation 122
-[23:28:00:546] AVERAGES - fitness: 1.290740, accuracy: 0.599793, Matthews correlation coefficient: 0.291175
-[23:28:00:546] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:00:558] Generation 123
-[23:28:00:918] AVERAGES - fitness: 1.309525, accuracy: 0.613112, Matthews correlation coefficient: 0.309963
-[23:28:00:918] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:00:930] Generation 124
-[23:28:01:301] AVERAGES - fitness: 1.309470, accuracy: 0.609488, Matthews correlation coefficient: 0.309905
-[23:28:01:301] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:01:313] Generation 125
-[23:28:01:681] AVERAGES - fitness: 1.312825, accuracy: 0.590306, Matthews correlation coefficient: 0.313265
-[23:28:01:681] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:01:693] Generation 126
-[23:28:02:65] AVERAGES - fitness: 1.319191, accuracy: 0.599351, Matthews correlation coefficient: 0.319629
-[23:28:02:65] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:02:78] Generation 127
-[23:28:02:459] AVERAGES - fitness: 1.347651, accuracy: 0.617715, Matthews correlation coefficient: 0.348093
-[23:28:02:459] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:02:471] Generation 128
-[23:28:02:845] AVERAGES - fitness: 1.333488, accuracy: 0.612227, Matthews correlation coefficient: 0.333926
-[23:28:02:845] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:02:857] Generation 129
-[23:28:03:237] AVERAGES - fitness: 1.320291, accuracy: 0.621897, Matthews correlation coefficient: 0.320731
-[23:28:03:237] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:03:248] Generation 130
-[23:28:03:622] AVERAGES - fitness: 1.330655, accuracy: 0.637132, Matthews correlation coefficient: 0.331096
-[23:28:03:622] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:03:634] Generation 131
-[23:28:03:993] AVERAGES - fitness: 1.344851, accuracy: 0.626847, Matthews correlation coefficient: 0.345290
-[23:28:03:993] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:04:5] Generation 132
-[23:28:04:393] AVERAGES - fitness: 1.348255, accuracy: 0.617169, Matthews correlation coefficient: 0.348695
-[23:28:04:393] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:04:405] Generation 133
-[23:28:04:782] AVERAGES - fitness: 1.341889, accuracy: 0.617231, Matthews correlation coefficient: 0.342329
-[23:28:04:782] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:04:794] Generation 134
-[23:28:05:165] AVERAGES - fitness: 1.348819, accuracy: 0.619260, Matthews correlation coefficient: 0.349260
-[23:28:05:165] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:05:177] Generation 135
-[23:28:05:535] AVERAGES - fitness: 1.346199, accuracy: 0.622004, Matthews correlation coefficient: 0.346643
-[23:28:05:535] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:05:547] Generation 136
-[23:28:05:913] AVERAGES - fitness: 1.327797, accuracy: 0.603550, Matthews correlation coefficient: 0.328241
-[23:28:05:913] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:05:925] Generation 137
-[23:28:06:302] AVERAGES - fitness: 1.317713, accuracy: 0.606777, Matthews correlation coefficient: 0.318151
-[23:28:06:302] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:06:313] Generation 138
-[23:28:06:686] AVERAGES - fitness: 1.330764, accuracy: 0.618752, Matthews correlation coefficient: 0.331205
-[23:28:06:686] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:06:698] Generation 139
-[23:28:07:81] AVERAGES - fitness: 1.345569, accuracy: 0.622690, Matthews correlation coefficient: 0.346011
-[23:28:07:82] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:07:94] Generation 140
-[23:28:07:474] AVERAGES - fitness: 1.339546, accuracy: 0.622851, Matthews correlation coefficient: 0.339988
-[23:28:07:474] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:07:486] Generation 141
-[23:28:07:866] AVERAGES - fitness: 1.318681, accuracy: 0.613988, Matthews correlation coefficient: 0.319118
-[23:28:07:866] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:07:878] Generation 142
-[23:28:08:255] AVERAGES - fitness: 1.346383, accuracy: 0.611153, Matthews correlation coefficient: 0.346826
-[23:28:08:255] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:08:267] Generation 143
-[23:28:08:638] AVERAGES - fitness: 1.345995, accuracy: 0.616302, Matthews correlation coefficient: 0.346437
-[23:28:08:638] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:08:650] Generation 144
-[23:28:09:44] AVERAGES - fitness: 1.349816, accuracy: 0.616583, Matthews correlation coefficient: 0.350260
-[23:28:09:44] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:09:56] Generation 145
-[23:28:09:449] AVERAGES - fitness: 1.339228, accuracy: 0.607678, Matthews correlation coefficient: 0.339665
-[23:28:09:449] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:09:461] Generation 146
-[23:28:09:854] AVERAGES - fitness: 1.354791, accuracy: 0.618971, Matthews correlation coefficient: 0.355233
-[23:28:09:854] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:09:866] Generation 147
-[23:28:10:257] AVERAGES - fitness: 1.339804, accuracy: 0.603264, Matthews correlation coefficient: 0.340244
-[23:28:10:257] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:10:269] Generation 148
-[23:28:10:665] AVERAGES - fitness: 1.348344, accuracy: 0.605054, Matthews correlation coefficient: 0.348786
-[23:28:10:665] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:10:677] Generation 149
-[23:28:11:60] AVERAGES - fitness: 1.353375, accuracy: 0.607025, Matthews correlation coefficient: 0.353817
-[23:28:11:60] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:11:72] Generation 150
-[23:28:11:453] AVERAGES - fitness: 1.354772, accuracy: 0.619372, Matthews correlation coefficient: 0.355214
-[23:28:11:453] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:11:465] Generation 151
-[23:28:11:857] AVERAGES - fitness: 1.351642, accuracy: 0.624649, Matthews correlation coefficient: 0.352084
-[23:28:11:857] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:11:869] Generation 152
-[23:28:12:250] AVERAGES - fitness: 1.347418, accuracy: 0.636116, Matthews correlation coefficient: 0.347861
-[23:28:12:250] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:12:263] Generation 153
-[23:28:12:646] AVERAGES - fitness: 1.321447, accuracy: 0.628202, Matthews correlation coefficient: 0.321885
-[23:28:12:646] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:12:658] Generation 154
-[23:28:13:43] AVERAGES - fitness: 1.340913, accuracy: 0.612355, Matthews correlation coefficient: 0.341355
-[23:28:13:43] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:13:55] Generation 155
-[23:28:13:435] AVERAGES - fitness: 1.336452, accuracy: 0.622070, Matthews correlation coefficient: 0.336895
-[23:28:13:435] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:13:448] Generation 156
-[23:28:13:819] AVERAGES - fitness: 1.332811, accuracy: 0.620607, Matthews correlation coefficient: 0.333253
-[23:28:13:819] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:13:831] Generation 157
-[23:28:14:203] AVERAGES - fitness: 1.337229, accuracy: 0.616835, Matthews correlation coefficient: 0.337670
-[23:28:14:203] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:14:215] Generation 158
-[23:28:14:590] AVERAGES - fitness: 1.344487, accuracy: 0.620798, Matthews correlation coefficient: 0.344928
-[23:28:14:590] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:14:601] Generation 159
-[23:28:14:975] AVERAGES - fitness: 1.345942, accuracy: 0.618558, Matthews correlation coefficient: 0.346381
-[23:28:14:975] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:14:987] Generation 160
-[23:28:15:361] AVERAGES - fitness: 1.341907, accuracy: 0.627223, Matthews correlation coefficient: 0.342346
-[23:28:15:361] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:15:373] Generation 161
-[23:28:15:759] AVERAGES - fitness: 1.344800, accuracy: 0.614202, Matthews correlation coefficient: 0.345240
-[23:28:15:759] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:15:772] Generation 162
-[23:28:16:166] AVERAGES - fitness: 1.340593, accuracy: 0.604165, Matthews correlation coefficient: 0.341031
-[23:28:16:166] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:16:178] Generation 163
-[23:28:16:571] AVERAGES - fitness: 1.337656, accuracy: 0.607467, Matthews correlation coefficient: 0.338099
-[23:28:16:571] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:16:583] Generation 164
-[23:28:16:960] AVERAGES - fitness: 1.341944, accuracy: 0.616835, Matthews correlation coefficient: 0.342387
-[23:28:16:960] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:16:972] Generation 165
-[23:28:17:366] AVERAGES - fitness: 1.336381, accuracy: 0.617855, Matthews correlation coefficient: 0.336822
-[23:28:17:366] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:17:378] Generation 166
-[23:28:17:771] AVERAGES - fitness: 1.348637, accuracy: 0.608483, Matthews correlation coefficient: 0.349082
-[23:28:17:771] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:17:783] Generation 167
-[23:28:18:175] AVERAGES - fitness: 1.349223, accuracy: 0.617004, Matthews correlation coefficient: 0.349666
-[23:28:18:175] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:18:187] Generation 168
-[23:28:18:565] AVERAGES - fitness: 1.345064, accuracy: 0.618124, Matthews correlation coefficient: 0.345505
-[23:28:18:565] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:18:577] Generation 169
-[23:28:18:951] AVERAGES - fitness: 1.336124, accuracy: 0.619314, Matthews correlation coefficient: 0.336564
-[23:28:18:951] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:18:964] Generation 170
-[23:28:19:353] AVERAGES - fitness: 1.340565, accuracy: 0.613550, Matthews correlation coefficient: 0.341009
-[23:28:19:353] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:19:365] Generation 171
-[23:28:19:755] AVERAGES - fitness: 1.338620, accuracy: 0.621744, Matthews correlation coefficient: 0.339065
-[23:28:19:755] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:19:768] Generation 172
-[23:28:20:155] AVERAGES - fitness: 1.343024, accuracy: 0.621413, Matthews correlation coefficient: 0.343468
-[23:28:20:155] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:20:168] Generation 173
-[23:28:20:564] AVERAGES - fitness: 1.347699, accuracy: 0.617744, Matthews correlation coefficient: 0.348143
-[23:28:20:564] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:20:576] Generation 174
-[23:28:20:976] AVERAGES - fitness: 1.357138, accuracy: 0.621132, Matthews correlation coefficient: 0.357580
-[23:28:20:976] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:20:988] Generation 175
-[23:28:21:388] AVERAGES - fitness: 1.355378, accuracy: 0.628289, Matthews correlation coefficient: 0.355821
-[23:28:21:388] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:21:400] Generation 176
-[23:28:21:789] AVERAGES - fitness: 1.350458, accuracy: 0.621901, Matthews correlation coefficient: 0.350903
-[23:28:21:789] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:21:801] Generation 177
-[23:28:22:196] AVERAGES - fitness: 1.353885, accuracy: 0.629198, Matthews correlation coefficient: 0.354330
-[23:28:22:196] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:22:208] Generation 178
-[23:28:22:603] AVERAGES - fitness: 1.358349, accuracy: 0.642942, Matthews correlation coefficient: 0.358790
-[23:28:22:603] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:22:615] Generation 179
-[23:28:23:7] AVERAGES - fitness: 1.362272, accuracy: 0.640760, Matthews correlation coefficient: 0.362713
-[23:28:23:7] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:23:19] Generation 180
-[23:28:23:426] AVERAGES - fitness: 1.360240, accuracy: 0.643748, Matthews correlation coefficient: 0.360679
-[23:28:23:426] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:23:439] Generation 181
-[23:28:23:840] AVERAGES - fitness: 1.350982, accuracy: 0.636037, Matthews correlation coefficient: 0.351423
-[23:28:23:840] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:23:851] Generation 182
-[23:28:24:252] AVERAGES - fitness: 1.348578, accuracy: 0.637079, Matthews correlation coefficient: 0.349019
-[23:28:24:252] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:24:264] Generation 183
-[23:28:24:668] AVERAGES - fitness: 1.349067, accuracy: 0.640769, Matthews correlation coefficient: 0.349507
-[23:28:24:668] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:24:680] Generation 184
-[23:28:25:93] AVERAGES - fitness: 1.359510, accuracy: 0.629244, Matthews correlation coefficient: 0.359952
-[23:28:25:93] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:25:105] Generation 185
-[23:28:25:503] AVERAGES - fitness: 1.340284, accuracy: 0.603153, Matthews correlation coefficient: 0.340726
-[23:28:25:503] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:25:515] Generation 186
-[23:28:25:915] AVERAGES - fitness: 1.340597, accuracy: 0.608140, Matthews correlation coefficient: 0.341036
-[23:28:25:915] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:25:927] Generation 187
-[23:28:26:325] AVERAGES - fitness: 1.356587, accuracy: 0.617595, Matthews correlation coefficient: 0.357030
-[23:28:26:325] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:26:337] Generation 188
-[23:28:26:736] AVERAGES - fitness: 1.356237, accuracy: 0.620938, Matthews correlation coefficient: 0.356678
-[23:28:26:736] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:26:748] Generation 189
-[23:28:27:140] AVERAGES - fitness: 1.370350, accuracy: 0.632583, Matthews correlation coefficient: 0.370793
-[23:28:27:140] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:27:151] Generation 190
-[23:28:27:558] AVERAGES - fitness: 1.358066, accuracy: 0.618021, Matthews correlation coefficient: 0.358509
-[23:28:27:558] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:27:569] Generation 191
-[23:28:27:962] AVERAGES - fitness: 1.377562, accuracy: 0.639099, Matthews correlation coefficient: 0.378006
-[23:28:27:962] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:27:974] Generation 192
-[23:28:28:371] AVERAGES - fitness: 1.374484, accuracy: 0.646496, Matthews correlation coefficient: 0.374930
-[23:28:28:371] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:28:383] Generation 193
-[23:28:28:780] AVERAGES - fitness: 1.371095, accuracy: 0.659207, Matthews correlation coefficient: 0.371540
-[23:28:28:780] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:28:792] Generation 194
-[23:28:29:192] AVERAGES - fitness: 1.377585, accuracy: 0.651186, Matthews correlation coefficient: 0.378029
-[23:28:29:192] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:29:204] Generation 195
-[23:28:29:603] AVERAGES - fitness: 1.378059, accuracy: 0.645070, Matthews correlation coefficient: 0.378502
-[23:28:29:603] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:29:616] Generation 196
-[23:28:30:39] AVERAGES - fitness: 1.372131, accuracy: 0.640393, Matthews correlation coefficient: 0.372573
-[23:28:30:39] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:30:51] Generation 197
-[23:28:30:443] AVERAGES - fitness: 1.372603, accuracy: 0.642430, Matthews correlation coefficient: 0.373047
-[23:28:30:443] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:30:456] Generation 198
-[23:28:30:858] AVERAGES - fitness: 1.370447, accuracy: 0.647004, Matthews correlation coefficient: 0.370892
-[23:28:30:858] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:30:870] Generation 199
-[23:28:31:277] AVERAGES - fitness: 1.375006, accuracy: 0.644521, Matthews correlation coefficient: 0.375451
-[23:28:31:277] FITTEST AGENT - fitness: 1.439288, accuracy: 0.702479, Matthews correlation coefficient: 0.439458
-[23:28:31:277] 
-Fitness: 1.439288
+/Users/admin/Documents/Neuroevolution/cmake-build-debug/Neuroevolution /Users/admin/Documents/Neuroevolution/datasets/car/car.data 200 15 30 2 true 0.1 100 true -0.00001 -0.00001 300 MCC
+[07:03:19:699] Start
+[07:03:19:721] Population initialised.
+[07:03:19:721] Generation 0
+[07:03:20:218] AVERAGES - fitness: 0.601167, accuracy: 0.236690, Matthews correlation coefficient: -0.399077
+[07:03:20:218] FITTEST AGENT - fitness: 1.285460, accuracy: 0.437190, Matthews correlation coefficient: 0.285640
+[07:03:20:227] Generation 1
+[07:03:20:451] AVERAGES - fitness: 0.855508, accuracy: 0.224550, Matthews correlation coefficient: -0.144435
+[07:03:20:451] FITTEST AGENT - fitness: 1.285460, accuracy: 0.437190, Matthews correlation coefficient: 0.285640
+[07:03:20:459] Generation 2
+[07:03:20:694] AVERAGES - fitness: 0.851751, accuracy: 0.225822, Matthews correlation coefficient: -0.148209
+[07:03:20:694] FITTEST AGENT - fitness: 1.285460, accuracy: 0.437190, Matthews correlation coefficient: 0.285640
+[07:03:20:703] Generation 3
+[07:03:20:927] AVERAGES - fitness: 0.878955, accuracy: 0.227930, Matthews correlation coefficient: -0.120975
+[07:03:20:927] FITTEST AGENT - fitness: 1.285460, accuracy: 0.437190, Matthews correlation coefficient: 0.285640
+[07:03:20:935] Generation 4
+[07:03:21:145] AVERAGES - fitness: 0.912367, accuracy: 0.263579, Matthews correlation coefficient: -0.087545
+[07:03:21:145] FITTEST AGENT - fitness: 1.310633, accuracy: 0.518182, Matthews correlation coefficient: 0.310863
+[07:03:21:153] Generation 5
+[07:03:21:362] AVERAGES - fitness: 0.895898, accuracy: 0.240045, Matthews correlation coefficient: -0.104026
+[07:03:21:362] FITTEST AGENT - fitness: 1.310633, accuracy: 0.518182, Matthews correlation coefficient: 0.310863
+[07:03:21:370] Generation 6
+[07:03:21:570] AVERAGES - fitness: 0.844339, accuracy: 0.242459, Matthews correlation coefficient: -0.155664
+[07:03:21:570] FITTEST AGENT - fitness: 1.310633, accuracy: 0.518182, Matthews correlation coefficient: 0.310863
+[07:03:21:577] Generation 7
+[07:03:21:794] AVERAGES - fitness: 0.924380, accuracy: 0.245087, Matthews correlation coefficient: -0.075540
+[07:03:21:794] FITTEST AGENT - fitness: 1.310633, accuracy: 0.518182, Matthews correlation coefficient: 0.310863
+[07:03:21:801] Generation 8
+[07:03:22:27] AVERAGES - fitness: 0.937855, accuracy: 0.264595, Matthews correlation coefficient: -0.062059
+[07:03:22:28] FITTEST AGENT - fitness: 1.310633, accuracy: 0.518182, Matthews correlation coefficient: 0.310863
+[07:03:22:36] Generation 9
+[07:03:22:262] AVERAGES - fitness: 0.964782, accuracy: 0.272831, Matthews correlation coefficient: -0.035098
+[07:03:22:262] FITTEST AGENT - fitness: 1.310633, accuracy: 0.518182, Matthews correlation coefficient: 0.310863
+[07:03:22:270] Generation 10
+[07:03:22:494] AVERAGES - fitness: 0.928823, accuracy: 0.269756, Matthews correlation coefficient: -0.071100
+[07:03:22:494] FITTEST AGENT - fitness: 1.336544, accuracy: 0.683471, Matthews correlation coefficient: 0.336834
+[07:03:22:503] Generation 11
+[07:03:22:727] AVERAGES - fitness: 0.895735, accuracy: 0.273161, Matthews correlation coefficient: -0.104226
+[07:03:22:727] FITTEST AGENT - fitness: 1.336544, accuracy: 0.683471, Matthews correlation coefficient: 0.336834
+[07:03:22:735] Generation 12
+[07:03:22:963] AVERAGES - fitness: 0.968764, accuracy: 0.323264, Matthews correlation coefficient: -0.031118
+[07:03:22:963] FITTEST AGENT - fitness: 1.336544, accuracy: 0.683471, Matthews correlation coefficient: 0.336834
+[07:03:22:972] Generation 13
+[07:03:23:195] AVERAGES - fitness: 0.948916, accuracy: 0.301628, Matthews correlation coefficient: -0.050989
+[07:03:23:195] FITTEST AGENT - fitness: 1.336544, accuracy: 0.683471, Matthews correlation coefficient: 0.336834
+[07:03:23:204] Generation 14
+[07:03:23:432] AVERAGES - fitness: 1.021973, accuracy: 0.334310, Matthews correlation coefficient: 0.022144
+[07:03:23:433] FITTEST AGENT - fitness: 1.336544, accuracy: 0.683471, Matthews correlation coefficient: 0.336834
+[07:03:23:441] Generation 15
+[07:03:23:660] AVERAGES - fitness: 0.931153, accuracy: 0.287789, Matthews correlation coefficient: -0.068767
+[07:03:23:660] FITTEST AGENT - fitness: 1.342836, accuracy: 0.681818, Matthews correlation coefficient: 0.343126
+[07:03:23:669] Generation 16
+[07:03:23:890] AVERAGES - fitness: 0.991885, accuracy: 0.310174, Matthews correlation coefficient: -0.007966
+[07:03:23:890] FITTEST AGENT - fitness: 1.342836, accuracy: 0.681818, Matthews correlation coefficient: 0.343126
+[07:03:23:899] Generation 17
+[07:03:24:128] AVERAGES - fitness: 0.981953, accuracy: 0.316855, Matthews correlation coefficient: -0.017910
+[07:03:24:128] FITTEST AGENT - fitness: 1.354727, accuracy: 0.680165, Matthews correlation coefficient: 0.354967
+[07:03:24:136] Generation 18
+[07:03:24:355] AVERAGES - fitness: 1.012074, accuracy: 0.318591, Matthews correlation coefficient: 0.012243
+[07:03:24:355] FITTEST AGENT - fitness: 1.354727, accuracy: 0.680165, Matthews correlation coefficient: 0.354967
+[07:03:24:363] Generation 19
+[07:03:24:563] AVERAGES - fitness: 0.987008, accuracy: 0.339698, Matthews correlation coefficient: -0.012863
+[07:03:24:563] FITTEST AGENT - fitness: 1.354727, accuracy: 0.680165, Matthews correlation coefficient: 0.354967
+[07:03:24:572] Generation 20
+[07:03:24:783] AVERAGES - fitness: 1.030722, accuracy: 0.351764, Matthews correlation coefficient: 0.030899
+[07:03:24:783] FITTEST AGENT - fitness: 1.354727, accuracy: 0.680165, Matthews correlation coefficient: 0.354967
+[07:03:24:792] Generation 21
+[07:03:24:999] AVERAGES - fitness: 1.001712, accuracy: 0.360971, Matthews correlation coefficient: 0.001851
+[07:03:24:999] FITTEST AGENT - fitness: 1.354727, accuracy: 0.680165, Matthews correlation coefficient: 0.354967
+[07:03:25:7] Generation 22
+[07:03:25:220] AVERAGES - fitness: 1.042850, accuracy: 0.382822, Matthews correlation coefficient: 0.043031
+[07:03:25:220] FITTEST AGENT - fitness: 1.354727, accuracy: 0.680165, Matthews correlation coefficient: 0.354967
+[07:03:25:228] Generation 23
+[07:03:25:437] AVERAGES - fitness: 1.067465, accuracy: 0.380822, Matthews correlation coefficient: 0.067656
+[07:03:25:437] FITTEST AGENT - fitness: 1.385155, accuracy: 0.619008, Matthews correlation coefficient: 0.385415
+[07:03:25:444] Generation 24
+[07:03:25:677] AVERAGES - fitness: 1.058717, accuracy: 0.367050, Matthews correlation coefficient: 0.058890
+[07:03:25:677] FITTEST AGENT - fitness: 1.385155, accuracy: 0.619008, Matthews correlation coefficient: 0.385415
+[07:03:25:685] Generation 25
+[07:03:25:923] AVERAGES - fitness: 1.034381, accuracy: 0.357905, Matthews correlation coefficient: 0.034513
+[07:03:25:923] FITTEST AGENT - fitness: 1.385155, accuracy: 0.619008, Matthews correlation coefficient: 0.385415
+[07:03:25:931] Generation 26
+[07:03:26:159] AVERAGES - fitness: 1.096215, accuracy: 0.382091, Matthews correlation coefficient: 0.096399
+[07:03:26:159] FITTEST AGENT - fitness: 1.402189, accuracy: 0.720661, Matthews correlation coefficient: 0.402479
+[07:03:26:167] Generation 27
+[07:03:26:383] AVERAGES - fitness: 1.105292, accuracy: 0.403211, Matthews correlation coefficient: 0.105478
+[07:03:26:383] FITTEST AGENT - fitness: 1.402189, accuracy: 0.720661, Matthews correlation coefficient: 0.402479
+[07:03:26:391] Generation 28
+[07:03:26:620] AVERAGES - fitness: 1.139124, accuracy: 0.416632, Matthews correlation coefficient: 0.139333
+[07:03:26:620] FITTEST AGENT - fitness: 1.410321, accuracy: 0.609917, Matthews correlation coefficient: 0.410551
+[07:03:26:629] Generation 29
+[07:03:26:851] AVERAGES - fitness: 1.158522, accuracy: 0.425070, Matthews correlation coefficient: 0.158734
+[07:03:26:851] FITTEST AGENT - fitness: 1.410321, accuracy: 0.609917, Matthews correlation coefficient: 0.410551
+[07:03:26:859] Generation 30
+[07:03:27:63] AVERAGES - fitness: 1.121149, accuracy: 0.432405, Matthews correlation coefficient: 0.121321
+[07:03:27:63] FITTEST AGENT - fitness: 1.410321, accuracy: 0.609917, Matthews correlation coefficient: 0.410551
+[07:03:27:71] Generation 31
+[07:03:27:286] AVERAGES - fitness: 1.122036, accuracy: 0.458769, Matthews correlation coefficient: 0.122211
+[07:03:27:286] FITTEST AGENT - fitness: 1.434432, accuracy: 0.728099, Matthews correlation coefficient: 0.434682
+[07:03:27:294] Generation 32
+[07:03:27:487] AVERAGES - fitness: 1.154678, accuracy: 0.446517, Matthews correlation coefficient: 0.154894
+[07:03:27:487] FITTEST AGENT - fitness: 1.434432, accuracy: 0.728099, Matthews correlation coefficient: 0.434682
+[07:03:27:495] Generation 33
+[07:03:27:691] AVERAGES - fitness: 1.162979, accuracy: 0.456946, Matthews correlation coefficient: 0.163197
+[07:03:27:691] FITTEST AGENT - fitness: 1.434432, accuracy: 0.728099, Matthews correlation coefficient: 0.434682
+[07:03:27:699] Generation 34
+[07:03:27:898] AVERAGES - fitness: 1.137662, accuracy: 0.464033, Matthews correlation coefficient: 0.137856
+[07:03:27:899] FITTEST AGENT - fitness: 1.464051, accuracy: 0.705785, Matthews correlation coefficient: 0.464211
+[07:03:27:906] Generation 35
+[07:03:28:97] AVERAGES - fitness: 1.165050, accuracy: 0.479628, Matthews correlation coefficient: 0.165263
+[07:03:28:97] FITTEST AGENT - fitness: 1.464051, accuracy: 0.705785, Matthews correlation coefficient: 0.464211
+[07:03:28:105] Generation 36
+[07:03:28:301] AVERAGES - fitness: 1.143164, accuracy: 0.468975, Matthews correlation coefficient: 0.143362
+[07:03:28:301] FITTEST AGENT - fitness: 1.464051, accuracy: 0.705785, Matthews correlation coefficient: 0.464211
+[07:03:28:309] Generation 37
+[07:03:28:498] AVERAGES - fitness: 1.131555, accuracy: 0.464413, Matthews correlation coefficient: 0.131726
+[07:03:28:498] FITTEST AGENT - fitness: 1.464051, accuracy: 0.705785, Matthews correlation coefficient: 0.464211
+[07:03:28:506] Generation 38
+[07:03:28:692] AVERAGES - fitness: 1.157086, accuracy: 0.483777, Matthews correlation coefficient: 0.157283
+[07:03:28:692] FITTEST AGENT - fitness: 1.464051, accuracy: 0.705785, Matthews correlation coefficient: 0.464211
+[07:03:28:701] Generation 39
+[07:03:28:895] AVERAGES - fitness: 1.150312, accuracy: 0.493653, Matthews correlation coefficient: 0.150504
+[07:03:28:895] FITTEST AGENT - fitness: 1.464051, accuracy: 0.705785, Matthews correlation coefficient: 0.464211
+[07:03:28:903] Generation 40
+[07:03:29:99] AVERAGES - fitness: 1.151784, accuracy: 0.490913, Matthews correlation coefficient: 0.151964
+[07:03:29:99] FITTEST AGENT - fitness: 1.464051, accuracy: 0.705785, Matthews correlation coefficient: 0.464211
+[07:03:29:108] Generation 41
+[07:03:29:311] AVERAGES - fitness: 1.177841, accuracy: 0.497322, Matthews correlation coefficient: 0.178046
+[07:03:29:311] FITTEST AGENT - fitness: 1.464051, accuracy: 0.705785, Matthews correlation coefficient: 0.464211
+[07:03:29:319] Generation 42
+[07:03:29:508] AVERAGES - fitness: 1.179319, accuracy: 0.496186, Matthews correlation coefficient: 0.179507
+[07:03:29:508] FITTEST AGENT - fitness: 1.464051, accuracy: 0.705785, Matthews correlation coefficient: 0.464211
+[07:03:29:517] Generation 43
+[07:03:29:705] AVERAGES - fitness: 1.154421, accuracy: 0.476554, Matthews correlation coefficient: 0.154604
+[07:03:29:705] FITTEST AGENT - fitness: 1.464051, accuracy: 0.705785, Matthews correlation coefficient: 0.464211
+[07:03:29:713] Generation 44
+[07:03:29:900] AVERAGES - fitness: 1.156861, accuracy: 0.513934, Matthews correlation coefficient: 0.157032
+[07:03:29:900] FITTEST AGENT - fitness: 1.464051, accuracy: 0.705785, Matthews correlation coefficient: 0.464211
+[07:03:29:908] Generation 45
+[07:03:30:93] AVERAGES - fitness: 1.147520, accuracy: 0.494169, Matthews correlation coefficient: 0.147688
+[07:03:30:93] FITTEST AGENT - fitness: 1.464051, accuracy: 0.705785, Matthews correlation coefficient: 0.464211
+[07:03:30:101] Generation 46
+[07:03:30:285] AVERAGES - fitness: 1.134373, accuracy: 0.508331, Matthews correlation coefficient: 0.134524
+[07:03:30:285] FITTEST AGENT - fitness: 1.464051, accuracy: 0.705785, Matthews correlation coefficient: 0.464211
+[07:03:30:293] Generation 47
+[07:03:30:476] AVERAGES - fitness: 1.173890, accuracy: 0.515777, Matthews correlation coefficient: 0.174080
+[07:03:30:476] FITTEST AGENT - fitness: 1.464116, accuracy: 0.719008, Matthews correlation coefficient: 0.464336
+[07:03:30:485] Generation 48
+[07:03:30:666] AVERAGES - fitness: 1.150453, accuracy: 0.485483, Matthews correlation coefficient: 0.150614
+[07:03:30:666] FITTEST AGENT - fitness: 1.464116, accuracy: 0.719008, Matthews correlation coefficient: 0.464336
+[07:03:30:674] Generation 49
+[07:03:30:866] AVERAGES - fitness: 1.189124, accuracy: 0.547413, Matthews correlation coefficient: 0.189315
+[07:03:30:866] FITTEST AGENT - fitness: 1.464116, accuracy: 0.719008, Matthews correlation coefficient: 0.464336
+[07:03:30:875] Generation 50
+[07:03:31:63] AVERAGES - fitness: 1.171534, accuracy: 0.527322, Matthews correlation coefficient: 0.171719
+[07:03:31:63] FITTEST AGENT - fitness: 1.464116, accuracy: 0.719008, Matthews correlation coefficient: 0.464336
+[07:03:31:71] Generation 51
+[07:03:31:263] AVERAGES - fitness: 1.192125, accuracy: 0.513888, Matthews correlation coefficient: 0.192313
+[07:03:31:263] FITTEST AGENT - fitness: 1.464116, accuracy: 0.719008, Matthews correlation coefficient: 0.464336
+[07:03:31:270] Generation 52
+[07:03:31:462] AVERAGES - fitness: 1.186381, accuracy: 0.508798, Matthews correlation coefficient: 0.186559
+[07:03:31:462] FITTEST AGENT - fitness: 1.468622, accuracy: 0.724793, Matthews correlation coefficient: 0.468892
+[07:03:31:469] Generation 53
+[07:03:31:663] AVERAGES - fitness: 1.196780, accuracy: 0.520306, Matthews correlation coefficient: 0.196970
+[07:03:31:663] FITTEST AGENT - fitness: 1.468622, accuracy: 0.724793, Matthews correlation coefficient: 0.468892
+[07:03:31:671] Generation 54
+[07:03:31:871] AVERAGES - fitness: 1.221774, accuracy: 0.556533, Matthews correlation coefficient: 0.221973
+[07:03:31:871] FITTEST AGENT - fitness: 1.468622, accuracy: 0.724793, Matthews correlation coefficient: 0.468892
+[07:03:31:879] Generation 55
+[07:03:32:77] AVERAGES - fitness: 1.224749, accuracy: 0.555388, Matthews correlation coefficient: 0.224954
+[07:03:32:77] FITTEST AGENT - fitness: 1.468622, accuracy: 0.724793, Matthews correlation coefficient: 0.468892
+[07:03:32:85] Generation 56
+[07:03:32:290] AVERAGES - fitness: 1.244959, accuracy: 0.557963, Matthews correlation coefficient: 0.245161
+[07:03:32:290] FITTEST AGENT - fitness: 1.468622, accuracy: 0.724793, Matthews correlation coefficient: 0.468892
+[07:03:32:299] Generation 57
+[07:03:32:497] AVERAGES - fitness: 1.240324, accuracy: 0.535207, Matthews correlation coefficient: 0.240526
+[07:03:32:497] FITTEST AGENT - fitness: 1.468622, accuracy: 0.724793, Matthews correlation coefficient: 0.468892
+[07:03:32:505] Generation 58
+[07:03:32:701] AVERAGES - fitness: 1.259540, accuracy: 0.539277, Matthews correlation coefficient: 0.259743
+[07:03:32:701] FITTEST AGENT - fitness: 1.468622, accuracy: 0.724793, Matthews correlation coefficient: 0.468892
+[07:03:32:709] Generation 59
+[07:03:32:911] AVERAGES - fitness: 1.267364, accuracy: 0.544149, Matthews correlation coefficient: 0.267577
+[07:03:32:911] FITTEST AGENT - fitness: 1.468622, accuracy: 0.724793, Matthews correlation coefficient: 0.468892
+[07:03:32:919] Generation 60
+[07:03:33:113] AVERAGES - fitness: 1.268279, accuracy: 0.573285, Matthews correlation coefficient: 0.268490
+[07:03:33:113] FITTEST AGENT - fitness: 1.479566, accuracy: 0.725620, Matthews correlation coefficient: 0.479756
+[07:03:33:121] Generation 61
+[07:03:33:305] AVERAGES - fitness: 1.273074, accuracy: 0.567302, Matthews correlation coefficient: 0.273283
+[07:03:33:305] FITTEST AGENT - fitness: 1.479566, accuracy: 0.725620, Matthews correlation coefficient: 0.479756
+[07:03:33:313] Generation 62
+[07:03:33:498] AVERAGES - fitness: 1.277150, accuracy: 0.574876, Matthews correlation coefficient: 0.277354
+[07:03:33:498] FITTEST AGENT - fitness: 1.479606, accuracy: 0.725620, Matthews correlation coefficient: 0.479756
+[07:03:33:506] Generation 63
+[07:03:33:687] AVERAGES - fitness: 1.302122, accuracy: 0.586773, Matthews correlation coefficient: 0.302326
+[07:03:33:687] FITTEST AGENT - fitness: 1.498432, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:33:695] Generation 64
+[07:03:33:875] AVERAGES - fitness: 1.284571, accuracy: 0.581512, Matthews correlation coefficient: 0.284758
+[07:03:33:875] FITTEST AGENT - fitness: 1.498432, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:33:882] Generation 65
+[07:03:34:59] AVERAGES - fitness: 1.310530, accuracy: 0.585281, Matthews correlation coefficient: 0.310739
+[07:03:34:59] FITTEST AGENT - fitness: 1.498432, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:34:67] Generation 66
+[07:03:34:250] AVERAGES - fitness: 1.326199, accuracy: 0.588384, Matthews correlation coefficient: 0.326411
+[07:03:34:250] FITTEST AGENT - fitness: 1.498432, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:34:257] Generation 67
+[07:03:34:436] AVERAGES - fitness: 1.325281, accuracy: 0.610091, Matthews correlation coefficient: 0.325477
+[07:03:34:436] FITTEST AGENT - fitness: 1.498502, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:34:443] Generation 68
+[07:03:34:622] AVERAGES - fitness: 1.329158, accuracy: 0.610054, Matthews correlation coefficient: 0.329343
+[07:03:34:622] FITTEST AGENT - fitness: 1.498502, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:34:629] Generation 69
+[07:03:34:802] AVERAGES - fitness: 1.350408, accuracy: 0.624360, Matthews correlation coefficient: 0.350614
+[07:03:34:802] FITTEST AGENT - fitness: 1.498502, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:34:810] Generation 70
+[07:03:34:983] AVERAGES - fitness: 1.346472, accuracy: 0.632550, Matthews correlation coefficient: 0.346671
+[07:03:34:984] FITTEST AGENT - fitness: 1.498502, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:34:991] Generation 71
+[07:03:35:165] AVERAGES - fitness: 1.360886, accuracy: 0.645120, Matthews correlation coefficient: 0.361096
+[07:03:35:165] FITTEST AGENT - fitness: 1.498502, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:35:173] Generation 72
+[07:03:35:342] AVERAGES - fitness: 1.362938, accuracy: 0.645045, Matthews correlation coefficient: 0.363143
+[07:03:35:342] FITTEST AGENT - fitness: 1.498502, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:35:349] Generation 73
+[07:03:35:509] AVERAGES - fitness: 1.332821, accuracy: 0.631934, Matthews correlation coefficient: 0.333003
+[07:03:35:509] FITTEST AGENT - fitness: 1.498502, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:35:516] Generation 74
+[07:03:35:683] AVERAGES - fitness: 1.370460, accuracy: 0.654298, Matthews correlation coefficient: 0.370655
+[07:03:35:683] FITTEST AGENT - fitness: 1.498512, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:35:691] Generation 75
+[07:03:35:865] AVERAGES - fitness: 1.378746, accuracy: 0.660364, Matthews correlation coefficient: 0.378940
+[07:03:35:865] FITTEST AGENT - fitness: 1.498512, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:35:872] Generation 76
+[07:03:36:40] AVERAGES - fitness: 1.385684, accuracy: 0.660289, Matthews correlation coefficient: 0.385882
+[07:03:36:40] FITTEST AGENT - fitness: 1.498512, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:36:47] Generation 77
+[07:03:36:208] AVERAGES - fitness: 1.363479, accuracy: 0.653988, Matthews correlation coefficient: 0.363665
+[07:03:36:208] FITTEST AGENT - fitness: 1.498512, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:36:215] Generation 78
+[07:03:36:376] AVERAGES - fitness: 1.360324, accuracy: 0.659901, Matthews correlation coefficient: 0.360499
+[07:03:36:376] FITTEST AGENT - fitness: 1.498512, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:36:383] Generation 79
+[07:03:36:548] AVERAGES - fitness: 1.359400, accuracy: 0.669070, Matthews correlation coefficient: 0.359572
+[07:03:36:548] FITTEST AGENT - fitness: 1.498512, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:36:555] Generation 80
+[07:03:36:712] AVERAGES - fitness: 1.382478, accuracy: 0.671731, Matthews correlation coefficient: 0.382666
+[07:03:36:712] FITTEST AGENT - fitness: 1.498522, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:36:719] Generation 81
+[07:03:36:875] AVERAGES - fitness: 1.365919, accuracy: 0.671988, Matthews correlation coefficient: 0.366101
+[07:03:36:875] FITTEST AGENT - fitness: 1.498522, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:36:882] Generation 82
+[07:03:37:49] AVERAGES - fitness: 1.362360, accuracy: 0.671326, Matthews correlation coefficient: 0.362535
+[07:03:37:49] FITTEST AGENT - fitness: 1.498522, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:37:55] Generation 83
+[07:03:37:219] AVERAGES - fitness: 1.360685, accuracy: 0.672368, Matthews correlation coefficient: 0.360859
+[07:03:37:219] FITTEST AGENT - fitness: 1.498532, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:37:226] Generation 84
+[07:03:37:387] AVERAGES - fitness: 1.370331, accuracy: 0.667740, Matthews correlation coefficient: 0.370501
+[07:03:37:387] FITTEST AGENT - fitness: 1.498532, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:37:394] Generation 85
+[07:03:37:554] AVERAGES - fitness: 1.377213, accuracy: 0.669471, Matthews correlation coefficient: 0.377387
+[07:03:37:554] FITTEST AGENT - fitness: 1.498532, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:37:561] Generation 86
+[07:03:37:714] AVERAGES - fitness: 1.372989, accuracy: 0.662227, Matthews correlation coefficient: 0.373155
+[07:03:37:714] FITTEST AGENT - fitness: 1.498532, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:37:721] Generation 87
+[07:03:37:874] AVERAGES - fitness: 1.385918, accuracy: 0.665921, Matthews correlation coefficient: 0.386095
+[07:03:37:874] FITTEST AGENT - fitness: 1.498532, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:37:881] Generation 88
+[07:03:38:38] AVERAGES - fitness: 1.388233, accuracy: 0.661140, Matthews correlation coefficient: 0.388402
+[07:03:38:38] FITTEST AGENT - fitness: 1.498532, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:38:45] Generation 89
+[07:03:38:198] AVERAGES - fitness: 1.405021, accuracy: 0.665579, Matthews correlation coefficient: 0.405202
+[07:03:38:198] FITTEST AGENT - fitness: 1.498532, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:38:204] Generation 90
+[07:03:38:357] AVERAGES - fitness: 1.405775, accuracy: 0.668525, Matthews correlation coefficient: 0.405952
+[07:03:38:357] FITTEST AGENT - fitness: 1.498542, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:38:364] Generation 91
+[07:03:38:518] AVERAGES - fitness: 1.405474, accuracy: 0.670103, Matthews correlation coefficient: 0.405651
+[07:03:38:518] FITTEST AGENT - fitness: 1.498542, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:38:525] Generation 92
+[07:03:38:679] AVERAGES - fitness: 1.415669, accuracy: 0.675864, Matthews correlation coefficient: 0.415844
+[07:03:38:679] FITTEST AGENT - fitness: 1.498542, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:38:685] Generation 93
+[07:03:38:831] AVERAGES - fitness: 1.396841, accuracy: 0.680054, Matthews correlation coefficient: 0.397015
+[07:03:38:831] FITTEST AGENT - fitness: 1.498542, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:38:838] Generation 94
+[07:03:38:980] AVERAGES - fitness: 1.404594, accuracy: 0.680062, Matthews correlation coefficient: 0.404765
+[07:03:38:980] FITTEST AGENT - fitness: 1.498542, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:38:987] Generation 95
+[07:03:39:133] AVERAGES - fitness: 1.401309, accuracy: 0.682541, Matthews correlation coefficient: 0.401474
+[07:03:39:133] FITTEST AGENT - fitness: 1.498542, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:39:140] Generation 96
+[07:03:39:287] AVERAGES - fitness: 1.399764, accuracy: 0.689769, Matthews correlation coefficient: 0.399927
+[07:03:39:287] FITTEST AGENT - fitness: 1.498542, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:39:294] Generation 97
+[07:03:39:438] AVERAGES - fitness: 1.416854, accuracy: 0.690657, Matthews correlation coefficient: 0.417022
+[07:03:39:438] FITTEST AGENT - fitness: 1.498542, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:39:444] Generation 98
+[07:03:39:588] AVERAGES - fitness: 1.406339, accuracy: 0.690901, Matthews correlation coefficient: 0.406507
+[07:03:39:588] FITTEST AGENT - fitness: 1.498542, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:39:595] Generation 99
+[07:03:39:741] AVERAGES - fitness: 1.402436, accuracy: 0.688864, Matthews correlation coefficient: 0.402605
+[07:03:39:741] FITTEST AGENT - fitness: 1.498542, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:39:748] Generation 100
+[07:03:39:896] AVERAGES - fitness: 1.416669, accuracy: 0.686256, Matthews correlation coefficient: 0.416840
+[07:03:39:896] FITTEST AGENT - fitness: 1.498542, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:39:903] Generation 101
+[07:03:40:54] AVERAGES - fitness: 1.431453, accuracy: 0.694355, Matthews correlation coefficient: 0.431626
+[07:03:40:54] FITTEST AGENT - fitness: 1.498542, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:40:61] Generation 102
+[07:03:40:208] AVERAGES - fitness: 1.418850, accuracy: 0.684888, Matthews correlation coefficient: 0.419008
+[07:03:40:208] FITTEST AGENT - fitness: 1.498542, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:40:214] Generation 103
+[07:03:40:355] AVERAGES - fitness: 1.421505, accuracy: 0.691165, Matthews correlation coefficient: 0.421668
+[07:03:40:355] FITTEST AGENT - fitness: 1.498542, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:40:362] Generation 104
+[07:03:40:511] AVERAGES - fitness: 1.423120, accuracy: 0.697364, Matthews correlation coefficient: 0.423286
+[07:03:40:511] FITTEST AGENT - fitness: 1.498542, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:40:517] Generation 105
+[07:03:40:667] AVERAGES - fitness: 1.431051, accuracy: 0.701694, Matthews correlation coefficient: 0.431219
+[07:03:40:667] FITTEST AGENT - fitness: 1.498542, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:40:674] Generation 106
+[07:03:40:817] AVERAGES - fitness: 1.430584, accuracy: 0.697558, Matthews correlation coefficient: 0.430751
+[07:03:40:817] FITTEST AGENT - fitness: 1.498542, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:40:823] Generation 107
+[07:03:40:967] AVERAGES - fitness: 1.418023, accuracy: 0.693781, Matthews correlation coefficient: 0.418183
+[07:03:40:967] FITTEST AGENT - fitness: 1.498542, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:40:974] Generation 108
+[07:03:41:120] AVERAGES - fitness: 1.423123, accuracy: 0.694764, Matthews correlation coefficient: 0.423287
+[07:03:41:120] FITTEST AGENT - fitness: 1.498542, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:41:127] Generation 109
+[07:03:41:269] AVERAGES - fitness: 1.423627, accuracy: 0.685777, Matthews correlation coefficient: 0.423783
+[07:03:41:269] FITTEST AGENT - fitness: 1.498542, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:41:275] Generation 110
+[07:03:41:417] AVERAGES - fitness: 1.446380, accuracy: 0.693236, Matthews correlation coefficient: 0.446543
+[07:03:41:417] FITTEST AGENT - fitness: 1.498542, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:41:424] Generation 111
+[07:03:41:565] AVERAGES - fitness: 1.441551, accuracy: 0.692777, Matthews correlation coefficient: 0.441713
+[07:03:41:565] FITTEST AGENT - fitness: 1.498542, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:41:571] Generation 112
+[07:03:41:715] AVERAGES - fitness: 1.454221, accuracy: 0.702409, Matthews correlation coefficient: 0.454383
+[07:03:41:715] FITTEST AGENT - fitness: 1.498552, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:41:722] Generation 113
+[07:03:41:864] AVERAGES - fitness: 1.444953, accuracy: 0.701731, Matthews correlation coefficient: 0.445114
+[07:03:41:864] FITTEST AGENT - fitness: 1.498552, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:41:870] Generation 114
+[07:03:42:15] AVERAGES - fitness: 1.436544, accuracy: 0.702021, Matthews correlation coefficient: 0.436697
+[07:03:42:15] FITTEST AGENT - fitness: 1.498552, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:42:21] Generation 115
+[07:03:42:163] AVERAGES - fitness: 1.432999, accuracy: 0.702161, Matthews correlation coefficient: 0.433158
+[07:03:42:163] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:42:170] Generation 116
+[07:03:42:316] AVERAGES - fitness: 1.427774, accuracy: 0.696661, Matthews correlation coefficient: 0.427935
+[07:03:42:316] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:42:323] Generation 117
+[07:03:42:465] AVERAGES - fitness: 1.439119, accuracy: 0.697339, Matthews correlation coefficient: 0.439284
+[07:03:42:465] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:42:472] Generation 118
+[07:03:42:615] AVERAGES - fitness: 1.434228, accuracy: 0.699769, Matthews correlation coefficient: 0.434384
+[07:03:42:615] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:42:621] Generation 119
+[07:03:42:760] AVERAGES - fitness: 1.431479, accuracy: 0.702640, Matthews correlation coefficient: 0.431625
+[07:03:42:760] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:42:767] Generation 120
+[07:03:42:905] AVERAGES - fitness: 1.446438, accuracy: 0.708351, Matthews correlation coefficient: 0.446597
+[07:03:42:905] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:42:912] Generation 121
+[07:03:43:49] AVERAGES - fitness: 1.439795, accuracy: 0.704182, Matthews correlation coefficient: 0.439953
+[07:03:43:49] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:43:55] Generation 122
+[07:03:43:192] AVERAGES - fitness: 1.432779, accuracy: 0.695483, Matthews correlation coefficient: 0.432931
+[07:03:43:192] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:43:199] Generation 123
+[07:03:43:334] AVERAGES - fitness: 1.443967, accuracy: 0.706558, Matthews correlation coefficient: 0.444120
+[07:03:43:334] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:43:341] Generation 124
+[07:03:43:480] AVERAGES - fitness: 1.444090, accuracy: 0.707264, Matthews correlation coefficient: 0.444250
+[07:03:43:480] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:43:486] Generation 125
+[07:03:43:623] AVERAGES - fitness: 1.452699, accuracy: 0.705897, Matthews correlation coefficient: 0.452859
+[07:03:43:623] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:43:630] Generation 126
+[07:03:43:764] AVERAGES - fitness: 1.453934, accuracy: 0.708388, Matthews correlation coefficient: 0.454093
+[07:03:43:765] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:43:771] Generation 127
+[07:03:43:907] AVERAGES - fitness: 1.446981, accuracy: 0.706347, Matthews correlation coefficient: 0.447132
+[07:03:43:907] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:43:913] Generation 128
+[07:03:44:50] AVERAGES - fitness: 1.462614, accuracy: 0.710178, Matthews correlation coefficient: 0.462772
+[07:03:44:50] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:44:56] Generation 129
+[07:03:44:191] AVERAGES - fitness: 1.464305, accuracy: 0.708066, Matthews correlation coefficient: 0.464454
+[07:03:44:191] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:44:197] Generation 130
+[07:03:44:336] AVERAGES - fitness: 1.465540, accuracy: 0.707231, Matthews correlation coefficient: 0.465696
+[07:03:44:336] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:44:342] Generation 131
+[07:03:44:479] AVERAGES - fitness: 1.458633, accuracy: 0.699351, Matthews correlation coefficient: 0.458788
+[07:03:44:479] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:44:485] Generation 132
+[07:03:44:623] AVERAGES - fitness: 1.466768, accuracy: 0.712244, Matthews correlation coefficient: 0.466922
+[07:03:44:623] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:44:630] Generation 133
+[07:03:44:765] AVERAGES - fitness: 1.471171, accuracy: 0.717058, Matthews correlation coefficient: 0.471325
+[07:03:44:765] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:44:771] Generation 134
+[07:03:44:910] AVERAGES - fitness: 1.468899, accuracy: 0.710219, Matthews correlation coefficient: 0.469052
+[07:03:44:910] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:44:917] Generation 135
+[07:03:45:50] AVERAGES - fitness: 1.472126, accuracy: 0.715599, Matthews correlation coefficient: 0.472275
+[07:03:45:50] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:45:56] Generation 136
+[07:03:45:194] AVERAGES - fitness: 1.468539, accuracy: 0.717041, Matthews correlation coefficient: 0.468680
+[07:03:45:194] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:45:200] Generation 137
+[07:03:45:338] AVERAGES - fitness: 1.474979, accuracy: 0.714583, Matthews correlation coefficient: 0.475120
+[07:03:45:338] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:45:344] Generation 138
+[07:03:45:483] AVERAGES - fitness: 1.483177, accuracy: 0.718215, Matthews correlation coefficient: 0.483323
+[07:03:45:483] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:45:489] Generation 139
+[07:03:45:623] AVERAGES - fitness: 1.469841, accuracy: 0.712818, Matthews correlation coefficient: 0.469973
+[07:03:45:623] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:45:630] Generation 140
+[07:03:45:767] AVERAGES - fitness: 1.483800, accuracy: 0.721302, Matthews correlation coefficient: 0.483940
+[07:03:45:767] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:45:774] Generation 141
+[07:03:45:910] AVERAGES - fitness: 1.471562, accuracy: 0.711417, Matthews correlation coefficient: 0.471697
+[07:03:45:910] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:45:916] Generation 142
+[07:03:46:48] AVERAGES - fitness: 1.468433, accuracy: 0.709748, Matthews correlation coefficient: 0.468574
+[07:03:46:48] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:46:54] Generation 143
+[07:03:46:184] AVERAGES - fitness: 1.464551, accuracy: 0.702149, Matthews correlation coefficient: 0.464693
+[07:03:46:184] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:46:190] Generation 144
+[07:03:46:324] AVERAGES - fitness: 1.482639, accuracy: 0.725182, Matthews correlation coefficient: 0.482779
+[07:03:46:324] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:46:330] Generation 145
+[07:03:46:467] AVERAGES - fitness: 1.480447, accuracy: 0.723921, Matthews correlation coefficient: 0.480588
+[07:03:46:467] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:46:473] Generation 146
+[07:03:46:609] AVERAGES - fitness: 1.473102, accuracy: 0.723339, Matthews correlation coefficient: 0.473244
+[07:03:46:609] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:46:615] Generation 147
+[07:03:46:752] AVERAGES - fitness: 1.480697, accuracy: 0.727802, Matthews correlation coefficient: 0.480839
+[07:03:46:752] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:46:759] Generation 148
+[07:03:46:895] AVERAGES - fitness: 1.488785, accuracy: 0.730281, Matthews correlation coefficient: 0.488928
+[07:03:46:895] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:46:901] Generation 149
+[07:03:47:39] AVERAGES - fitness: 1.467175, accuracy: 0.725413, Matthews correlation coefficient: 0.467312
+[07:03:47:39] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:47:45] Generation 150
+[07:03:47:180] AVERAGES - fitness: 1.453872, accuracy: 0.721517, Matthews correlation coefficient: 0.454004
+[07:03:47:180] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:47:186] Generation 151
+[07:03:47:319] AVERAGES - fitness: 1.465069, accuracy: 0.725285, Matthews correlation coefficient: 0.465206
+[07:03:47:319] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:47:325] Generation 152
+[07:03:47:460] AVERAGES - fitness: 1.464355, accuracy: 0.727194, Matthews correlation coefficient: 0.464496
+[07:03:47:460] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:47:467] Generation 153
+[07:03:47:602] AVERAGES - fitness: 1.442136, accuracy: 0.717273, Matthews correlation coefficient: 0.442266
+[07:03:47:602] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:47:608] Generation 154
+[07:03:47:742] AVERAGES - fitness: 1.455275, accuracy: 0.723880, Matthews correlation coefficient: 0.455417
+[07:03:47:742] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:47:748] Generation 155
+[07:03:47:882] AVERAGES - fitness: 1.453486, accuracy: 0.718277, Matthews correlation coefficient: 0.453622
+[07:03:47:882] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:47:888] Generation 156
+[07:03:48:25] AVERAGES - fitness: 1.466720, accuracy: 0.720756, Matthews correlation coefficient: 0.466855
+[07:03:48:25] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:48:32] Generation 157
+[07:03:48:164] AVERAGES - fitness: 1.466840, accuracy: 0.715293, Matthews correlation coefficient: 0.466982
+[07:03:48:164] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:48:170] Generation 158
+[07:03:48:305] AVERAGES - fitness: 1.470433, accuracy: 0.714669, Matthews correlation coefficient: 0.470575
+[07:03:48:305] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:48:311] Generation 159
+[07:03:48:447] AVERAGES - fitness: 1.456292, accuracy: 0.701694, Matthews correlation coefficient: 0.456432
+[07:03:48:447] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:48:453] Generation 160
+[07:03:48:588] AVERAGES - fitness: 1.451062, accuracy: 0.698413, Matthews correlation coefficient: 0.451199
+[07:03:48:588] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:48:594] Generation 161
+[07:03:48:727] AVERAGES - fitness: 1.467425, accuracy: 0.715851, Matthews correlation coefficient: 0.467565
+[07:03:48:727] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:48:733] Generation 162
+[07:03:48:870] AVERAGES - fitness: 1.466448, accuracy: 0.723285, Matthews correlation coefficient: 0.466589
+[07:03:48:870] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:48:876] Generation 163
+[07:03:49:13] AVERAGES - fitness: 1.460075, accuracy: 0.724256, Matthews correlation coefficient: 0.460217
+[07:03:49:13] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:49:19] Generation 164
+[07:03:49:158] AVERAGES - fitness: 1.457329, accuracy: 0.720876, Matthews correlation coefficient: 0.457472
+[07:03:49:158] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:49:164] Generation 165
+[07:03:49:301] AVERAGES - fitness: 1.440219, accuracy: 0.713227, Matthews correlation coefficient: 0.440351
+[07:03:49:301] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:49:307] Generation 166
+[07:03:49:444] AVERAGES - fitness: 1.454004, accuracy: 0.720707, Matthews correlation coefficient: 0.454143
+[07:03:49:444] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:49:450] Generation 167
+[07:03:49:587] AVERAGES - fitness: 1.458611, accuracy: 0.724731, Matthews correlation coefficient: 0.458749
+[07:03:49:587] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:49:593] Generation 168
+[07:03:49:731] AVERAGES - fitness: 1.456309, accuracy: 0.725347, Matthews correlation coefficient: 0.456455
+[07:03:49:731] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:49:737] Generation 169
+[07:03:49:873] AVERAGES - fitness: 1.446880, accuracy: 0.722397, Matthews correlation coefficient: 0.447019
+[07:03:49:874] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:49:879] Generation 170
+[07:03:50:15] AVERAGES - fitness: 1.460716, accuracy: 0.727058, Matthews correlation coefficient: 0.460860
+[07:03:50:15] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:50:21] Generation 171
+[07:03:50:156] AVERAGES - fitness: 1.466129, accuracy: 0.724963, Matthews correlation coefficient: 0.466273
+[07:03:50:156] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:50:163] Generation 172
+[07:03:50:300] AVERAGES - fitness: 1.467368, accuracy: 0.725839, Matthews correlation coefficient: 0.467505
+[07:03:50:300] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:50:306] Generation 173
+[07:03:50:439] AVERAGES - fitness: 1.477439, accuracy: 0.729058, Matthews correlation coefficient: 0.477578
+[07:03:50:439] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:50:445] Generation 174
+[07:03:50:576] AVERAGES - fitness: 1.476882, accuracy: 0.727640, Matthews correlation coefficient: 0.477018
+[07:03:50:576] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:50:583] Generation 175
+[07:03:50:714] AVERAGES - fitness: 1.458164, accuracy: 0.721669, Matthews correlation coefficient: 0.458295
+[07:03:50:714] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:50:720] Generation 176
+[07:03:50:854] AVERAGES - fitness: 1.474968, accuracy: 0.725938, Matthews correlation coefficient: 0.475103
+[07:03:50:854] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:50:860] Generation 177
+[07:03:50:992] AVERAGES - fitness: 1.473840, accuracy: 0.729207, Matthews correlation coefficient: 0.473967
+[07:03:50:992] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:50:998] Generation 178
+[07:03:51:134] AVERAGES - fitness: 1.480814, accuracy: 0.729847, Matthews correlation coefficient: 0.480949
+[07:03:51:134] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:51:140] Generation 179
+[07:03:51:276] AVERAGES - fitness: 1.484208, accuracy: 0.731174, Matthews correlation coefficient: 0.484343
+[07:03:51:276] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:51:283] Generation 180
+[07:03:51:418] AVERAGES - fitness: 1.478082, accuracy: 0.728190, Matthews correlation coefficient: 0.478216
+[07:03:51:418] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:51:424] Generation 181
+[07:03:51:557] AVERAGES - fitness: 1.480400, accuracy: 0.727690, Matthews correlation coefficient: 0.480533
+[07:03:51:557] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:51:563] Generation 182
+[07:03:51:695] AVERAGES - fitness: 1.478277, accuracy: 0.726037, Matthews correlation coefficient: 0.478406
+[07:03:51:695] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:51:701] Generation 183
+[07:03:51:828] AVERAGES - fitness: 1.467649, accuracy: 0.718074, Matthews correlation coefficient: 0.467768
+[07:03:51:828] FITTEST AGENT - fitness: 1.498562, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:51:834] Generation 184
+[07:03:51:964] AVERAGES - fitness: 1.470729, accuracy: 0.718504, Matthews correlation coefficient: 0.470846
+[07:03:51:964] FITTEST AGENT - fitness: 1.498572, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:51:970] Generation 185
+[07:03:52:101] AVERAGES - fitness: 1.470691, accuracy: 0.718252, Matthews correlation coefficient: 0.470816
+[07:03:52:101] FITTEST AGENT - fitness: 1.498572, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:52:106] Generation 186
+[07:03:52:240] AVERAGES - fitness: 1.475188, accuracy: 0.721971, Matthews correlation coefficient: 0.475313
+[07:03:52:240] FITTEST AGENT - fitness: 1.498572, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:52:246] Generation 187
+[07:03:52:376] AVERAGES - fitness: 1.476922, accuracy: 0.721909, Matthews correlation coefficient: 0.477045
+[07:03:52:376] FITTEST AGENT - fitness: 1.498572, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:52:382] Generation 188
+[07:03:52:513] AVERAGES - fitness: 1.481125, accuracy: 0.725083, Matthews correlation coefficient: 0.481253
+[07:03:52:513] FITTEST AGENT - fitness: 1.498572, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:52:519] Generation 189
+[07:03:52:648] AVERAGES - fitness: 1.492267, accuracy: 0.731868, Matthews correlation coefficient: 0.492393
+[07:03:52:648] FITTEST AGENT - fitness: 1.498572, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:52:654] Generation 190
+[07:03:52:785] AVERAGES - fitness: 1.491796, accuracy: 0.731364, Matthews correlation coefficient: 0.491922
+[07:03:52:785] FITTEST AGENT - fitness: 1.498572, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:52:790] Generation 191
+[07:03:52:922] AVERAGES - fitness: 1.484800, accuracy: 0.728099, Matthews correlation coefficient: 0.484927
+[07:03:52:922] FITTEST AGENT - fitness: 1.498582, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:52:928] Generation 192
+[07:03:53:60] AVERAGES - fitness: 1.462962, accuracy: 0.718405, Matthews correlation coefficient: 0.463079
+[07:03:53:60] FITTEST AGENT - fitness: 1.498582, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:53:66] Generation 193
+[07:03:53:199] AVERAGES - fitness: 1.463990, accuracy: 0.707748, Matthews correlation coefficient: 0.464119
+[07:03:53:199] FITTEST AGENT - fitness: 1.498582, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:53:205] Generation 194
+[07:03:53:338] AVERAGES - fitness: 1.448367, accuracy: 0.703975, Matthews correlation coefficient: 0.448487
+[07:03:53:338] FITTEST AGENT - fitness: 1.498582, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:53:343] Generation 195
+[07:03:53:475] AVERAGES - fitness: 1.449350, accuracy: 0.706545, Matthews correlation coefficient: 0.449471
+[07:03:53:475] FITTEST AGENT - fitness: 1.498582, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:53:481] Generation 196
+[07:03:53:613] AVERAGES - fitness: 1.466324, accuracy: 0.713264, Matthews correlation coefficient: 0.466450
+[07:03:53:613] FITTEST AGENT - fitness: 1.498582, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:53:619] Generation 197
+[07:03:53:749] AVERAGES - fitness: 1.468475, accuracy: 0.717917, Matthews correlation coefficient: 0.468598
+[07:03:53:749] FITTEST AGENT - fitness: 1.498582, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:53:755] Generation 198
+[07:03:53:886] AVERAGES - fitness: 1.463882, accuracy: 0.717393, Matthews correlation coefficient: 0.464006
+[07:03:53:886] FITTEST AGENT - fitness: 1.498582, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:53:892] Generation 199
+[07:03:54:23] AVERAGES - fitness: 1.453214, accuracy: 0.715248, Matthews correlation coefficient: 0.453331
+[07:03:54:23] FITTEST AGENT - fitness: 1.498582, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:54:29] Generation 200
+[07:03:54:160] AVERAGES - fitness: 1.471878, accuracy: 0.725955, Matthews correlation coefficient: 0.472002
+[07:03:54:160] FITTEST AGENT - fitness: 1.498582, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:54:166] Generation 201
+[07:03:54:294] AVERAGES - fitness: 1.448611, accuracy: 0.711045, Matthews correlation coefficient: 0.448718
+[07:03:54:294] FITTEST AGENT - fitness: 1.498582, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:54:300] Generation 202
+[07:03:54:432] AVERAGES - fitness: 1.467431, accuracy: 0.725682, Matthews correlation coefficient: 0.467555
+[07:03:54:432] FITTEST AGENT - fitness: 1.498582, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:54:438] Generation 203
+[07:03:54:567] AVERAGES - fitness: 1.474910, accuracy: 0.730236, Matthews correlation coefficient: 0.475036
+[07:03:54:567] FITTEST AGENT - fitness: 1.498582, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:54:572] Generation 204
+[07:03:54:704] AVERAGES - fitness: 1.481331, accuracy: 0.727450, Matthews correlation coefficient: 0.481456
+[07:03:54:704] FITTEST AGENT - fitness: 1.498582, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:54:709] Generation 205
+[07:03:54:843] AVERAGES - fitness: 1.469077, accuracy: 0.717045, Matthews correlation coefficient: 0.469190
+[07:03:54:843] FITTEST AGENT - fitness: 1.498582, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:54:848] Generation 206
+[07:03:54:980] AVERAGES - fitness: 1.479016, accuracy: 0.719888, Matthews correlation coefficient: 0.479136
+[07:03:54:980] FITTEST AGENT - fitness: 1.498582, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:54:985] Generation 207
+[07:03:55:118] AVERAGES - fitness: 1.478767, accuracy: 0.711157, Matthews correlation coefficient: 0.478889
+[07:03:55:118] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:55:124] Generation 208
+[07:03:55:257] AVERAGES - fitness: 1.483183, accuracy: 0.722983, Matthews correlation coefficient: 0.483301
+[07:03:55:257] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:55:263] Generation 209
+[07:03:55:395] AVERAGES - fitness: 1.488349, accuracy: 0.723930, Matthews correlation coefficient: 0.488471
+[07:03:55:395] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:55:401] Generation 210
+[07:03:55:531] AVERAGES - fitness: 1.484505, accuracy: 0.724657, Matthews correlation coefficient: 0.484622
+[07:03:55:531] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:55:537] Generation 211
+[07:03:55:672] AVERAGES - fitness: 1.484482, accuracy: 0.725045, Matthews correlation coefficient: 0.484599
+[07:03:55:672] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:55:678] Generation 212
+[07:03:55:809] AVERAGES - fitness: 1.491949, accuracy: 0.729934, Matthews correlation coefficient: 0.492070
+[07:03:55:809] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:55:814] Generation 213
+[07:03:55:942] AVERAGES - fitness: 1.487385, accuracy: 0.729112, Matthews correlation coefficient: 0.487506
+[07:03:55:942] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:55:947] Generation 214
+[07:03:56:78] AVERAGES - fitness: 1.476196, accuracy: 0.722913, Matthews correlation coefficient: 0.476319
+[07:03:56:78] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:56:84] Generation 215
+[07:03:56:214] AVERAGES - fitness: 1.474097, accuracy: 0.721256, Matthews correlation coefficient: 0.474222
+[07:03:56:214] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:56:219] Generation 216
+[07:03:56:349] AVERAGES - fitness: 1.475603, accuracy: 0.722339, Matthews correlation coefficient: 0.475726
+[07:03:56:349] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:56:355] Generation 217
+[07:03:56:486] AVERAGES - fitness: 1.472504, accuracy: 0.721017, Matthews correlation coefficient: 0.472625
+[07:03:56:486] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:56:492] Generation 218
+[07:03:56:623] AVERAGES - fitness: 1.466403, accuracy: 0.714554, Matthews correlation coefficient: 0.466519
+[07:03:56:623] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:56:629] Generation 219
+[07:03:56:759] AVERAGES - fitness: 1.453629, accuracy: 0.710174, Matthews correlation coefficient: 0.453743
+[07:03:56:759] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:56:765] Generation 220
+[07:03:56:898] AVERAGES - fitness: 1.470204, accuracy: 0.712756, Matthews correlation coefficient: 0.470328
+[07:03:56:898] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:56:904] Generation 221
+[07:03:57:33] AVERAGES - fitness: 1.466403, accuracy: 0.712446, Matthews correlation coefficient: 0.466525
+[07:03:57:33] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:57:39] Generation 222
+[07:03:57:171] AVERAGES - fitness: 1.466016, accuracy: 0.712393, Matthews correlation coefficient: 0.466136
+[07:03:57:171] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:57:177] Generation 223
+[07:03:57:307] AVERAGES - fitness: 1.465197, accuracy: 0.715062, Matthews correlation coefficient: 0.465315
+[07:03:57:307] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:57:312] Generation 224
+[07:03:57:443] AVERAGES - fitness: 1.456007, accuracy: 0.713413, Matthews correlation coefficient: 0.456114
+[07:03:57:443] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:57:448] Generation 225
+[07:03:57:579] AVERAGES - fitness: 1.465101, accuracy: 0.710256, Matthews correlation coefficient: 0.465220
+[07:03:57:579] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:57:585] Generation 226
+[07:03:57:717] AVERAGES - fitness: 1.466957, accuracy: 0.706955, Matthews correlation coefficient: 0.467076
+[07:03:57:717] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:57:723] Generation 227
+[07:03:57:854] AVERAGES - fitness: 1.453408, accuracy: 0.706934, Matthews correlation coefficient: 0.453520
+[07:03:57:854] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:57:860] Generation 228
+[07:03:57:995] AVERAGES - fitness: 1.452133, accuracy: 0.705417, Matthews correlation coefficient: 0.452250
+[07:03:57:995] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:58:1] Generation 229
+[07:03:58:133] AVERAGES - fitness: 1.450269, accuracy: 0.704475, Matthews correlation coefficient: 0.450375
+[07:03:58:133] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:58:139] Generation 230
+[07:03:58:270] AVERAGES - fitness: 1.471092, accuracy: 0.713983, Matthews correlation coefficient: 0.471208
+[07:03:58:270] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:58:276] Generation 231
+[07:03:58:409] AVERAGES - fitness: 1.472786, accuracy: 0.714397, Matthews correlation coefficient: 0.472901
+[07:03:58:409] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:58:415] Generation 232
+[07:03:58:548] AVERAGES - fitness: 1.458674, accuracy: 0.710298, Matthews correlation coefficient: 0.458785
+[07:03:58:548] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:58:554] Generation 233
+[07:03:58:686] AVERAGES - fitness: 1.467381, accuracy: 0.714529, Matthews correlation coefficient: 0.467492
+[07:03:58:686] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:58:692] Generation 234
+[07:03:58:825] AVERAGES - fitness: 1.461841, accuracy: 0.713417, Matthews correlation coefficient: 0.461950
+[07:03:58:825] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:58:831] Generation 235
+[07:03:58:965] AVERAGES - fitness: 1.456097, accuracy: 0.708045, Matthews correlation coefficient: 0.456205
+[07:03:58:965] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:58:971] Generation 236
+[07:03:59:104] AVERAGES - fitness: 1.466566, accuracy: 0.710417, Matthews correlation coefficient: 0.466674
+[07:03:59:104] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:59:110] Generation 237
+[07:03:59:241] AVERAGES - fitness: 1.468307, accuracy: 0.710971, Matthews correlation coefficient: 0.468419
+[07:03:59:241] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:59:247] Generation 238
+[07:03:59:381] AVERAGES - fitness: 1.467525, accuracy: 0.705124, Matthews correlation coefficient: 0.467634
+[07:03:59:381] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:59:387] Generation 239
+[07:03:59:523] AVERAGES - fitness: 1.474567, accuracy: 0.711719, Matthews correlation coefficient: 0.474675
+[07:03:59:523] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:59:528] Generation 240
+[07:03:59:662] AVERAGES - fitness: 1.455635, accuracy: 0.708541, Matthews correlation coefficient: 0.455731
+[07:03:59:662] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:59:668] Generation 241
+[07:03:59:799] AVERAGES - fitness: 1.465309, accuracy: 0.714653, Matthews correlation coefficient: 0.465410
+[07:03:59:799] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:59:805] Generation 242
+[07:03:59:941] AVERAGES - fitness: 1.486677, accuracy: 0.727665, Matthews correlation coefficient: 0.486783
+[07:03:59:941] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:03:59:947] Generation 243
+[07:04:00:79] AVERAGES - fitness: 1.489191, accuracy: 0.729537, Matthews correlation coefficient: 0.489297
+[07:04:00:79] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:00:85] Generation 244
+[07:04:00:217] AVERAGES - fitness: 1.493985, accuracy: 0.729426, Matthews correlation coefficient: 0.494089
+[07:04:00:217] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:00:223] Generation 245
+[07:04:00:353] AVERAGES - fitness: 1.481389, accuracy: 0.724302, Matthews correlation coefficient: 0.481485
+[07:04:00:353] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:00:358] Generation 246
+[07:04:00:492] AVERAGES - fitness: 1.495868, accuracy: 0.731083, Matthews correlation coefficient: 0.495969
+[07:04:00:492] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:00:497] Generation 247
+[07:04:00:628] AVERAGES - fitness: 1.488471, accuracy: 0.727264, Matthews correlation coefficient: 0.488566
+[07:04:00:628] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:00:634] Generation 248
+[07:04:00:769] AVERAGES - fitness: 1.496049, accuracy: 0.731694, Matthews correlation coefficient: 0.496149
+[07:04:00:769] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:00:775] Generation 249
+[07:04:00:907] AVERAGES - fitness: 1.478471, accuracy: 0.723488, Matthews correlation coefficient: 0.478560
+[07:04:00:907] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:00:913] Generation 250
+[07:04:01:44] AVERAGES - fitness: 1.484935, accuracy: 0.727384, Matthews correlation coefficient: 0.485031
+[07:04:01:44] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:01:49] Generation 251
+[07:04:01:182] AVERAGES - fitness: 1.479916, accuracy: 0.722950, Matthews correlation coefficient: 0.480011
+[07:04:01:182] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:01:187] Generation 252
+[07:04:01:320] AVERAGES - fitness: 1.474478, accuracy: 0.719355, Matthews correlation coefficient: 0.474568
+[07:04:01:320] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:01:326] Generation 253
+[07:04:01:460] AVERAGES - fitness: 1.479601, accuracy: 0.718583, Matthews correlation coefficient: 0.479702
+[07:04:01:460] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:01:466] Generation 254
+[07:04:01:601] AVERAGES - fitness: 1.485400, accuracy: 0.721711, Matthews correlation coefficient: 0.485500
+[07:04:01:601] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:01:607] Generation 255
+[07:04:01:741] AVERAGES - fitness: 1.462736, accuracy: 0.713963, Matthews correlation coefficient: 0.462820
+[07:04:01:741] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:01:747] Generation 256
+[07:04:01:887] AVERAGES - fitness: 1.473717, accuracy: 0.714893, Matthews correlation coefficient: 0.473813
+[07:04:01:887] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:01:892] Generation 257
+[07:04:02:25] AVERAGES - fitness: 1.477381, accuracy: 0.709512, Matthews correlation coefficient: 0.477483
+[07:04:02:25] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:02:31] Generation 258
+[07:04:02:164] AVERAGES - fitness: 1.481587, accuracy: 0.718091, Matthews correlation coefficient: 0.481683
+[07:04:02:164] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:02:170] Generation 259
+[07:04:02:305] AVERAGES - fitness: 1.487313, accuracy: 0.725107, Matthews correlation coefficient: 0.487410
+[07:04:02:305] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:02:310] Generation 260
+[07:04:02:445] AVERAGES - fitness: 1.489129, accuracy: 0.723322, Matthews correlation coefficient: 0.489231
+[07:04:02:445] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:02:451] Generation 261
+[07:04:02:580] AVERAGES - fitness: 1.486222, accuracy: 0.724434, Matthews correlation coefficient: 0.486322
+[07:04:02:580] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:02:586] Generation 262
+[07:04:02:717] AVERAGES - fitness: 1.483901, accuracy: 0.725136, Matthews correlation coefficient: 0.484002
+[07:04:02:717] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:02:723] Generation 263
+[07:04:02:854] AVERAGES - fitness: 1.482011, accuracy: 0.724421, Matthews correlation coefficient: 0.482112
+[07:04:02:854] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:02:860] Generation 264
+[07:04:02:993] AVERAGES - fitness: 1.464687, accuracy: 0.711855, Matthews correlation coefficient: 0.464783
+[07:04:02:993] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:02:999] Generation 265
+[07:04:03:130] AVERAGES - fitness: 1.470437, accuracy: 0.724045, Matthews correlation coefficient: 0.470535
+[07:04:03:130] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:03:136] Generation 266
+[07:04:03:266] AVERAGES - fitness: 1.437907, accuracy: 0.710409, Matthews correlation coefficient: 0.437997
+[07:04:03:266] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:03:272] Generation 267
+[07:04:03:403] AVERAGES - fitness: 1.468858, accuracy: 0.725550, Matthews correlation coefficient: 0.468960
+[07:04:03:403] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:03:409] Generation 268
+[07:04:03:541] AVERAGES - fitness: 1.459634, accuracy: 0.722070, Matthews correlation coefficient: 0.459730
+[07:04:03:541] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:03:547] Generation 269
+[07:04:03:677] AVERAGES - fitness: 1.480787, accuracy: 0.728855, Matthews correlation coefficient: 0.480886
+[07:04:03:677] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:03:682] Generation 270
+[07:04:03:818] AVERAGES - fitness: 1.479761, accuracy: 0.729339, Matthews correlation coefficient: 0.479860
+[07:04:03:818] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:03:824] Generation 271
+[07:04:03:957] AVERAGES - fitness: 1.483794, accuracy: 0.728302, Matthews correlation coefficient: 0.483895
+[07:04:03:957] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:03:963] Generation 272
+[07:04:04:97] AVERAGES - fitness: 1.475314, accuracy: 0.727207, Matthews correlation coefficient: 0.475417
+[07:04:04:97] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:04:103] Generation 273
+[07:04:04:237] AVERAGES - fitness: 1.469456, accuracy: 0.723562, Matthews correlation coefficient: 0.469558
+[07:04:04:237] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:04:243] Generation 274
+[07:04:04:377] AVERAGES - fitness: 1.466578, accuracy: 0.727529, Matthews correlation coefficient: 0.466682
+[07:04:04:377] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:04:383] Generation 275
+[07:04:04:515] AVERAGES - fitness: 1.451831, accuracy: 0.720409, Matthews correlation coefficient: 0.451923
+[07:04:04:515] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:04:520] Generation 276
+[07:04:04:655] AVERAGES - fitness: 1.447378, accuracy: 0.719760, Matthews correlation coefficient: 0.447476
+[07:04:04:655] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:04:661] Generation 277
+[07:04:04:794] AVERAGES - fitness: 1.458468, accuracy: 0.719665, Matthews correlation coefficient: 0.458573
+[07:04:04:794] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:04:800] Generation 278
+[07:04:04:932] AVERAGES - fitness: 1.448008, accuracy: 0.710711, Matthews correlation coefficient: 0.448114
+[07:04:04:932] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:04:938] Generation 279
+[07:04:05:71] AVERAGES - fitness: 1.465276, accuracy: 0.712318, Matthews correlation coefficient: 0.465377
+[07:04:05:71] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:05:77] Generation 280
+[07:04:05:211] AVERAGES - fitness: 1.457434, accuracy: 0.714219, Matthews correlation coefficient: 0.457540
+[07:04:05:211] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:05:217] Generation 281
+[07:04:05:352] AVERAGES - fitness: 1.445232, accuracy: 0.705893, Matthews correlation coefficient: 0.445336
+[07:04:05:352] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:05:358] Generation 282
+[07:04:05:492] AVERAGES - fitness: 1.456437, accuracy: 0.707649, Matthews correlation coefficient: 0.456541
+[07:04:05:492] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:05:497] Generation 283
+[07:04:05:630] AVERAGES - fitness: 1.447658, accuracy: 0.707215, Matthews correlation coefficient: 0.447762
+[07:04:05:630] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:05:637] Generation 284
+[07:04:05:777] AVERAGES - fitness: 1.457416, accuracy: 0.711607, Matthews correlation coefficient: 0.457515
+[07:04:05:777] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:05:783] Generation 285
+[07:04:05:918] AVERAGES - fitness: 1.465202, accuracy: 0.724000, Matthews correlation coefficient: 0.465302
+[07:04:05:918] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:05:923] Generation 286
+[07:04:06:58] AVERAGES - fitness: 1.471297, accuracy: 0.725417, Matthews correlation coefficient: 0.471395
+[07:04:06:58] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:06:64] Generation 287
+[07:04:06:197] AVERAGES - fitness: 1.480060, accuracy: 0.727409, Matthews correlation coefficient: 0.480164
+[07:04:06:197] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:06:203] Generation 288
+[07:04:06:337] AVERAGES - fitness: 1.468796, accuracy: 0.722202, Matthews correlation coefficient: 0.468901
+[07:04:06:337] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:06:343] Generation 289
+[07:04:06:480] AVERAGES - fitness: 1.480549, accuracy: 0.723736, Matthews correlation coefficient: 0.480653
+[07:04:06:480] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:06:485] Generation 290
+[07:04:06:622] AVERAGES - fitness: 1.492664, accuracy: 0.730149, Matthews correlation coefficient: 0.492771
+[07:04:06:622] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:06:628] Generation 291
+[07:04:06:762] AVERAGES - fitness: 1.484558, accuracy: 0.729798, Matthews correlation coefficient: 0.484663
+[07:04:06:762] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:06:767] Generation 292
+[07:04:06:899] AVERAGES - fitness: 1.478690, accuracy: 0.725285, Matthews correlation coefficient: 0.478793
+[07:04:06:899] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:06:905] Generation 293
+[07:04:07:37] AVERAGES - fitness: 1.474155, accuracy: 0.726810, Matthews correlation coefficient: 0.474253
+[07:04:07:37] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:07:43] Generation 294
+[07:04:07:176] AVERAGES - fitness: 1.480493, accuracy: 0.725905, Matthews correlation coefficient: 0.480598
+[07:04:07:176] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:07:182] Generation 295
+[07:04:07:314] AVERAGES - fitness: 1.476424, accuracy: 0.721835, Matthews correlation coefficient: 0.476530
+[07:04:07:314] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:07:319] Generation 296
+[07:04:07:453] AVERAGES - fitness: 1.466285, accuracy: 0.711541, Matthews correlation coefficient: 0.466381
+[07:04:07:453] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:07:459] Generation 297
+[07:04:07:587] AVERAGES - fitness: 1.479070, accuracy: 0.718380, Matthews correlation coefficient: 0.479173
+[07:04:07:587] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:07:593] Generation 298
+[07:04:07:726] AVERAGES - fitness: 1.470075, accuracy: 0.717273, Matthews correlation coefficient: 0.470173
+[07:04:07:726] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:07:732] Generation 299
+[07:04:07:862] AVERAGES - fitness: 1.468450, accuracy: 0.717000, Matthews correlation coefficient: 0.468549
+[07:04:07:862] FITTEST AGENT - fitness: 1.498592, accuracy: 0.733884, Matthews correlation coefficient: 0.498662
+[07:04:07:863] 
+Fitness: 1.498592
 Input vertices: 6
 Output vertices: 4
-Deep vertices: 2
-Edges: 15
-"buying" "good" "-0.353,1"
-"buying" "acceptable" "0.243,1"
-"buying" "unacceptable" "0.522,2"
-"maint" "unacceptable" "0.332,1"
-"maint" "good" "0.222,1"
-"maint" "very good" "0.0934,1"
-"maint" "acceptable" "-0.0786,1"
-"doors" "good" "-1,1"
-"doors" 0 "-0.0369,1"
-"doors" "very good" "-0.00681,1"
-"lug_boot" 1 "-0.452,2"
-"safety" "acceptable" "0.764,2"
-0 "unacceptable" "-0.265,1"
-0 0 "-0.185,2"
-1 "very good" "0.247,2"
-[23:28:31:284] 
+Deep vertices: 0
+Edges: 7
+"buying" "unacceptable" "1,2"
+"buying" "very good" "-0.998,1"
+"buying" "good" "-0.0971,2"
+"maint" "unacceptable" "1,1"
+"persons" "acceptable" "0.574,1"
+"safety" "unacceptable" "-0.709,1"
+"safety" "acceptable" "0.935,1"
+[07:04:07:867] 
 
               unacceptable acceptable good very good     sum 
- unacceptable          259        104    0         0     363
-   acceptable           24         91    0         0     115
+ unacceptable          286         77    0         0     363
+   acceptable           23         92    0         0     115
          good            0         21    0         0      21
     very good            0         19    0         0      19
-          sum          283        235    0         0     518
-Accuracy: 0.676
-Matthews correlation coefficient: 0.404
-[23:28:31:285] 
-Fitness: 1.439288
+          sum          309        209    0         0     518
+Accuracy: 0.730
+Matthews correlation coefficient: 0.474
+[07:04:07:867] 
+Fitness: 1.498592
 Input vertices: 6
 Output vertices: 4
-Deep vertices: 2
-Edges: 15
-"buying" "good" "-0.353,1"
-"buying" "acceptable" "0.243,1"
-"buying" "unacceptable" "0.522,2"
-"maint" "unacceptable" "0.332,1"
-"maint" "good" "0.222,1"
-"maint" "very good" "0.0934,1"
-"maint" "acceptable" "-0.0786,1"
-"doors" "good" "-1,1"
-"doors" 0 "-0.0369,1"
-"doors" "very good" "-0.00681,1"
-"lug_boot" 1 "-0.452,2"
-"safety" "acceptable" "0.764,2"
-0 "unacceptable" "-0.265,1"
-0 0 "-0.185,2"
-1 "very good" "0.247,2"
-[23:28:31:292] 
+Deep vertices: 0
+Edges: 7
+"buying" "unacceptable" "1,2"
+"buying" "very good" "-0.998,1"
+"buying" "good" "-0.0971,2"
+"maint" "unacceptable" "1,1"
+"persons" "acceptable" "0.574,1"
+"safety" "unacceptable" "-0.709,1"
+"safety" "acceptable" "0.935,1"
+[07:04:07:871] 
 
               unacceptable acceptable good very good     sum 
- unacceptable          259        104    0         0     363
-   acceptable           24         91    0         0     115
+ unacceptable          286         77    0         0     363
+   acceptable           23         92    0         0     115
          good            0         21    0         0      21
     very good            0         19    0         0      19
-          sum          283        235    0         0     518
-Accuracy: 0.676
-Matthews correlation coefficient: 0.404
-[23:28:31:292] done
+          sum          309        209    0         0     518
+Accuracy: 0.730
+Matthews correlation coefficient: 0.474
+[07:04:07:871] done
 
 Process finished with exit code 0
