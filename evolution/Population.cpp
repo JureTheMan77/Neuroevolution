@@ -107,15 +107,16 @@ evolution::Population::createAgent() {
                                                      this->numberOfOutputs, this->outputLabels);
 
     // generate edges
-    for (unsigned int i = 0; i < numberOfEdges; i++) {
-        this->addRandomEdge(i, graph);
+    unsigned int edgeIndex = 0;
+    while (graph->getEdges().size() < numberOfEdges && graph->getEdges().size() < graph->getNumEdgesPossible()) {
+        this->addRandomEdge(graph->getEdges().size(), graph);
     }
 
-    for(const auto &vertex : graph->getOutputVertices()){
-        if(vertex->getInputEdges().empty()){
-            return nullptr;
-        }
-    }
+    //for(const auto &vertex : graph->getOutputVertices()){
+    //    if(vertex->getInputEdges().empty()){
+    //        return nullptr;
+    //    }
+    //}
 
     // normalize edge weights
     graph->normalizeEdgeWeights();
@@ -598,7 +599,8 @@ void evolution::Population::mutateThreaded(unsigned long agentIndex) {
             break;
         }
         case 2: {
-            if (childAgent->getGraph()->getEdges().size() == maxEdges) {
+            if (childAgent->getGraph()->getEdges().size() >= maxEdges ||
+                childAgent->getGraph()->getEdges().size() >= childAgent->getGraph()->getNumEdgesPossible()) {
                 return;
             }
             this->addRandomEdge(UINT_MAX, childAgent->getGraph());
