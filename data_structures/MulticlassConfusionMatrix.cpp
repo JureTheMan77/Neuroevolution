@@ -69,25 +69,25 @@ data_structures::MulticlassConfusionMatrix::MulticlassConfusionMatrix(const std:
     //}
 
     // all output vertices have at least one input edge
-    //bool noInput = false;
-    //for(const auto &vertex : agent->getGraph()->getOutputVertices()){
-    //    if(vertex->getInputEdges().empty()){
-    //        noInput = true;
-    //        break;
-    //    }
-    //}
+    bool noInput = false;
+    for(const auto &vertex : agent->getGraph()->getOutputVertices()){
+        if(vertex->getInputEdges().empty()){
+            noInput = true;
+            break;
+        }
+    }
 
-    //if(noInput){
-    //    this->accuracy = 0;
-    //    this->matthewsCorrelationCoefficient = -1;
-    //} else {
-    //
-    //  // calculate accuracy
-    //  this->calculateAccuracy();
-    //
-    //  // calculate the Matthews correlation coefficient
-    //  this->calculateMatthewsCorrelationCoefficient();
-    //}
+    if (noInput) {
+        this->accuracy = 0;
+        this->matthewsCorrelationCoefficient = -1;
+    } else {
+
+        // calculate accuracy
+        this->calculateAccuracy();
+
+        // calculate the Matthews correlation coefficient
+        this->calculateMatthewsCorrelationCoefficient();
+    }
 
     //if(zeroValue > 1){
     //    this->accuracy = 0;
@@ -102,10 +102,10 @@ data_structures::MulticlassConfusionMatrix::MulticlassConfusionMatrix(const std:
     //}
 
     // calculate accuracy
-    this->calculateAccuracy();
+    //this->calculateAccuracy();
 
     // calculate the Matthews correlation coefficient
-    this->calculateMatthewsCorrelationCoefficient();
+    //this->calculateMatthewsCorrelationCoefficient();
 }
 
 void data_structures::MulticlassConfusionMatrix::calculateAccuracy() {

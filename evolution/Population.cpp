@@ -112,11 +112,11 @@ evolution::Population::createAgent() {
         this->addRandomEdge(graph->getEdges().size(), graph);
     }
 
-    //for(const auto &vertex : graph->getOutputVertices()){
-    //    if(vertex->getInputEdges().empty()){
-    //        return nullptr;
-    //    }
-    //}
+    for(const auto &vertex : graph->getOutputVertices()){
+        if(vertex->getInputEdges().empty()){
+            return nullptr;
+        }
+    }
 
     // normalize edge weights
     graph->normalizeEdgeWeights();
