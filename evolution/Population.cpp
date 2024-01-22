@@ -97,9 +97,11 @@ void evolution::Population::initialisePopulation(unsigned int populationSizeArg,
     this->maxMutationChance = mutationChanceArg;
     this->keepDormantVerticesAndEdges = keepDormantVerticesAndEdgesArg;
     this->edgeTraverseLimitDistribution = std::uniform_int_distribution<unsigned int>(1, edgeTraverseLimitArg);
-    for (unsigned int i = 0; i < populationSizeArg; i++) {
+    while (this->population.size() < populationSizeArg) {
         auto agent = this->createAgent();
-        this->population.push_back(agent);
+        if(agent != nullptr) {
+            this->population.push_back(agent);
+        }
     }
 }
 
@@ -116,8 +118,15 @@ evolution::Population::createAgent() {
                                                      this->numberOfOutputs, this->outputLabels);
 
     // generate edges
-    for (unsigned int i = 0; i < numberOfEdges; i++) {
-        this->addRandomEdge(i, graph);
+    unsigned int edgeIndex = 0;
+    while (graph->getEdges().size() < numberOfEdges && graph->getEdges().size() < graph->getNumEdgesPossible()) {
+        this->addRandomEdge(graph->getEdges().size(), graph);
+    }
+
+    for(const auto &vertex : graph->getOutputVertices()){
+        if(vertex->getInputEdges().empty()){
+            return nullptr;
+        }
     }
 
     // normalize edge weights
@@ -316,8 +325,8 @@ void evolution::Population::calculateAgentFitness(enums::FitnessMetric fitnessMe
             break;
     }
 
-    if (fitness < 0) {
-        fitness = 0;
+    if (fitness < 0.001) {
+        fitness = 0.001;
     }
     agent->setFitness(fitness);
     agent->setAccuracy(mcm.getAccuracy());
@@ -442,12 +451,16 @@ void evolution::Population::crossoverAndMutate() {
     std::vector<unsigned long> indexesToMutate;
     while (indexesToMutate.size() < childrenToMutate) {
         unsigned long index = childPopulationDistribution(util::rng);
+        bool sameIndexFound = false;
         for (const auto &generatedIndex: indexesToMutate) {
             if (generatedIndex == index) {
-                continue;
+                sameIndexFound = true;
+                break;
             }
         }
-        indexesToMutate.push_back(index);
+        if (!sameIndexFound) {
+            indexesToMutate.push_back(index);
+        }
     }
 
     for (const auto &index: indexesToMutate) {
@@ -587,7 +600,7 @@ void evolution::Population::mutateThreaded(unsigned long agentIndex) {
             }
             // add the edges
             for (const auto &edge: childAgent->getGraph()->getEdges()) {
-                if (edge != nullptr && !edge->isFlaggedForDeletion()) {
+                if (/*edge != nullptr &&*/ !edge->isFlaggedForDeletion()) {
                     mutatedAgent->getGraph()->addEdge(edge);
                 }
             }
@@ -597,7 +610,8 @@ void evolution::Population::mutateThreaded(unsigned long agentIndex) {
             break;
         }
         case 2: {
-            if (childAgent->getGraph()->getEdges().size() == maxEdges) {
+            if (childAgent->getGraph()->getEdges().size() >= maxEdges ||
+                childAgent->getGraph()->getEdges().size() >= childAgent->getGraph()->getNumEdgesPossible()) {
                 return;
             }
             this->addRandomEdge(UINT_MAX, childAgent->getGraph());
@@ -619,7 +633,8 @@ void evolution::Population::mutateThreaded(unsigned long agentIndex) {
                 return;
             }
             // choose a random edge
-            unsigned long position = util::nextUnsignedLong(0, childAgent->getGraph()->getEdges().size() - 1);
+            unsigned long maxPos = childAgent->getGraph()->getEdges().size() - 1;
+            unsigned long position = util::nextUnsignedLong(0, maxPos);
             // choose a random weight
             double weight = util::nextWeight();
             // get edge
@@ -632,7 +647,8 @@ void evolution::Population::mutateThreaded(unsigned long agentIndex) {
                 return;
             }
             // choose a random edge
-            unsigned long position = util::nextUnsignedLong(0, childAgent->getGraph()->getEdges().size() - 1);
+            unsigned long maxPos = childAgent->getGraph()->getEdges().size() - 1;
+            unsigned long position = util::nextUnsignedLong(0, maxPos);
             // choose a random weight
             unsigned int traverseLimit = this->edgeTraverseLimitDistribution(util::rng);
             // get edge
@@ -675,9 +691,13 @@ void evolution::Population::crossoverDeepVertices(const std::shared_ptr<evolutio
         }
         // get the vertex with the same index from parent2
         auto deepVertex2 = parent2->getGraph()->getDeepVertexByIndex(deepVertex1->getIndex());
-        // if no second vertex was found, clone vertex1
+        // if no second vertex was found, clone vertex1 with a 50% chance
         std::shared_ptr<data_structures::DeepVertex> childVertex;
         if (deepVertex2 == nullptr) {
+            bool choice = util::nextBool();
+            if (!choice) {
+                continue;
+            }
             childVertex = deepVertex1->deepClone();
         } else {
             // choose a random vertex
@@ -703,16 +723,16 @@ void evolution::Population::crossoverEdges(const std::shared_ptr<evolution::Agen
         }
 
         // check if this edge1 was already crossovered
-        bool matchFound = false;
-        for (unsigned int index: checkedIndices) {
-            if (edge1->getIndex() == index) {
-                matchFound = true;
-                break;
-            }
-        }
-        if (matchFound) {
-            continue;
-        }
+        //bool matchFound = false;
+        //for (unsigned int index: checkedIndices) {
+        //    if (edge1->getIndex() == index) {
+        //        matchFound = true;
+        //        break;
+        //    }
+        //}
+        //if (matchFound) {
+        //    continue;
+        //}
         // get the edge1 with the same input and output indices (and types) from the second parent
         auto edge2 = parent2->getGraph()->getEdgeByIndexAndType(edge1->getInput()->getIndex(),
                                                                 edge1->getInput()->getType(),
@@ -720,7 +740,11 @@ void evolution::Population::crossoverEdges(const std::shared_ptr<evolution::Agen
                                                                 edge1->getOutput()->getType());
         if (edge2 == nullptr) {
             // similar edge1 was not found in parent2
-            // keep edge1
+            // 50% chance to keep edge1
+            bool choice = util::nextBool();
+            if (!choice) {
+                continue;
+            }
             childAgent->getGraph()->addEdge(edge1->getInput()->getType(), edge1->getInput()->getIndex(),
                                             edge1->getOutput()->getType(), edge1->getOutput()->getIndex(),
                                             edge1->getIndex(), edge1->getWeight(),
@@ -862,7 +886,7 @@ evolution::Population::minimizeAgent(const std::shared_ptr<evolution::Agent> &ag
     }
     // add the edges
     for (const auto &edge: agentToMinimize->getGraph()->getEdges()) {
-        if (edge != nullptr && !edge->isFlaggedForDeletion()) {
+        if (/*edge != nullptr &&*/ !edge->isFlaggedForDeletion()) {
             minimizedAgent->getGraph()->addEdge(edge);
         }
     }

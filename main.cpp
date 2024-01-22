@@ -151,7 +151,7 @@ int main(int argc, char *argv[]) {
     //logging::logs(pop.getFittestAgent()->toString());
 
 
-    std::string csvHeader = "Generation;Worst;0-10%;10-20%;20-30%;30-40%;40-50%;50-60%;60-70%;70-80%;80-90%;90-100%;Best;Average";
+    std::string csvHeader = "Generation;Worst;0-10%;10-20%;20-30%;30-40%;40-50%;50-60%;60-70%;70-80%;80-90%;90-100%;Najboljši;Povprečje";
     std::ofstream fitnessFile("fitness.csv");
     fitnessFile << csvHeader << std::endl;
     std::ofstream accuracyFile("accuracy.csv");

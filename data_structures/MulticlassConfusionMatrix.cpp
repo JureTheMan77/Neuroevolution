@@ -58,12 +58,54 @@ data_structures::MulticlassConfusionMatrix::MulticlassConfusionMatrix(const std:
         this->matrix.at(this->numberOfClasses).at(i) = sum;
     }
 
+    // all diagonal cells have a value of at least 1
+    //int zeroValue = 0;
+    //for (int i = 0; i < this->numberOfClasses; i++) {
+    //    for (int j = 0; j < this->numberOfClasses; j++) {
+    //        if(this->matrix.at(j).at(i) == 0){
+    //            zeroValue += 1;
+    //        }
+    //    }
+    //}
+
+    // all output vertices have at least one input edge
+    bool noInput = false;
+    for(const auto &vertex : agent->getGraph()->getOutputVertices()){
+        if(vertex->getInputEdges().empty()){
+            noInput = true;
+            break;
+        }
+    }
+
+    if (noInput) {
+        this->accuracy = 0;
+        this->matthewsCorrelationCoefficient = -1;
+    } else {
+
+        // calculate accuracy
+        this->calculateAccuracy();
+
+        // calculate the Matthews correlation coefficient
+        this->calculateMatthewsCorrelationCoefficient();
+    }
+
+    //if(zeroValue > 1){
+    //    this->accuracy = 0;
+    //    this->matthewsCorrelationCoefficient = -1;
+    //} else {
+//
+    //  // calculate accuracy
+    //  this->calculateAccuracy();
+//
+    //  // calculate the Matthews correlation coefficient
+    //  this->calculateMatthewsCorrelationCoefficient();
+    //}
+
     // calculate accuracy
-    this->calculateAccuracy();
+    //this->calculateAccuracy();
 
     // calculate the Matthews correlation coefficient
-    this->calculateMatthewsCorrelationCoefficient();
-
+    //this->calculateMatthewsCorrelationCoefficient();
 }
 
 void data_structures::MulticlassConfusionMatrix::calculateAccuracy() {

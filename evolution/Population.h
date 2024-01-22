@@ -32,7 +32,7 @@ namespace evolution {
         std::vector<std::shared_ptr<data_structures::DataInstance>> testingValues;
 
         //unsigned int const UINT_MAX = std::numeric_limits<unsigned int>::max();
-        std::uniform_int_distribution<unsigned int> mutationDistribution{0, 6};
+        std::uniform_int_distribution<unsigned int> mutationDistribution{0, 5};
         std::uniform_int_distribution<unsigned int> edgeTraverseLimitDistribution;
         std::uniform_int_distribution<unsigned int> inputVerticesDistribution;
         std::uniform_int_distribution<unsigned int> outputVerticesDistribution;

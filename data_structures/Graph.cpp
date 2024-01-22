@@ -17,6 +17,7 @@ data_structures::Graph::Graph(unsigned int inputVertices, std::vector<std::strin
     this->addInputVertices(inputVertices, inputLabels);
     this->addOutputVertices(outputVertices, outputLabels);
     this->addDeepVertices(deepVertices);
+    this->calculateNumEdgesPossible();
 }
 
 void data_structures::Graph::addInputVertices(unsigned int numberOfInputVertices, std::vector<std::string> &labels) {
@@ -27,20 +28,24 @@ void data_structures::Graph::addInputVertices(unsigned int numberOfInputVertices
         auto inputVertex = data_structures::InputVertex::createInputVertex(i, labels.at(i));
         this->inputVertices.push_back(inputVertex);
     }
+    this->calculateNumEdgesPossible();
 }
 
 void data_structures::Graph::addInputVertex(const std::shared_ptr<data_structures::InputVertex> &inputVertex) {
     this->inputVertices.push_back(inputVertex);
+    this->calculateNumEdgesPossible();
 }
 
 void data_structures::Graph::addOutputVertices(unsigned int numberOfOutputVertices, std::vector<std::string> &labels) {
     for (unsigned int i = 0; i < numberOfOutputVertices; i++) {
         this->outputVertices.push_back(data_structures::OutputVertex::createOutputVertex(i, labels.at(i)));
     }
+    this->calculateNumEdgesPossible();
 }
 
 void data_structures::Graph::addOutputVertex(const std::shared_ptr<data_structures::OutputVertex> &outputVertex) {
     this->outputVertices.push_back(outputVertex);
+    this->calculateNumEdgesPossible();
 }
 
 void data_structures::Graph::addDeepVertices(unsigned int numberOfDeepVertices) {
@@ -50,6 +55,7 @@ void data_structures::Graph::addDeepVertices(unsigned int numberOfDeepVertices) 
         this->deepVertices.push_back(deepVertex);
         this->largestDeepVertexIndex = i;
     }
+    this->calculateNumEdgesPossible();
 }
 
 void data_structures::Graph::addDeepVertex(const std::shared_ptr<data_structures::DeepVertex> &deepVertex) {
@@ -58,6 +64,7 @@ void data_structures::Graph::addDeepVertex(const std::shared_ptr<data_structures
         this->largestDeepVertexIndex = deepVertex->getIndex();
     }
     this->deepVertices.push_back(deepVertex);
+    this->calculateNumEdgesPossible();
 }
 
 void data_structures::Graph::addEdge(enums::VertexType inputVertexType, unsigned int inputVertexIndex,
@@ -73,7 +80,7 @@ void data_structures::Graph::addEdge(enums::VertexType inputVertexType, unsigned
     }
 
     // if a common edge has not been found, create a new one
-    // otherwise, combine the weights
+    // otherwise, return
     if (commonEdge == nullptr) {
         // assume that there are no edges with the same index
         if (this->largestEdgeIndex < index && index != UINT_MAX) {
@@ -89,7 +96,7 @@ void data_structures::Graph::addEdge(enums::VertexType inputVertexType, unsigned
         this->edges.push_back(newEdge);
         addEdgeAfterAdd(inputVertexType, outputVertexType, input, output, newEdge);
     } else {
-        commonEdge->combineWeight(weight);
+        //commonEdge->combineWeight(weight);
     }
 }
 
@@ -127,12 +134,21 @@ bool data_structures::Graph::edgeBeforeAdd(enums::VertexType inputVertexType, un
         throw std::invalid_argument(
                 "Traversal limit has to be at least 1. The supplied value is " + std::to_string(traversalLimit) + ".");
     }
+
+    // already at max edges?
+    if(this->edges.size() == this->numEdgesPossible){
+        return false;
+    }
+
     switch (inputVertexType) {
         case enums::VertexType::Input:
             input = inputVertices.at(inputVertexIndex);
             break;
         case enums::VertexType::Deep:
             input = this->getDeepVertexByIndex(inputVertexIndex);
+            //if (input == nullptr) {
+            //    throw std::invalid_argument("[INPUT] Deep vertex with index " + std::to_string(inputVertexIndex) + " doesn't exist.");
+            //}
             break;
         default:
             throw std::invalid_argument("Vertex of type " + enums::EnumUtil::VertexTypeToString(inputVertexType) +
@@ -150,6 +166,9 @@ bool data_structures::Graph::edgeBeforeAdd(enums::VertexType inputVertexType, un
             break;
         case enums::VertexType::Deep:
             output = this->getDeepVertexByIndex(outputVertexIndex);
+            //if (output == nullptr) {
+            //    throw std::invalid_argument("[OUTPUT] Deep vertex with index " + std::to_string(outputVertexIndex) + " doesn't exist.");
+            //}
             break;
         default:
             throw std::invalid_argument("Vertex of type " + enums::EnumUtil::VertexTypeToString(outputVertexType) +
@@ -182,14 +201,14 @@ data_structures::Graph::addEdge(enums::VertexType inputVertexType, unsigned int 
     std::shared_ptr<data_structures::Vertex> input;
     std::shared_ptr<data_structures::Vertex> output;
     std::shared_ptr<data_structures::Edge> commonEdge;
-    // if the result of the  function is false, then don't add the edge
+    // if the result of the function is false, then don't add the edge
     if (!edgeBeforeAdd(inputVertexType, inputVertexIndex, outputVertexType, outputVertexIndex, traversalLimit, input,
                        output, commonEdge)) {
         return nullptr;
     }
 
     // if a common edge has not been found, create a new one
-    // otherwise, combine the weights
+    // otherwise, return it
     if (commonEdge == nullptr) {
         // assume that there are no edges with the same index
         if (this->largestEdgeIndex < index && index != UINT_MAX) {
@@ -206,7 +225,7 @@ data_structures::Graph::addEdge(enums::VertexType inputVertexType, unsigned int 
         addEdgeAfterAdd(inputVertexType, outputVertexType, input, output, newEdge);
         return newEdge;
     } else {
-        commonEdge->combineWeight(weight);
+        //commonEdge->combineWeight(weight);
         return commonEdge;
     }
 }
@@ -327,9 +346,9 @@ void data_structures::Graph::reset() {
     }
 
     for (const auto &e: this->edges) {
-        if(e != nullptr) {
+        //if(e != nullptr) {
             e->reset();
-        }
+        //}
     }
 }
 
@@ -400,6 +419,7 @@ std::shared_ptr<data_structures::Graph> data_structures::Graph::deepClone() {
                               edge->getOutput()->getIndex(), edge->getIndex(), edge->getWeight(),
                               edge->getTraverseLimit(), crossoverable);
         }
+        newGraph->calculateNumEdgesPossible();
     }
 
     // recreate edges of deep vertices
@@ -426,7 +446,7 @@ void data_structures::Graph::fixIndices() {
         }
     }
     for (const auto &edge: this->edges) {
-        if (edge != nullptr && edge->getIndex() == UINT_MAX) {
+        if (/*edge != nullptr &&*/ edge->getIndex() == UINT_MAX) {
             this->largestEdgeIndex += 1;
             edge->setIndex(this->largestEdgeIndex);
         }
@@ -471,19 +491,19 @@ void data_structures::Graph::normalizeEdgeWeights() const {
     // find the largest weight
     double maxWeight = 0;
     for (const auto &edge: this->getEdges()) {
-        if(edge != nullptr) {
+        //if(edge != nullptr) {
             double absoluteWeight = std::fabs(edge->getWeight());
             if (absoluteWeight > maxWeight) {
                 maxWeight = absoluteWeight;
             }
-        }
+        //}
     }
     // normalize
     for (const auto &edge: this->getEdges()) {
-        if (edge != nullptr) {
+        //if (edge != nullptr) {
             double newWeight = edge->getWeight() / maxWeight;
             edge->setWeight(newWeight);
-        }
+        //}
     }
 }
 
@@ -572,4 +592,22 @@ std::string data_structures::Graph::toForceGraphJson() const {
     graph["links"] = links;
 
     return graph.dump();
+}
+
+void data_structures::Graph::calculateNumEdgesPossible() {
+    unsigned long a = this->inputVertices.size();
+    unsigned long b = this->deepVertices.size();
+    unsigned long c = this->outputVertices.size();
+    // a*c+a*b+b*c+b*b
+    // - inputs directly to outputs: a*c
+    // - inputs to deep: a*b
+    // - deep to outputs: b*c
+    // - deep to all other deep, including themselves: b*b
+    // shorter form: (a+b)(b+c)
+
+    this->numEdgesPossible = (a + b) * (b + c);
+}
+
+unsigned long data_structures::Graph::getNumEdgesPossible() const {
+    return this->numEdgesPossible;
 }
