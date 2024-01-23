@@ -148,7 +148,7 @@ void evolution::Population::addRandomEdge(std::shared_ptr<data_structures::Graph
             unsigned int position = this->inputVerticesDistribution(util::rng);
             inputVertex = graph->getInputVertices().at(position);
         } else {
-            unsigned int position = util::nextUnsignedInt(0, (unsigned int) graph->getDeepVertices().size() - 1);
+            unsigned long position = util::nextUnsignedLong(0, graph->getDeepVertices().size() - 1);
             inputVertex = graph->getDeepVertices().at(position);
         }
         // create and add edge
@@ -194,8 +194,9 @@ void evolution::Population::addRandomEdge(unsigned int index, std::shared_ptr<da
             // 0 - deep
             // 1 - output
             if (type2 == 0) {
+                unsigned int deepVertexIndex = graph->getDeepVertices().at(deepVerticesDistribution(util::rng))->getIndex();
                 graph->addEdge(enums::VertexType::Input, inputVerticesDistribution(util::rng), enums::VertexType::Deep,
-                               deepVerticesDistribution(util::rng), index, util::nextWeight(),
+                               deepVertexIndex, index, util::nextWeight(),
                                edgeTraverseLimitDistribution(util::rng));
             } else {
                 graph->addEdge(enums::VertexType::Input, inputVerticesDistribution(util::rng),
@@ -208,11 +209,14 @@ void evolution::Population::addRandomEdge(unsigned int index, std::shared_ptr<da
             // 0 - deep
             // 1 - output
             if (type2 == 0) {
-                graph->addEdge(enums::VertexType::Deep, deepVerticesDistribution(util::rng), enums::VertexType::Deep,
-                               deepVerticesDistribution(util::rng), index, util::nextWeight(),
+                unsigned int deepVertexIndexIn = graph->getDeepVertices().at(deepVerticesDistribution(util::rng))->getIndex();
+                unsigned int deepVertexIndexOut = graph->getDeepVertices().at(deepVerticesDistribution(util::rng))->getIndex();
+                graph->addEdge(enums::VertexType::Deep, deepVertexIndexIn, enums::VertexType::Deep,
+                               deepVertexIndexOut, index, util::nextWeight(),
                                edgeTraverseLimitDistribution(util::rng));
             } else {
-                graph->addEdge(enums::VertexType::Deep, deepVerticesDistribution(util::rng), enums::VertexType::Output,
+                unsigned int deepVertexIndex = graph->getDeepVertices().at(deepVerticesDistribution(util::rng))->getIndex();
+                graph->addEdge(enums::VertexType::Deep, deepVertexIndex, enums::VertexType::Output,
                                outputVerticesDistribution(util::rng), index, util::nextWeight(),
                                edgeTraverseLimitDistribution(util::rng));
             }
@@ -603,7 +607,10 @@ void evolution::Population::mutateThreaded(unsigned long agentIndex) {
                 childAgent->getGraph()->getEdges().size() >= childAgent->getGraph()->getNumEdgesPossible()) {
                 return;
             }
-            this->addRandomEdge(UINT_MAX, childAgent->getGraph());
+            unsigned long oldEdgeSize = childAgent->getGraph()->getEdges().size();
+            while (childAgent->getGraph()->getEdges().size() <= oldEdgeSize) {
+                this->addRandomEdge(UINT_MAX, childAgent->getGraph());
+            }
             // fix indices for randomly added edges
             childAgent->getGraph()->fixIndices();
             break;

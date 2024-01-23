@@ -59,12 +59,11 @@ data_structures::MulticlassConfusionMatrix::MulticlassConfusionMatrix(const std:
     }
 
     // all diagonal cells have a value of at least 1
-    //int zeroValue = 0;
+    //bool zeroValue = false;
     //for (int i = 0; i < this->numberOfClasses; i++) {
-    //    for (int j = 0; j < this->numberOfClasses; j++) {
-    //        if(this->matrix.at(j).at(i) == 0){
-    //            zeroValue += 1;
-    //        }
+    //    if(this->matrix.at(i).at(i) == 0){
+    //        zeroValue = true;
+    //        break;
     //    }
     //}
 
@@ -77,7 +76,7 @@ data_structures::MulticlassConfusionMatrix::MulticlassConfusionMatrix(const std:
         }
     }
 
-    if (noInput) {
+    if (noInput /*|| zeroValue*/) {
         this->accuracy = 0;
         this->matthewsCorrelationCoefficient = -1;
     } else {
