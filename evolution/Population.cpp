@@ -318,6 +318,26 @@ void evolution::Population::calculateAgentFitness(enums::FitnessMetric fitnessMe
             break;
     }
 
+    // all output vertices have at least one input edge
+    bool noInput = false;
+    for(const auto &vertex : agent->getGraph()->getOutputVertices()){
+        if(vertex->getInputEdges().empty()){
+            noInput = true;
+            break;
+        }
+    }
+
+    //for(const auto &vertex : agent->getGraph()->getInputVertices()){
+    //    if(vertex->getOutputEdges().empty()){
+    //        noInput = true;
+    //        break;
+    //    }
+    //}
+
+    if(noInput) {
+        fitness = 0;
+    }
+
     if (fitness < 0.001) {
         fitness = 0.001;
     }
