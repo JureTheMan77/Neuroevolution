@@ -791,11 +791,11 @@
     \begin{enumerate}
         \item Iz populacije izberemo dva različna naključna agenta oz.\ starša.
         \item Ustvarimo instanco potomca z vhodnimi in izhodnimi vozlišči, ki ustrezajo podatkovni množici.
-        \item Najdemo unijo globokih vozlišč obeh staršev, nato pa ta vozlišča ustvarimo v potomcu.
+        \item V potomcu ustvarimo presek globokih vozlišč obeh staršev, ostala pa s $50\%$ možnostjo.
         Dve vozlišči obravnavamo kot enaki, če imata enak indeks.
-        \item Najdemo unijo povezav obeh staršev, nato pa te povezave ustvarimo v potomcu.
+        \item V potomcu ustvarimo presek povezav obeh staršev, ostale pa s $50\%$ možnostjo.
         Dve povezavi obravnavamo kot enaki, če v obeh starših povezujeta vozlišči enakega tipa in indeksa v enaki smeri.
-        Če taki povezavi obstajata, potem izberemo utež in največje število prečkanj od naključnega starša.
+        Če taki povezavi obstajata, potem izberemo utež in največje število prečkanj naključnega starša.
     \end{enumerate}
 
 
@@ -816,8 +816,8 @@
         \item[Odstranitev povezave]{Odstranimo naključno povezavo.}
         \item[Sprememba uteži]{Spremenimo utež naključne povezave.}
         \item[Sprememba števila dovoljenih prečkanj]{Spremenimo šte\-vi\-lo dovoljenih prečkanj naključne povezave.}
-        \item[Minimizacija]{Agentu odstranimo vsa mirujoča globoka vozlišča in vse pripadajoče povezave. \enquote{Verig} globokih
-        vozlišč ne združujemo zaradi nelinearnosti puščajoče ReLU aktivacijske funkcije.}
+        %%\item[Minimizacija]{Agentu odstranimo vsa mirujoča globoka vozlišča in vse pripadajoče povezave. \enquote{Verig} globokih
+        %%vozlišč ne združujemo zaradi nelinearnosti puščajoče ReLU aktivacijske funkcije.}
     \end{description}
 
     Mutiranje vsakega potomca in normaliziranje uteži po končanem postopku izvajamo v svoji procesorski niti.
@@ -1592,6 +1592,13 @@
         \end{itemize}
     \end{enumerate}
 
+    Testiranje smo izvedli še s pristopom \enquote{random forest} s programom Orange~\cite{JMLR:demsar13a} po naslednjem postopku:
+    \begin{enumerate}
+        \item primere podatkovnih množic smo premešali in razdelili na učno in testno v razmerju 70 proti 30 (razen Shuttle),
+        \item število dreves smo izenačili z velikostjo generacij iz naborov parametrov testiranja našega programa (ostale nastavitve smo pustili na privzetih vrednostih),
+        \item na koncu smo primerjali točnost in MCC z našim pristopom.
+    \end{enumerate}
+
     Testiranje smo opravili na procesorju AMD Ryzen 7 5800X3D z 8 fizičnimi in 16 logičnimi jedri.
     Vse vrednosti smo zaokrožili na 3 decimalna mesta.
 
@@ -1651,18 +1658,29 @@
 
     \section{Shuttle}\label{sec:rezultati-shuttle}
 
-    \subsection{Primerjava z obstoječimi pristopi strojnega učenja}\label{subsec:primerjava-z-obstojecimi-pristopi-strojnega-ucenja}
-    \textbf{TODO} random forest
+    \section{Primerjava z Random Forest}\label{sec:random-forest}
+    predstavitev
+    razlaga
 
 
     \chapter{Zaključki, sklep}\label{ch:zakljucki-sklep}
     \textbf{TODO}
     \section{Izboljšave}
     bias na vseh globokih vozliščih na 1
-    presek povezav pri crossoverju
 
     \chapter{Dodatek}
     \input{dodatek}
+
+    %\cleardoublepage
+    %\addcontentsline{toc}{chapter}{Literatura}
+
+    %\printbibliography[heading=bibintoc,type=article,title={Članki v revijah}]
+
+    %\printbibliography[heading=bibintoc,type=inproceedings,title={Članki v zbornikih}]
+
+    %\printbibliography[heading=bibintoc,type=incollection,title={Poglavja v knjigah}]
+
+    \printbibliography[heading=bibintoc,title={Celotna literatura}]
 
 \end{document}
 

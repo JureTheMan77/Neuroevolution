@@ -14,17 +14,18 @@
 #include "Metrics.h"
 
 evolution::Population::Population(const std::string &pathToDataSet) {
-    if (!std::filesystem::exists(pathToDataSet)) {
-        throw std::invalid_argument("File " + pathToDataSet + " does not exist.");
-    }
-
+    //if (!std::filesystem::exists(pathToDataSet)) {
+    //    throw std::invalid_argument("File " + pathToDataSet + " does not exist.");
+    //}
+    std::string trainingPath = "/Users/admin/Documents/Neuroevolution/datasets/statlog/shuttle_notime.data";
+    std::string testingPath = "/Users/admin/Documents/Neuroevolution/datasets/statlog/shuttle_notime.test";
     std::string delimiter = ",";
-    std::vector<std::shared_ptr<data_structures::DataInstance>> fullDataSet;
+    std::vector<std::shared_ptr<data_structures::DataInstance>> trainingDataSet;
+    std::vector<std::shared_ptr<data_structures::DataInstance>> testingDataSet;
 
     // read the file line by line
     unsigned int counter = 0;
-    std::ifstream infile(pathToDataSet);
-    if (std::ifstream file(pathToDataSet); file.is_open()) {
+    if (std::ifstream file(trainingPath); file.is_open()) {
         std::string line;
         while (std::getline(file, line)) {
 
@@ -39,7 +40,7 @@ evolution::Population::Population(const std::string &pathToDataSet) {
             } else {
                 auto dataInstance = data_structures::DataInstance::createDataInstance(
                         util::splitDouble(line, delimiter));
-                fullDataSet.push_back(dataInstance);
+                trainingDataSet.push_back(dataInstance);
             }
 
             counter++;
@@ -47,26 +48,36 @@ evolution::Population::Population(const std::string &pathToDataSet) {
         file.close();
     }
 
-    // split fullDataSet into subsets according to class
-    std::vector<std::vector<std::shared_ptr<data_structures::DataInstance>>> splitDataSet(this->numberOfOutputs);
-    for (std::shared_ptr<data_structures::DataInstance> &instance: fullDataSet) {
-        splitDataSet.at(instance->getCorrectIndex()).push_back(instance);
+    if (std::ifstream file(testingPath); file.is_open()) {
+        std::string line;
+        while (std::getline(file, line)) {
+            auto dataInstance = data_structures::DataInstance::createDataInstance(
+                    util::splitDouble(line, delimiter));
+            testingDataSet.push_back(dataInstance);
+        }
+        file.close();
     }
+
+    // split fullDataSet into subsets according to class
+    //std::vector<std::vector<std::shared_ptr<data_structures::DataInstance>>> splitDataSet(this->numberOfOutputs);
+    //for (std::shared_ptr<data_structures::DataInstance> &instance: fullDataSet) {
+    //    splitDataSet.at(instance->getCorrectIndex()).push_back(instance);
+    //}
 
     // shuffle splitDataSet
-    auto rng = std::default_random_engine{this->seeder()};
-    std::shuffle(std::begin(fullDataSet), std::end(fullDataSet), rng);
-    for (std::vector<std::shared_ptr<data_structures::DataInstance>> &subset: splitDataSet) {
-        std::shuffle(std::begin(subset), std::end(subset), rng);
-        // split the full dataset into training and testing
-        // use a 70/30 split
-        auto splitMark = (unsigned int) round((double) subset.size() * 0.7);
-        this->trainingValues.insert(trainingValues.end(), subset.begin(), subset.begin() + splitMark);
-        this->testingValues.insert(testingValues.end(), subset.begin() + splitMark, subset.end());
-    }
+    //auto rng = std::default_random_engine{this->seeder()};
+    //std::shuffle(std::begin(fullDataSet), std::end(fullDataSet), rng);
+    //for (std::vector<std::shared_ptr<data_structures::DataInstance>> &subset: splitDataSet) {
+    //    std::shuffle(std::begin(subset), std::end(subset), rng);
+    //    // split the full dataset into training and testing
+    //    // use a 70/30 split
+    //    auto splitMark = (unsigned int) round((double) subset.size() * 0.7);
+    //    this->trainingValues.insert(trainingValues.end(), subset.begin(), subset.begin() + splitMark);
+    //    this->testingValues.insert(testingValues.end(), subset.begin() + splitMark, subset.end());
+    //}
 
-    //this->trainingValues.insert(trainingValues.begin(), fullDataSet.begin(), fullDataSet.end());
-    //this->testingValues.insert(testingValues.begin(), fullDataSet.begin(), fullDataSet.end());
+    this->trainingValues.insert(trainingValues.begin(), trainingDataSet.begin(), trainingDataSet.end());
+    this->testingValues.insert(testingValues.begin(), testingDataSet.begin(), testingDataSet.end());
 
     this->population = std::vector<std::shared_ptr<evolution::Agent>>();
     this->populationPlaceholder = std::vector<std::shared_ptr<evolution::Agent>>();

@@ -50,8 +50,8 @@ int main(int argc, char *argv[]) {
     auto pop = evolution::Population(pathToDataset);
     //car
     //auto pop = evolution::Population("/home/jure/CLionProjects/Neuroevolution/datasets/car/car.data");
-    //statlog
-    //auto pop = evolution::Population("/home/jure/CLionProjects/Neuroevolution/datasets/statlog/shuttle.data");
+    //shuttle
+    //auto pop = evolution::Population("/home/jure/CLionProjects/Neuroevolution/datasets/shuttle/shuttle.data");
     //transfusion
     //auto pop = evolution::Population("/home/jure/CLionProjects/Neuroevolution/datasets/transfusion/transfusion.data");
 

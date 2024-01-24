@@ -1,0 +1,189 @@
+\subsection{Iris}\label{subsec:random-forest-iris-test}
+\begin{table}[H]
+    \begin{center}
+        \begin{tabular}{|| c | c c ||}
+            \hline
+            število dreves & točnost & MCC   \\
+            \hline
+            100            & 1.000   & 1.000 \\
+            \hline
+            150            & 1.000   & 1.000 \\
+            \hline
+            200            & 1.000   & 1.000 \\
+            \hline
+        \end{tabular}
+    \end{center}
+    \caption{Rezultat random forest pristopa na množici Iris.}
+    \label{tab:rforest_iris_result}
+\end{table}
+
+\subsection{Wine}\label{subsec:random-forest-wine-test}
+\begin{table}[H]
+    \begin{center}
+        \begin{tabular}{|| c | c c ||}
+            \hline
+            število dreves & točnost & MCC   \\
+            \hline
+            200            & 0.962   & 0.945 \\
+            \hline
+            250            & 0.962   & 0.945 \\
+            \hline
+            350            & 0.962   & 0.945 \\
+            \hline
+        \end{tabular}
+    \end{center}
+    \caption{Rezultat random forest pristopa na množici Wine.}
+    \label{tab:rforest_wine_result}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{||rcccc||}
+        \hline
+        razred  & Class 1 & Class 2 & Class 3 & vsota \\ \hline
+        Class 1 & 18      & 0       & 0       & 18    \\ \hline
+        Class 2 & 0       & 19      & 2       & 21    \\ \hline
+        Class 3 & 0       & 0       & 14      & 14    \\ \hline
+        vsota   & 18      & 19      & 16      & 53    \\ \hline
+    \end{tabular}
+    \caption{Matrika zmot random forest pristopa na množici Wine. Napačne so samo napovedi razreda \enquote{Class 2}.
+    Matrika zmot je enaka pri vseh treh številih dreves.}
+    \label{tab:rforest_wine_cm}
+\end{table}
+
+\subsection{Car}\label{subsec:random-forest-car-test}
+\begin{table}[H]
+    \begin{center}
+        \begin{tabular}{|| c | c c ||}
+            \hline
+            število dreves & točnost & MCC   \\
+            \hline
+            200            & 0.956   & 0.903 \\
+            \hline
+            250            & 0.958   & 0.908 \\
+            \hline
+            300            & 0.959   & 0.912 \\
+            \hline
+        \end{tabular}
+    \end{center}
+    \caption{Rezultat random forest pristopa na množici Car.}
+    \label{tab:rforest_car_result}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{||rccccc||}
+        \hline
+        razred       & unacceptable & acceptable & good & very good & vsota \\ \hline
+        unacceptable & 359          & 4          & 0    & 0         & 363   \\ \hline
+        acceptable   & 1            & 108        & 4    & 2         & 115   \\ \hline
+        good         & 0            & 7          & 12   & 2         & 21    \\ \hline
+        very good    & 0            & 3          & 0    & 16        & 19    \\ \hline
+        vsota        & 360          & 122        & 16   & 20        & 518   \\ \hline
+    \end{tabular}
+    \caption{Matrika zmot random forest pristopa na množici Wine z 200 drevesi.}
+    \label{tab:rforest_car_cm_1}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{||rccccc||}
+        \hline
+        razred       & unacceptable & acceptable & good & very good & vsota \\ \hline
+        unacceptable & 360          & 3          & 0    & 0         & 363   \\ \hline
+        acceptable   & 0            & 109        & 4    & 2         & 115   \\ \hline
+        good         & 0            & 9          & 10   & 2         & 21    \\ \hline
+        very good    & 0            & 2          & 0    & 17        & 19    \\ \hline
+        vsota        & 360          & 123        & 14   & 21        & 518   \\ \hline
+    \end{tabular}
+    \caption{Matrika zmot random forest pristopa na množici Wine z 250 drevesi.}
+    \label{tab:rforest_car_cm_2}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{||rccccc||}
+        \hline
+        razred       & unacceptable & acceptable & good & very good & vsota \\ \hline
+        unacceptable & 359          & 4          & 0    & 0         & 363   \\ \hline
+        acceptable   & 0            & 109        & 4    & 2         & 115   \\ \hline
+        good         & 0            & 5          & 14   & 2         & 21    \\ \hline
+        very good    & 0            & 4          & 0    & 15        & 19    \\ \hline
+        vsota        & 359          & 122        & 18   & 19        & 518   \\ \hline
+    \end{tabular}
+    \caption{Matrika zmot random forest pristopa na množici Wine s 300 drevesi.}
+    \label{tab:rforest_car_cm_3}
+\end{table}
+
+\subsection{Shuttle}\label{subsec:random-forest-shuttle-test}
+\begin{table}[H]
+    \begin{center}
+        \begin{tabular}{|| c | c c ||}
+            \hline
+            število dreves & točnost & MCC   \\
+            \hline
+            200            & 1.000   & 0.999 \\
+            \hline
+            250            & 1.000   & 0.999 \\
+            \hline
+            300            & 1.000   & 0.999 \\
+            \hline
+        \end{tabular}
+    \end{center}
+    \caption{Rezultat random forest pristopa na množici Shuttle.}
+    \label{tab:rforest_shuttle_result}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{||rcccccccc||}
+        \hline
+        razred    & RF    & FC & FO & High & Bypass & BC & BO & vsota \\ \hline
+        Rad Flow  & 11477 & 0  & 1  & 0    & 0      & 0  & 0  & 11478 \\ \hline
+        Fpv Close & 0     & 12 & 0  & 1    & 0      & 0  & 0  & 13    \\ \hline
+        Fpv Open  & 1     & 0  & 38 & 0    & 0      & 0  & 0  & 39    \\ \hline
+        High      & 0     & 0  & 0  & 2155 & 0      & 0  & 0  & 2155  \\ \hline
+        Bypass    & 1     & 0  & 0  & 0    & 808    & 0  & 0  & 809   \\ \hline
+        Bpv Close & 0     & 0  & 0  & 1    & 1      & 2  & 0  & 4     \\ \hline
+        Bpv Open  & 0     & 0  & 1  & 0    & 0      & 0  & 1  & 2     \\ \hline
+        vsota     & 11479 & 12 & 40 & 2157 & 809    & 2  & 1  & 14500 \\ \hline
+    \end{tabular}
+    \caption{Matrika zmot random forest pristopa na množici Shuttle z 200 drevesi.}
+    \label{tab:rforest_shuttle_cm_1}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{||rcccccccc||}
+        \hline
+        razred    & RF    & FC & FO & High & Bypass & BC & BO & vsota \\ \hline
+        Rad Flow  & 11477 & 0  & 1  & 0    & 0      & 0  & 0  & 11478 \\ \hline
+        Fpv Close & 0     & 12 & 0  & 1    & 0      & 0  & 0  & 13    \\ \hline
+        Fpv Open  & 1     & 0  & 38 & 0    & 0      & 0  & 0  & 39    \\ \hline
+        High      & 0     & 0  & 0  & 2155 & 0      & 0  & 0  & 2155  \\ \hline
+        Bypass    & 1     & 0  & 0  & 0    & 808    & 0  & 0  & 809   \\ \hline
+        Bpv Close & 1     & 0  & 0  & 0    & 1      & 2  & 0  & 4     \\ \hline
+        Bpv Open  & 0     & 0  & 1  & 0    & 0      & 0  & 1  & 2     \\ \hline
+        vsota     & 11480 & 12 & 40 & 2156 & 809    & 2  & 1  & 14500 \\ \hline
+    \end{tabular}
+    \caption{Matrika zmot random forest pristopa na množici Shuttle z 250 drevesi.}
+    \label{tab:rforest_shuttle_cm_2}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{||r|ccccccc|c||}
+        \hline
+        razred    & RF    & FC & FO & High & Bypass & BC & BO & vsota \\ \hline
+        Rad Flow  & 11477 & 0  & 1  & 0    & 0      & 0  & 0  & 11478 \\ \hline
+        Fpv Close & 0     & 12 & 0  & 1    & 0      & 0  & 0  & 13    \\ \hline
+        Fpv Open  & 0     & 0  & 39 & 0    & 0      & 0  & 0  & 39    \\ \hline
+        High      & 0     & 0  & 0  & 2155 & 0      & 0  & 0  & 2155  \\ \hline
+        Bypass    & 0     & 0  & 0  & 0    & 809    & 0  & 0  & 809   \\ \hline
+        Bpv Close & 0     & 0  & 0  & 1    & 1      & 2  & 0  & 4     \\ \hline
+        Bpv Open  & 0     & 0  & 1  & 0    & 0      & 0  & 1  & 2     \\ \hline
+        vsota     & 11477 & 12 & 41 & 2157 & 810    & 2  & 1  & 14500 \\ \hline
+    \end{tabular}
+    \caption{Matrika zmot random forest pristopa na množici Shuttle s 300 drevesi.}
+    \label{tab:rforest_shuttle_cm_3}
+\end{table}
