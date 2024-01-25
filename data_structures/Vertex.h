@@ -19,9 +19,13 @@ namespace data_structures {
               public data_structures::OutputEdges{
     private:
         unsigned int index;
-        double value{0};
-
         bool visited{};
+
+    protected:
+        double value{0};
+        double activationValue{0};
+        virtual void updateActivationValue();
+
     public:
         /**
          * Create a nev vertex object.
@@ -51,6 +55,8 @@ namespace data_structures {
          * @return stored value
          */
         [[nodiscard]] double getValue() const;
+
+        [[nodiscard]] double getActivationValue() const;
 
         /**
          * Sets the stored value to 0.

@@ -253,15 +253,14 @@ std::string evolution::Population::toString(bool technical) {
 }
 
 evolution::Metrics
-evolution::Population::calculateFitness(enums::FitnessMetric fitnessMetric, double vertexContribution,
-                                        double edgeContribution) {
+evolution::Population::calculateFitness(enums::FitnessMetric fitnessMetric, double complexityContribution) {
     // run all data instances on all agents
     std::vector<std::future<void>> futures;
     for (const std::shared_ptr<evolution::Agent> &agent: this->population) {
         // calculate fitness only for new agents
         if (agent->isNewAgent()) {
             auto ftr = std::async(&evolution::Population::calculateAgentFitness, this, fitnessMetric,
-                                  vertexContribution, edgeContribution, agent);
+                                  complexityContribution, agent);
             futures.push_back(std::move(ftr));
         }
     }
@@ -305,14 +304,15 @@ evolution::Population::calculateFitness(enums::FitnessMetric fitnessMetric, doub
     return m;
 }
 
-void evolution::Population::calculateAgentFitness(enums::FitnessMetric fitnessMetric, double vertexContribution,
-                                                  double edgeContribution,
+void evolution::Population::calculateAgentFitness(enums::FitnessMetric fitnessMetric, double complexityContribution,
                                                   const std::shared_ptr<evolution::Agent> &agent) const {
     data_structures::MulticlassConfusionMatrix mcm(agent, this->trainingValues, this->numberOfOutputs);
 
     // size of the agent can be a penalty, both edges and vertices contribute
-    double sizeContribution = (double) agent->getGraph()->getDeepVertices().size() * vertexContribution +
-                              (double) agent->getGraph()->getEdges().size() * edgeContribution;
+    //double sizeContribution = (double) agent->getGraph()->getDeepVertices().size() * vertexContribution +
+    //                          (double) agent->getGraph()->getEdges().size() * edgeContribution;
+
+    double sizeContribution = (double) agent->getGraph()->getNumOfPropagations() * complexityContribution;
 
     // calculate the fitness
     double fitness = sizeContribution;

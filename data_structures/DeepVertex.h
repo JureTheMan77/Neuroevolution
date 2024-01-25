@@ -15,6 +15,9 @@ namespace data_structures {
               public data_structures::ICrossoverable {
     private:
         bool flaggedForDeletion = false;
+    protected:
+        void updateActivationValue() override;
+
     public:
         /**
          * Creates a new deep vertex object without edges, calls the parent constructor.
@@ -86,7 +89,7 @@ namespace data_structures {
          * Use the leaky RELU activation function.
          * @param argValue value to add
          */
-        void combineValue(double argValue) override;
+        //void combineValue(double argValue) override;
 
 
     };

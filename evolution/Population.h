@@ -71,7 +71,7 @@ namespace evolution {
         /**
          * Calculate the fitness of the population.
          */
-        evolution::Metrics calculateFitness(enums::FitnessMetric fitnessMetric, double vertexContribution, double edgeContribution);
+        evolution::Metrics calculateFitness(enums::FitnessMetric fitnessMetric, double complexityContribution);
 
         /**
          * Sample the population.
@@ -212,12 +212,11 @@ namespace evolution {
         /**
          * Calculate agent fitness. It can be based on accuracy or mcc, the number of vertices and edges also contribute to the score.
          * @param fitnessMetric either accuracy or mcc
-         * @param vertexContribution vertex contribution, should be <=0
-         * @param edgeContribution edge contribution, should be <=0
+         * @param complexityContribution number of propagations contribution, should be <=0
          * @param agent agent
          */
         void
-        calculateAgentFitness(enums::FitnessMetric fitnessMetric, double vertexContribution, double edgeContribution,
+        calculateAgentFitness(enums::FitnessMetric fitnessMetric, double complexityContribution,
                               const std::shared_ptr<evolution::Agent> &agent) const;
 
         /**
