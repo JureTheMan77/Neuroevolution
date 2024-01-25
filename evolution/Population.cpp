@@ -153,7 +153,7 @@ void evolution::Population::addRandomEdge(std::shared_ptr<data_structures::Graph
         }
         // create and add edge
         graph->addEdge(inputVertexType, inputVertex->getIndex(), enums::VertexType::Deep, deepVertex->getIndex(),
-                       UINT_MAX, weight, traverseLimit);
+                       std::numeric_limits<unsigned int>::max(), weight, traverseLimit);
     } else {
         enums::VertexType outputVertexType = choice ? enums::VertexType::Deep : enums::VertexType::Output;
         // choose a vertex to serve as output
@@ -167,7 +167,7 @@ void evolution::Population::addRandomEdge(std::shared_ptr<data_structures::Graph
         }
         // create and add edge
         graph->addEdge(enums::VertexType::Deep, deepVertex->getIndex(), outputVertexType,
-                       outputVertex->getIndex(), UINT_MAX, weight, traverseLimit);
+                       outputVertex->getIndex(), std::numeric_limits<unsigned int>::max(), weight, traverseLimit);
     }
 }
 
@@ -567,7 +567,7 @@ void evolution::Population::mutateThreaded(unsigned long agentIndex) {
                 return;
             }
             // create vertex
-            auto newDeepVertex = data_structures::DeepVertex::createDeepVertex(UINT_MAX, util::nextBool());
+            auto newDeepVertex = data_structures::DeepVertex::createDeepVertex(std::numeric_limits<unsigned int>::max(), util::nextBool());
             // add vertex
             childAgent->getGraph()->addDeepVertex(newDeepVertex);
             // edges can have childAgent as input or output
@@ -629,7 +629,7 @@ void evolution::Population::mutateThreaded(unsigned long agentIndex) {
             }
             unsigned long oldEdgeSize = childAgent->getGraph()->getEdges().size();
             while (childAgent->getGraph()->getEdges().size() <= oldEdgeSize) {
-                this->addRandomEdge(UINT_MAX, childAgent->getGraph());
+                this->addRandomEdge(std::numeric_limits<unsigned int>::max(), childAgent->getGraph());
             }
             // fix indices for randomly added edges
             childAgent->getGraph()->fixIndices();
