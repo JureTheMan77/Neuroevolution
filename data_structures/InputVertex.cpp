@@ -12,7 +12,7 @@ std::string data_structures::InputVertex::toString(bool technical) {
     } else {
         stream << "{Index: " << this->getIndex()
                << ", Label: " << this->label
-               << ", Value: " << this->getValue()
+               << ", Value: " << this->getActivationValue()
                << "}";
     }
 

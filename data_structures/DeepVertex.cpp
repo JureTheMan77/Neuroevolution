@@ -70,14 +70,23 @@ bool data_structures::DeepVertex::allOutputEdgesFlaggedForDeletion() {
     return result;
 }
 
-void data_structures::DeepVertex::combineValue(double argValue) {
-    // leaky RELU
-    double computedValue;
-    if (argValue < 0) {
-        computedValue = argValue * 0.01;
-    } else {
-        computedValue = argValue;
-    }
+//void data_structures::DeepVertex::combineValue(double argValue) {
+//    // leaky RELU
+//    //double computedValue;
+//    //if (argValue < 0) {
+//    //    computedValue = argValue * 0.01;
+//    //} else {
+//    //    computedValue = argValue;
+//    //}
+//
+//    Vertex::combineValue(argValue);
+//}
 
-    Vertex::combineValue(computedValue);
+void data_structures::DeepVertex::updateActivationValue() {
+    // leaky RELU
+    if (this->value < 0) {
+        this->activationValue = this->value * 0.01;
+    } else {
+        this->activationValue = this->value;
+    }
 }

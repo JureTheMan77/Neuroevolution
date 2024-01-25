@@ -325,8 +325,8 @@ unsigned int data_structures::Graph::getLargestOutputValueIndex() const {
     unsigned int largestIndex = 0;
     double largestValue = -std::numeric_limits<double>::max();
     for (const std::shared_ptr<data_structures::OutputVertex> &v: this->outputVertices) {
-        if (v->getValue() > largestValue) {
-            largestValue = v->getValue();
+        if (v->getActivationValue() > largestValue) {
+            largestValue = v->getActivationValue();
             largestIndex = v->getIndex();
         }
     }

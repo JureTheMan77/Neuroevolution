@@ -28,7 +28,7 @@ double data_structures::Edge::propagateValue() {
     if (this->isAtTraverseLimit()) {
         return 0;
     }
-    double outputValue = this->input.lock()->getValue() * this->weight;
+    double outputValue = this->input.lock()->getActivationValue() * this->weight;
     this->output.lock()->combineValue(outputValue);
     this->traverseCount += 1;
     return outputValue;
