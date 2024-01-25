@@ -30,14 +30,12 @@ int main(int argc, char *argv[]) {
     unsigned int agentsToKeep = std::stoi(cmdArgs.at(8));
     // ninth argument: keep fittest agent
     bool keepFittestAgent = cmdArgs.at(9) == "true";
-    // tenth argument: edge contribution
-    double edgeContribution = std::stod(cmdArgs.at(10));
-    // eleventh argument: vertex contribution
-    double vertexContribution = std::stod(cmdArgs.at(11));
-    // twelfth argument: number of iterations
-    unsigned int numIterations = std::stoi(cmdArgs.at(12));
-    // thirteenth argument: fitness metric, default is Accuracy
-    std::string fitnessMetricTemp = cmdArgs.at(13);
+    // tenth argument: complexity contribution
+    double complexityContribution = std::stod(cmdArgs.at(10));
+    // eleventh argument: number of iterations
+    unsigned int numIterations = std::stoi(cmdArgs.at(11));
+    // twelfth argument: fitness metric, default is Accuracy
+    std::string fitnessMetricTemp = cmdArgs.at(12);
     enums::FitnessMetric fitnessMetric = enums::FitnessMetric::Accuracy;
     if (fitnessMetricTemp == "MCC") {
         fitnessMetric = enums::FitnessMetric::MatthewsCorrelationCoefficient;
@@ -169,8 +167,7 @@ int main(int argc, char *argv[]) {
         pop.uncacheFittestAgent();
         // std::cout << "\033[2J" << "\033[1;1H" << std::endl;
         logging::logs("Generation " + std::to_string(i));
-        evolution::Metrics m = pop.calculateFitness(fitnessMetric, vertexContribution,
-                                                    edgeContribution);
+        evolution::Metrics m = pop.calculateFitness(fitnessMetric, complexityContribution);
 
 
         logging::logs("AVERAGES - fitness: " + std::to_string(m.getBottomFitnessPercentile(100)) +

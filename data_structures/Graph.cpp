@@ -257,6 +257,7 @@ void data_structures::Graph::traverse(const std::shared_ptr<data_structures::Dat
     // propagate the values through the graph
     // repeat until the set of pending vertices is empty
     //std::vector<std::shared_ptr<data_structures::Edge>> outputEdges;
+    this->numOfPropagations = 0;
     while (!pendingVertices.empty()) {
         std::shared_ptr<data_structures::Vertex> vertex = pendingVertices.dequeue();
 
@@ -265,6 +266,7 @@ void data_structures::Graph::traverse(const std::shared_ptr<data_structures::Dat
             if (!edge->isAtTraverseLimit()) {
                 // propagate the value to adjacent vertex
                 edge->propagateValue();
+                this->numOfPropagations += 1;
 
                 // only add the output vertex to the pending vertices set queue if:
                 // - its type is "deep"
@@ -350,6 +352,8 @@ void data_structures::Graph::reset() {
             e->reset();
         //}
     }
+
+    this->numOfPropagations = 0;
 }
 
 std::vector<std::shared_ptr<data_structures::DeepVertex>> data_structures::Graph::getDeepVertices() const {
@@ -610,4 +614,8 @@ void data_structures::Graph::calculateNumEdgesPossible() {
 
 unsigned long data_structures::Graph::getNumEdgesPossible() const {
     return this->numEdgesPossible;
+}
+
+unsigned int data_structures::Graph::getNumOfPropagations() const {
+    return this->numOfPropagations;
 }

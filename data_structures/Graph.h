@@ -28,6 +28,7 @@ namespace data_structures {
         unsigned int largestDeepVertexIndex{0};
         unsigned int largestEdgeIndex{0};
         unsigned long numEdgesPossible{0};
+        unsigned int numOfPropagations{0};
         // unsigned int const UINT_MAX = std::numeric_limits<unsigned int>::max();
 
         /**
@@ -255,6 +256,8 @@ namespace data_structures {
         std::string toForceGraphJson() const;
 
         unsigned long getNumEdgesPossible() const;
+
+        unsigned int getNumOfPropagations() const;
     };
 }
 
