@@ -16,7 +16,7 @@ data_structures::MulticlassConfusionMatrix::MulticlassConfusionMatrix(const std:
     // columns: predicted classes
     std::vector<std::vector<unsigned int>> confusionMatrix(this->numberOfClasses + 1);
     // initialize rows to a fixed size
-    for (int i = 0; i < this->numberOfClasses + 1; i++) {
+    for (unsigned int i = 0; i < this->numberOfClasses + 1; i++) {
         confusionMatrix.at(i) = std::vector<unsigned int>(this->numberOfClasses + 1);
     }
     this->matrix = confusionMatrix;
@@ -38,10 +38,10 @@ data_structures::MulticlassConfusionMatrix::MulticlassConfusionMatrix(const std:
     }
 
     // sum the rows
-    for (int i = 0; i < this->numberOfClasses; i++) {
+    for (unsigned int i = 0; i < this->numberOfClasses; i++) {
         //sum the values of each row
         unsigned int sum = 0;
-        for (int j = 0; j < this->numberOfClasses; j++) {
+        for (unsigned int j = 0; j < this->numberOfClasses; j++) {
             sum += this->matrix.at(i).at(j);
         }
         // write the sum in the last column
@@ -49,9 +49,9 @@ data_structures::MulticlassConfusionMatrix::MulticlassConfusionMatrix(const std:
     }
 
     // sum the columns
-    for (int i = 0; i < this->numberOfClasses + 1; i++) {
+    for (unsigned int i = 0; i < this->numberOfClasses + 1; i++) {
         unsigned int sum = 0;
-        for (int j = 0; j < this->numberOfClasses; j++) {
+        for (unsigned int j = 0; j < this->numberOfClasses; j++) {
             sum += this->matrix.at(j).at(i);
         }
         // write the sum in the last row
@@ -110,7 +110,7 @@ data_structures::MulticlassConfusionMatrix::MulticlassConfusionMatrix(const std:
 void data_structures::MulticlassConfusionMatrix::calculateAccuracy() {
 // sum the diagonal
     double acc = 0;
-    for (int i = 0; i < this->numberOfClasses; i++) {
+    for (unsigned int i = 0; i < this->numberOfClasses; i++) {
         acc += this->matrix.at(i).at(i);
     }
     unsigned int total = this->matrix.at(this->numberOfClasses).at(this->numberOfClasses);
@@ -122,7 +122,7 @@ void data_structures::MulticlassConfusionMatrix::calculateMatthewsCorrelationCoe
     // the total number of samples correctly predicted
     // essentially, sum the diagonal, except the last value
     double c = 0;
-    for (int i = 0; i < this->numberOfClasses; i++) {
+    for (unsigned int i = 0; i < this->numberOfClasses; i++) {
         c += (double) this->matrix.at(i).at(i);
     }
 
@@ -168,7 +168,7 @@ double data_structures::MulticlassConfusionMatrix::getMatthewsCorrelationCoeffic
 std::string data_structures::MulticlassConfusionMatrix::toString(std::vector<std::string> labels) {
     // print the matrix
     // get the longest output label
-    int longestOutputLabel = 0;
+    unsigned int longestOutputLabel = 0;
     for (auto const &label: labels) {
         if (longestOutputLabel < label.length()) {
             longestOutputLabel = (int) label.length();
@@ -180,10 +180,10 @@ std::string data_structures::MulticlassConfusionMatrix::toString(std::vector<std
     std::ostringstream stream;
     stream << "\n";
 
-    for (int i = 0; i < numberOfClasses + 1; i++) {
+    for (unsigned int i = 0; i < numberOfClasses + 1; i++) {
         if (i == 0) {
             // print labels
-            for (int j = 0; j < numberOfClasses + 1; j++) {
+            for (unsigned int j = 0; j < numberOfClasses + 1; j++) {
                 if (j == 0) {
                     // empty space
                     stream << std::setw(longestOutputLabel) << "" << " ";
@@ -198,7 +198,7 @@ std::string data_structures::MulticlassConfusionMatrix::toString(std::vector<std
             }
             stream << "\n";
         }
-        for (int j = 0; j < numberOfClasses + 1; j++) {
+        for (unsigned int j = 0; j < numberOfClasses + 1; j++) {
             if (j == 0) {
                 // print label
                 if (i == numberOfClasses) {

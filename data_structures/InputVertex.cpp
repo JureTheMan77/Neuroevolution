@@ -24,7 +24,7 @@ data_structures::InputVertex::createInputVertex(unsigned int index, std::string 
     return std::make_shared<data_structures::InputVertex>(index, labelArg);
 }
 
-void data_structures::InputVertex::addInputEdge(const std::shared_ptr<data_structures::Edge> &edge) {
+void data_structures::InputVertex::addInputEdge([[maybe_unused]] const std::shared_ptr<data_structures::Edge> &edge) {
     // ignored
 }
 
