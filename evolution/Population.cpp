@@ -13,7 +13,7 @@
 #include "../data_structures/MulticlassConfusionMatrix.h"
 #include "Metrics.h"
 
-evolution::Population::Population(const std::string &pathToDataSet) {
+evolution::Population::Population([[maybe_unused]] const std::string &pathToDataSet) {
     //if (!std::filesystem::exists(pathToDataSet)) {
     //    throw std::invalid_argument("File " + pathToDataSet + " does not exist.");
     //}
