@@ -116,7 +116,7 @@ int main(int argc, char *argv[]) {
     //agent->getGraph()->traverse(di);
 
 
-    int a = 0;
+    // int a = 0;
     //graph->addEdge(enums::VertexType::Input, 1, enums::VertexType::Output, 1, 0.45, 1);
     // recursive
     //graph->addEdge(enums::VertexType::Input,2,enums::VertexType::Deep,1,1,1);
@@ -163,7 +163,7 @@ int main(int argc, char *argv[]) {
     logging::logs("Population initialised.");
     //logging::logs(pop.toString());
 
-    for (int i = 0; i < numIterations; i++) {
+    for (unsigned int i = 0; i < numIterations; i++) {
         pop.uncacheFittestAgent();
         // std::cout << "\033[2J" << "\033[1;1H" << std::endl;
         logging::logs("Generation " + std::to_string(i));
@@ -178,6 +178,10 @@ int main(int argc, char *argv[]) {
                       ", accuracy: " + std::to_string(fittestAgent->getAccuracy()) +
                       ", Matthews correlation coefficient: " +
                       std::to_string(fittestAgent->getMatthewsCorrelationCoefficient()));
+
+        std::ofstream jsonFullFile("/Users/admin/Documents/Neuroevolution/visualization/graphFull.json");
+        jsonFullFile << fittestAgent->getGraph()->toForceGraphJson();
+        jsonFullFile.close();
 
         // write pop info to files
         fitnessFile << util::fitnessToCsv(i, m) << std::endl;

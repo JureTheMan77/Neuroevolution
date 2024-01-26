@@ -60,7 +60,7 @@ void data_structures::Graph::addDeepVertices(unsigned int numberOfDeepVertices) 
 
 void data_structures::Graph::addDeepVertex(const std::shared_ptr<data_structures::DeepVertex> &deepVertex) {
     // assume that there are not vertices with the same index
-    if (this->largestDeepVertexIndex < deepVertex->getIndex() && deepVertex->getIndex() != UINT_MAX) {
+    if (this->largestDeepVertexIndex < deepVertex->getIndex() && deepVertex->getIndex() != std::numeric_limits<unsigned int>::max()) {
         this->largestDeepVertexIndex = deepVertex->getIndex();
     }
     this->deepVertices.push_back(deepVertex);
@@ -83,7 +83,7 @@ void data_structures::Graph::addEdge(enums::VertexType inputVertexType, unsigned
     // otherwise, return
     if (commonEdge == nullptr) {
         // assume that there are no edges with the same index
-        if (this->largestEdgeIndex < index && index != UINT_MAX) {
+        if (this->largestEdgeIndex < index && index != std::numeric_limits<unsigned int>::max()) {
             this->largestEdgeIndex = index;
         }
         std::shared_ptr<data_structures::Edge> newEdge = data_structures::Edge::createEdge(input, output, index, weight,
@@ -211,7 +211,7 @@ data_structures::Graph::addEdge(enums::VertexType inputVertexType, unsigned int 
     // otherwise, return it
     if (commonEdge == nullptr) {
         // assume that there are no edges with the same index
-        if (this->largestEdgeIndex < index && index != UINT_MAX) {
+        if (this->largestEdgeIndex < index && index != std::numeric_limits<unsigned int>::max()) {
             this->largestEdgeIndex = index;
         }
         std::shared_ptr<data_structures::Edge> newEdge = data_structures::Edge::createEdge(input, output, index, weight,
@@ -301,7 +301,7 @@ void data_structures::Graph::traverse(const std::shared_ptr<data_structures::Dat
         // this can happen if the graph has cycles or the input edges have too high of a traversal limit
         // if multiple vertices have the same remaining traversals, choose the one with the lowest index
         std::shared_ptr<data_structures::Vertex> vertexToEnqueue = nullptr;
-        unsigned int leastTraversalsRemaining = UINT32_MAX;
+        unsigned int leastTraversalsRemaining = std::numeric_limits<unsigned int>::max();
 
         for (const std::shared_ptr<data_structures::Vertex> &backupVertex: backupVertices) {
             // the above loop has already checked that these vertices can be traversed out of
@@ -444,13 +444,13 @@ std::shared_ptr<data_structures::Graph> data_structures::Graph::deepClone() {
 
 void data_structures::Graph::fixIndices() {
     for (const auto &deepVertex: this->deepVertices) {
-        if (deepVertex->getIndex() == UINT_MAX) {
+        if (deepVertex->getIndex() == std::numeric_limits<unsigned int>::max()) {
             this->largestDeepVertexIndex += 1;
             deepVertex->setIndex(this->largestDeepVertexIndex);
         }
     }
     for (const auto &edge: this->edges) {
-        if (/*edge != nullptr &&*/ edge->getIndex() == UINT_MAX) {
+        if (/*edge != nullptr &&*/ edge->getIndex() == std::numeric_limits<unsigned int>::max()) {
             this->largestEdgeIndex += 1;
             edge->setIndex(this->largestEdgeIndex);
         }

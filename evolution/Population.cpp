@@ -118,7 +118,7 @@ evolution::Population::createAgent() {
                                                      this->numberOfOutputs, this->outputLabels);
 
     // generate edges
-    unsigned int edgeIndex = 0;
+    // unsigned int edgeIndex = 0;
     while (graph->getEdges().size() < numberOfEdges && graph->getEdges().size() < graph->getNumEdgesPossible()) {
         this->addRandomEdge(graph->getEdges().size(), graph);
     }
@@ -164,7 +164,7 @@ void evolution::Population::addRandomEdge(std::shared_ptr<data_structures::Graph
         }
         // create and add edge
         graph->addEdge(inputVertexType, inputVertex->getIndex(), enums::VertexType::Deep, deepVertex->getIndex(),
-                       UINT_MAX, weight, traverseLimit);
+                       std::numeric_limits<unsigned int>::max(), weight, traverseLimit);
     } else {
         enums::VertexType outputVertexType = choice ? enums::VertexType::Deep : enums::VertexType::Output;
         // choose a vertex to serve as output
@@ -178,7 +178,7 @@ void evolution::Population::addRandomEdge(std::shared_ptr<data_structures::Graph
         }
         // create and add edge
         graph->addEdge(enums::VertexType::Deep, deepVertex->getIndex(), outputVertexType,
-                       outputVertex->getIndex(), UINT_MAX, weight, traverseLimit);
+                       outputVertex->getIndex(), std::numeric_limits<unsigned int>::max(), weight, traverseLimit);
     }
 }
 
@@ -458,7 +458,7 @@ void evolution::Population::crossoverAndMutate() {
     // create the population distribution here since it's the same for all threads
     std::uniform_int_distribution<unsigned int> populationDistribution(0, (unsigned int) this->population.size() - 1);
 
-    for (int i = 0; i < agentsToCreate; i++) {
+    for (unsigned int i = 0; i < agentsToCreate; i++) {
         auto ftr = std::async(&evolution::Population::crossoverThreaded, this, populationDistribution);
         crossoverFutures.push_back(std::move(ftr));
     }
@@ -578,7 +578,7 @@ void evolution::Population::mutateThreaded(unsigned long agentIndex) {
                 return;
             }
             // create vertex
-            auto newDeepVertex = data_structures::DeepVertex::createDeepVertex(UINT_MAX, util::nextBool());
+            auto newDeepVertex = data_structures::DeepVertex::createDeepVertex(std::numeric_limits<unsigned int>::max(), util::nextBool());
             // add vertex
             childAgent->getGraph()->addDeepVertex(newDeepVertex);
             // edges can have childAgent as input or output
@@ -640,7 +640,7 @@ void evolution::Population::mutateThreaded(unsigned long agentIndex) {
             }
             unsigned long oldEdgeSize = childAgent->getGraph()->getEdges().size();
             while (childAgent->getGraph()->getEdges().size() <= oldEdgeSize) {
-                this->addRandomEdge(UINT_MAX, childAgent->getGraph());
+                this->addRandomEdge(std::numeric_limits<unsigned int>::max(), childAgent->getGraph());
             }
             // fix indices for randomly added edges
             childAgent->getGraph()->fixIndices();
