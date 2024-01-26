@@ -107,7 +107,7 @@ evolution::Population::createAgent() {
                                                      this->numberOfOutputs, this->outputLabels);
 
     // generate edges
-    unsigned int edgeIndex = 0;
+    // unsigned int edgeIndex = 0;
     while (graph->getEdges().size() < numberOfEdges && graph->getEdges().size() < graph->getNumEdgesPossible()) {
         this->addRandomEdge(graph->getEdges().size(), graph);
     }
@@ -447,7 +447,7 @@ void evolution::Population::crossoverAndMutate() {
     // create the population distribution here since it's the same for all threads
     std::uniform_int_distribution<unsigned int> populationDistribution(0, (unsigned int) this->population.size() - 1);
 
-    for (int i = 0; i < agentsToCreate; i++) {
+    for (unsigned int i = 0; i < agentsToCreate; i++) {
         auto ftr = std::async(&evolution::Population::crossoverThreaded, this, populationDistribution);
         crossoverFutures.push_back(std::move(ftr));
     }

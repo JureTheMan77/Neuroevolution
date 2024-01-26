@@ -46,13 +46,13 @@ namespace logging {
      * Prints a @param message with a timestamp to stdout.
      * @param message message to print
      */
-    static void logw(std::string message);
+    [[maybe_unused]] static void logw(std::string message);
 
     /**
      * Prints a @param message with a timestamp to stderr.
      * @param message message to print
      */
-    static void loge(std::string message);
+    [[maybe_unused]] static void loge(std::string message);
 
 }
 

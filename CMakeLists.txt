@@ -11,4 +11,10 @@ set(THREADS_PREFER_PTHREAD_FLAG TRUE)
 find_package(Threads REQUIRED)
 target_link_libraries(Neuroevolution PRIVATE Threads::Threads)
 
-set(-Wextra -Wall -02 -ggdb3)
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Release)
+endif()
+
+set(CMAKE_CXX_FLAGS "-Wextra -Wall")
+set(CMAKE_CXX_FLAGS_DEBUG "-Og -ggdb3")
+set(CMAKE_CXX_FLAGS_RELEASE "-O3")
