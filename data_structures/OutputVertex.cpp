@@ -24,7 +24,7 @@ data_structures::OutputVertex::createOutputVertex(unsigned int index, std::strin
     return std::make_shared<data_structures::OutputVertex>(index, labelArg);
 }
 
-void data_structures::OutputVertex::addOutputEdge(const std::shared_ptr<data_structures::Edge> &edge) {
+void data_structures::OutputVertex::addOutputEdge([[maybe_unused]] const std::shared_ptr<data_structures::Edge> &edge) {
     // ignored
 }
 

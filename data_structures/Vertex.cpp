@@ -4,7 +4,7 @@
 
 #include "Vertex.h"
 
-std::string data_structures::Vertex::toString(bool technical) {
+std::string data_structures::Vertex::toString([[maybe_unused]] bool technical) {
     return "";
 }
 
