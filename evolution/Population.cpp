@@ -577,8 +577,8 @@ void evolution::Population::mutateThreaded(unsigned long agentIndex) {
             this->addRandomEdge(childAgent->getGraph(), newDeepVertex, false);
             // fix indices for vertices
             childAgent->getGraph()->fixIndices();
-            break;
         }
+        break;
         case 1: {
             if (childAgent->getGraph()->getDeepVertices().empty()) {
                 return;
@@ -620,8 +620,8 @@ void evolution::Population::mutateThreaded(unsigned long agentIndex) {
 
             // replace the child agent
             this->populationPlaceholder.at(agentIndex) = mutatedAgent;
-            break;
         }
+        break;
         case 2: {
             if (childAgent->getGraph()->getEdges().size() >= maxEdges ||
                 childAgent->getGraph()->getEdges().size() >= childAgent->getGraph()->getNumEdgesPossible()) {
@@ -633,8 +633,8 @@ void evolution::Population::mutateThreaded(unsigned long agentIndex) {
             }
             // fix indices for randomly added edges
             childAgent->getGraph()->fixIndices();
-            break;
         }
+        break;
         case 3: {
             if (childAgent->getGraph()->getEdges().empty()) {
                 return;
@@ -642,8 +642,8 @@ void evolution::Population::mutateThreaded(unsigned long agentIndex) {
             // choose a random edge
             unsigned long position = util::nextUnsignedLong(0, childAgent->getGraph()->getEdges().size() - 1);
             childAgent->getGraph()->removeEdge(position);
-            break;
         }
+        break;
         case 4: {
             if (childAgent->getGraph()->getEdges().empty()) {
                 return;
@@ -656,8 +656,8 @@ void evolution::Population::mutateThreaded(unsigned long agentIndex) {
             // get edge
             auto edge = childAgent->getGraph()->getEdges().at(position);
             edge->setWeight(weight);
-            break;
         }
+        break;
         case 5: {
             if (childAgent->getGraph()->getEdges().empty()) {
                 return;
@@ -670,14 +670,14 @@ void evolution::Population::mutateThreaded(unsigned long agentIndex) {
             // get edge
             auto edge = childAgent->getGraph()->getEdges().at(position);
             edge->setTraverseLimit(traverseLimit);
-            break;
         }
+        break;
         case 6: {
             auto minimizedAgent = this->minimizeAgent(childAgent);
             // replace the child agent
             this->populationPlaceholder.at(agentIndex) = minimizedAgent;
-            break;
         }
+        break;
         default:
             throw std::invalid_argument("Invalid mutation choice: " + std::to_string(choice));
     }
