@@ -39,17 +39,17 @@
             \multirow{2}{*}{št. zagona} & \multicolumn{2}{c||}{točnost najboljšega agenta} & \multicolumn{2}{c||}{MCC najboljšega agenta} \\ \cline{2-5}
             & učna   & testna          & učna  & testna                  \\
             \hline
-            1        & 96.2\% & \textbf{93.3\%} & 0.612 & 0.612                   \\
+            1        & 83.8\% & 86.7\%          & 0.958 & 0.849                   \\
             \hline
-            2        & 94.3\% & 93.3\%          & 0.612 & 0.612                   \\
+            2        & 84.8\% & 86.7\%          & 0.930 & 0.901                   \\
             \hline
-            3        & 90.5\% & 88.9\%          & 0.667 & 0.609                   \\
+            3        & 93.3\% & \textbf{97.8\%} & 0.943 & \textbf{0.967 (97.8\%)} \\
             \hline
-            4        & 66.7\% & 66.7\%          & 0.849 & \textbf{0.871 (91.1\%)} \\
+            4        & 94.3\% & 88.9\%          & 0.958 & 0.869                   \\
             \hline
-            5        & 95.2\% & 91.1\%          & 0.612 & 0.552                   \\
+            5        & 94.3\% & 93.3\%          & 0.945 & 0.901                   \\
             \hline
-            $\sigma$ & 0.111  & 0.101           & 0.092 & 0.112                   \\
+            $\sigma$ & 0.048  & 0.043           & 0.010 & 0.040                   \\
             \hline
         \end{tabular}
     \end{center}
@@ -63,8 +63,8 @@
         \hline
         razred           & Iris Setosa & Iris Versicolour & Iris Virginica & vsota \\ \hline
         Iris Setosa      & 15          & 0                & 0              & 15    \\ \hline
-        Iris Versicolour & 0           & 13               & 2              & 15    \\ \hline
-        Iris Virginica   & 0           & 1                & 14             & 15    \\ \hline
+        Iris Versicolour & 0           & 14               & 1              & 15    \\ \hline
+        Iris Virginica   & 0           & 0                & 15             & 15    \\ \hline
         vsota            & 15          & 14               & 16             & 45    \\ \hline
     \end{tabular}
     \caption{Matrika zmot najbolj točnega agenta prvega nabora.}
@@ -77,9 +77,9 @@
         \hline
         razred           & Iris Setosa & Iris Versicolour & Iris Virginica & vsota \\ \hline
         Iris Setosa      & 15          & 0                & 0              & 15    \\ \hline
-        Iris Versicolour & 1           & 14               & 0              & 15    \\ \hline
-        Iris Virginica   & 0           & 3                & 12             & 15    \\ \hline
-        vsota            & 16          & 17               & 12             & 45    \\ \hline
+        Iris Versicolour & 0           & 14               & 1              & 15    \\ \hline
+        Iris Virginica   & 0           & 0                & 15             & 15    \\ \hline
+        vsota            & 15          & 15               & 16             & 45    \\ \hline
     \end{tabular}
     \caption{Matrika zmot agenta z največjim MCC prvega nabora.}
     \label{tab:iris_mcc_1}
@@ -113,7 +113,7 @@
     \begin{center}
         \includegraphics[width=13cm]{iris/1/mcc_g}
     \end{center}
-    \caption{Vizualizacija agenta z največjim MCC prvega nabora. Vsebuje 5 povezav.}
+    \caption{Vizualizacija agenta z največjim MCC prvega nabora. Vsebuje 6 povezav.}
     \label{fig:iris_mcc_1_g}
 \end{figure}
 
@@ -124,19 +124,19 @@
         \begin{tabular}{|| c | c c || c c ||}
             \hline
             \multirow{2}{*}{št. zagona} & \multicolumn{2}{c||}{točnost najboljšega agenta} & \multicolumn{2}{c||}{MCC najboljšega agenta} \\ \cline{2-5}
-            & učna   & testna          & učna  & testna                 \\
+            & učna   & testna          & učna  & testna                  \\
             \hline
-            1        & 94.3\% & 95.6\%          & 0.957 & 0.906                  \\
+            1        & 95.2\% & \textbf{97.8\%} & 0.986 & 0.901                   \\
             \hline
-            2        & 97.1\% & \textbf{97.8\%} & 0.957 & 0.901                  \\
+            2        & 96.2\% & 95.6\%          & 0.958 & 0.906                   \\
             \hline
-            3        & 97.1\% & 91.1\%          & 0.929 & 0.877                  \\
+            3        & 85.7\% & 93.3\%          & 0.958 & \textbf{0.967 (97.8\%)} \\
             \hline
-            4        & 93.3\% & 97.8\%          & 0.972 & 0.906                  \\
+            4        & 96.2\% & 93.3\%          & 0.986 & 0.902                   \\
             \hline
-            5        & 84.8\% & 88.9\%          & 0.958 & \textbf{1.000 (100\%)} \\
+            5        & 95.2\% & 95.6\%          & 0.945 & 0.906                   \\
             \hline
-            $\sigma$ & 0.045  & 0.036           & 0.014 & 0.042                  \\
+            $\sigma$ & 0.040  & 0.017           & 0.017 & 0.025                   \\
             \hline
         \end{tabular}
     \end{center}
@@ -164,9 +164,9 @@
         \hline
         razred           & Iris Setosa & Iris Versicolour & Iris Virginica & vsota \\ \hline
         ris Setosa       & 15          & 0                & 0              & 15    \\ \hline
-        Iris Versicolour & 0           & 15               & 0              & 15    \\ \hline
+        Iris Versicolour & 0           & 14               & 1              & 15    \\ \hline
         Iris Virginica   & 0           & 0                & 15             & 15    \\ \hline
-        vsota            & 15          & 15               & 15             & 45    \\ \hline
+        vsota            & 15          & 14               & 16             & 45    \\ \hline
     \end{tabular}
     \caption{Matrika zmot agenta z največjim MCC drugega nabora.}
     \label{tab:iris_mcc_2}
@@ -192,7 +192,7 @@
     \begin{center}
         \includegraphics[width=13cm]{iris/2/acc_g}
     \end{center}
-    \caption{Vizualizacija najbolj točnega agenta drugega nabora. Vsebuje 1 globoko vozlišče in 9 povezav.}
+    \caption{Vizualizacija najbolj točnega agenta drugega nabora. Vsebuje 2 globoki vozlišči in 8 povezav.}
     \label{fig:iris_acc_2_g}
 \end{figure}
 
@@ -213,17 +213,17 @@
             \multirow{2}{*}{št. zagona} & \multicolumn{2}{c||}{točnost najboljšega agenta} & \multicolumn{2}{c||}{MCC najboljšega agenta} \\ \cline{2-5}
             & učna   & testna          & učna  & testna                  \\
             \hline
-            1        & 94.3\% & \textbf{97.8\%} & 0.972 & 0.906                   \\
+            1        & 97.1\% & 95.6\%          & 0.958 & 0.849                   \\
             \hline
-            2        & 95.2\% & 84.4\%          & 0.986 & 0.936                   \\
+            2        & 89.5\% & 75.6\%          & 0.945 & \textbf{0.936 (95.6\%)} \\
             \hline
-            3        & 98.1\% & 95.6\%          & 0.972 & 0.839                   \\
+            3        & 97.1\% & 93.3\%          & 0.972 & 0.834                   \\
             \hline
-            4        & 97.1\% & 93.3\%          & 0.958 & 0.936                   \\
+            4        & 95.2\% & \textbf{97.8\%} & 0.972 & 0.934                   \\
             \hline
-            5        & 95.2\% & 93.3\%          & 0.972 & \textbf{0.967 (97.8\%)} \\
+            5        & 97.1\% & 97.8\%          & 0.972 & 0.936                   \\
             \hline
-            $\sigma$ & 0.014  & 0.046           & 0.009 & 0.043                   \\
+            $\sigma$ & 0.029  & 0.084           & 0.011 & 0.046                   \\
             \hline
         \end{tabular}
     \end{center}
@@ -236,10 +236,10 @@
     \begin{tabular}{||rcccc||}
         \hline
         razred           & Iris Setosa & Iris Versicolour & Iris Virginica & vsota \\ \hline
-        ris Setosa       & 15          & 0                & 0              & 15    \\ \hline
-        Iris Versicolour & 0           & 14               & 1              & 15    \\ \hline
+        ris Setosa       & 14          & 1                & 0              & 15    \\ \hline
+        Iris Versicolour & 0           & 15               & 0              & 15    \\ \hline
         Iris Virginica   & 0           & 0                & 15             & 15    \\ \hline
-        vsota            & 15          & 14               & 16             & 45    \\ \hline
+        vsota            & 14          & 15               & 15             & 45    \\ \hline
     \end{tabular}
     \caption{Matrika zmot najbolj točnega agenta tretjega nabora.}
     \label{tab:iris_acc_3}
@@ -251,9 +251,9 @@
         \hline
         razred           & Iris Setosa & Iris Versicolour & Iris Virginica & vsota \\ \hline
         ris Setosa       & 15          & 0                & 0              & 15    \\ \hline
-        Iris Versicolour & 0           & 14               & 1              & 15    \\ \hline
+        Iris Versicolour & 0           & 13               & 2              & 15    \\ \hline
         Iris Virginica   & 0           & 0                & 15             & 15    \\ \hline
-        vsota            & 15          & 14               & 16             & 45    \\ \hline
+        vsota            & 15          & 13               & 17             & 45    \\ \hline
     \end{tabular}
     \caption{Matrika zmot agenta z največjim MCC tretjega nabora.}
     \label{tab:iris_mcc_3}
@@ -279,7 +279,7 @@
     \begin{center}
         \includegraphics[width=13cm]{iris/3/acc_g}
     \end{center}
-    \caption{Vizualizacija najbolj točnega agenta tretjega nabora. Vsebuje 6 povezav.}
+    \caption{Vizualizacija najbolj točnega agenta tretjega nabora. Vsebuje 1 globoko vozlišče in 12 povezav.}
     \label{fig:iris_acc_3_g}
 \end{figure}
 
@@ -287,6 +287,6 @@
     \begin{center}
         \includegraphics[width=13cm]{iris/3/mcc_g}
     \end{center}
-    \caption{Vizualizacija agenta z največjim MCC drugega nabora. Vsebuje 6 povezav.}
+    \caption{Vizualizacija agenta z največjim MCC drugega nabora. Vsebuje 1 globoko vozlišče in 9 povezav.}
     \label{fig:iris_mcc_3_g}
 \end{figure}

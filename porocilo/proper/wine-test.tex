@@ -39,17 +39,17 @@
             \multirow{2}{*}{št. zagona} & \multicolumn{2}{c||}{točnost najboljšega agenta} & \multicolumn{2}{c||}{MCC najboljšega agenta} \\ \cline{2-5}
             & učna   & testna          & učna  & testna                  \\
             \hline
-            1        & 92.0\% & 75.5\%          & 0.868 & \textbf{0.918 (94.3\%)} \\
+            1        & 80.0\% & 83.0\%          & 0.940 & \textbf{0.943 (96.2\%)} \\
             \hline
-            2        & 94.4\% & 92.5\%          & 0.808 & 0.843                   \\
+            2        & 82.4\% & 83.0\%          & 0.891 & 0.770                   \\
             \hline
-            3        & 92.0\% & 92.5\%          & 0.818 & 0.779                   \\
+            3        & 91.2\% & \textbf{88.7\%} & 0.852 & 0.728                   \\
             \hline
-            4        & 96.8\% & \textbf{94.3\%} & 0.820 & 0.677                   \\
+            4        & 95.2\% & 88.7\%          & 0.894 & 0.720                   \\
             \hline
-            5        & 84.8\% & 75.5\%          & 0.904 & 0.830                   \\
+            5        & 90.4\% & 77.4\%          & 0.867 & 0.888                   \\
             \hline
-            $\sigma$ & 0.040  & 0.086           & 0.037 & 0.08                    \\
+            $\sigma$ & 0.057  & 0.042           & 0.030 & 0.090                   \\
             \hline
         \end{tabular}
     \end{center}
@@ -63,9 +63,9 @@
         \hline
         razred  & Class 1 & Class 2 & Class 3 & vsota \\ \hline
         Class 1 & 17      & 1       & 0       & 18    \\ \hline
-        Class 2 & 2       & 19      & 0       & 21    \\ \hline
-        Class 3 & 0       & 0       & 14      & 14    \\ \hline
-        vsota   & 19      & 20      & 14      & 53    \\ \hline
+        Class 2 & 3       & 18      & 0       & 21    \\ \hline
+        Class 3 & 0       & 2       & 12      & 14    \\ \hline
+        vsota   & 20      & 21      & 12      & 53    \\ \hline
     \end{tabular}
     \caption{Matrika zmot najbolj točnega agenta prvega nabora.}
     \label{tab:wine_acc_1}
@@ -76,10 +76,10 @@
     \begin{tabular}{||rcccc||}
         \hline
         razred  & Class 1 & Class 2 & Class 3 & vsota \\ \hline
-        Class 1 & 18      & 0       & 0       & 18    \\ \hline
-        Class 2 & 2       & 18      & 1       & 21    \\ \hline
+        Class 1 & 17      & 1       & 0       & 18    \\ \hline
+        Class 2 & 0       & 20      & 1       & 21    \\ \hline
         Class 3 & 0       & 0       & 14      & 14    \\ \hline
-        vsota   & 20      & 18      & 15      & 53    \\ \hline
+        vsota   & 17      & 21      & 15      & 53    \\ \hline
     \end{tabular}
     \caption{Matrika zmot agenta z največjim MCC prvega nabora.}
     \label{tab:wine_mcc_1}
@@ -105,7 +105,7 @@
     \begin{center}
         \includegraphics[width=13cm]{wine/1/acc_g}
     \end{center}
-    \caption{Vizualizacija najbolj točnega agenta prvega nabora. Vsebuje 1 globoko vozlišče in 9 povezav.}
+    \caption{Vizualizacija najbolj točnega agenta prvega nabora. Vsebuje 1 globoko vozlišče in 10 povezav.}
     \label{fig:wine_acc_1_g}
 \end{figure}
 
@@ -113,7 +113,7 @@
     \begin{center}
         \includegraphics[width=13cm]{wine/1/mcc_g}
     \end{center}
-    \caption{Vizualizacija agenta z največjim MCC prvega nabora. Vsebuje 6 povezav.}
+    \caption{Vizualizacija agenta z največjim MCC prvega nabora. Vsebuje 1 globoko vozlišče in 15 povezav.}
     \label{fig:wine_mcc_1_g}
 \end{figure}
 
@@ -126,17 +126,17 @@
             \multirow{2}{*}{št. zagona} & \multicolumn{2}{c||}{točnost najboljšega agenta} & \multicolumn{2}{c||}{MCC najboljšega agenta} \\ \cline{2-5}
             & učna   & testna          & učna  & testna                  \\
             \hline
-            1        & 83.2\% & 81.1\%          & 0.845 & 0.610                   \\
+            1        & 95.2\% & \textbf{90.6\%} & 0.906 & \textbf{0.862 (90.6\%)} \\
             \hline
-            2        & 67.2\% & 60.4\%          & 0.867 & 0.779                   \\
+            2        & 72.0\% & 67.9\%          & 0.738 & 0.694                   \\
             \hline
-            3        & 76.8\% & 77.4\%          & 0.830 & 0.740                   \\
+            3        & 80.0\% & 71.7\%          & 0.916 & 0.771                   \\
             \hline
-            4        & 92.0\% & \textbf{96.2\%} & 0.915 & \textbf{0.915 (94.3\%)} \\
+            4        & 93.6\% & 90.6\%          & 0.871 & 0.740                   \\
             \hline
-            5        & 93.6\% & 96.2\%          & 0.892 & 0.914                   \\
+            5        & 91.2\% & 84.9\%          & 0.846 & 0.635                   \\
             \hline
-            $\sigma$ & 0.098  & 0.134           & 0.031 & 0.115                   \\
+            $\sigma$ & 0.090  & 0.096           & 0.064 & 0.076                   \\
             \hline
         \end{tabular}
     \end{center}
@@ -149,10 +149,10 @@
     \begin{tabular}{||rcccc||}
         \hline
         razred  & Class 1 & Class 2 & Class 3 & vsota \\ \hline
-        Class 1 & 17      & 1       & 0       & 18    \\ \hline
-        Class 2 & 0       & 20      & 1       & 21    \\ \hline
-        Class 3 & 0       & 0       & 14      & 14    \\ \hline
-        vsota   & 17      & 21      & 15      & 53    \\ \hline
+        Class 1 & 15      & 3       & 0       & 18    \\ \hline
+        Class 2 & 0       & 21      & 0       & 21    \\ \hline
+        Class 3 & 0       & 2       & 12      & 14    \\ \hline
+        vsota   & 15      & 26      & 12      & 53    \\ \hline
     \end{tabular}
     \caption{Matrika zmot najbolj točnega agenta drugega nabora.}
     \label{tab:wine_acc_2}
@@ -163,10 +163,10 @@
     \begin{tabular}{||rcccc||}
         \hline
         razred  & Class 1 & Class 2 & Class 3 & vsota \\ \hline
-        Class 1 & 17      & 1       & 0       & 18    \\ \hline
-        Class 2 & 2       & 19      & 0       & 21    \\ \hline
+        Class 1 & 14      & 4       & 0       & 18    \\ \hline
+        Class 2 & 0       & 20      & 1       & 21    \\ \hline
         Class 3 & 0       & 0       & 14      & 14    \\ \hline
-        vsota   & 19      & 20      & 14      & 53    \\ \hline
+        vsota   & 14      & 24      & 15      & 53    \\ \hline
     \end{tabular}
     \caption{Matrika zmot agenta z največjim MCC drugega nabora.}
     \label{tab:wine_mcc_2}
@@ -192,7 +192,7 @@
     \begin{center}
         \includegraphics[width=13cm]{wine/2/acc_g}
     \end{center}
-    \caption{Vizualizacija najbolj točnega agenta drugega nabora. Vsebuje 6 povezav.}
+    \caption{Vizualizacija najbolj točnega agenta drugega nabora. Vsebuje 1 globoko vozlišče in 14 povezav.}
     \label{fig:wine_acc_2_g}
 \end{figure}
 
@@ -200,7 +200,7 @@
     \begin{center}
         \includegraphics[width=13cm]{wine/2/mcc_g}
     \end{center}
-    \caption{Vizualizacija agenta z največjim MCC drugega nabora. Vsebuje 1 globoko vozlišče in 7 povezav.}
+    \caption{Vizualizacija agenta z največjim MCC drugega nabora. Vsebuje 11 povezav.}
     \label{fig:wine_mcc_2_g}
 \end{figure}
 
@@ -213,17 +213,17 @@
             \multirow{2}{*}{št. zagona} & \multicolumn{2}{c||}{točnost najboljšega agenta} & \multicolumn{2}{c||}{MCC najboljšega agenta} \\ \cline{2-5}
             & učna   & testna          & učna  & testna                  \\
             \hline
-            1        & 80.0\% & 60.4\%          & 0.930 & 0.857                   \\
+            1        & 93.6\% & 90.6\%          & 0.908 & 0.807                   \\
             \hline
-            2        & 93.6\% & \textbf{96.2\%} & 0.906 & 0.860                   \\
+            2        & 95.2\% & 90.6\%          & 0.868 & 0.752                   \\
             \hline
-            3        & 95.2\% & 90.6\%          & 0.940 & 0.829                   \\
+            3        & 92.8\% & 86.8\%          & 0.906 & 0.867                   \\
             \hline
-            4        & 93.6\% & 88.7\%          & 0.774 & 0.763                   \\
+            4        & 80.0\% & 77.4\%          & 0.856 & \textbf{0.890 (92.5\%)} \\
             \hline
-            5        & 88.0\% & 86.8\%          & 0.940 & \textbf{0.887 (92.5\%)} \\
+            5        & 89.6\% & \textbf{92.5\%} & 0.908 & 0.888                   \\
             \hline
-            $\sigma$ & 0.056  & 0.125           & 0.063 & 0.042                   \\
+            $\sigma$ & 0.054  & 0.054           & 0.023 & 0.054                   \\
             \hline
         \end{tabular}
     \end{center}
@@ -236,10 +236,10 @@
     \begin{tabular}{||rcccc||}
         \hline
         razred  & Class 1 & Class 2 & Class 3 & vsota \\ \hline
-        Class 1 & 18      & 0       & 0       & 18    \\ \hline
-        Class 2 & 2       & 19      & 0       & 21    \\ \hline
+        Class 1 & 15      & 3       & 0       & 18    \\ \hline
+        Class 2 & 0       & 20      & 1       & 21    \\ \hline
         Class 3 & 0       & 0       & 14      & 14    \\ \hline
-        vsota   & 20      & 19      & 14      & 53    \\ \hline
+        vsota   & 15      & 23      & 15      & 53    \\ \hline
     \end{tabular}
     \caption{Matrika zmot najbolj točnega agenta tretjega nabora.}
     \label{tab:wine_acc_3}
@@ -250,10 +250,10 @@
     \begin{tabular}{||rcccc||}
         \hline
         razred  & Class 1 & Class 2 & Class 3 & vsota \\ \hline
-        Class 1 & 15      & 3       & 0       & 18    \\ \hline
-        Class 2 & 1       & 20      & 0       & 21    \\ \hline
-        Class 3 & 0       & 0       & 14      & 14    \\ \hline
-        vsota   & 16      & 23      & 14      & 53    \\ \hline
+        Class 1 & 18      & 0       & 0       & 18    \\ \hline
+        Class 2 & 2       & 18      & 1       & 21    \\ \hline
+        Class 3 & 1       & 0       & 13      & 14    \\ \hline
+        vsota   & 21      & 18      & 14      & 53    \\ \hline
     \end{tabular}
     \caption{Matrika zmot agenta z največjim MCC tretjega nabora.}
     \label{tab:wine_mcc_3}
@@ -279,7 +279,7 @@
     \begin{center}
         \includegraphics[width=13cm]{wine/3/acc_g}
     \end{center}
-    \caption{Vizualizacija najbolj točnega agenta tretjega nabora. Vsebuje 11 povezav.}
+    \caption{Vizualizacija najbolj točnega agenta tretjega nabora. Vsebuje 6 povezav.}
     \label{fig:wine_acc_3_g}
 \end{figure}
 
@@ -287,6 +287,6 @@
     \begin{center}
         \includegraphics[width=13cm]{wine/3/mcc_g}
     \end{center}
-    \caption{Vizualizacija agenta z največjim MCC tretjega nabora. Vsebuje 2 globoki vozlišči in 7 povezav.}
+    \caption{Vizualizacija agenta z največjim MCC tretjega nabora. Vsebuje 10 povezav.}
     \label{fig:wine_mcc_3_g}
 \end{figure}
