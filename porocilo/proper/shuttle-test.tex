@@ -41,17 +41,17 @@ Imena razredov v glavah matrik zmot so okrajšana zaradi formatiranja dokumenta.
             \multirow{2}{*}{št. zagona} & \multicolumn{2}{c||}{točnost najboljšega agenta} & \multicolumn{2}{c||}{MCC najboljšega agenta} \\ \cline{2-5}
             & učna   & testna          & učna  & testna                  \\
             \hline
-            1        & 91.3\% & 91.8\%          & 0.656 & 0.658                   \\
+            1        & 91.6\% & 92.1\%          & 0.753 & 0.760                   \\
             \hline
-            2        & 86.2\% & 86.8\%          & 0.628 & 0.632                   \\
+            2        & 91.7\% & \textbf{92.2\%} & 0.750 & 0.758                   \\
             \hline
-            3        & 84.0\% & 84.7\%          & 0.753 & \textbf{0.760 (92.1\%)} \\
+            3        & 91.7\% & 92.1\%          & 0.749 & 0.758                   \\
             \hline
-            4        & 86.8\% & 87.4\%          & 0.572 & 0.578                   \\
+            4        & 89.0\% & 89.5\%          & 0.749 & 0.756                   \\
             \hline
-            5        & 91.8\% & \textbf{92.4\%} & 0.744 & 0.752                   \\
+            5        & 89.3\% & 89.8\%          & 0.758 & \textbf{0.766 (92.2\%)} \\
             \hline
-            $\sigma$ & 0.030  & 0.030           & 0.069 & 0.070                   \\
+            $\sigma$ & 0.012  & 0.012           & 0.003 & 0.003                   \\
             \hline
         \end{tabular}
     \end{center}
@@ -64,16 +64,16 @@ Imena razredov v glavah matrik zmot so okrajšana zaradi formatiranja dokumenta.
     \begin{tabular}{||rcccccccc||}
         \hline
         razred    & RF    & FC & FO & High & Bypass & BC & BO & vsota \\ \hline
-        Rad Flow  & 11405 & 0  & 10 & 61   & 1      & 1  & 0  & 11478 \\ \hline
-        Fpv Close & 8     & 0  & 0  & 5    & 0      & 0  & 0  & 13    \\ \hline
-        Fpv Open  & 11    & 0  & 21 & 6    & 1      & 0  & 0  & 39    \\ \hline
-        High      & 998   & 0  & 0  & 1157 & 0      & 0  & 0  & 2155  \\ \hline
-        Bypass    & 0     & 0  & 0  & 0    & 808    & 1  & 0  & 809   \\ \hline
-        Bpv Close & 1     & 0  & 0  & 1    & 2      & 0  & 0  & 4     \\ \hline
-        Bpv Open  & 0     & 0  & 2  & 0    & 0      & 0  & 0  & 2     \\ \hline
-        vsota     & 12423 & 0  & 33 & 1230 & 812    & 2  & 0  & 14500 \\ \hline
+        Rad Flow  & 11403 & 3  & 0  & 72   & 0      & 0  & 0  & 11478 \\ \hline
+        Fpv Close & 1     & 10 & 0  & 2    & 0      & 0  & 0  & 13    \\ \hline
+        Fpv Open  & 21    & 0  & 0  & 16   & 2      & 0  & 0  & 39    \\ \hline
+        High      & 1006  & 0  & 0  & 1149 & 0      & 0  & 0  & 2155  \\ \hline
+        Bypass    & 1     & 6  & 0  & 1    & 801    & 0  & 0  & 809   \\ \hline
+        Bpv Close & 0     & 4  & 0  & 0    & 0      & 0  & 0  & 4     \\ \hline
+        Bpv Open  & 2     & 0  & 0  & 0    & 0      & 0  & 0  & 2     \\ \hline
+        vsota     & 12434 & 23 & 0  & 1240 & 803    & 0  & 0  & 14500 \\ \hline
     \end{tabular}
-    \caption{Matrika zmot najbolj točnega agenta prvega nabora. Agent lahko pravilno napove vse razrede razen \enquote{Fpv Close}, \enquote{Bpv Close} in \enquote{Bpv Open}.}
+    \caption{Matrika zmot najbolj točnega agenta prvega nabora. Agent ne more napovedati razredov \enquote{Fpv Open}, \enquote{Bpv Close} in \enquote{Bpv Open}.}
     \label{tab:statlog_acc_1}
 \end{table}
 
@@ -82,16 +82,16 @@ Imena razredov v glavah matrik zmot so okrajšana zaradi formatiranja dokumenta.
     \begin{tabular}{||rcccccccc||}
         \hline
         razred    & RF    & FC & FO & High & Bypass & BC & BO & vsota \\ \hline
-        Rad Flow  & 11411 & 0  & 5  & 62   & 0      & 0  & 0  & 11478 \\ \hline
-        Fpv Close & 3     & 0  & 0  & 10   & 0      & 0  & 0  & 13    \\ \hline
-        Fpv Open  & 36    & 1  & 0  & 1    & 1      & 0  & 0  & 39    \\ \hline
-        High      & 1024  & 0  & 0  & 1131 & 0      & 0  & 0  & 2155  \\ \hline
-        Bypass    & 0     & 0  & 1  & 1    & 807    & 0  & 0  & 809   \\ \hline
-        Bpv Close & 0     & 0  & 0  & 4    & 0      & 0  & 0  & 4     \\ \hline
+        Rad Flow  & 11442 & 1  & 2  & 33   & 0      & 0  & 0  & 11478 \\ \hline
+        Fpv Close & 8     & 0  & 0  & 4    & 1      & 0  & 0  & 13    \\ \hline
+        Fpv Open  & 24    & 0  & 0  & 13   & 1      & 0  & 1  & 39    \\ \hline
+        High      & 1023  & 0  & 0  & 1132 & 0      & 0  & 0  & 2155  \\ \hline
+        Bypass    & 0     & 1  & 3  & 4    & 800    & 0  & 1  & 809   \\ \hline
+        Bpv Close & 1     & 0  & 0  & 3    & 0      & 0  & 0  & 4     \\ \hline
         Bpv Open  & 2     & 0  & 0  & 0    & 0      & 0  & 0  & 2     \\ \hline
-        vsota     & 12476 & 1  & 6  & 1209 & 808    & 0  & 0  & 14500 \\ \hline
+        vsota     & 12500 & 2  & 5  & 1189 & 802    & 0  & 2  & 14500 \\ \hline
     \end{tabular}
-    \caption{Matrika zmot agenta z največjim MCC prvega nabora. Agent lahko pravilno napove razrede \enquote{Rad Flow}, \enquote{High} in \enquote{Bypass}.}
+    \caption{Matrika zmot agenta z največjim MCC prvega nabora. Agent ne more napovedati razreda \enquote{Bpv Close}.}
     \label{tab:statlog_mcc_1}
 \end{table}
 
@@ -123,7 +123,7 @@ Imena razredov v glavah matrik zmot so okrajšana zaradi formatiranja dokumenta.
     \begin{center}
         \includegraphics[width=13cm]{shuttle/1/mcc_g}
     \end{center}
-    \caption{Vizualizacija agenta z največjim MCC prvega nabora. Vsebuje 1 globoko vozlišče in 21 povezav.}
+    \caption{Vizualizacija agenta z največjim MCC prvega nabora. Vsebuje 16 povezav.}
     \label{fig:statlog_mcc_1_g}
 \end{figure}
 
@@ -134,25 +134,185 @@ Imena razredov v glavah matrik zmot so okrajšana zaradi formatiranja dokumenta.
         \begin{tabular}{|| c | c c || c c ||}
             \hline
             \multirow{2}{*}{št. zagona} & \multicolumn{2}{c||}{točnost najboljšega agenta} & \multicolumn{2}{c||}{MCC najboljšega agenta} \\ \cline{2-5}
-            & učna & testna       & učna & testna           \\
+            & učna   & testna          & učna  & testna                  \\
             \hline
-            1        & 0\%  & 0\%          & 0    & 0                \\
+            1        & 87.6\% & 88.1\%          & 0.728 & 0.735                   \\
             \hline
-            2        & 0\%  & 0\%          & 0    & 0                \\
+            2        & 92.0\% & \textbf{92.4\%} & 0.600 & 0.604                   \\
             \hline
-            3        & 0\%  & 0\%          & 0    & \textbf{0 (0\%)} \\
+            3        & 86.4\% & 86.9\%          & 0.622 & 0.622                   \\
             \hline
-            4        & 0\%  & 0\%          & 0    & 0                \\
+            4        & 86.6\% & 87.1\%          & 0.767 & \textbf{0.774 (92.5\%)} \\
             \hline
-            5        & 0\%  & \textbf{0\%} & 0    & 0                \\
+            5        & 91.7\% & 92.2\%          & 0.755 & 0.761                   \\
             \hline
-            $\sigma$ & 0    & 0            & 0    & 0                \\
+            $\sigma$ & 0.025  & 0.022           & 0.070 & 0.072                   \\
             \hline
         \end{tabular}
     \end{center}
-    \caption{Rezultat prvega nabora parametrov.}
+    \caption{Rezultat drugega nabora parametrov.}
     \label{tab:statlog_result_2}
 \end{table}
 
+\begin{table}[H]
+    \centering
+    \begin{tabular}{||rcccccccc||}
+        \hline
+        razred    & RF    & FC & FO & High & Bypass & BC & BO & vsota \\ \hline
+        Rad Flow  & 11343 & 0  & 0  & 122  & 0      & 3  & 10 & 11478 \\ \hline
+        Fpv Close & 5     & 0  & 0  & 8    & 0      & 0  & 0  & 13    \\ \hline
+        Fpv Open  & 25    & 0  & 0  & 12   & 2      & 0  & 0  & 39    \\ \hline
+        High      & 907   & 0  & 0  & 1248 & 0      & 0  & 0  & 2155  \\ \hline
+        Bypass    & 0     & 0  & 0  & 0    & 805    & 3  & 1  & 809   \\ \hline
+        Bpv Close & 0     & 0  & 0  & 3    & 1      & 0  & 0  & 4     \\ \hline
+        Bpv Open  & 0     & 0  & 0  & 0    & 0      & 0  & 2  & 2     \\ \hline
+        vsota     & 12280 & 0  & 0  & 1393 & 808    & 6  & 13 & 14500 \\ \hline
+    \end{tabular}
+    \caption{Matrika zmot najbolj točnega agenta drugega nabora. Agent ne more napovedati razredov \enquote{Fpv Close} in \enquote{Fpv Open}.}
+    \label{tab:statlog_acc_2}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{||rcccccccc||}
+        \hline
+        razred    & RF    & FC & FO & High & Bypass & BC & BO & vsota \\ \hline
+        Rad Flow  & 11416 & 0  & 1  & 51   & 0      & 4  & 6  & 11478 \\ \hline
+        Fpv Close & 6     & 0  & 0  & 7    & 0      & 0  & 0  & 13    \\ \hline
+        Fpv Open  & 17    & 1  & 0  & 21   & 0      & 0  & 0  & 39    \\ \hline
+        High      & 954   & 0  & 0  & 1200 & 0      & 0  & 1  & 2155  \\ \hline
+        Bypass    & 0     & 1  & 4  & 4    & 797    & 2  & 1  & 809   \\ \hline
+        Bpv Close & 0     & 0  & 4  & 0    & 0      & 0  & 0  & 4     \\ \hline
+        Bpv Open  & 2     & 0  & 0  & 0    & 0      & 0  & 0  & 2     \\ \hline
+        vsota     & 12395 & 2  & 9  & 1283 & 797    & 6  & 8  & 14500 \\ \hline
+    \end{tabular}
+    \caption{Matrika zmot agenta z največjim MCC drugega nabora.}
+    \label{tab:statlog_mcc_2}
+\end{table}
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[width=13cm]{shuttle/2/acc}
+    \end{center}
+    \caption{Graf točnosti populacije najboljšega agenta drugega nabora skozi generacije.}
+    \label{fig:statlog_acc_2}
+\end{figure}
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[width=13cm]{shuttle/2/mcc}
+    \end{center}
+    \caption{Graf MCC populacije najboljšega agenta drugega nabora skozi generacije.}
+    \label{fig:statlog_mcc_2}
+\end{figure}
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[width=13cm]{shuttle/2/acc_g}
+    \end{center}
+    \caption{Vizualizacija najbolj točnega agenta drugega nabora. Vsebuje 2 globoki vozlišči in 26 povezav.}
+    \label{fig:statlog_acc_2_g}
+\end{figure}
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[width=13cm]{shuttle/2/mcc_g}
+    \end{center}
+    \caption{Vizualizacija agenta z največjim MCC drugega nabora. Vsebuje 1 globoko vozlišče in 18 povezav.}
+    \label{fig:statlog_mcc_2_g}
+\end{figure}
+
 \subsection{Tretji nabor}\label{subsec:dodatek-statlog-tretji-nabor}
 %% 350 40 100 4 true 0.1 175 true -0.00001 300 ACC
+\begin{table}[H]
+    \begin{center}
+        \begin{tabular}{|| c | c c || c c ||}
+            \hline
+            \multirow{2}{*}{št. zagona} & \multicolumn{2}{c||}{točnost najboljšega agenta} & \multicolumn{2}{c||}{MCC najboljšega agenta} \\ \cline{2-5}
+            & učna & testna & učna & testna \\
+            \hline
+            1        & \%   & \%     & 0.   & 0.     \\
+            \hline
+            2        & \%   & \%     & 0.   & 0.     \\
+            \hline
+            3        & \%   & \%     & 0.   & 0.     \\
+            \hline
+            4        & \%   & \%     & 0.   & 0.     \\
+            \hline
+            5        & \%   & \%     & 0.   & 0.     \\
+            \hline
+            $\sigma$ & 0.   & 0.     & 0.   & 0.     \\
+            \hline
+        \end{tabular}
+    \end{center}
+    \caption{Rezultat tretjega nabora parametrov.}
+    \label{tab:statlog_result_3}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{||rcccccccc||}
+        \hline
+        razred    & RF    & FC & FO & High & Bypass & BC & BO & vsota \\ \hline
+        Rad Flow  & 11343 & 0  & 0  & 122  & 0      & 3  & 10 & 11478 \\ \hline
+        Fpv Close & 5     & 0  & 0  & 8    & 0      & 0  & 0  & 13    \\ \hline
+        Fpv Open  & 25    & 0  & 0  & 12   & 2      & 0  & 0  & 39    \\ \hline
+        High      & 907   & 0  & 0  & 1248 & 0      & 0  & 0  & 2155  \\ \hline
+        Bypass    & 0     & 0  & 0  & 0    & 805    & 3  & 1  & 809   \\ \hline
+        Bpv Close & 0     & 0  & 0  & 3    & 1      & 0  & 0  & 4     \\ \hline
+        Bpv Open  & 0     & 0  & 0  & 0    & 0      & 0  & 2  & 2     \\ \hline
+        vsota     & 12280 & 0  & 0  & 1393 & 808    & 6  & 13 & 14500 \\ \hline
+    \end{tabular}
+    \caption{Matrika zmot najbolj točnega agenta tretjega nabora. Agent ne more napovedati razredov \enquote{Fpv Close} in \enquote{Fpv Open}.}
+    \label{tab:statlog_acc_3}
+\end{table}
+
+%\begin{table}[H]
+%    \centering
+%    \begin{tabular}{||rcccccccc||}
+%        \hline
+%        razred    & RF    & FC & FO & High & Bypass & BC & BO & vsota \\ \hline
+%        Rad Flow  & 11416 & 0  & 1  & 51   & 0      & 4  & 6  & 11478 \\ \hline
+%        Fpv Close & 6     & 0  & 0  & 7    & 0      & 0  & 0  & 13    \\ \hline
+%        Fpv Open  & 17    & 1  & 0  & 21   & 0      & 0  & 0  & 39    \\ \hline
+%        High      & 954   & 0  & 0  & 1200 & 0      & 0  & 1  & 2155  \\ \hline
+%        Bypass    & 0     & 1  & 4  & 4    & 797    & 2  & 1  & 809   \\ \hline
+%        Bpv Close & 0     & 0  & 4  & 0    & 0      & 0  & 0  & 4     \\ \hline
+%        Bpv Open  & 2     & 0  & 0  & 0    & 0      & 0  & 0  & 2     \\ \hline
+%        vsota     & 12395 & 2  & 9  & 1283 & 797    & 6  & 8  & 14500 \\ \hline
+%    \end{tabular}
+%    \caption{Matrika zmot agenta z največjim MCC tretjega nabora.}
+%    \label{tab:statlog_mcc_3}
+%\end{table}
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[width=13cm]{shuttle/3/acc}
+    \end{center}
+    \caption{Graf točnosti populacije najboljšega agenta tretjega nabora skozi generacije.}
+    \label{fig:statlog_acc_3}
+\end{figure}
+
+%\begin{figure}[H]
+%    \begin{center}
+%        \includegraphics[width=13cm]{shuttle/3/mcc}
+%    \end{center}
+%    \caption{Graf MCC populacije najboljšega agenta tretjega nabora skozi generacije.}
+%    \label{fig:statlog_mcc_3}
+%\end{figure}
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[width=13cm]{shuttle/3/acc_g}
+    \end{center}
+    \caption{Vizualizacija najbolj točnega agenta tretjega nabora. Vsebuje 2 globoki vozlišči in 26 povezav.}
+    \label{fig:statlog_acc_3_g}
+\end{figure}
+
+%\begin{figure}[H]
+%    \begin{center}
+%        \includegraphics[width=13cm]{shuttle/3/mcc_g}
+%    \end{center}
+%    \caption{Vizualizacija agenta z največjim MCC tretjega nabora. Vsebuje 1 globoko vozlišče in 18 povezav.}
+%    \label{fig:statlog_mcc_3_g}
+%\end{figure}

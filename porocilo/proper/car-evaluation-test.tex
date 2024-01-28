@@ -39,17 +39,17 @@
             \multirow{2}{*}{št. zagona} & \multicolumn{2}{c||}{točnost najboljšega agenta} & \multicolumn{2}{c||}{MCC najboljšega agenta} \\ \cline{2-5}
             & učna   & testna          & učna  & testna                  \\
             \hline
-            1        & 72.1\% & 69.5\%          & 0.469 & \textbf{0.530 (71.8\%)} \\
+            1        & 71.7\% & 71.4\%          & 0.507 & 0.454                   \\
             \hline
-            2        & 73.1\% & 70.8\%          & 0.473 & 0.504                   \\
+            2        & 72.6\% & 73.4\%          & 0.477 & 0.486                   \\
             \hline
-            3        & 71.6\% & 70.5\%          & 0.470 & 0.400                   \\
+            3        & 74.0\% & \textbf{73.6\%} & 0.457 & 0.431                   \\
             \hline
-            4        & 71.8\% & \textbf{72.2\%} & 0.484 & 0.446                   \\
+            4        & 71.4\% & 71.0\%          & 0.496 & \textbf{0.487 (73.7\%)} \\
             \hline
-            5        & 71.5\% & 71.0\%          & 0.478 & 0.463                   \\
+            5        & 72.1\% & 70.7\%          & 0.483 & 0.403                   \\
             \hline
-            $\sigma$ & 0.006  & 0.009           & 0.006 & 0.045                   \\
+            $\sigma$ & 0.009  & 0.012           & 0.017 & 0.032                   \\
             \hline
         \end{tabular}
     \end{center}
@@ -62,13 +62,13 @@
     \begin{tabular}{||rccccc||}
         \hline
         razred       & unacceptable & acceptable & good & very good & vsota \\ \hline
-        unacceptable & 363          & 0          & 0    & 0         & 363   \\ \hline
-        acceptable   & 111          & 0          & 0    & 4         & 115   \\ \hline
-        good         & 21           & 0          & 0    & 0         & 21    \\ \hline
-        very good    & 0            & 0          & 0    & 11        & 19    \\ \hline
-        vsota        & 503          & 0          & 0    & 15        & 518   \\ \hline
+        unacceptable & 354          & 0          & 9    & 0         & 363   \\ \hline
+        acceptable   & 100          & 14         & 1    & 0         & 115   \\ \hline
+        good         & 8            & 0          & 13   & 0         & 21    \\ \hline
+        very good    & 10           & 1          & 8    & 0         & 19    \\ \hline
+        vsota        & 472          & 15         & 31   & 0         & 518   \\ \hline
     \end{tabular}
-    \caption{Matrika zmot najbolj točnega agenta prvega nabora. Agent lahko napove samo razreda \enquote{nesprejemljivo} in \enquote{zelo dobro}.}
+    \caption{Matrika zmot najbolj točnega agenta prvega nabora. Agent ne more napovedati razreda \enquote{zelo dobro}.}
     \label{tab:car_acc_1}
 \end{table}
 
@@ -77,11 +77,11 @@
     \begin{tabular}{||rccccc||}
         \hline
         razred       & unacceptable & acceptable & good & very good & vsota \\ \hline
-        unacceptable & 260          & 103        & 0    & 0         & 363   \\ \hline
-        acceptable   & 3            & 112        & 0    & 0         & 115   \\ \hline
+        unacceptable & 289          & 74         & 0    & 0         & 363   \\ \hline
+        acceptable   & 22           & 93         & 0    & 0         & 115   \\ \hline
         good         & 0            & 21         & 0    & 0         & 21    \\ \hline
         very good    & 0            & 19         & 0    & 0         & 19    \\ \hline
-        vsota        & 263          & 255        & 0    & 0         & 518   \\ \hline
+        vsota        & 311          & 207        & 0    & 0         & 518   \\ \hline
     \end{tabular}
     \caption{Matrika zmot agenta z največjim MCC prvega nabora. Agent lahko napove samo razreda \enquote{nesprejemljivo} in \enquote{sprejemljivo}.}
     \label{tab:car_mcc_1}
@@ -107,7 +107,7 @@
     \begin{center}
         \includegraphics[width=13cm]{car/1/acc_g}
     \end{center}
-    \caption{Vizualizacija najbolj točnega agenta prvega nabora. Vsebuje 7 povezav.}
+    \caption{Vizualizacija najbolj točnega agenta prvega nabora. Vsebuje 10 povezav.}
     \label{fig:car_acc_1_g}
 \end{figure}
 
@@ -115,7 +115,7 @@
     \begin{center}
         \includegraphics[width=13cm]{car/1/mcc_g}
     \end{center}
-    \caption{Vizualizacija agenta z največjim MCC prvega nabora. Vsebuje 6 povezav.}
+    \caption{Vizualizacija agenta z največjim MCC prvega nabora. Vsebuje 1 globoko vozlišče in 12 povezav.}
     \label{fig:car_mcc_1_g}
 \end{figure}
 
@@ -128,17 +128,17 @@
             \multirow{2}{*}{št. zagona} & \multicolumn{2}{c||}{točnost najboljšega agenta} & \multicolumn{2}{c||}{MCC najboljšega agenta} \\ \cline{2-5}
             & učna   & testna          & učna  & testna                  \\
             \hline
-            1        & 72.5\% & \textbf{74.3\%} & 0.480 & 0.419                   \\
+            1        & 76.6\% & \textbf{74.3\%} & 0.502 & 0.470                   \\
             \hline
-            2        & 71.1\% & 71.6\%          & 0.494 & 0.490                   \\
+            2        & 74.9\% & 68.3\%          & 0.481 & 0.484                   \\
             \hline
-            3        & 72.1\% & 71.8\%          & 0.481 & \textbf{0.514 (74.3\%)} \\
+            3        & 71.9\% & 72.0\%          & 0.485 & 0.493                   \\
             \hline
-            4        & 71.6\% & 71.0\%          & 0.483 & 0.454                   \\
+            4        & 72.3\% & 72.8\%          & 0.565 & \textbf{0.585 (75.9\%)} \\
             \hline
-            5        & 74.4\% & 72.2\%          & 0.495 & 0.452                   \\
+            5        & 72.3\% & 71.0\%          & 0.492 & 0.457                   \\
             \hline
-            $\sigma$ & 0.011  & 0.011           & 0.007 & 0.033                   \\
+            $\sigma$ & 0.018  & 0.02            & 0.031 & 0.045                   \\
             \hline
         \end{tabular}
     \end{center}
@@ -151,11 +151,11 @@
     \begin{tabular}{||rccccc||}
         \hline
         razred       & unacceptable & acceptable & good & very good & vsota \\ \hline
-        unacceptable & 360          & 3          & 0    & 0         & 363   \\ \hline
-        acceptable   & 90           & 25         & 0    & 0         & 115   \\ \hline
-        good         & 10           & 11         & 0    & 0         & 21    \\ \hline
-        very good    & 13           & 6          & 0    & 0         & 19    \\ \hline
-        vsota        & 473          & 45         & 0    & 0         & 518   \\ \hline
+        unacceptable & 325          & 38         & 0    & 0         & 363   \\ \hline
+        acceptable   & 55           & 60         & 0    & 0         & 115   \\ \hline
+        good         & 0            & 21         & 0    & 0         & 21    \\ \hline
+        very good    & 0            & 19         & 0    & 0         & 19    \\ \hline
+        vsota        & 380          & 138        & 0    & 0         & 518   \\ \hline
     \end{tabular}
     \caption{Matrika zmot najbolj točnega agenta drugega nabora. Agent lahko napove samo razreda \enquote{nesprejemljivo} in \enquote{sprejemljivo}.}
     \label{tab:car_acc_2}
@@ -166,13 +166,13 @@
     \begin{tabular}{||rccccc||}
         \hline
         razred       & unacceptable & acceptable & good & very good & vsota \\ \hline
-        unacceptable & 286          & 77         & 0    & 0         & 363   \\ \hline
-        acceptable   & 16           & 99         & 0    & 0         & 115   \\ \hline
-        good         & 0            & 21         & 0    & 0         & 21    \\ \hline
-        very good    & 0            & 19         & 0    & 0         & 19    \\ \hline
-        vsota        & 302          & 216        & 0    & 0         & 518   \\ \hline
+        unacceptable & 271          & 67         & 0    & 25        & 363   \\ \hline
+        acceptable   & 7            & 107        & 0    & 1         & 115   \\ \hline
+        good         & 0            & 9          & 0    & 12        & 21    \\ \hline
+        very good    & 0            & 4          & 0    & 15        & 19    \\ \hline
+        vsota        & 278          & 187        & 0    & 53        & 518   \\ \hline
     \end{tabular}
-    \caption{Matrika zmot agenta z največjim MCC drugega nabora. Agent lahko napove samo razreda \enquote{nesprejemljivo} in \enquote{sprejemljivo}.}
+    \caption{Matrika zmot agenta z največjim MCC drugega nabora. Agent ne more napovedati razreda \enquote{dobro}.}
     \label{tab:car_mcc_2}
 \end{table}
 
@@ -196,7 +196,7 @@
     \begin{center}
         \includegraphics[width=13cm]{car/2/acc_g}
     \end{center}
-    \caption{Vizualizacija najbolj točnega agenta drugega nabora. Vsebuje 8 povezav.}
+    \caption{Vizualizacija najbolj točnega agenta drugega nabora. Vsebuje 1 globoko vozlišče in 16 povezav.}
     \label{fig:car_acc_2_g}
 \end{figure}
 
@@ -204,7 +204,7 @@
     \begin{center}
         \includegraphics[width=13cm]{car/2/mcc_g}
     \end{center}
-    \caption{Vizualizacija agenta z največjim MCC drugega nabora. Vsebuje 9 povezav.}
+    \caption{Vizualizacija agenta z največjim MCC drugega nabora. Vsebuje 13 povezav.}
     \label{fig:car_mcc_2_g}
 \end{figure}
 
@@ -217,17 +217,17 @@
             \multirow{2}{*}{št. zagona} & \multicolumn{2}{c||}{točnost najboljšega agenta} & \multicolumn{2}{c||}{MCC najboljšega agenta} \\ \cline{2-5}
             & učna   & testna          & učna  & testna                  \\
             \hline
-            1        & 72.8\% & 72.6\%          & 0.496 & 0.447                   \\
+            1        & 73.6\% & \textbf{73.6\%} & 0.510 & 0.498                   \\
             \hline
-            2        & 72.9\% & \textbf{73.7\%} & 0.490 & 0.494                   \\
+            2        & 73.1\% & 71.2\%          & 0.486 & 0.502                   \\
             \hline
-            3        & 71.2\% & 70.7\%          & 0.495 & 0.477                   \\
+            3        & 72.4\% & 70.8\%          & 0.493 & 0.462                   \\
             \hline
-            4        & 71.1\% & 71.0\%          & 0.483 & 0.488                   \\
+            4        & 73.5\% & 72.0\%          & 0.468 & 0.467                   \\
             \hline
-            5        & 73.1\% & 73.2\%          & 0.488 & \textbf{0.520 (71.6\%)} \\
+            5        & 72.7\% & 72.8\%          & 0.516 & \textbf{0.539 (73.7\%)} \\
             \hline
-            $\sigma$ & 0.009  & 0.012           & 0.005 & 0.024                   \\
+            $\sigma$ & 0.005  & 0.010           & 0.017 & 0.028                   \\
             \hline
         \end{tabular}
     \end{center}
@@ -240,11 +240,11 @@
     \begin{tabular}{||rccccc||}
         \hline
         razred       & unacceptable & acceptable & good & very good & vsota \\ \hline
-        unacceptable & 340          & 23         & 0    & 0         & 363   \\ \hline
-        acceptable   & 73           & 42         & 0    & 0         & 115   \\ \hline
-        good         & 0            & 21         & 0    & 0         & 21    \\ \hline
+        unacceptable & 325          & 38         & 0    & 0         & 363   \\ \hline
+        acceptable   & 59           & 56         & 0    & 0         & 115   \\ \hline
+        good         & 4            & 17         & 0    & 0         & 21    \\ \hline
         very good    & 0            & 19         & 0    & 0         & 19    \\ \hline
-        vsota        & 413          & 105        & 0    & 0         & 518   \\ \hline
+        vsota        & 388          & 130        & 0    & 0         & 518   \\ \hline
     \end{tabular}
     \caption{Matrika zmot najbolj točnega agenta tretjega nabora. Agent lahko napove samo razreda \enquote{nesprejemljivo} in \enquote{sprejemljivo}.}
     \label{tab:car_acc_3}
@@ -255,13 +255,13 @@
     \begin{tabular}{||rccccc||}
         \hline
         razred       & unacceptable & acceptable & good & very good & vsota \\ \hline
-        unacceptable & 261          & 102        & 0    & 0         & 363   \\ \hline
-        acceptable   & 5            & 110        & 0    & 0         & 115   \\ \hline
-        good         & 0            & 21         & 0    & 0         & 21    \\ \hline
-        very good    & 0            & 19         & 0    & 0         & 19    \\ \hline
-        vsota        & 266          & 252        & 0    & 0         & 518   \\ \hline
+        unacceptable & 270          & 66         & 0    & 27        & 363   \\ \hline
+        acceptable   & 10           & 103        & 0    & 2         & 115   \\ \hline
+        good         & 0            & 10         & 0    & 11        & 21    \\ \hline
+        very good    & 0            & 10         & 0    & 9         & 19    \\ \hline
+        vsota        & 280          & 189        & 0    & 49        & 518   \\ \hline
     \end{tabular}
-    \caption{Matrika zmot agenta z največjim MCC tretjega nabora. Agent lahko pravilno napove samo razreda \enquote{nesprejemljivo} in \enquote{sprejemljivo}.}
+    \caption{Matrika zmot agenta z največjim MCC tretjega nabora. Agent ne more napovedati razreda \enquote{dobro}.}
     \label{tab:car_mcc_3}
 \end{table}
 
@@ -285,7 +285,7 @@
     \begin{center}
         \includegraphics[width=13cm]{car/3/acc_g}
     \end{center}
-    \caption{Vizualizacija najbolj točnega agenta tretjega nabora. Vsebuje 1 globoko vozlišče in 14 povezav.}
+    \caption{Vizualizacija najbolj točnega agenta tretjega nabora. Vsebuje 12 povezav.}
     \label{fig:car_acc_3_g}
 \end{figure}
 
@@ -293,6 +293,6 @@
     \begin{center}
         \includegraphics[width=13cm]{car/3/mcc_g}
     \end{center}
-    \caption{Vizualizacija agenta z največjim MCC drugega nabora. Vsebuje 15 povezav.}
+    \caption{Vizualizacija agenta z največjim MCC drugega nabora. Vsebuje 13 povezav.}
     \label{fig:car_mcc_3_g}
 \end{figure}
