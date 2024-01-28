@@ -57,10 +57,10 @@
         (document.getElementById('graph'))
             .cooldownTicks(100)
             .graphData(data)
-            .linkDirectionalArrowLength(4)
+            .linkDirectionalArrowLength(10)
             .linkDirectionalArrowRelPos(1)
             .linkCurvature('curvature')
-            .linkWidth(5)
+            .linkWidth(3)
             .nodeCanvasObject((node, ctx, globalScale) => {
                 const label = node.name;
                 const fontSize = 36/globalScale;
@@ -82,12 +82,12 @@
                     //node.fx = 100*node.pos;
                     //node.fy = 0;
                     node.fx = 0;
-                    node.fy = 100*node.pos;
+                    node.fy = 50*node.pos;
                 } else if(node.group === "output"){
                     //node.fx = 100*node.pos;
                     //node.fy = 250;
-                    node.fx = 400;
-                    node.fy = 100*node.pos+50;
+                    node.fx = 550;
+                    node.fy = 50*node.pos+25;
                 }
 
             })
