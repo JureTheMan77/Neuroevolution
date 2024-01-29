@@ -419,7 +419,7 @@
     Postopek $m$-krat ponovi, nato pa shrani najboljšo nevronsko mrežo.
     Podrobnosti pristopa so opisane v poglavju~\ref{ch:implementacija-nevroevolucije}.
 
-    Rezultate smo ovrednotili in primerjali z nekaterimi odprtokodnimi rešitvami, ki so trenutno na voljo (poglavje~\ref{ch:evalvacija}).
+    Rezultate smo ovrednotili in primerjali s pristopom \enquote{random forest} (poglavje~\ref{ch:rezultati}).
     % TODO kaj je v zaključku
 
 
@@ -1640,7 +1640,11 @@
     Vzrok za tako obtičanje kvalitete so tudi lastnosti najboljših agentov, ki jih naš način križanja ne more prenesti
     na potomce v samo nekaj generacijah, npr.\ celotne podstrukture grafov.
 
+    Najboljšo točnost $97.8\%$ z eno napačno napovedjo so dosegli vsi najboljši agenti posameznih naborov parametrov, razen v tretjem naboru z
+    metriko MCC.
     Točnost večinskega razreda ($33\%$) je bila presežena pri vseh zagonih.
+
+    Pristop \enquote{random forest} je dosegel točnost $100\%$ (tabela~\ref{tab:rforest_iris_result}).
 
 
     \section{Wine}\label{sec:rezultati-wine}
@@ -1658,6 +1662,8 @@
 
     Prvi nabor parametrov z metriko MCC je ustvaril najboljšo mrežo s $96.2\%$ točnostjo (slika~\ref{fig:wine_mcc_1_g}),
     točnost večinskega razreda (39.89\%) pa je bila presežena v vseh zagonih.
+
+    Pristop \enquote{random forest} je dosegel enako točnost $96.2\%$ (tabela~\ref{tab:rforest_wine_result}).
 
 
     \section{Car Evaluation}\label{sec:rezultati-car-evaluation}
@@ -1688,21 +1694,38 @@
     MCC je povzročil postopno višanje kvalitete populacije sorazmerno z najboljšim agentom s konvergenco.
 
     Najboljša mreža je bila ustvarjena z drugim naborom parametrov z metriko MCC, doseže pa $75.9\%$ točnost (slika~\ref{fig:car_mcc_2_g}).
-    Večinski razred $70.02\%$ je bil večinoma presežen.
+    Točnost večinskega razreda ($70.02\%$) je bila večinoma presežena.
+
+    Pristop \enquote{random forest} je dosegel precej večjo točnost $95.9\%$ s 300 drevesi (tabela~\ref{tab:rforest_car_result}).
 
 
     \section{Shuttle}\label{sec:rezultati-shuttle}
+    Rezultati vsebujejo značilnosti testiranj programa na zgornjih treh množicah.
+    Prisotni so preboji pri obeh metrikah kvalitet, nepovezana vhodna vozlišča in nezmožnost pravilnega napovedovanja vseh sedmih
+    razredov.
 
-    \section{Primerjava z Random Forest}\label{sec:random-forest}
-    predstavitev
-    razlaga
+    Vsi agenti pravilno napovedujejo tri največje razrede \enquote{Rad Flow}, \enquote{High} in \enquote{Bypass}, trije
+    \enquote{Bpv Open}, eden \enquote{Fpv Close}, noben pa \enquote{Fpv Open} in \enquote{Bpv Close}.
+
+    Najboljša agenta sta bila ustvarjena s tretjim naborom parametrov, in sicer oba s točnostjo $93\%$ (sliki~\ref{fig:statlog_acc_3_g} in~\ref{fig:statlog_mcc_3_g}).
+    Točnost večinskega razreda ($79.159\%$) je bila vedno presežena.
+
+    Pristop \enquote{random forest} je dosegel točnost $100\%$ (tabela~\ref{tab:rforest_shuttle_result}).
+
+
+    \chapter{Zaključki, sklep}\label{ch:zakljucki-sklep}
+    V diplomski nalogi smo napisali program, ki ustvari rekurenčne nevronske mreže z genetskim algoritmom in primerjali
+    njihovo točnost s obstoječim pristopom \enquote{random forest}.
+    Za ta namen smo v teoretičnem delu predstavili teoretične koncepte nevronskih mrež, genetskih algoritmov in
+    nevroevolucije ter predstavili obstoječ pristop \textbf{TODO}.
+
+
+    Iz rezultatov sklepamo, da naš izračun kvalitete ni zadosten za obdržanje nišnih lastnosti.
 
     \section{Izboljšave}
     bias na vseh globokih vozliščih na 1
 
-    \chapter{Zaključki, sklep}\label{ch:zakljucki-sklep}
-    \textbf{TODO}
-    Ugotovitve kažejo na dejstvo, da naš izračun kvalitete ni zadosten za obdržanje nišnih lastnosti.
+    boljši izračun kvalitete
 
     \chapter{Dodatek}
     \input{dodatek}
