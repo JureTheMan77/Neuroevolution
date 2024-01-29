@@ -1663,7 +1663,7 @@
     Prvi nabor parametrov z metriko MCC je ustvaril najboljšo mrežo s $96.2\%$ točnostjo (slika~\ref{fig:wine_mcc_1_g}),
     točnost večinskega razreda (39.89\%) pa je bila presežena v vseh zagonih.
 
-    Pristop \enquote{random forest} je dosegel enako točnost $96.2\%$ (tabela~\ref{tab:rforest_wine_result}).
+    Pristop \enquote{random forest} je dosegel enako točnost (tabela~\ref{tab:rforest_wine_result}).
 
 
     \section{Car Evaluation}\label{sec:rezultati-car-evaluation}
@@ -1713,21 +1713,29 @@
     Pristop \enquote{random forest} je dosegel točnost $100\%$ (tabela~\ref{tab:rforest_shuttle_result}).
 
 
-    \chapter{Zaključki, sklep}\label{ch:zakljucki-sklep}
-    V diplomski nalogi smo napisali program, ki ustvari rekurenčne nevronske mreže z genetskim algoritmom in primerjali
-    njihovo točnost s obstoječim pristopom \enquote{random forest}.
-    Za ta namen smo v teoretičnem delu predstavili teoretične koncepte nevronskih mrež, genetskih algoritmov in
-    nevroevolucije ter predstavili obstoječ pristop \textbf{TODO}.
+    \chapter{Zaključek}\label{ch:zakljucki-sklep}
+    V diplomski nalogi smo napisali program, ki ustvari rekurenčne nevronske mreže za večrazredno klasifikacijo s pomočjo genetskega algoritma.
+    Genetski algoritem pri izračunu kvalitete upošteva tudi računsko kompleksnost nevronskih mrež z nastavljivim inicializacijskim parametrom.
+    Ustvarjene mreže za klasifikacijo podatkovnih množic z enakomerno porazdelitvijo razredov imajo točnost, ki je primerljiva
+    pristopu \enquote{random forest}.
+    Pri klasifikaciji množic z neenakomerno porazdelitvijo razredov zaostajajo za zgornjim pristopom, ker se genetski
+    algoritem ujame v lokalnih maksimumih napovedovanja večinskih razredov.
 
+    \section{Izboljšave}\label{sec:izboljsave}
+    Iz rezultatov testiranja programa sklepamo, da naš pristop izračuna kakovosti ni zadosten za obdržanje nišnih lastnosti
+    nevronskih mrež, ki prispevajo k pravilnem napovedovanju manjšinskih razredov.
+    Izračun bi lahko prilagodili tako, da bi v celotni populaciji preverili zmožnost napovedovanja vseh razredov,
+    kakovost agentov, ki lahko napovedujejo manjšinske razrede, pa bi sorazmerno povečali.
 
-    Iz rezultatov sklepamo, da naš izračun kvalitete ni zadosten za obdržanje nišnih lastnosti.
+    Globoka vozlišča bi lahko nadgradili tako, da bi dovolili izbiro aktivacijske funkcije iz nabora npr.\ desetih.
+    To izbiro bi naredili v koraku inicializacije populacije in mutiranja agentov.
+    Nevronske mreže bi na ta način hkrati vsebovala globoka vozlišča z različnimi aktivacijskimi funkcijami, kar bi nas
+    lahko pripeljalo do boljših rezultatov.
 
-    \section{Izboljšave}
-    bias na vseh globokih vozliščih na 1
+    Namesto najboljšega agenta po zaključku programa bi za napovedovanje lahko uporabili tudi najboljšo polovico ali četrtino
+    končne populacije.\ Napovedan razred bi nato izbrali na podlagi glasov izbranih agentov, na podoben način kot naključni gozdovi.
 
-    boljši izračun kvalitete
-
-    \chapter{Dodatek}
+    \chapter{Dodatek}\label{ch:dodatek}
     \input{dodatek}
 
     %\cleardoublepage
