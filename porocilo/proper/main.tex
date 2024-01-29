@@ -641,13 +641,8 @@
         Njihova aktivacijska funkcija je nespremenjena, ker je v koraku izračuna kakovosti pomembna samo največja
         vrednost vseh izhodnih vozlišč grafa. }
     \end{description}
-    V grafih dopuščamo obstoj \enquote{mirujočih} globokih vozlišč, ki:
-    \begin{itemize}
-        \item niso dostopna preko nobenega vhodnega vozlišča,
-        \item ne vplivajo na rezultat aktivacijskih funkcij drugih vozlišč,
-        \item preko katerih ne moremo doseči izhodnih vozlišč.
-    \end{itemize}
-    Mirujoča vozlišča lahko postanejo aktivna, če je izbrana prava mutacija v koraku mutiranja agentov (razdelek~\ref{sec:mutiranje}).
+    V grafih dopuščamo obstoj \enquote{mirujočih} globokih vozlišč, ki ne vplivajo na vrednosti izhodnih vozlišč.
+    Mirujoča vozlišča lahko postanejo aktivna v koraku križanja (razdelek~\ref{sec:krizanje}) in mutiranja (razdelek~\ref{sec:mutiranje}).
 
     \subsection{Povezave}\label{subsec:povezave}
     Vsaka povezava razreda \enquote{Edge} vsebuje naslednje informacije:
@@ -678,6 +673,10 @@
         \item rezultat aktivacijskih funkcij izhodnih vozlišč vpliva na rezultat aktivacijskih funkcij vhodnih,
         globokih ali izhodnih vozlišč.
     \end{itemize}
+    V grafih dopuščamo obstoj \enquote{mirujočih} povezav, ki so povezane na mirujoča globoka vozlišča.
+    Posledično dopuščamo obstoj \enquote{mirujočih struktur}, ki ne vplivajo na vrednosti izhodnih vozlišč,
+    lahko pa postanejo aktivne v koraku mutiranja in križanja.
+    Eno globoko vozlišče smatramo kot najmanjšo mirujočo strukturo.
 
 
     \section{Populacija}\label{sec:populacija}
@@ -817,6 +816,7 @@
         izbrano naključno po pravilih iz razdelka~\ref{subsec:povezave}. }
         \item[Odstranitev povezave]{Odstranimo naključno povezavo.}
         \item[Sprememba uteži]{Spremenimo utež naključne povezave.}
+        \item[Sprememba uteži]{Spremenimo utež naključne povezave.}
         \item[Sprememba števila dovoljenih prečkanj]{Spremenimo šte\-vi\-lo dovoljenih prečkanj naključne povezave.}
         %%\item[Minimizacija]{Agentu odstranimo vsa mirujoča globoka vozlišča in vse pripadajoče povezave. \enquote{Verig} globokih
         %%vozlišč ne združujemo zaradi nelinearnosti puščajoče ReLU aktivacijske funkcije.}
@@ -901,25 +901,25 @@
         \item $\vec{p}$ število napovedi vseh razredov.
     \end{itemize}
 
-    Kvaliteti nato prištejemo oz.\ odštejemo prispevek velikosti grafa na podlagi inicializacijskih parametrov \enquote{prispevek vozlišč}
-    in \enquote{prispevek povezav} na naslednji način:
+    Kvaliteti nato prištejemo oz.\ odštejemo prispevek inicializacijskega parametra \enquote{prispevek kompleksnosti} na naslednji način:
     \begin{equation}
         \text{Kvaliteta}=
         \begin{cases}
-            \text{ACC}+(m \cdot c_v+n \cdot c_p), & \text{če je metrika ACC} \\
-            \text{MCC}+(m \cdot c_v+n \cdot c_p), & \text{če je metrika MCC}
+            \text{ACC}+(t \cdot c), & \text{če je metrika ACC} \\
+            \text{MCC}+(t \cdot c), & \text{če je metrika MCC}
         \end{cases},
         \label{eq:prispevek_velikosti}
     \end{equation}
     kjer je:
     \begin{itemize}
-        \item $m$ število vozlišč,
-        \item $n$ število povezav,
-        \item $c_v$ prispevek vozlišč in
-        \item $c_p$ prispevek povezav.
+        \item $t$ število opravljenih prečkanj povezav v fazi propagiranja vrednosti skozi graf in
+        \item $c$ prispevek kompleksnosti.
     \end{itemize}
-    Negativna prispevka povzročita, da bodo v koraku vzorčenja~\ref{sec:vzorcenje} bolj pogosto izbrani tisti agenti, ki imajo večjo točnost oz.
-    MCC in so hkrati manj kompleksni.
+    Negativni prispevek povzroči, da bodo v koraku vzorčenja (razdelek~\ref{sec:vzorcenje}) bolj pogosto izbrani tisti agenti, ki imajo večjo točnost oz.
+    MCC in imajo hkrati manj kompleksen sprehod.
+
+    Prispevek kompleksnosti doda pribitek za mirujoče strukture (podrazdelek~\ref{subsec:povezave}), ki so povezane na vsaj eno vhodno vozlišče.
+    Strukture, ki so z algoritmom propagiranja nedosegljive, ne vplivajo na kvaliteto agentov.
 
     Za lažjo predstavo algoritma vzemimo prvi zapis izmišljene učne množice z atributi A, B in C ter dvema razredoma in ga propagirajmo skozi preprost acikličen graf.
     Vrednosti so zaokrožene na tri decimalna mesta.
@@ -1574,13 +1574,13 @@
     %%"/home/jure/CLionProjects/Neuroevolution/datasets/car/car.data" 250 100 300 2 true 0.1 125 true -0.000 -0.000 100 MCC
     Program smo testirali po naslednjem postopku:
     \begin{enumerate}
-        \item primere podatkovnih množic smo premešali in razdelili na učno in testno v razmerju 70 proti 30 (razen Shuttle),
+        \item primere podatkovnih množic smo premešali in razdelili na učno in testno v razmerju 70 proti 30 (razen Shuttle), kjer smo obdržali razmerje razredov,
         \item inicializacijske parametre populacije smo določili za vsako množico posebej glede na njeno kompleksnost\footnote{Števila vhodnih in izhodnih vozlišč in seznama label atributov in razredov med nabori nismo spreminjali, ker so ti parametri določeni s strukturo podatkovnih množic.},
         \item v vsaki generaciji smo zabeležili podatke o točnosti ali MCC agentov glede na izbrano metriko kvalitete na učni množici,
         \item najboljšega agenta zadnje generacije smo preverili še na testni množici in zabeležili njegovo točnost ali MCC in matriko zmot,
         \item program smo pognali desetkrat za vsak nabor parametrov za obe metriki (petkrat na podlagi točnosti in petkrat na podlagi MCC),
         \item od vseh zagonov za posamezni nabor smo vizualizirali najboljšega agenta s pomočjo odprtokodne knjižnice \enquote{force-graph}~\cite{Vasturiano},
-        hkrati pa izdelali graf spremembe točnosti oz.\ MCC po generacijah na učni množici,
+        hkrati pa izdelali graf točnosti oz.\ MCC po generacijah na učni množici,
         \item na koncu smo za vsak nabor parametrov izračunali standardni odklon točnosti in MCC najboljših agentov po formuli~\cite{enwiki:1168408775}:
         \begin{equation}
             \sigma=\sqrt{\frac{1}{n}\sum_{i=1}^{n}(x_i-\overline{x})^2},
@@ -1617,46 +1617,79 @@
     \end{itemize}
 
     \section{Iris}\label{sec:rezultati-iris}
-    Iz rezultatov~\ref{sec:dodatek-iris-test} je razvidno, da generirane nevronske mreže dosežejo visoko točnost tudi pri majhnih velikostih.
-    Najboljša nevronska mreža prvega nabora parametrov (slika~\ref{fig:iris_acc_1_g}) vsebuje 7 povezav in nobenega globokega vozlišča
-    (vhodno vozlišče~\enquote{sepal length in cm} nima izhodnih povezav), doseže pa $80\%$ točnost.
+    Iz rezultatov razdelka~\ref{sec:dodatek-iris-test} je razvidno, da generirane nevronske mreže dosežejo visoko točnost pri majhnih velikostih.
+    Najboljša nevronska mreža prvega nabora parametrov (slika~\ref{fig:iris_acc_1_g}) vsebuje 5 povezav in nobenega globokega vozlišča,
+    vhodno vozlišče~\enquote{sepal length in cm} nima izhodnih povezav, doseže pa $97.8\%$ točnost.
 
-    Poskusi z drugim in tretjim naborom parametrov so konsistentno generirali večje in boljše mreže (sliki~\ref{fig:iris_acc_2_g} in~\ref{fig:iris_acc_3_g}).
-    Dva poskusa s tretjim naborom parametrov sta ustvarila mreži s $100\%$ točnostjo (tabela~\ref{tab:iris_result_3}).
+    Najboljše mreže drugega in tretjega nabora parametrov so večje (največja vsebuje 1 globoko vozlišče in 12 povezav),
+    dosežejo pa enako oz.\ podobno natančnost.
+    Vzrok so kompleksnejši agenti začetne populacije.
 
-    Točnost večinskega razreda je bila presežena v vseh poskusih.
+    Razlika med metrikama kvalitete je vidna v grafih skozi generacije.
+    Populacije, ki so bile vzorčene z metriko točnosti, so k najboljšemu agentu konvergirale pred generacijo 60.
+    Vzorčenje z metriko MCC je konvergiranje upočasnilo, povzročilo pa je tudi večjo raznolikost v najslabših $20\%$ agentov.
+
+    Iz grafov točnosti in MCC skozi generacije so razvidni tudi \enquote{preboji} v kvaliteti, predvsem na sliki~\ref{fig:iris_acc_1},
+    kjer je polovica populacije do generacije 60 lahko pravilno napovedala le enega ali dva od treh razredov.
+    Povprečna kvaliteta generacije je sicer rasla približno linearno.
+    Vzrok za tako obtičanje kvalitete v lokalnih maksimumih je, da v fazi vzorčenja ne izbiramo samo najboljših agentov,
+    kar pripelje do počasnejšega širjenja kvalitetnih lastnosti (topologije, uteži, povezav\ldots) skozi populacijo.
+    Povzroči tudi širjenje manj kvalitetnih lastnosti, kar je vidno na sliki~\ref{fig:iris_acc_3} med generacijama 100 in
+    120 s padcem kvalitete najslabših $30\%$ agentov.
+
+    Vzrok za tako obtičanje kvalitete so tudi lastnosti najboljših agentov, ki jih naš način križanja ne more prenesti
+    na potomce v samo nekaj generacijah, npr.\ celotne podstrukture grafov.
+
+    Točnost večinskega razreda ($33\%$) je bila presežena pri vseh zagonih.
+
 
     \section{Wine}\label{sec:rezultati-wine}
-    Zaradi precej večjega števila atributov v primerjavi z Iris, smo pri poskusih te množice začeli z večjimi dovoljenimi mrežami.
-    Posledica je bila, da velikih izboljšav med različnimi nabori parametrov ni bilo.
+    Zaradi večje kompleksnosti v primerjavi z Iris smo dovolili generiranje večjih mrež skozi več generacij.
 
-    Poskusi prvega nabora so ustvarili mrežo s točnostjo $92.6\%$ (tabela~\ref{tab:wine_acc_1}, slika~\ref{fig:wine_acc_1_g}),
-    najboljša mreža pa je bila generirana pri tretjem naboru parametrov preko metrike MCC (slika~\ref{fig:wine_mcc_3_g}),
-    in sicer z vrednostjo $0.972$ oz.\ $98.1\%$ točnostjo (tabela~\ref{tab:wine_mcc_3}).
+    V najboljših mrežah te množice je prisoten izrazit vpliv prispevka kompleksnosti.
+    V nobenem primeru niso na vrednosti izhodnih vozlišč vplivala vsa vhodna vozlišča.
+    Pri drugem naboru parametrov je najboljša mreža izpustila dva atributa (slika~\ref{fig:wine_acc_2_g}), pri tretjem pa sedem (slika~\ref{fig:wine_acc_3_g}).
+    Največkrat sta izpuščena atributa \enquote{vsebnost alkohola} in \enquote{skupna vsebnost fenolov},
+    \enquote{intenziteta barve} pa ni nikoli izpuščena.
+    Vzrok za tako optimizacijo mrež je večje število generacij, kjer je večja možnost za odstranitev povezav z majhno utežjo.
 
-    Pri poskusih z drugim in tretjim naborom se je na več mestih pojavila tudi divergenca agentov zaradi naključnih mutacij
-    in posledično padec povprečne kvalitete populacij, nato pa ponovna konvergenca
-    (slike~\ref{fig:wine_acc_2},~\ref{fig:wine_mcc_2} in~\ref{fig:wine_acc_3}).
+    Pri najboljši mreži drugega nabora parametrov je prišlo do preboja kvalitete okoli generacije 70, v generaciji 220
+    pa se je pojavila divergenca zaradi širitve slabih, a za vzorčenje še vedno dovolj dobrih, lastnosti agentov.
 
-    Točnost večinskega razreda je bila presežena v vseh poskusih, $100\%$ točnost pa ni bila nikoli dosežena.
+    Prvi nabor parametrov z metriko MCC je ustvaril najboljšo mrežo s $96.2\%$ točnostjo (slika~\ref{fig:wine_mcc_1_g}),
+    točnost večinskega razreda (39.89\%) pa je bila presežena v vseh zagonih.
+
 
     \section{Car Evaluation}\label{sec:rezultati-car-evaluation}
-    Poskusi so pokazali, da naš pristop ni brez pomanjkljivosti.\ Namreč, noben poskus ni ustvaril mreže, ki bi lahko
-    klasificirala primere učnih in testnih množic v vse štiri razrede.
-    Najboljši agenti poskusov posameznih naborov so lahko pravilno klasificirali samo v večinski in še en razred.
+    Rezultati so pokazali, da naš pristop ni brez pomanjkljivosti.
+    Namreč, noben zagon ni ustvaril mreže, ki bi lahko klasificirala primere testnih množic v vse štiri razrede.
+    Vsi najboljši agenti lahko pravilno klasificirajo večinski razred \enquote{nesprejemljivo} in drugi največji
+    razred \enquote{sprejemljivo}, dva v \enquote{zelo dobro} in eden v \enquote{dobro}.
+    Matrike zmot najboljših agentov vsebujejo prazne stolpce (primer~\ref{tab:car_mcc_1}) za razrede, ki jih ne morejo napovedati.
+    Vzrok je sledeč: izhodna vozlišča, ki razredov nikoli ne napovejo, imajo na vhodnih povezavah samo negativne ali pa zelo majhne uteži.
 
-    Najboljša mreža je bila generirana s pomočjo metrike MCC (slika~\ref{fig:car_mcc_2_g}) z vrednostjo $0.530$
-    oz.\ $73.7\%$ točnostjo (tabela~\ref{tab:car_mcc_2}).
-    Klasificirala je lahko samo v dva razreda, in sicer \enquote{sprejemljivo} in \enquote{nesprejemljivo}.
+    Primer je najboljša mreža tretjega nabora parametrov z metriko MCC (slika~\ref{fig:car_mcc_3_g}), kjer ima izhodno
+    vozlišče za napovedovanje razreda \enquote{dobro} dve vhodni povezavi z utežema $-0.978457$ in $-0.158101$.
+    Izvor povezav sta dve vhodni vozlišči, za kateri podatkovna množica ne vsebuje negativnih primerov in primerov z vrednostjo nič.
+    Posledično bo vrednost tega vozlišča vedno negativna.
 
-    Populacije agentov v poskusih, kjer smo uporabili metriko točnosti, so konvergirale zelo hitro, sprememba kvalitete
-    pa se je pojavila večinoma v najslabših desetih odstotkih oz.\ v mutiranem delu populacije.
-    Metrika MCC je povzročila hiter skok k vrednosti $0$, nato pa počasno konvergenco, v tretjem naboru pa tudi precejšnjo
-    divergenco v najslabših $20\%$ populacije s ponovno konvergenco (slika~\ref{fig:car_mcc_3}).
+    Razlog je, da so v zgodnjih generacijah najkvalitetnejši tisti agenti, ki lahko napovedujejo v večinski razred.
+    V podatkovnih množicah, kjer so razredi enakomerno porazdeljeni, začnemo z raznolikim naborom dobrih agentov, ki lahko napovedujejo
+    le en razred, njihove lastnosti pa se ščasoma združijo v agente, ki lahko napovedujejo vse.
+    Ko obravnavamo množice z zelo neenakomerno porazdelitvijo, so v začetnih generacijah najkvalitetnejši le agenti, ki
+    lahko napovejo večinski in delno še kak drug razred.\ Agenti, ki lahko pravilno napovejo manjši razred, večinskega pa ne oz.\ delno,
+    imajo majhno izračunano kvaliteto, kar pomeni sorazmerno majhno možnost izbire v fazi križanja.
+    Nišne lastnosti, zaradi katerih mreže lahko napovedujejo manjše razrede, se skozi generacije izgubijo in nadomestijo z
+    lastnostmi, ki teh razredov nikoli ne napovejo.
 
-    Točnost najboljših agentov posameznih naborov je sicer presegla točnost večinskega razreda, kar pa ne velja za
-    najboljše agente vseh poskusov.
-    Večanje dovoljene velikosti mrež ni vplivalo na kvaliteto agentov.
+    Slike grafov prikazujejo očitno razliko med metrikama točnosti in MCC.
+    Točnost povzroči zelo hitro konvergenco populacije na točnost večinskega razreda, nato pa zelo počasno bližanje kvalitete
+    najboljšemu agentu.\ Populacija je v primeru drugega nabora parametrov ostala na točnosti večinskega razreda.
+    MCC je povzročil postopno višanje kvalitete populacije sorazmerno z najboljšim agentom s konvergenco.
+
+    Najboljša mreža je bila ustvarjena z drugim naborom parametrov z metriko MCC, doseže pa $75.9\%$ točnost (slika~\ref{fig:car_mcc_2_g}).
+    Večinski razred $70.02\%$ je bil večinoma presežen.
+
 
     \section{Shuttle}\label{sec:rezultati-shuttle}
 
@@ -1664,11 +1697,12 @@
     predstavitev
     razlaga
 
+    \section{Izboljšave}
+    bias na vseh globokih vozliščih na 1
 
     \chapter{Zaključki, sklep}\label{ch:zakljucki-sklep}
     \textbf{TODO}
-    \section{Izboljšave}
-    bias na vseh globokih vozliščih na 1
+    Ugotovitve kažejo na dejstvo, da naš izračun kvalitete ni zadosten za obdržanje nišnih lastnosti.
 
     \chapter{Dodatek}
     \input{dodatek}
