@@ -51,6 +51,12 @@
 \usepackage{booktabs}
 \usepackage{longtable}
 \usepackage{multirow}
+\usepackage[plain]{algorithm}
+%% prevedi algoritem
+\makeatletter
+\renewcommand{\ALG@name}{Algoritem}
+\renewcommand{\listalgorithmname}{Seznam algoritmov}
+\makeatother
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %	DIPLOMA INFO
@@ -308,7 +314,7 @@
 % zahvala
     \thispagestyle{empty}\mbox{}\vfill\null\it%
     \noindent
-    Zahvaljujem se svojemu mentorju za njegovo potrpežljivost.
+    Zahvaljujem se svojemu mentorju in šefu za njihovo potrpežljivost.
     \rm\normalfont
 
 % prazna stran
@@ -341,15 +347,16 @@
     \chapter*{Seznam uporabljenih kratic}
 
     \noindent\begin{tabular}{p{0.11\textwidth}|p{.39\textwidth}|p{.39\textwidth}}    % po potrebi razširi prvo kolono tabele na račun drugih dveh!
-    \textbf{kratica}
-                 & \textbf{angleško}             & \textbf{slovensko}                        \\ \hline
-                 \textbf{CA}    &   classification accuracy &   klasifikacijska točnost \\
-                 \textbf{NN}    &   neural network    & nevronska mreža \\
-                 \textbf{ReLU}    &   rectified linear unit    & usmerjena linearna enota \\
-                 \textbf{GA}    &   genetic algorithm    & genetski algoritem \\
-                 \textbf{SUS}    &   stochastic universal sampling    & stohastično univerzalno vzorčenje \\
-                 \textbf{ACC}    &   accuracy    & točnost \\
-                 \textbf{MCC}    &   Matthews correlation coefficient    & Matthewsov korelacijski koeficient \\
+                 \textbf{kratica}
+                 & \textbf{angleško}                       & \textbf{slovensko}                     \\ \hline
+                 \textbf{CA}   & classification accuracy                 & klasifikacijska točnost                \\
+                 \textbf{NN}   & neural network                          & nevronska mreža                        \\
+                 \textbf{ReLU} & rectified linear unit                   & usmerjena linearna enota               \\
+                 \textbf{GA}   & genetic algorithm                       & genetski algoritem                     \\
+                 \textbf{SUS}  & stochastic universal sampling           & stohastično univerzalno vzorčenje      \\
+                 \textbf{ACC}  & accuracy                                & točnost                                \\
+                 \textbf{MCC}  & Matthews correlation coefficient        & Matthewsov korelacijski koeficient     \\
+                 \textbf{NEAT} & Neuroevolution of Augmenting Topologies & Nevroevolucija razširjajočih topologij \\
 %  \dots & \dots & \dots \\
     \end{tabular}
 
@@ -371,7 +378,13 @@
 %\noindent\textbf{Povzetek:}
     %\noindent V vzorcu je predstavljen postopek priprave diplomskega dela z uporabo okolja \LaTeX. Vaš povzetek mora sicer vsebovati približno 100 besed, ta tukaj je odločno prekratek.
     %Dober povzetek vključuje: (1) kratek opis obravnavanega problema, (2) kratek opis vašega pristopa za reševanje tega problema in (3) (najbolj uspešen) rezultat ali prispevek diplomske naloge.
-    \noindent \textbf{TODO}
+    \noindent
+    Diplomska naloga obsega izdelavo programa, ki implementira nevroevolucijo za izdelavo rekurenčnih nevronskih mrež za večrazredno
+    klasifikacijo.\ Klasični prostopi k stojnem učenju se zanašajo na človeško načrtovanje topologije nevronskih mrež, naš
+    program pa poleg prilagajanja uteži išče tudi najboljšo topologijo za dano podatkovno množico, pri čemer upošteva
+    kompleksnost mrež.
+    Točnost ustvarjenih mrež za klasifikacijo podatkovnih množic z enakomerno porazdelitvijo razredov je primerljiva
+    s pristopom naključnih gozdov, zaostajajo pa pri klasifikaciji množic z neenakomernimi porazdelitvami.
 
     \bigskip
 
@@ -392,7 +405,13 @@
     \bigskip
 
 %\noindent\textbf{Abstract:}
-    \noindent \textbf{TODO}
+    \noindent
+    This thesis involves creating a program that implements neuroevolution for the creation of recurrent neural networks
+    for multiclass classification.\ Traditional approaches to machine learning rely on human-designed neural network
+    topologies, while our program adjusts weights and also seeks the best topology for the given dataset, considering
+    the complexity of the networks.
+    The accuracy of the created networks for classification of datasets with evenly
+    distributed classes is comparable to the random forests approach, but they fall behind in classifying datasets with uneven distributions.
     \bigskip
 
     \noindent\textbf{Keywords:} \tkeywordsEn.
@@ -413,11 +432,11 @@
     Učenje večinoma poteka z metodo vzvratnega razširjanja napake, kjer se prilagajajo le uteži povezav med vozlišči,
     topologija pa ostane enaka.
     Motivacija diplomskega dela je raziskati, ali učenje z metodo nevroevolucije, kjer poleg uteži spreminjamo tudi topologijo,
-    prinese izboljšave pri točnosti, hitrosti učenja in velikosti končnih nevronskih
+    prinese izboljšave pri točnosti in velikosti končnih nevronskih
     mrež v primerjavi s standardnimi rešitvami.
 
     Naš pristop ustvarja nevronske mreže za večrazredno klasifikacijo na podlagi vhodne
-    podatkovne množice, izračuna njihovo kvaliteto na podlagi točnosti ali Matthewsovega korelacijskega koeficienta s pribitkom kompleksnosti,
+    podatkovne množice, izračuna njihovo kakovost na podlagi točnosti ali Matthewsovega korelacijskega koeficienta s pribitkom kompleksnosti,
     nato pa izbere najboljših $n$ za naslednjo generacijo.
     Postopek $m$-krat ponovi, nato pa shrani najboljšo nevronsko mrežo.
     Podrobnosti pristopa so opisane v poglavju~\ref{ch:implementacija-nevroevolucije}.
@@ -487,27 +506,26 @@
     \section{Genetski algoritmi}\label{sec:genetski-algoritmi}
     Genetski algoritmi (GA) črpajo navdih iz evolucijskega procesa naravne selekcije.
     Večinoma so uporabljeni za reševanje optimizacijskih in iskalnih problemov, ne zagotavljajo pa optimalnih rešitev.
-    Namesto enega rezultata po navadi najdejo nabor rešitev dobre kakovosti, ki so primerne za nadaljnjo uporabo
-    ~\cite{inteligentni_sistemi_2010_ga,genetic_algorithm_wiki_2022}.
+    Namesto enega rezultata po navadi najdejo nabor rešitev dobre kakovosti, ki so primerne za nadaljnjo
+    uporabo~\cite{inteligentni_sistemi_2010_ga,genetic_algorithm_wiki_2022}.
     
-    V splošnem so GA sestavljeni iz korakov inicializiranja začetne populacije, vzorčenja, križanja, mutiranja in izračuna kvalitete agentov.
-    %inicializacijo začetne populacije, vzorčenje, križanje, mutiranje in izračun kvalitete
+    V splošnem so GA sestavljeni iz korakov inicializiranja začetne populacije, vzorčenja, križanja, mutiranja in izračuna kakovosti agentov.
+    %inicializacijo začetne populacije, vzorčenje, križanje, mutiranje in izračun kakovosti
     \begin{description}
         \item[Agent]{je predstavitev posamezne (vmesne ali končne) rešitve. Lahko je zgrajen v obliki vektorja binarnih ali realnih
             števil, znakov, ali pa v obliki drevesa oz. grafa. Posamezno vrednost imenujemo gen in lahko predstavlja navodilo za
             reševanje problema (npr. premik gor, dol, levo ali desno pri sprehodu skozi labirint) ali vrednost nekega parametra problema.}
-        \item[Izračun kakovosti]{agentov je specifičen glede na problem, ki ga želimo rešiti. Predstavitev agenta lahko uporabimo
-            kot vhodne parametre našega problema in kvaliteto rezultata ustrezno ocenimo. Pri nevroevoluciji
-            je kakovost agenta kar točnost klasificiranja.}
+        \item[Izračun kakovosti]{agentov je specifičen glede na problem, ki ga želimo rešiti.\ Lahko je funkcija točnosti,
+            hitrosti reševanja problema, lahko vsebuje kazni itd.}
         \item[Inicializacija populacije]{je prvi korak GA.
             Ustvarimo začetni nabor naključnih agentov v obliki izbrane predstavitve.
             Velikost populacije je poljubna vrednost, tipično proporcionalna kompleksnosti agentov in zahtevnosti problema.}
         \item[Vzorčenje]{je proces izbire podmnožice agentov za kreiranje naslednje populacije.
-            Največkrat izberemo agente glede na njihovo kvaliteto, zagotoviti pa moramo tudi zadostno raznolikost populacije,
+            Največkrat izberemo agente glede na njihovo kakovost, zagotoviti pa moramo tudi zadostno raznolikost populacije,
             da ne obtičimo v lokalnih maksimumih. Poznamo več načinov vzorčenja, na primer~\cite{inteligentni_sistemi_2010_evolucijski_model}:
             \begin{itemize}
                 \item proporcionalna izbira, kjer je verjetnost izbire agenta odvisna od njegove kakovosti glede na populacijo,
-                \item rangovna izbira, kjer agente sortiramo po kvaliteti padajoče in jim priredimo rang glede na pozicijo, verjetnost izbire pa je odvisna od velikosti ranga,
+                \item rangovna izbira, kjer agente sortiramo po kakovosti padajoče in jim priredimo rang glede na pozicijo, verjetnost izbire pa je odvisna od velikosti ranga,
                 \item turnirska izbira, kjer izberemo naključno število agentov iz populacije, za križanje pa izberemo najkakovostnejšega
                 z verjetnostjo $p$, drugega po vrsti z verjetnostjo $p*(1-p)$, tretjega z verjetnostjo $p*(1-p)^2$ itd.
                 ($n$-tega izberemo z verjetnostjo $p*(1-p)^{n-1}$),
@@ -516,8 +534,7 @@
             Agenta lahko izberemo večkrat.
             Taki agenti imajo po navadi visoko kakovost, kar pomeni večkratno udeležbo v križanju in s tem boljše širjenje kakovostnih genov na potomce.
             Prav tako ni nujno, da zamenjamo vse agente. V naslednjo populacijo lahko prenesemo del osebkov, pri
-            čemer moramo paziti na raznolikost genetskega materiala. Ta koncept imenujemo elitizem~\cite{inteligentni_sistemi_2010_nadomescanje_osebkov}.
-            \item}
+            čemer moramo paziti na raznolikost genetskega materiala. Ta koncept imenujemo elitizem~\cite{inteligentni_sistemi_2010_nadomescanje_osebkov}.}
         \item[Križanje]{je postopek izmenjave genov med agenti in je odvisen od njihove predstavitve in tega, kakšno informacijo posamezen gen predstavlja.
             Na primer, potomce agentov, ki so predstavljeni v vektorskem načinu, lahko ustvarimo tako, da vzamemo prvo polovico genov prvega in drugo polovico genov
             drugega starša. Križanje agentov, ki so predstavljeni z drevesnimi strukturami ali grafi, je težje
@@ -528,38 +545,56 @@
             da se izognemo naključnemu preiskovanju.}
     \end{description}
 
-    Splošna psevdokoda genetskih algoritmov je naslednja~\cite{inteligentni_sistemi_2010_evolucijsko_racunanje}:
+    Splošna psevdokoda genetskih algoritmov~\cite{inteligentni_sistemi_2010_evolucijsko_racunanje} se nahaja v algoritmu~\ref{alg:ga_splosno}.
 
-    \lstlistingslo{psevdokoda/ga.txt}
+    \begin{algorithm}
+        \lstlistingslo{psevdokoda/ga.txt}
+        \caption{Splošna psevdokoda genetskih algoritmov.}
+        \label{alg:ga_splosno}
+    \end{algorithm}
 
 
     \section{Nevroevolucija}\label{sec:nevroevolucija}
     Nevroevolucija je področje strojnega učenja, kjer agente (napovedne modele) ustvarimo z uporabo genetskih algoritmov.
-    Agenti predstavljajo nek tip nevronskih mrež.
-    Posamezen gen predstavlja vozlišče ali povezavo (direktno kodiranje), lahko pa
-    predstavlja tudi načrt konstrukcije dela nevronske mreže (posredno kodiranje)~\cite{kassahun2007common}.
+    Nevronske mreže nastopajo v vlogi agentov.\ Lahko so~\cite{kassahun2007common}:
+    \begin{itemize}
+        \item direktno kodirane, kjer posamezen gen predstavlja vozlišče ali povezavo,
+        \item posredno kodirane, kjer posamezen gen predstavlja načrt konstrukcije dela mreže.
+    \end{itemize}
 
-    Nevroevolucija je primerna na področju spodbujevanega učenja, kjer nas za izračun kvalitete zanima le uspešnost
+    Nevroevolucija je primerna na področju spodbujevanega učenja, kjer nas za izračun kakovosti zanima le uspešnost
     kreirane mreže.
     Na primer, rezultat neke igre lahko enostavno izmerimo (ali je agent zmagal, koliko točk je dobil, kako hiter je bil),
-    vrednost pa uporabimo kot kakovost.
+    vrednost pa uporabimo za izračun kakovosti.
     Pri nadzorovanem učenju bi potrebovali podatkovno množico agentovih potez s pričakovanimi rezultati igre.
     V kolikor igra vsebuje elemente naključnosti, se izdelava take množice lahko izkaže kot težaven problem.
 
-    Z razliko od konvencionalnih metod strojnega učenja z vzvratnim raz\-šir\-ja\-njem napake, ki uporabljajo nevronske mreže
-    fiksne topologije, nevroevolucija optimizira topologijo, uteži povezav med vozlišči in druge parametre mrež.
-    Za primer vzemimo aktivacijsko funkcijo ReLU~\cite{he2015delving}, ki je definirana z:
+    Ročno načrtovanje dobrih nevronskih mrež je velikokrat počasno in zahteva precejšnje izkušnje ter znanje, rezultat pa
+    je pristranski.
+    S pomočjo nevroevolucije lahko dodajamo, odstranjujemo in spreminjamo sestavne dele mrež, da lažje najdemo optimalno topologijo.
+
+    Z razliko od konvencionalnih metod strojnega učenja z vzvratnim raz\-šir\-ja\-njem napake, kjer spreminjamo uteži
+    fiksnih mrež s pomočjo gradientnega iskanja~\cite{inteligentni_sistemi_2010_gradient}, lahko tekom evolucije naključno
+    spreminjamo uteži.\ Na ta način hkrati iščemo najboljšo topologijo in prilagajamo uteži povezav oz.\ treniramo agente.
+
+    Uporaba genetskih algoritmov pri iskanju najboljših nevronskih mrež nam dopušča fleksibilnost, v smislu da lahko poleg
+    iskanja najboljše topologije in uteži optimiziramo tudi dodatne lastnosti.
+    Za primer vzemimo aktivacijsko funkcijo parametrični ReLU~\cite{he2015delving}, ki je definirana z:
     \begin{equation}
         f(x)=
         \begin{cases}
-            \text{x} & \quad\text{če je x}\ge0\\
-            \text{ax} & \quad\text{sicer}\\
+            x & \quad\text{če je x}\ge0\\
+            ax & \quad\text{sicer}\\
         \end{cases}
         \label{eq:parametric_relu}
     \end{equation}
-    V postopku križanja in mutiranja mrež bi lahko optimizirali tudi parameter $a$, ki določa prepustnost negativnih aktivacijskih vrednosti.
+    V postopku križanja in mutiranja lahko optimiziramo tudi parameter $a$, ki določa prepustnost negativnih aktivacijskih vrednosti.
 
-    \textbf{TODO} podrobnejši opis nevroevolucije, obstoječi pristopi
+    Algoritem NEAT (Neuroevolution of Augmenting Topologies)~\cite{enwiki:1179705451,Iba_2018_neat} je način implementacije neuroevolucije, ki spreminja topologijo in uteži povezav direktno kodiranih mrež.
+    Gene označuje z zgodovinskimi markerji in ohranja najdene inovacije, kompleksno topologijo pa postopoma gradi iz preprostih začetnih struktur.
+
+    Obstajajo številne razširitve NEAT algoritma, med katerimi sta HyperNEAT~\cite{Iba_2018_hyper} s prilagoditvami za evolucijo velikih nevronskih mrež,
+    in rtNEAT z evolucijo v realnem času.
 
     %%\section{Naključni gozdovi}\label{sec:nakljucni-gozdovi}
 
@@ -576,21 +611,21 @@
         \item vzorčenje (razdelek~\ref{sec:vzorcenje}) z algoritmom stohastičnega univerzalnega vzor\-če\-nja,
         \item križanje (razdelek~\ref{sec:krizanje}) agentov z združevanjem dveh usmerjenih grafov,
         \item mutiranje (razdelek~\ref{sec:mutiranje}) potomcev in implementirane vrste mutacij,
-        \item izračun kvalitete (razdelek~\ref{sec:izracun-kakovosti}) agentov na podlagi točnosti in Matthewsovega korelacijskega koeficienta
+        \item izračun kakovosti (razdelek~\ref{sec:izracun-kakovosti}) agentov na podlagi točnosti in Matthewsovega korelacijskega koeficienta
         s primerom (podrazdelek~\ref{subsec:primer-izracuna-kakovosti}).
     \end{itemize}
 
     \section{Agenti}\label{sec:agenti}
     Agenti v našem pristopu so direktno zakodirane rekurenčne nevronske mreže v obliki usmerjenega grafa, kjer vsak gen
     predstavlja povezavo ali vozlišče.
-    Vsak agent hrani informacijo o svoji kvaliteti, točnosti in MCC (razdelek~\ref{sec:izracun-kakovosti}), ki se ob inicializaciji populacije (razdelek~\ref{sec:inicializacija-populacije})
+    Vsak agent hrani informacijo o svoji kakovosti, točnosti in MCC (razdelek~\ref{sec:izracun-kakovosti}), ki se ob inicializaciji populacije (razdelek~\ref{sec:inicializacija-populacije})
     in kreiranju novega agenta v koraku križanja (razdelek~\ref{sec:krizanje}) nastavijo na 0.
     V koraku izračuna kakovosti (razdelek~\ref{sec:izracun-kakovosti}) se v polja shrani izračunana vrednost.
 
     Polje \enquote{newAgent} hrani informacijo, ali je agent v trenutni iteraciji populacije nov oz.\ je bil vzorčen
     iz prejšnje iteracije.
     V kolikor je vrednost \textbf{false}, korak izračuna kakovosti take agente preskoči, saj bi ponoven izračun
-    vrnil enako kvaliteto.
+    vrnil enako kakovost.
 
     Vozlišča in povezave usmerjenega grafa so v naši implementaciji samostojni objekti, ki hranijo medsebojne reference.
     Matrika sosednosti ni najbolj primerna, saj bi bila zaradi načina mutiranja (razdelek~\ref{sec:mutiranje})
@@ -608,16 +643,16 @@
 
     Struktura grafa je pogojena z izbrano podatkovno množico.
     Število vhodnih vozlišč mora biti enako številu atributov podatkovne mno\-ži\-ce, šte\-vi\-lo izhodnih vozlišč pa enako številu razredov.
-    Količina notranjih vozlišč se giblje od 0 do izbrane vrednosti parametra.
+    Količina notranjih vozlišč se giblje od 0 do izbrane vrednosti inicializacijskega parametra (razdelek~\ref{sec:inicializacija-populacije}).
     Za množice, opisane v poglavju~\ref{ch:evalvacija} vrednost $20$ predstavlja dovolj dobro razmerje med dovoljeno kompleksnostjo agentov in
     računsko zahtevnostjo.
 
     \subsection{Vozlišča}\label{subsec:vozlisca}
     Vozlišča v usmerjenih grafih izhajajo iz enostavnega razreda \enquote{Vertex}, ki vsebuje seznam referenc
     na svoje vhodne in izhodne povezave, indeks in vrednost.
-    Razred implementira trivialno aktivacijsko funkcijo $f(x)=x$.
+    Razred implementira aktivacijsko funkcijo identitete $f(x)=x$.
 
-    Indeks je unikatna številka vozlišča, ki se nastavi ob kreiranju le-tega znotraj usmerjenega grafa.
+    Indeks je unikatna številka vozlišča, ki se nastavi ob njegovem kreiranju znotraj usmerjenega grafa.
     Začne se z 0, vsako novo vozlišče pa dobi indeks, ki je za 1 večje od prejšnjega največjega.
     Vhodna, globoka in izhodna vozlišča se indeksirajo medsebojno neodvisno.
 
@@ -645,6 +680,7 @@
         Njihova aktivacijska funkcija je nespremenjena, ker je v koraku izračuna kakovosti pomembna samo največja
         vrednost vseh izhodnih vozlišč grafa. }
     \end{description}
+
     V grafih dopuščamo obstoj \enquote{mirujočih} globokih vozlišč, ki ne vplivajo na vrednosti izhodnih vozlišč.
     Mirujoča vozlišča lahko postanejo aktivna v koraku križanja (razdelek~\ref{sec:krizanje}) in mutiranja (razdelek~\ref{sec:mutiranje}).
 
@@ -657,6 +693,7 @@
         \item utež, ki se v koraku inicializacije populacije (razdelek~\ref{sec:inicializacija-populacije}) in mutiranja (razdelek~\ref{sec:mutiranje}) normalizira na vrednost med -1 in 1,
         \item največje število prečkanj.
     \end{itemize}
+
     Največje število prečkanj je lastnost, ki v klasičnih nevronskih mrežah ni potrebna, saj postopek sprehoda skozi graf
     vsako povezavo prečka največ ali natanko enkrat.
     Ker so naši agenti kodirani kot rekurenčne nevronske mreže, kjer so dovoljeni cikli (razdelek~\ref{subsec:rekurencne-nevronske-mreze}),
@@ -677,6 +714,7 @@
         \item rezultat aktivacijskih funkcij izhodnih vozlišč vpliva na rezultat aktivacijskih funkcij vhodnih,
         globokih ali izhodnih vozlišč.
     \end{itemize}
+
     Med dvema vozliščema dovolimo samo po eno povezavo v isti smeri, kar nas skupaj z zgornjimi omejitvami pripelje do naslednje
     enačbe za izračun največjega števila povezav:
     \begin{equation}
@@ -693,10 +731,11 @@
         \item $d \cdot o$ število možnih povezav iz globokih na vhodna vozlišča,
         \item $d^2$ število možnih povezav med globokimi vozlišči, vključno s povezavami, ki se začnejo in končajo v istem vozlišču.
     \end{itemize}
+
     V grafih dopuščamo obstoj \enquote{mirujočih} povezav, ki so povezane na mirujoča globoka vozlišča.
     Posledično dopuščamo obstoj \enquote{mirujočih struktur}, ki ne vplivajo na vrednosti izhodnih vozlišč,
     lahko pa postanejo aktivne v koraku mutiranja in križanja.
-    Eno globoko vozlišče smatramo kot najmanjšo mirujočo strukturo.
+    Eno globoko vozlišče smatramo kot najmanjšo možno mirujočo strukturo.
 
 
     \section{Populacija}\label{sec:populacija}
@@ -709,24 +748,24 @@
         agentov in več prostora za agente z nišnimi geni. }
         \item[Število vhodnih vozlišč]{Pozitivno celo število, ki je enako šte\-vi\-lu atributov izbrane podatkovne množice.}
         \item[Število izhodnih vozlišč]{Pozitivna celoštevilska vrednost, ki je enaka šte\-vi\-lu razredov izbrane podatkovne množice.}
-        \item[Največje število globokih vozlišč]{Pozitivno celo število, ki do\-lo\-ča, naj\-več koliko globokih vozlišč lahko vsebujejo
-        agenti te populacije. Korak mutiranja (razdelek~\ref{sec:mutiranje}) lahko povzroči izgubo ali pridobitev novega globokega
+        \item[Največje število globokih vozlišč]{Pozitivno celo število, ki do\-lo\-ča največje število globokih vozlišč agentov.
+        Korak mutiranja (razdelek~\ref{sec:mutiranje}) lahko povzroči izgubo ali pridobitev novega globokega
         vozlišča, dokler je skupno število med 0 in vrednostjo tega parametra.}
-        \item[Največje število povezav]{Pozitivna celoštevilska vrednosti, ki določi, naj\-več koliko povezav lahko obstaja
+        \item[Največje število povezav]{Pozitivna celoštevilska vrednost, ki določa največje število povezav
         znotraj posameznega agenta. Korak mutiranja (razdelek~\ref{sec:mutiranje}) lahko povzroči izgubo ali pridobitev nove povezave,
         dokler je skupno število med 0 in vrednostjo tega parametra. Skupno število vhodnih in izhodnih povezav posameznih vozlišč ni posebej omejeno. }
-        \item[Največje število prečkanj]{Pozitivno celo število, ki določa naj\-več preč\-kanj povezav grafov
-        celotne populacije. Uporabi se v koraku izračuna kakovosti agentov (razdelek~\ref{sec:izracun-kakovosti}).}
+        \item[Največje število prečkanj]{Pozitivno celo število, ki določa največje število prečkanj povezav.
+        Uporabi se v koraku izračuna kakovosti agentov (razdelek~\ref{sec:izracun-kakovosti}).}
         \item[Delež mutiranih potomcev]{Delež potomcev, ustvarjenih v koraku kri\-žan\-ja (razdelek~\ref{sec:krizanje}), ki jih bomo
         mutirali.}
         \item[Seznam label atributov in razredov]{Labele se pripišejo vhodnim in izhodnim vozliščem. Uporabijo se pri izpisu
         agentov na konzolo in pri shranjevanju grafov v JSON datoteke. }
-        \item[Metrika kvalitete]{Dve možni besedilni vrednosti, ki določata način izra\-ču\-na kakovosti v razdelku~\ref{sec:izracun-kakovosti};
+        \item[Metrika kakovosti]{Dve možni besedilni vrednosti, ki določata način izra\-ču\-na kakovosti v razdelku~\ref{sec:izracun-kakovosti};
         \enquote{ACC}, ki predstavlja točnost, in \enquote{MCC}, ki predstavlja Matthewsov korelacijski koeficient.}
-        %%\item[Prispevek vozlišč]{Decimalna vrednost, ki je lahko negativna ali pozitivna.\ Vpliva na izračun kvalitete agenta v razdelku~\ref{sec:izracun-kakovosti}.
+        %%\item[Prispevek vozlišč]{Decimalna vrednost, ki je lahko negativna ali pozitivna.\ Vpliva na izračun kakovosti agenta v razdelku~\ref{sec:izracun-kakovosti}.
         %%Pozitivna vrednost povzroči, da v koraku vzorčenja~\ref{sec:vzorcenje} obdržimo agente z več vozlišči, negativna pa obratno.}
         %%\item[Prispevek povezav]{Decimalna vrednost, ki je lahko negativna ali pozitivna. Vpliv je podoben prispevku vozlišč.}
-        \item[Prispevek kompleksnosti]{Decimalna vrednost, ki je lahko negativna ali pozitivna.\ Vpliva na izračun kvalitete agenta v razdelku~\ref{sec:izracun-kakovosti}.
+        \item[Prispevek kompleksnosti]{Decimalna vrednost, ki je lahko negativna ali pozitivna.\ Vpliva na izračun kakovosti agenta v razdelku~\ref{sec:izracun-kakovosti}.
         Pozitivna vrednost povzroči, da v koraku vzorčenja (poglavje~\ref{sec:vzorcenje}) obdržimo agente z večjim številom prečkanj povezav v koraku izračuna kakovosti (poglavje~\ref{sec:izracun-kakovosti}), negativna pa obratno.}
         \item[Število generacij]{Pozitivno celo število, ki določi število iteracij genetskega algoritma. Ko je to število doseženo, se program ustavi.}
     \end{description}
@@ -750,44 +789,50 @@
         \enquote{največje število prečkanj}.
         \item Normaliziramo uteži povezav grafa med -1 in 1.
         \item Ustvarimo novo instanco razreda \enquote{Agent}, kjer je edini argument instanca grafa.\ Polje \enquote{newAgent}
-        je privzeto \textbf{true}, kar bo sprožilo izračun kvalitete (razdelek~\ref{sec:izracun-kakovosti}).
+        je privzeto \textbf{true}, kar bo sprožilo izračun kakovosti (razdelek~\ref{sec:izracun-kakovosti}).
     \end{enumerate}
+
     Po inicializiranju začetne populacije sledi korak izračuna kakovosti.
 
 
     \section{Vzorčenje}\label{sec:vzorcenje}
     Vzorčenje je v programu implementirano s prilagojenim algoritmom stohastičnega univerzalnega vzorčenja,
-    kjer vedno obdržimo najkvalitetnejšega agenta populacije.
+    kjer vedno obdržimo najkakovostnejšega agenta populacije.
     Metoda prejme dva argumenta, ki vplivata na izbiro:
     \begin{description}
         \item[Število agentov, ki jih želimo obdržati]{Vrednost mora biti večja od 0 in manjša od ali enaka velikosti populacije.
         Večja vrednost povzroči manj potomcev in manj mutacij.}
-        \item[Metrika kvalitete]{Metrika, po kateri želimo izvajati vzorčenje. Lahko je točnost ali MCC (razdelek~\ref{sec:izracun-kakovosti}).}
+        \item[Metrika kakovosit]{Metrika, po kateri želimo izvajati vzorčenje. Lahko je točnost ali MCC (razdelek~\ref{sec:izracun-kakovosti}).}
     \end{description}
+
     Rezultat metode je podmnožica populacije, ki se v koraku križanja napolni do polne kapacitete (razdelek~\ref{sec:krizanje}).
 
     \subsection{Stohastično univerzalno vzorčenje (SUS)}\label{subsec:stohasticno-univerzalno-vzorcenje}
-    Prednost algoritma SUS~\cite{inteligentni_sistemi_2010_sus} je manjša varianca glede na funkcijo kvalitete od metod izbire v razdelku~\ref{sec:genetski-algoritmi}.
-    Zagotavlja verjetnejšo izbiro kvalitetnih agentov, hkrati pa dopušča nekaj naključnosti.
+    Prednost algoritma SUS~\cite{inteligentni_sistemi_2010_sus} je manjša varianca glede na funkcijo kakovosti od metod izbire v razdelku~\ref{sec:genetski-algoritmi}.
+    Zagotavlja verjetnejšo izbiro kakovostnih agentov, hkrati pa dopušča nekaj naključnosti.
     Zaradi teh lastnosti pomaga preprečiti prezgodnjo konvergenco agentov in ohranjati raznolikost.
     V primeru, da želimo obdržati samo polovico populacije, bo SUS večino agentov izbral izmed najboljših 50\%,
     nekaj pa izmed slabše polovice.
     Ne zagotavlja izbire npr.\ vseh najboljših 10\% agentov.
-    Elitne agente lahko izbere večkrat, če je njihova kvaliteta dovolj velika glede na preostalo populacijo.
+    Elitne agente lahko izbere večkrat, če je njihova kakovost dovolj velika glede na preostalo populacijo.
 
     SUS je v našem programu prilagojen tako, da vedno obdrži najboljšega agenta.
     Implementiran je na naslednji način:
     \begin{enumerate}
-        \item Poišče agenta z največjo kvaliteto, izračunano v koraku izračuna kakovosti (razdelek~\ref{sec:izracun-kakovosti}), ki
+        \item Poišče agenta z največjo kakovostjo, izračunano v koraku izračuna kakovosti (razdelek~\ref{sec:izracun-kakovosti}), ki
         lahko upošteva tudi njegovo število globokih vozlišč in povezav s poljubno utežjo poleg izbrane metrike.
-        V primeru, da imata dva agenta enako kvaliteto, izbere tistega, ki ima največjo kvaliteto brez velikostne kazni.
+        V primeru, da imata dva agenta enako kakovost, izbere tistega, ki ima največjo kakovost brez velikostne kazni.
         Njegov indeks shrani v seznam izbranih.
-        \item Izračuna vsoto kvalitete vseh agentov populacije.
-        \item Izračuna dolžino intervala kot razmerje med vsoto kvalitete in številom agentov, ki jih hočemo obdržati.
+        \item Izračuna vsoto kakovosti vseh agentov populacije.
+        \item Izračuna dolžino intervala kot razmerje med vsoto kakovosti in številom agentov, ki jih hočemo obdržati.
         \item Izbere naključno vrednost med 0 in dolžino intervala, ki bo služila kot začetni odmik.
         \item Vstopi v zanko, ki izbira agente glede na njihovo širino na številskem traku (slika~\ref{fig:sus}).
-        Zanka je predstavljena s spodnjo psevdokodo.
-        \lstlistingslo{psevdokoda/stochastic.txt}
+        Koda zanke je predstavljena v algoritmu~\ref{alg:sus}.
+        \begin{algorithm}
+            \lstlistingslo{psevdokoda/stochastic.txt}
+            \caption{Koda stohastičnega univerzalnega vzorčenja.}
+            \label{alg:sus}
+        \end{algorithm}
     \end{enumerate}
 
     \begin{figure}[H]
@@ -803,7 +848,7 @@
     \section{Križanje}\label{sec:krizanje}
     Korak križanja agentov napolni podmnožico populacije iz koraka vzorčenja (razdelek~\ref{sec:vzorcenje}) s potomci.
     Operiramo samo nad globokimi vozlišči in povezavami.
-    Vhodna in izhodna vozlišča morajo ustrezati podatkovni množici, zato so enaka vsem agentih populacije.
+    Vhodna in izhodna vozlišča morajo ustrezati podatkovni množici, zato so enaka v vseh agentih populacije.
 
     Vsak potomec je izdelan v svoji procesorski niti, saj je proces neodvisen od ostalih potomcev, hkrati pa ne
     spreminja vzorčenih agentov.
@@ -812,9 +857,9 @@
     \begin{enumerate}
         \item Iz populacije izberemo dva različna naključna agenta oz.\ starša.
         \item Ustvarimo instanco potomca z vhodnimi in izhodnimi vozlišči, ki ustrezajo podatkovni množici.
-        \item V potomcu ustvarimo presek globokih vozlišč obeh staršev, ostala pa s $50\%$ možnostjo.
+        \item V potomcu ustvarimo presek globokih vozlišč obeh staršev, preostala pa s $50\%$ možnostjo.
         Dve vozlišči obravnavamo kot enaki, če imata enak indeks.
-        \item V potomcu ustvarimo presek povezav obeh staršev, ostale pa s $50\%$ možnostjo.
+        \item V potomcu ustvarimo presek povezav obeh staršev, preostale pa s $50\%$ možnostjo.
         Dve povezavi obravnavamo kot enaki, če v obeh starših povezujeta vozlišči enakega tipa in indeksa v enaki smeri.
         Če taki povezavi obstajata, potem izberemo utež in največje število prečkanj naključnega starša.
     \end{enumerate}
@@ -846,10 +891,15 @@
 
     \section{Izračun kakovosti}\label{sec:izracun-kakovosti}
     Izračun kakovosti sledi korakoma inicializacije populacije in mutiranja potomcev.
-    Proces propagira vse zapise učne množice skozi vse agente populacije, prebere napovedi,
+    Proces propagira vse zapise učne množice skozi vse nove agente populacije, prebere napovedi,
     izpolni matriko zmot in izračuna točnost ali Matthewsov korelacijski koeficient (MCC).\ Postopek propagiranja vseh zapisov učne množice za posameznega agenta izvedemo v svoji
-    procesorski niti, algoritem pa je naslednji:
-    \lstlistingslo{psevdokoda/izracun.txt}
+    procesorski niti.\ Razložen je v algoritmu~\ref{alg:izracun_kakovosti}.
+
+    \begin{algorithm}
+        \lstlistingslo{psevdokoda/izracun.txt}
+        \caption{Izsek kode izračuna kakovosti.}
+        \label{alg:izracun_kakovosti}
+    \end{algorithm}
 
     Algoritem propagiranja vrednosti testne množice skozi graf se nahaja v metodi \enquote{traverse(di)}:
     \begin{enumerate}
@@ -862,7 +912,7 @@
             \item Prvo vozlišče v vrsti $pendingVertices$ prestavimo v spremenljivko $vertex$.
             \item Ponavljamo za vsako izhodno povezavo $edge$ vozlišča $vertex$:
             \begin{itemize}
-                \item V kolikor je število prečkanj $edge$ že enako največjemu dovoljenemu številu prečkanj (parameter v razdelku~\ref{sec:populacija}),
+                \item V kolikor je število prečkanj $edge$ že enako njenemu dovoljenemu številu prečkanj,
                 to iteracijo zanke zaključimo in nadaljujemo z naslednjo izhodno povezavo.
                 \item Vrednost $vertex$ pomnožimo z utežjo $edge$, zmnožek pa pri\-šte\-je\-mo njenemu ponornemu vozlišču.\ Število prečkanj $edge$ povečamo za 1.
                 \item Ponorno vozlišče povezave $edge$ dodamo vrsto, če izpolnjuje naslednja pogoja:
@@ -893,7 +943,7 @@
         \end{enumerate}
     \end{enumerate}
 
-    Z izpolnjeno matriko zmot program izračuna kvaliteto agenta s pomočjo točnosti ali MCC, odvisno od inicializacijskega parametra populacije \enquote{metrika kvalitete}.
+    Z izpolnjeno matriko zmot program izračuna kakovost agenta s pomočjo točnosti ali MCC, odvisno od inicializacijskega parametra populacije \enquote{metrika kakovosti}.
     Točnost izračuna s pomočjo naslednje formule:
     \begin{equation}
         \text{ACC}=\frac{c}{s},
@@ -920,9 +970,9 @@
         \item $\vec{p}$ število napovedi vseh razredov.
     \end{itemize}
 
-    Kvaliteti nato prištejemo oz.\ odštejemo prispevek inicializacijskega parametra \enquote{prispevek kompleksnosti} na naslednji način:
+    Kakovosti nato prištejemo oz.\ odštejemo prispevek inicializacijskega parametra \enquote{prispevek kompleksnosti} na naslednji način:
     \begin{equation}
-        \text{Kvaliteta}=
+        \text{Kakovost}=
         \begin{cases}
             \text{ACC} + t \cdot c, & \text{če je metrika ACC} \\
             \text{MCC} + t \cdot c, & \text{če je metrika MCC}
@@ -934,11 +984,12 @@
         \item $t$ število opravljenih prečkanj povezav v fazi propagiranja vrednosti skozi graf in
         \item $c$ prispevek kompleksnosti.
     \end{itemize}
+
     Negativni prispevek povzroči, da bodo v koraku vzorčenja (razdelek~\ref{sec:vzorcenje}) bolj pogosto izbrani tisti agenti, ki imajo večjo točnost oz.
     MCC in imajo hkrati manj kompleksen sprehod.
 
     Prispevek kompleksnosti doda pribitek za mirujoče strukture (podrazdelek~\ref{subsec:povezave}), ki so povezane na vsaj eno vhodno vozlišče.
-    Strukture, ki so z algoritmom propagiranja nedosegljive, ne vplivajo na kvaliteto agentov.
+    Strukture, ki so z algoritmom propagiranja nedosegljive, ne vplivajo na kakovost agentov.
 
     \subsection{Primer izračuna kakovosti}\label{subsec:primer-izracuna-kakovosti}
     Za lažjo predstavo algoritma vzemimo prvi zapis izmišljene učne množice z atributi A, B in C ter dvema razredoma in ga propagirajmo skozi preprost acikličen graf.
@@ -1026,7 +1077,7 @@
         \item Iz $pendingVertices$ vzamemo $i_0$.\ Njegovo vrednost propagiramo do vozlišča $o_0$ tako,
         da $5.7$ pomnožimo z utežjo povezave $0.03$, zmnožek pa prištejemo trenutni vrednosti $o_0$.
         Število prečkanj povezave povečamo za $1$.
-        Ker je $o_0$ izhodno vozlišče, ga ne dodamo v $pendingVertices$.
+        Ker je $o_0$ izhodno vozlišče, ga v $pendingVertices$ ne dodamo.
         \begin{flushleft}
             $pendingVertices: i_1, i_2$\linebreak
             $backupVertices: prazno$
@@ -1337,7 +1388,7 @@
                     vsota  & 0 & 2          & 2     \\
                     \hline
                 \end{tabular}
-                \caption{Stanje matrike zmot po propagaciji druge vrstice izmišljene učne množice. Povečali smo celico 0,1.}
+                \caption{Stanje matrike zmot po propagaciji druge vrstice izmišljene učne množice. Povečamo celico 0,1.}
                 \label{tab:izracun_kakovosti_cm_2}
             \end{table}}
         \item[A: 3.6, B:5.3, C: 3.5]{Pravilen razred: $0$
@@ -1379,7 +1430,7 @@
                     vsota  & 0 & 3          & 3     \\
                     \hline
                 \end{tabular}
-                \caption{Stanje matrike zmot po propagaciji tretje vrstice izmišljene učne množice. Povečali smo celico 0,1.}
+                \caption{Stanje matrike zmot po propagaciji tretje vrstice izmišljene učne množice. Povečamo celico 0,1.}
                 \label{tab:izracun_kakovosti_cm_3}
             \end{table}}
         \item[A: 3.8, B:8, C: 6.8]{Pravilen razred: $1$
@@ -1421,7 +1472,7 @@
                     vsota  & 0 & 4          & 4     \\
                     \hline
                 \end{tabular}
-                \caption{Stanje matrike zmot po propagaciji četrte vrstice izmišljene učne množice. Povečali smo celico 1,1.}
+                \caption{Stanje matrike zmot po propagaciji četrte vrstice izmišljene učne množice. Povečamo celico 1,1.}
                 \label{tab:izracun_kakovosti_cm_4}
             \end{table}}
         \item[A: 3.5, B:7.4, C: 9.8]{Pravilen razred: $0$
@@ -1483,18 +1534,18 @@
 
     \chapter{Evalvacija}\label{ch:evalvacija}
     To poglavje pokriva ovrednotenje programa na nekaj podatkovnih množicah (Iris, Wine, Car Evaluation in Shuttle) ter predstavitev rezultatov.
-    Vse podatkovne množice, ki smo jih izbrali, vsebujejo učne primerov brez manjkajočih vrednosti, zvezne ali diskretne atribute in najmanj tri razrede.
+    Vse podatkovne množice, ki smo jih izbrali, vsebujejo učne primere brez manjkajočih vrednosti, zvezne ali diskretne atribute in najmanj tri razrede.
     Na voljo so na UCI Machine Learning Repository~\cite{Dua:2019}.
     V tem poglavju naprej opišemo podatkovne množice, čemur sledi opis evalvacije (razdelek~\ref{sec:nacrt-poskusov}).
-    Rezultati in diskusije se predstavljeni v poglavju~\ref{ch:rezultati}.
+    Diskusija se nahaja v poglavju~\ref{ch:rezultati}, rezultati pa v dodatku~\ref{ch:rezultati-testiranja}.
 
     \section{Podatkovne množice}\label{sec:podatkovne-mnozice}
     V tem razdelku je opisano:
     \begin{itemize}
         \item podatkovna množica Iris (podrazdelek~\ref{subsec:iris}), na kateri je potekala večina razvoja programa,
         \item podatkovna množica Wine (podrazdelek~\ref{subsec:wine}), kjer je cilj uvrstiti vina v tri kvalitetne razrede na podlagi trinajstih atributov,
-        \item podatkovna množica Car Evaluation (podrazdelek~\ref{subsec:car-evaluation}), kjer je cilj klasificirati avtomobile v štiri kvalitetne razrede,
-        \item podatkovna množica Shuttle (podrazdelek~\ref{subsec:statlog-shuttle}) s 58000 vrsticami, od katerih skoraj 80\% pripada enemu razredu,
+        \item podatkovna množica Car Evaluation (podrazdelek~\ref{subsec:car-evaluation}), kjer je cilj klasificirati avtomobile v štiri kvalitetne razrede, in
+        \item podatkovna množica Shuttle (podrazdelek~\ref{subsec:statlog-shuttle}) s 58000 vrsticami, od katerih skoraj 80\% pripada enemu razredu.
     \end{itemize}
 
     \subsection{Iris}\label{subsec:iris}
@@ -1507,6 +1558,7 @@
         \item Iris Versicolour in
         \item Iris Virginica.
     \end{itemize}
+
     Učni primeri so enakomerno porazdeljeni med razredi, atributi vsebujejo samo zvezne vrednosti, cilj pa je klasifikacija.
 
     \begin{table}[H]
@@ -1518,7 +1570,7 @@
             Iris Versicolour & 50               & 33.33\% \\ \hline
             Iris Virginica   & 50               & 33.33\% \\ \hline
         \end{tabular}
-        \caption{Porazdelitev primerov množice Iris.}
+        \caption{Porazdelitev razredov množice Iris.}
         \label{tab:iris_opis}
     \end{table}
 
@@ -1553,7 +1605,7 @@
             razred 2 & 71               & 39.89\% \\ \hline
             razred 3 & 48               & 26.97\% \\ \hline
         \end{tabular}
-        \caption{Porazdelitev primerov množice Wine.}
+        \caption{Porazdelitev razredov množice Wine.}
         \label{tab:wine_opis}
     \end{table}
 
@@ -1561,12 +1613,12 @@
     Cilj množice Car Evaluation~\cite{misc_car_evaluation_19} je predvideti primernost 1728 avtomobilov oz.\ kako dobro kupčijo predstavljajo.
     Učni primeri vsebujejo šest diskretnih atributov:
     \begin{itemize}
-        \item nakupna cena avtomobila
-        \item stroški vzdrževanja
-        \item število vrat
-        \item število sedežev
-        \item velikost prtljažnika
-        \item stopnja varnosti
+        \item nakupna cena avtomobila,
+        \item stroški vzdrževanja,
+        \item število vrat,
+        \item število sedežev,
+        \item velikost prtljažnika in
+        \item stopnja varnosti.
     \end{itemize}
 
     Cilj je klasificirati primere v štiri razrede, ki med seboj niso enakomerno porazdeljeni.
@@ -1581,7 +1633,7 @@
             dobro          & 69               & 3.99\%  \\ \hline
             zelo dobro     & 65               & 3.76\%  \\ \hline
         \end{tabular}
-        \caption{Porazdelitev primerov množice Car Evaluation.}
+        \caption{Porazdelitev razredov množice Car Evaluation.}
         \label{tab:car_opis}
     \end{table}
 
@@ -1605,7 +1657,7 @@
 
     \subsection{Shuttle}\label{subsec:statlog-shuttle}
     Ta množica~\cite{misc_statlog_shuttle_148} je najbolj kompleksa izmed izbranih.
-    Vsebuje $58.000$ dnevniških zapisov Space-shuttlovega računalnika, ki so zelo neenakomerno porazdeljeni med sedem razredov.
+    Vsebuje 58,000 dnevniških zapisov Space-shuttlovega računalnika, ki so zelo neenakomerno porazdeljeni med sedem razredov.
     Vsebuje devet zveznih atributov.\ Prvi je \enquote{čas}, ostali pa niso poimenovani.
     Razredi so naslednji:
     \begin{itemize}
@@ -1617,12 +1669,13 @@
         \item bpv close in
         \item bpv open.
     \end{itemize}
+
     Atribut \enquote{čas} smo izpustili, ker v tej podatkovni množici služi kot zaporedna številka.
 
     Od ostalih množic se razlikuje še v tem, da nam nabora primerov ni treba ročno razdeljevati na učno in testno
     množico, saj so jo avtorji razdelili vnaprej.
-    Učna vsebuje 43500 primerov, testna pa 14500.
-    Distribucija primerov učne in testne množice je naslednja:
+    Učna vsebuje 43,500 primerov, testna pa 14,500.
+    Distribucija razredov učne in testne množice je naslednja:
     \begin{table}[H]
         \centering
         \begin{tabular}{||c c c||}
@@ -1644,7 +1697,7 @@
             7      & 11 (0.025\%)     & 2 (0.014\%)      \\
             \hline
         \end{tabular}
-        \caption{Porazdelitev primerov učne in testne množice Shuttle.}
+        \caption{Porazdelitev razredov učne in testne množice Shuttle.}
         \label{tab:shuttle_opis}
     \end{table}
 
@@ -1654,11 +1707,11 @@
     \begin{enumerate}
         \item primere podatkovnih množic smo premešali in razdelili na učno in testno v razmerju 70 proti 30 (razen Shuttle), kjer smo obdržali razmerje razredov,
         \item inicializacijske parametre populacije smo določili za vsako množico posebej glede na njeno kompleksnost\footnote{Števila vhodnih in izhodnih vozlišč in seznama label atributov in razredov med nabori nismo spreminjali, ker so ti parametri določeni s strukturo podatkovnih množic.},
-        \item v vsaki generaciji smo zabeležili podatke o točnosti ali MCC agentov glede na izbrano metriko kvalitete na učni množici,
+        \item v vsaki generaciji smo zabeležili podatke o točnosti ali MCC agentov glede na izbrano metriko kakovosti na učni množici,
         \item najboljšega agenta zadnje generacije smo preverili še na testni množici in zabeležili njegovo točnost ali MCC in matriko zmot,
         \item program smo pognali desetkrat za vsak nabor parametrov za obe metriki (petkrat na podlagi točnosti in petkrat na podlagi MCC),
-        \item od vseh zagonov za posamezni nabor smo vizualizirali najboljšega agenta s pomočjo odprtokodne knjižnice \enquote{force-graph}~\cite{Vasturiano},
-        hkrati pa izdelali graf točnosti oz.\ MCC po generacijah na učni množici,
+        \item od vseh zagonov za posamezni nabor smo vizualizirali najboljšega agenta s pomočjo odprtokodnih knjižnic \enquote{force-graph}~\cite{Vasturiano}
+        in \enquote{json}~\cite{Lohmann_JSON_for_Modern_2023}, hkrati pa izdelali graf točnosti oz.\ MCC po generacijah na učni množici,
         \item na koncu smo za vsak nabor parametrov izračunali standardni odklon točnosti in MCC najboljših agentov po formuli~\cite{enwiki:1168408775}:
         \begin{equation}
             \sigma=\sqrt{\frac{1}{n}\sum_{i=1}^{n}(x_i-\overline{x})^2},
@@ -1684,7 +1737,7 @@
 
 
     \chapter{Rezultati}\label{ch:rezultati}
-    To poglavje vsebuje povzetke rezultatov podatkovnih množic, pridobljenih po načrtu iz razdelka~\ref{sec:nacrt-poskusov}.
+    Poglavje vsebuje povzetke rezultatov podatkovnih množic, pridobljenih po načrtu razdelka~\ref{sec:nacrt-poskusov}.
     Pri vseh izvedenih poskusih je bil naš cilj preseči točnost večinskega razreda:
     \begin{itemize}
         \item{Iris (razdelek~\ref{sec:rezultati-iris}): $33\%$}
@@ -1698,30 +1751,30 @@
     Najboljša nevronska mreža prvega nabora parametrov (slika~\ref{fig:iris_acc_1_g}) vsebuje 5 povezav in nobenega globokega vozlišča,
     vhodno vozlišče~\enquote{sepal length in cm} nima izhodnih povezav, doseže pa $97.8\%$ točnost.
 
-    Najboljše mreže drugega in tretjega nabora parametrov so večje (največja vsebuje 1 globoko vozlišče in 12 povezav),
+    Najboljše mreže drugega in tretjega nabora parametrov so večje (največja vsebuje 1 globoko vozlišče in 12 povezav~\ref{fig:iris_acc_3_g}),
     dosežejo pa enako oz.\ podobno natančnost.
     Vzrok so kompleksnejši agenti začetne populacije.
 
-    Razlika med metrikama kvalitete je vidna v grafih skozi generacije.
+    Razlika med metrikama kakovosti je vidna v grafih skozi generacije.
     Populacije, ki so bile vzorčene z metriko točnosti, so k najboljšemu agentu konvergirale pred generacijo 60.
     Vzorčenje z metriko MCC je konvergiranje upočasnilo, povzročilo pa je tudi večjo raznolikost v najslabših $20\%$ agentov.
 
-    Iz grafov točnosti in MCC skozi generacije so razvidni tudi \enquote{preboji} v kvaliteti, predvsem na sliki~\ref{fig:iris_acc_1},
+    Iz grafov točnosti in MCC skozi generacije so razvidni tudi \enquote{preboji} v kakovosti, predvsem na sliki~\ref{fig:iris_acc_1},
     kjer je polovica populacije do generacije 60 lahko pravilno napovedala le enega ali dva od treh razredov.
-    Povprečna kvaliteta generacije je sicer rasla približno linearno.
-    Vzrok za tako obtičanje kvalitete v lokalnih maksimumih je, da v fazi vzorčenja ne izbiramo samo najboljših agentov,
-    kar pripelje do počasnejšega širjenja kvalitetnih lastnosti (topologije, uteži, povezav\ldots) skozi populacijo.
-    Povzroči tudi širjenje manj kvalitetnih lastnosti, kar je vidno na sliki~\ref{fig:iris_acc_3} med generacijama 100 in
-    120 s padcem kvalitete najslabših $30\%$ agentov.
+    Povprečna kakovosti generacije je sicer rasla približno linearno.
+    Vzrok za tako obtičanje kakovosti v lokalnih maksimumih je, da v fazi vzorčenja ne izbiramo samo najboljših agentov,
+    kar pripelje do počasnejšega širjenja kakovostnih lastnosti (topologije, uteži, povezav\ldots) skozi populacijo.
+    Povzroči tudi širjenje manj kakovostnih lastnosti, kar je vidno na sliki~\ref{fig:iris_acc_3} med generacijama 100 in
+    120 s padcem kakovosti najslabših $30\%$ agentov.
 
-    Vzrok za tako obtičanje kvalitete so tudi lastnosti najboljših agentov, ki jih naš način križanja ne more prenesti
+    Vzrok za tako obtičanje kakovosti so tudi lastnosti najboljših agentov, ki jih naš način križanja ne more prenesti
     na potomce v samo nekaj generacijah, npr.\ celotne podstrukture grafov.
 
     Najboljšo točnost $97.8\%$ z eno napačno napovedjo so dosegli vsi najboljši agenti posameznih naborov parametrov, razen v tretjem naboru z
-    metriko MCC.
+    metriko MCC (tabela~\ref{tab:iris_mcc_3}).
     Točnost večinskega razreda ($33\%$) je bila presežena pri vseh zagonih.
 
-    Pristop naključnih dreves je dosegel točnost $100\%$ (tabela~\ref{tab:rforest_iris_result}).
+    Pristop naključnih gozdov je dosegel točnost $100\%$ (tabela~\ref{tab:rforest_iris_result}).
 
 
     \section{Wine}\label{sec:rezultati-wine}
@@ -1732,15 +1785,16 @@
     Pri drugem naboru parametrov je najboljša mreža izpustila dva atributa (slika~\ref{fig:wine_acc_2_g}), pri tretjem pa sedem (slika~\ref{fig:wine_acc_3_g}).
     Največkrat sta izpuščena atributa \enquote{vsebnost alkohola} in \enquote{skupna vsebnost fenolov},
     \enquote{intenziteta barve} pa ni nikoli izpuščena.
-    Vzrok za tako optimizacijo mrež je večje število generacij, kjer je večja možnost za odstranitev povezav z majhno utežjo.
+    Vzrok za tako optimizacijo mrež je večje število generacij, kjer je več priložnosti za odstranitev povezav in vozlišč z majhnim
+    vplivom na vrednosti izhodnih vozlišč.
 
-    Pri najboljši mreži drugega nabora parametrov je prišlo do preboja kvalitete okoli generacije 70, v generaciji 220
+    Pri najboljši mreži drugega nabora parametrov je prišlo do preboja kakovosti okoli generacije 70, v generaciji 220
     pa se je pojavila divergenca zaradi širitve slabih, a za vzorčenje še vedno dovolj dobrih, lastnosti agentov.
 
     Prvi nabor parametrov z metriko MCC je ustvaril najboljšo mrežo s $96.2\%$ točnostjo (slika~\ref{fig:wine_mcc_1_g}),
     točnost večinskega razreda (39.89\%) pa je bila presežena v vseh zagonih.
 
-    Pristop naključnih dreves je dosegel enako točnost (tabela~\ref{tab:rforest_wine_result}).
+    Pristop naključnih gozdov je dosegel enako točnost (tabela~\ref{tab:rforest_wine_result}).
 
 
     \section{Car Evaluation}\label{sec:rezultati-car-evaluation}
@@ -1756,52 +1810,52 @@
     Izvor povezav sta dve vhodni vozlišči, za kateri podatkovna množica ne vsebuje negativnih primerov in primerov z vrednostjo nič.
     Posledično bo vrednost tega vozlišča vedno negativna.
 
-    Razlog je, da so v zgodnjih generacijah najkvalitetnejši tisti agenti, ki lahko napovedujejo v večinski razred.
+    Razlog je, da so v zgodnjih generacijah najkakovostnejši tisti agenti, ki lahko napovedujejo večinski razred.
     V podatkovnih množicah, kjer so razredi enakomerno porazdeljeni, začnemo z raznolikim naborom dobrih agentov, ki lahko napovedujejo
     le en razred, njihove lastnosti pa se ščasoma združijo v agente, ki lahko napovedujejo vse.
-    Ko obravnavamo množice z zelo neenakomerno porazdelitvijo, so v začetnih generacijah najkvalitetnejši le agenti, ki
+    Ko obravnavamo množice z zelo neenakomerno porazdelitvijo, so v začetnih generacijah najkakovostnejši le agenti, ki
     lahko napovejo večinski in delno še kak drug razred.\ Agenti, ki lahko pravilno napovejo manjši razred, večinskega pa ne oz.\ delno,
-    imajo majhno izračunano kvaliteto, kar pomeni sorazmerno majhno možnost izbire v fazi križanja.
+    imajo majhno izračunano kakovost, kar pomeni sorazmerno majhno možnost izbire v fazi križanja.
     Nišne lastnosti, zaradi katerih mreže lahko napovedujejo manjše razrede, se skozi generacije izgubijo in nadomestijo z
     lastnostmi, ki teh razredov nikoli ne napovejo.
 
     Slike grafov prikazujejo očitno razliko med metrikama točnosti in MCC.
-    Točnost povzroči zelo hitro konvergenco populacije na točnost večinskega razreda, nato pa zelo počasno bližanje kvalitete
+    Točnost povzroči zelo hitro konvergenco populacije na točnost večinskega razreda, nato pa zelo počasno bližanje kakovosti
     najboljšemu agentu.\ Populacija je v primeru drugega nabora parametrov ostala na točnosti večinskega razreda.
-    MCC je povzročil postopno višanje kvalitete populacije sorazmerno z najboljšim agentom s konvergenco.
+    MCC je povzročil postopno višanje kakovosti populacije sorazmerno z najboljšim agentom s postopno konvergenco.
 
     Najboljša mreža je bila ustvarjena z drugim naborom parametrov z metriko MCC, doseže pa $75.9\%$ točnost (slika~\ref{fig:car_mcc_2_g}).
     Točnost večinskega razreda ($70.02\%$) je bila večinoma presežena.
 
-    Pristop naključnih dreves je dosegel precej večjo točnost $95.9\%$ s 300 drevesi (tabela~\ref{tab:rforest_car_result}).
+    Pristop naključnih gozdov je dosegel precej večjo točnost $95.9\%$ s 300 drevesi (tabela~\ref{tab:rforest_car_result}).
 
 
     \section{Shuttle}\label{sec:rezultati-shuttle}
     Rezultati vsebujejo značilnosti testiranj programa na zgornjih treh množicah.
-    Prisotni so preboji pri obeh metrikah kvalitet, nepovezana vhodna vozlišča in nezmožnost pravilnega napovedovanja vseh sedmih
+    Prisotni so preboji pri obeh metrikah kakovosti, nepovezana vhodna vozlišča in nezmožnost pravilnega napovedovanja vseh sedmih
     razredov.
 
-    Vsi agenti pravilno napovedujejo tri največje razrede \enquote{Rad Flow}, \enquote{High} in \enquote{Bypass}, trije
+    Vsi najboljši agenti pravilno napovedujejo tri največje razrede \enquote{Rad Flow}, \enquote{High} in \enquote{Bypass}, trije
     \enquote{Bpv Open}, eden \enquote{Fpv Close}, noben pa \enquote{Fpv Open} in \enquote{Bpv Close}.
 
     Najboljša agenta sta bila ustvarjena s tretjim naborom parametrov, in sicer oba s točnostjo $93\%$ (sliki~\ref{fig:statlog_acc_3_g} in~\ref{fig:statlog_mcc_3_g}).
     Točnost večinskega razreda ($79.159\%$) je bila vedno presežena.
 
-    Pristop naključnih dreves je dosegel točnost $100\%$ (tabela~\ref{tab:rforest_shuttle_result}).
+    Pristop naključnih gozdov je dosegel točnost $100\%$ (tabela~\ref{tab:rforest_shuttle_result}).
 
 
     \chapter{Zaključek}\label{ch:zakljucki-sklep}
     V diplomski nalogi smo napisali program, ki ustvari rekurenčne nevronske mreže za večrazredno klasifikacijo s pomočjo genetskega algoritma.
-    Genetski algoritem pri izračunu kvalitete upošteva tudi računsko kompleksnost nevronskih mrež z nastavljivim inicializacijskim parametrom.
+    Genetski algoritem pri izračunu kakovosti upošteva tudi računsko kompleksnost mrež z nastavljivim inicializacijskim parametrom.
     Ustvarjene mreže za klasifikacijo podatkovnih množic z enakomerno porazdelitvijo razredov imajo točnost, ki je primerljiva
-    pristopu naključnih dreves.
+    pristopu naključnih gozdov.
     Pri klasifikaciji množic z neenakomerno porazdelitvijo razredov zaostajajo za zgornjim pristopom, ker se genetski
     algoritem ujame v lokalnih maksimumih napovedovanja večinskih razredov.
 
     \section{Izboljšave}\label{sec:izboljsave}
     Iz rezultatov testiranja programa sklepamo, da naš pristop izračuna kakovosti ni zadosten za obdržanje nišnih lastnosti
     nevronskih mrež, ki prispevajo k pravilnem napovedovanju manjšinskih razredov.
-    Izračun bi lahko prilagodili tako, da bi v celotni populaciji preverili zmožnost napovedovanja vseh razredov,
+    Izračun bi lahko prilagodili tako, da bi v celotni populaciji preverili distribucijo napovedovanja vseh razredov,
     kakovost agentov, ki lahko napovedujejo manjšinske razrede, pa bi sorazmerno povečali.
 
     Globoka vozlišča bi lahko nadgradili tako, da bi dovolili izbiro aktivacijske funkcije iz nabora npr.\ desetih.
@@ -1809,7 +1863,7 @@
     Nevronske mreže bi na ta način hkrati vsebovala globoka vozlišča z različnimi aktivacijskimi funkcijami, kar bi nas
     lahko pripeljalo do boljših rezultatov.
 
-    Namesto najboljšega agenta po zaključku programa bi za napovedovanje lahko uporabili tudi najboljšo polovico ali četrtino
+    Namesto najboljšega agenta po zaključku programa bi za napovedovanje lahko uporabili tudi najboljši delež
     končne populacije.\ Napovedan razred bi nato izbrali na podlagi glasov izbranih agentov, na podoben način kot naključni gozdovi.
 
     \appendix
