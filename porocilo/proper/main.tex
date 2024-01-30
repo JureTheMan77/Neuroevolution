@@ -350,6 +350,7 @@
                  \textbf{kratica} & \textbf{angleško}                       & \textbf{slovensko}                     \\ \hline
                  \textbf{ACC}     & accuracy                                & točnost                                \\
                  \textbf{CA}      & classification accuracy                 & klasifikacijska točnost                \\
+                 \textbf{JSON}    & JavaScript Object Notation              & JavaScript objektni zapis              \\
                  \textbf{GA}      & genetic algorithm                       & genetski algoritem                     \\
                  \textbf{MCC}     & Matthews correlation coefficient        & Matthewsov korelacijski koeficient     \\
                  \textbf{NEAT}    & Neuroevolution of Augmenting Topologies & Nevroevolucija razširjajočih topologij \\
@@ -382,7 +383,7 @@
     klasifikacijo.\ Klasični prostopi k stojnem učenju se zanašajo na človeško načrtovanje topologije nevronskih mrež, naš
     program pa poleg prilagajanja uteži išče tudi najboljšo topologijo za dano podatkovno množico, pri čemer upošteva
     kompleksnost mrež.
-    Točnost ustvarjenih mrež za klasifikacijo podatkovnih množic z enakomerno porazdelitvijo razredov je primerljiva
+    Točnosti ustvarjenih mrež za klasifikacijo podatkovnih množic z enakomerno porazdelitvijo razredov je primerljiva
     s pristopom naključnih gozdov, zaostajajo pa pri klasifikaciji množic z neenakomernimi porazdelitvami.
 
     \bigskip
@@ -435,12 +436,12 @@
     mrež v primerjavi s standardnimi rešitvami.
 
     Naš pristop ustvarja nevronske mreže za večrazredno klasifikacijo na podlagi vhodne
-    podatkovne množice, izračuna njihovo kakovost na podlagi točnosti ali Matthewsovega korelacijskega koeficienta s pribitkom kompleksnosti,
+    podatkovne množice, izračuna njihovo kakovost na podlagi toč\-no\-sti ali Matthewsovega korelacijskega koeficienta s pribitkom kompleksnosti,
     nato pa izbere najboljših $n$ za naslednjo generacijo.
     Postopek $m$-krat ponovi, nato pa shrani najboljšo nevronsko mrežo.
     Podrobnosti pristopa so opisane v poglavju~\ref{ch:implementacija-nevroevolucije}.
 
-    Rezultate smo ovrednotili in primerjali s pristopom naključnih gozdov (poglavje~\ref{ch:rezultati}).
+    Rezultate testiranja (dodatek~\ref{ch:rezultati-testiranja}) smo ovrednotili in primerjali s pristopom naključnih gozdov (poglavje~\ref{ch:rezultati}).
 
     \chapter{Ozadje problema}\label{ch:ozadje-problema}
     Poglavje zajema razlago tehnologij, ki jih uporabljamo v tem diplomskem delu: nevronske mreže (razdelek~\ref{sec:nevronske-mreze}),
@@ -491,7 +492,7 @@
     sklenejo z njihovimi predhodniki.
 
     Koncept združevanja globokih vozlišč v sloje je v teh mrežah zamegljen.
-    Namreč, sloji se pojavijo pri vsakem časovnem koraku propagacije vhodnih vrednosti skozi topologijo, zaradi ciklov pa je povsem možno,
+    Sloji se pojavijo pri vsakem časovnem koraku propagacije vhodnih vrednosti skozi topologijo, zaradi ciklov pa je povsem možno,
     da se neko vozlišče pojavi v več slojih.
     \begin{figure}[H]
         \begin{center}
@@ -535,7 +536,7 @@
             Prav tako ni nujno, da zamenjamo vse agente. V naslednjo populacijo lahko prenesemo del osebkov, pri
             čemer moramo paziti na raznolikost genetskega materiala. Ta koncept imenujemo elitizem~\cite{inteligentni_sistemi_2010_nadomescanje_osebkov}.}
         \item[Križanje]{je postopek izmenjave genov med agenti in je odvisen od njihove predstavitve in tega, kakšno informacijo posamezen gen predstavlja.
-            Na primer, potomce agentov, ki so predstavljeni v vektorskem načinu, lahko ustvarimo tako, da vzamemo prvo polovico genov prvega in drugo polovico genov
+            Potomce agentov, ki so predstavljeni v vektorskem načinu, lahko ustvarimo tako, da vzamemo prvo polovico genov prvega in drugo polovico genov
             drugega starša. Križanje agentov, ki so predstavljeni z drevesnimi strukturami ali grafi, je težje
             (naša implementacija je opisana v razdelku~\ref{sec:krizanje}).
             Rezultat križanja je lahko eden ali več agentov, nastopata pa lahko tudi več kot dva starša. }
@@ -601,7 +602,7 @@
     \chapter{Implementacija nevroevolucije}\label{ch:implementacija-nevroevolucije}
     To poglavje pokriva konkretno implementacijo konceptov nevroevolucije iz razdelka~\ref{sec:nevroevolucija}.
 
-    Naš pristop izdela nevronsko mrežo za poljubno učno množico z zveznimi ali diskretnimi atributi, s ciljem je večrazredne klasifikacije.
+    Naš pristop izdela nevronsko mrežo za poljubno učno množico z zveznimi ali diskretnimi atributi, s ciljem večrazredne klasifikacije.
     V tem poglavju je opisano:
     \begin{itemize}
         \item implementacija agentov (razdelek~\ref{sec:agenti}) v obliki samostojnih objektov,
@@ -624,7 +625,7 @@
     Polje \enquote{newAgent} hrani informacijo, ali je agent v trenutni iteraciji populacije nov oz.\ je bil vzorčen
     iz prejšnje iteracije.
     V kolikor je vrednost \textbf{false}, korak izračuna kakovosti take agente preskoči, saj bi ponoven izračun
-    vrnil enako kakovost.
+    vrnil enak rezultat.
 
     Vozlišča in povezave usmerjenega grafa so v naši implementaciji samostojni objekti, ki hranijo medsebojne reference.
     Matrika sosednosti ni najbolj primerna, saj bi bila zaradi načina mutiranja (razdelek~\ref{sec:mutiranje})
@@ -643,7 +644,7 @@
     Struktura grafa je pogojena z izbrano podatkovno množico.
     Število vhodnih vozlišč mora biti enako številu atributov podatkovne mno\-ži\-ce, šte\-vi\-lo izhodnih vozlišč pa enako številu razredov.
     Količina notranjih vozlišč se giblje od 0 do izbrane vrednosti inicializacijskega parametra (razdelek~\ref{sec:inicializacija-populacije}).
-    Za množice, opisane v poglavju~\ref{ch:evalvacija} vrednost $20$ predstavlja dovolj dobro razmerje med dovoljeno kompleksnostjo agentov in
+    Za množice, opisane v poglavju~\ref{ch:evalvacija}, vrednost $20$ predstavlja dovolj dobro razmerje med dovoljeno kompleksnostjo agentov in
     računsko zahtevnostjo.
 
     \subsection{Vozlišča}\label{subsec:vozlisca}
@@ -694,7 +695,7 @@
     \end{itemize}
 
     Največje število prečkanj je lastnost, ki v klasičnih nevronskih mrežah ni potrebna, saj postopek sprehoda skozi graf
-    vsako povezavo prečka največ ali natanko enkrat.
+    vsako povezavo prečka enkrat.
     Ker so naši agenti kodirani kot rekurenčne nevronske mreže, kjer so dovoljeni cikli (razdelek~\ref{subsec:rekurencne-nevronske-mreze}),
     nam to polje preprečuje neskončne sprehode skozi graf.
     Največja vrednost polja je ena od inicializacijskih parametrov.
@@ -734,7 +735,7 @@
     V grafih dopuščamo obstoj \enquote{mirujočih} povezav, ki so povezane na mirujoča globoka vozlišča.
     Posledično dopuščamo obstoj \enquote{mirujočih struktur}, ki ne vplivajo na vrednosti izhodnih vozlišč,
     lahko pa postanejo aktivne v koraku mutiranja in križanja.
-    Eno globoko vozlišče smatramo kot najmanjšo možno mirujočo strukturo.
+    Eno nepovezano globoko vozlišče lahko razumemo kot najmanjšo možno mirujočo strukturo.
 
 
     \section{Populacija}\label{sec:populacija}
@@ -747,13 +748,13 @@
         agentov in več prostora za agente z nišnimi geni. }
         \item[Število vhodnih vozlišč]{Pozitivno celo število, ki je enako šte\-vi\-lu atributov izbrane podatkovne množice.}
         \item[Število izhodnih vozlišč]{Pozitivna celoštevilska vrednost, ki je enaka šte\-vi\-lu razredov izbrane podatkovne množice.}
-        \item[Največje število globokih vozlišč]{Pozitivno celo število, ki do\-lo\-ča največje število globokih vozlišč agentov.
+        \item[Največje število globokih vozlišč]{Pozitivno celo število, ki do\-lo\-ča naj\-ve\-čje število globokih vozlišč agentov.
         Korak mutiranja (razdelek~\ref{sec:mutiranje}) lahko povzroči izgubo ali pridobitev novega globokega
         vozlišča, dokler je skupno število med 0 in vrednostjo tega parametra.}
-        \item[Največje število povezav]{Pozitivna celoštevilska vrednost, ki določa največje število povezav
+        \item[Največje število povezav]{Pozitivna celoštevilska vrednost, ki določa naj\-ve\-čje število povezav
         znotraj posameznega agenta. Korak mutiranja (razdelek~\ref{sec:mutiranje}) lahko povzroči izgubo ali pridobitev nove povezave,
         dokler je skupno število med 0 in vrednostjo tega parametra. Skupno število vhodnih in izhodnih povezav posameznih vozlišč ni posebej omejeno. }
-        \item[Največje število prečkanj]{Pozitivno celo število, ki določa največje število prečkanj povezav.
+        \item[Največje število prečkanj]{Pozitivno celo število, ki določa največje šte\-vi\-lo prečkanj povezav.
         Uporabi se v koraku izračuna kakovosti agentov (razdelek~\ref{sec:izracun-kakovosti}).}
         \item[Delež mutiranih potomcev]{Delež potomcev, ustvarjenih v koraku kri\-žan\-ja (razdelek~\ref{sec:krizanje}), ki jih bomo
         mutirali.}
@@ -771,7 +772,7 @@
 
 
     \section{Inicializacija populacije}\label{sec:inicializacija-populacije}
-    Postopek inicializacije populacije ustvari $n$ naključnih agentov, kjer je $n$ parameter \enquote{Velikost populacije}.
+    Postopek inicializacije populacije ustvari $n$ naključnih agentov, kjer je $n$ parameter \enquote{velikost populacije}.
     Proces je naslednji:
     \begin{enumerate}
         \item Ustvari se nova instanca razreda \enquote{Graph} s številom vhodnih in izhodnih vozlišč podanih
@@ -818,9 +819,9 @@
     SUS je v našem programu prilagojen tako, da vedno obdrži najboljšega agenta.
     Implementiran je na naslednji način:
     \begin{enumerate}
-        \item Poišče agenta z največjo kakovostjo, izračunano v koraku izračuna kakovosti (razdelek~\ref{sec:izracun-kakovosti}), ki
-        lahko upošteva tudi njegovo število globokih vozlišč in povezav s poljubno utežjo poleg izbrane metrike.
-        V primeru, da imata dva agenta enako kakovost, izbere tistega, ki ima največjo kakovost brez velikostne kazni.
+        \item Poišče agenta z največjo kakovostjo, izračunano v koraku izračuna kakovosti (razdelek~\ref{sec:izracun-kakovosti}), kjer je
+        lahko upoštevana tudi njegova kompleksnost poleg izbrane metrike.
+        V primeru, da imata dva agenta enako kakovost, izbere tistega, ki ima največjo kakovost brez pribitka kompleksnosti.
         Njegov indeks shrani v seznam izbranih.
         \item Izračuna vsoto kakovosti vseh agentov populacije.
         \item Izračuna dolžino intervala kot razmerje med vsoto kakovosti in številom agentov, ki jih hočemo obdržati.
@@ -872,8 +873,8 @@
 
     Implementirali smo šest različnih tipov mutacij z enako možnostjo izbire:
     \begin{description}
-        \item[Dodajanje globokega vozlišča]{Dodamo novo globoko vozlišče z na\-klju\-čno vhodno in izhodno povezavo, če
-        potomec še nima maksimalnega dovoljenega števila vozlišč tega tipa.}
+        \item[Dodajanje globokega vozlišča]{Dodamo novo globoko vozlišče z novo na\-klju\-čno vhodno in izhodno povezavo, če
+        potomec še nima maksimalnega dovoljenega števila vozlišč tega tipa ter povezav.}
         \item[Odstranitev globokega vozlišča]{Odstranimo naključno globoko vozlišče z vsemi povezavami.}
         \item[Dodajanje povezave]{Dodamo novo povezavo z naključno utežjo in naključnim največjim
         številom prečkanj, če potomec še nima maksimalnega dovoljenega števila povezav. Izvorno in ponorno vozlišče je
@@ -1532,11 +1533,11 @@
     V programu take primere obravnavamo kot $-1$.
 
     \chapter{Evalvacija}\label{ch:evalvacija}
-    To poglavje pokriva ovrednotenje programa na nekaj podatkovnih množicah (Iris, Wine, Car Evaluation in Shuttle) ter predstavitev rezultatov.
+    To poglavje pokriva način ovrednotenja programa na podatkovnih množicah Iris, Wine, Car Evaluation in Shuttle ter predstavitev rezultatov.
     Vse podatkovne množice, ki smo jih izbrali, vsebujejo učne primere brez manjkajočih vrednosti, zvezne ali diskretne atribute in najmanj tri razrede.
     Na voljo so na UCI Machine Learning Repository~\cite{Dua:2019}.
     V tem poglavju naprej opišemo podatkovne množice, čemur sledi opis evalvacije (razdelek~\ref{sec:nacrt-poskusov}).
-    Diskusija se nahaja v poglavju~\ref{ch:rezultati}, rezultati pa v dodatku~\ref{ch:rezultati-testiranja}.
+    Diskusija se nahaja v poglavju~\ref{ch:rezultati}, rezultati testiranja pa v dodatku~\ref{ch:rezultati-testiranja}.
 
     \section{Podatkovne množice}\label{sec:podatkovne-mnozice}
     V tem razdelku je opisano:
@@ -1558,7 +1559,7 @@
         \item Iris Virginica.
     \end{itemize}
 
-    Učni primeri so enakomerno porazdeljeni med razredi, atributi vsebujejo samo zvezne vrednosti, cilj pa je klasifikacija.
+    Učni primeri so enakomerno porazdeljeni med razredi, atributi vsebujejo samo zvezne vrednosti, cilj pa je klasifikacija v tri razrede.
 
     \begin{table}[H]
         \centering
@@ -1574,7 +1575,7 @@
     \end{table}
 
     \subsection{Wine}\label{subsec:wine}
-    Učni primeri te množice~\cite{misc_wine_109} vsebujejo rezultate kemične analize vin, ki so bili pridelani iz grozdja
+    Učni primeri te množice~\cite{misc_wine_109} vsebujejo rezultate kemične analize vin, ki so bila pridelana iz grozdja
     treh različnih kultivarjev v isti regiji Italije.
     Imajo naslednjih trinajst zveznih atributov:
     \begin{itemize}
@@ -1655,8 +1656,8 @@
 
 
     \subsection{Shuttle}\label{subsec:statlog-shuttle}
-    Ta množica~\cite{misc_statlog_shuttle_148} je najbolj kompleksa izmed izbranih.
-    Vsebuje 58,000 dnevniških zapisov Space-shuttlovega računalnika, ki so zelo neenakomerno porazdeljeni med sedem razredov.
+    Ta množica~\cite{misc_statlog_shuttle_148} je najbolj kompleksna izmed izbranih.
+    Vsebuje 58,000 dnev\-ni\-ških zapisov Space-shuttlovega računalnika, ki so zelo neenakomerno porazdeljeni med sedem razredov.
     Vsebuje devet zveznih atributov.\ Prvi je \enquote{čas}, ostali pa niso poimenovani.
     Razredi so naslednji:
     \begin{itemize}
@@ -1709,8 +1710,8 @@
         \item v vsaki generaciji smo zabeležili podatke o točnosti ali MCC agentov glede na izbrano metriko kakovosti na učni množici,
         \item najboljšega agenta zadnje generacije smo preverili še na testni množici in zabeležili njegovo točnost ali MCC in matriko zmot,
         \item program smo pognali desetkrat za vsak nabor parametrov za obe metriki (petkrat na podlagi točnosti in petkrat na podlagi MCC),
-        \item od vseh zagonov za posamezni nabor smo vizualizirali najboljšega agenta s pomočjo odprtokodnih knjižnic \enquote{force-graph}~\cite{Vasturiano}
-        in \enquote{json}~\cite{Lohmann_JSON_for_Modern_2023}, hkrati pa izdelali graf točnosti oz.\ MCC po generacijah na učni množici,
+        \item izmed vseh zagonov za posamezni nabor smo vizualizirali naj\-bolj\-še\-ga agenta s pomočjo odprtokodnih knjižnic \enquote{force-graph}\cite{Vasturiano}
+        in \enquote{json}\cite{Lohmann_JSON_for_Modern_2023}, hkrati pa izdelali graf točnosti oz.\ MCC po generacijah na učni množici,
         \item na koncu smo za vsak nabor parametrov izračunali standardni odklon točnosti in MCC najboljših agentov po formuli~\cite{enwiki:1168408775}:
         \begin{equation}
             \sigma=\sqrt{\frac{1}{n}\sum_{i=1}^{n}(x_i-\overline{x})^2},
@@ -1746,7 +1747,7 @@
     \end{itemize}
 
     \section{Iris}\label{sec:rezultati-iris}
-    Iz rezultatov razdelka~\ref{sec:dodatek-iris-test} je razvidno, da generirane nevronske mreže dosežejo visoko točnost pri majhnih velikostih.
+    Iz rezultatov razdelka~\ref{sec:dodatek-iris-test} je razvidno, da generirane nevronske mreže do\-se\-že\-jo visoko točnost pri majhnih velikostih.
     Najboljša nevronska mreža prvega nabora parametrov (slika~\ref{fig:iris_acc_1_g}) vsebuje 5 povezav in nobenega globokega vozlišča,
     vhodno vozlišče~\enquote{sepal length in cm} nima izhodnih povezav, doseže pa $97.8\%$ točnost.
 
@@ -1798,7 +1799,7 @@
 
     \section{Car Evaluation}\label{sec:rezultati-car-evaluation}
     Rezultati so pokazali, da naš pristop ni brez pomanjkljivosti.
-    Namreč, noben zagon ni ustvaril mreže, ki bi lahko klasificirala primere testnih množic v vse štiri razrede.
+    Noben zagon ni ustvaril mreže, ki bi lahko klasificirala primere testnih množic v vse štiri razrede.
     Vsi najboljši agenti lahko pravilno klasificirajo večinski razred \enquote{nesprejemljivo} in drugi največji
     razred \enquote{sprejemljivo}, dva v \enquote{zelo dobro} in eden v \enquote{dobro}.
     Matrike zmot najboljših agentov vsebujejo prazne stolpce (primer~\ref{tab:car_mcc_1}) za razrede, ki jih ne morejo napovedati.
@@ -1820,8 +1821,8 @@
 
     Slike grafov prikazujejo očitno razliko med metrikama točnosti in MCC.
     Točnost povzroči zelo hitro konvergenco populacije na točnost večinskega razreda, nato pa zelo počasno bližanje kakovosti
-    najboljšemu agentu.\ Populacija je v primeru drugega nabora parametrov ostala na točnosti večinskega razreda.
-    MCC je povzročil postopno višanje kakovosti populacije sorazmerno z najboljšim agentom s postopno konvergenco.
+    najboljšemu agentu.\ Populacija je v primeru drugega nabora parametrov ostala na točnosti večinskega razreda (slika~\ref{fig:car_acc_2}).
+    MCC je povzročil višanje kakovosti populacije sorazmerno z najboljšim agentom s postopno konvergenco.
 
     Najboljša mreža je bila ustvarjena z drugim naborom parametrov z metriko MCC, doseže pa $75.9\%$ točnost (slika~\ref{fig:car_mcc_2_g}).
     Točnost večinskega razreda ($70.02\%$) je bila večinoma presežena.
@@ -1834,7 +1835,7 @@
     Prisotni so preboji pri obeh metrikah kakovosti, nepovezana vhodna vozlišča in nezmožnost pravilnega napovedovanja vseh sedmih
     razredov.
 
-    Vsi najboljši agenti pravilno napovedujejo tri največje razrede \enquote{Rad Flow}, \enquote{High} in \enquote{Bypass}, trije
+    Vsi najboljši agenti pravilno napovejo tri največje razrede \enquote{Rad Flow}, \enquote{High} in \enquote{Bypass}, trije
     \enquote{Bpv Open}, eden \enquote{Fpv Close}, noben pa \enquote{Fpv Open} in \enquote{Bpv Close}.
 
     Najboljša agenta sta bila ustvarjena s tretjim naborom parametrov, in sicer oba s točnostjo $93\%$ (sliki~\ref{fig:statlog_acc_3_g} in~\ref{fig:statlog_mcc_3_g}).
@@ -1878,6 +1879,7 @@
 
     %\printbibliography[heading=bibintoc,type=incollection,title={Poglavja v knjigah}]
 
+    \emergencystretch=1em
     \printbibliography[heading=bibintoc,title={Celotna literatura}]
 
 \end{document}
