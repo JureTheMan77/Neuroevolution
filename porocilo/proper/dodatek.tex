@@ -1,16 +1,19 @@
-Poglavje vsebuje rezultate testiranj programa na zgoraj opisanih podatkovnih množicah po načrtu poglavja~\ref{sec:nacrt-poskusov}.
+Dodatek vsebuje rezultate testiranj programa na zgoraj opisanih podatkovnih množicah po načrtu razdelka~\ref{sec:nacrt-poskusov}.
 Rezultati so navedeni na naslednji način:
 \begin{itemize}
-    \item vsak podrazdelek zajema rezultate testiranja programa na določeni podatkovni množici,
-    \item znotraj podrazdelka je navedena tabela z naborom inicializacijskih parametrov, katere bomo uporabili pri testiranju,
+    \item vsak razdelek zajema rezultate testiranja programa na določeni podatkovni množici,
+    \item znotraj razdelka je navedena tabela z naborom inicializacijskih parametrov, katere smo uporabili pri testiranju,
     \item sledijo ji dejanski rezultati za vsak nabor parametrov:
     \begin{itemize}
-        \item tabela s točnostjo oz.\ MCC najboljših agentov vsakega od petih zagonov,
+        \item tabela s točnostjo in MCC najboljših agentov vsakega od petih zagonov,
         \item matrika zmot najbolj točnega agenta in agenta z največjim MCC,
         \item graf točnosti in MCC populacije, kateri pripada najboljši agent, skozi generacije,
         \item vizualizacija najbolj točnega agenta in agenta z največjim MCC.
     \end{itemize}
 \end{itemize}
+Razdelek Random forest (\ref{sec:random-forest-test}) vsebuje rezultate pristopa naključnih gozdov, pridobljenih s programom Orange.
+Za vsako podatkovno množico je podana tabela točnosti in MCC glede na število dreves.
+Podane so tudi matrike zmot, kjer je smiselno.
 
 \section{Iris}\label{sec:dodatek-iris-test}
 \input{iris-test}
@@ -23,7 +26,6 @@ Rezultati so navedeni na naslednji način:
 
 \section{Shuttle}\label{sec:dodatek-statlog-test}
 \input{shuttle-test}
-
 
 \section{Random forest}\label{sec:random-forest-test}
 \input{random-forest-test}
