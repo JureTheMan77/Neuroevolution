@@ -12,7 +12,7 @@
             \hline
             velikost populacije               & 200      & 250      & 350      \\
             \hline
-            največje število globokih vozlišč & 15       & 20       & 25       \\
+            največje število vmesnih vozlišč & 15       & 20       & 25       \\
             \hline
             največje število povezav          & 30       & 50       & 75       \\
             \hline
@@ -36,7 +36,7 @@
     \begin{center}
         \begin{tabular}{|| c | c c || c c ||}
             \hline
-            \multirow{2}{*}{št. zagona} & \multicolumn{2}{c||}{točnost najboljšega agenta} & \multicolumn{2}{c||}{MCC najboljšega agenta} \\ \cline{2-5}
+            \multirow{2}{*}{št. zagona} & \multicolumn{2}{c||}{točnost najboljšega agenta} & \multicolumn{2}{c||}{MKK najboljšega agenta} \\ \cline{2-5}
             & učna   & testna          & učna  & testna                  \\
             \hline
             1        & 80.0\% & 83.0\%          & 0.940 & \textbf{0.943 (96.2\%)} \\
@@ -81,7 +81,7 @@
         Class 3 & 0       & 0       & 14      & 14    \\ \hline
         vsota   & 17      & 21      & 15      & 53    \\ \hline
     \end{tabular}
-    \caption{Matrika zmot agenta z največjim MCC prvega nabora.}
+    \caption{Matrika zmot agenta z največjim MKK prvega nabora.}
     \label{tab:wine_mcc_1}
 \end{table}
 
@@ -97,7 +97,7 @@
     \begin{center}
         \includegraphics[width=13cm]{wine/1/mcc}
     \end{center}
-    \caption{Graf MCC populacije najboljšega agenta prvega nabora skozi generacije.}
+    \caption{Graf MKK populacije najboljšega agenta prvega nabora skozi generacije.}
     \label{fig:wine_mcc_1}
 \end{figure}
 
@@ -105,7 +105,7 @@
     \begin{center}
         \includegraphics[width=13cm]{wine/1/acc_g}
     \end{center}
-    \caption{Vizualizacija najbolj točnega agenta prvega nabora. Vsebuje 1 globoko vozlišče in 10 povezav.}
+    \caption{Vizualizacija najbolj točnega agenta prvega nabora. Vsebuje 1 vmesno vozlišče in 10 povezav.}
     \label{fig:wine_acc_1_g}
 \end{figure}
 
@@ -113,7 +113,7 @@
     \begin{center}
         \includegraphics[width=13cm]{wine/1/mcc_g}
     \end{center}
-    \caption{Vizualizacija agenta z največjim MCC prvega nabora. Vsebuje 1 globoko vozlišče in 15 povezav.}
+    \caption{Vizualizacija agenta z največjim MKK prvega nabora. Vsebuje 1 vmesno vozlišče in 15 povezav.}
     \label{fig:wine_mcc_1_g}
 \end{figure}
 
@@ -123,7 +123,7 @@
     \begin{center}
         \begin{tabular}{|| c | c c || c c ||}
             \hline
-            \multirow{2}{*}{št. zagona} & \multicolumn{2}{c||}{točnost najboljšega agenta} & \multicolumn{2}{c||}{MCC najboljšega agenta} \\ \cline{2-5}
+            \multirow{2}{*}{št. zagona} & \multicolumn{2}{c||}{točnost najboljšega agenta} & \multicolumn{2}{c||}{MKK najboljšega agenta} \\ \cline{2-5}
             & učna   & testna          & učna  & testna                  \\
             \hline
             1        & 95.2\% & \textbf{90.6\%} & 0.906 & \textbf{0.862 (90.6\%)} \\
@@ -168,7 +168,7 @@
         Class 3 & 0       & 0       & 14      & 14    \\ \hline
         vsota   & 14      & 24      & 15      & 53    \\ \hline
     \end{tabular}
-    \caption{Matrika zmot agenta z največjim MCC drugega nabora.}
+    \caption{Matrika zmot agenta z največjim MKK drugega nabora.}
     \label{tab:wine_mcc_2}
 \end{table}
 
@@ -184,7 +184,7 @@
     \begin{center}
         \includegraphics[width=13cm]{wine/2/mcc}
     \end{center}
-    \caption{Graf MCC populacije najboljšega agenta drugega nabora skozi generacije.}
+    \caption{Graf MKK populacije najboljšega agenta drugega nabora skozi generacije.}
     \label{fig:wine_mcc_2}
 \end{figure}
 
@@ -192,7 +192,7 @@
     \begin{center}
         \includegraphics[width=13cm]{wine/2/acc_g}
     \end{center}
-    \caption{Vizualizacija najbolj točnega agenta drugega nabora. Vsebuje 1 globoko vozlišče in 14 povezav.}
+    \caption{Vizualizacija najbolj točnega agenta drugega nabora. Vsebuje 1 vmesno vozlišče in 14 povezav.}
     \label{fig:wine_acc_2_g}
 \end{figure}
 
@@ -200,7 +200,7 @@
     \begin{center}
         \includegraphics[width=13cm]{wine/2/mcc_g}
     \end{center}
-    \caption{Vizualizacija agenta z največjim MCC drugega nabora. Vsebuje 11 povezav.}
+    \caption{Vizualizacija agenta z največjim MKK drugega nabora. Vsebuje 11 povezav.}
     \label{fig:wine_mcc_2_g}
 \end{figure}
 
@@ -210,7 +210,7 @@
     \begin{center}
         \begin{tabular}{|| c | c c || c c ||}
             \hline
-            \multirow{2}{*}{št. zagona} & \multicolumn{2}{c||}{točnost najboljšega agenta} & \multicolumn{2}{c||}{MCC najboljšega agenta} \\ \cline{2-5}
+            \multirow{2}{*}{št. zagona} & \multicolumn{2}{c||}{točnost najboljšega agenta} & \multicolumn{2}{c||}{MKK najboljšega agenta} \\ \cline{2-5}
             & učna   & testna          & učna  & testna                  \\
             \hline
             1        & 93.6\% & 90.6\%          & 0.908 & 0.807                   \\
@@ -255,7 +255,7 @@
         Class 3 & 1       & 0       & 13      & 14    \\ \hline
         vsota   & 21      & 18      & 14      & 53    \\ \hline
     \end{tabular}
-    \caption{Matrika zmot agenta z največjim MCC tretjega nabora.}
+    \caption{Matrika zmot agenta z največjim MKK tretjega nabora.}
     \label{tab:wine_mcc_3}
 \end{table}
 
@@ -271,7 +271,7 @@
     \begin{center}
         \includegraphics[width=13cm]{wine/3/mcc}
     \end{center}
-    \caption{Graf MCC populacije najboljšega agenta tretjega nabora skozi generacije.}
+    \caption{Graf MKK populacije najboljšega agenta tretjega nabora skozi generacije.}
     \label{fig:wine_mcc_3}
 \end{figure}
 
@@ -287,6 +287,6 @@
     \begin{center}
         \includegraphics[width=13cm]{wine/3/mcc_g}
     \end{center}
-    \caption{Vizualizacija agenta z največjim MCC tretjega nabora. Vsebuje 10 povezav.}
+    \caption{Vizualizacija agenta z največjim MKK tretjega nabora. Vsebuje 10 povezav.}
     \label{fig:wine_mcc_3_g}
 \end{figure}

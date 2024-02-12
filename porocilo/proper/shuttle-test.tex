@@ -13,7 +13,7 @@ Imena razredov v glavah matrik zmot so okrajšana zaradi formatiranja dokumenta.
             \hline
             velikost populacije               & 200      & 250      & 350      \\
             \hline
-            največje število globokih vozlišč & 15       & 20       & 40       \\
+            največje število vmesnih vozlišč & 15       & 20       & 40       \\
             \hline
             največje število povezav          & 30       & 50       & 100      \\
             \hline
@@ -38,7 +38,7 @@ Imena razredov v glavah matrik zmot so okrajšana zaradi formatiranja dokumenta.
     \begin{center}
         \begin{tabular}{|| c | c c || c c ||}
             \hline
-            \multirow{2}{*}{št. zagona} & \multicolumn{2}{c||}{točnost najboljšega agenta} & \multicolumn{2}{c||}{MCC najboljšega agenta} \\ \cline{2-5}
+            \multirow{2}{*}{št. zagona} & \multicolumn{2}{c||}{točnost najboljšega agenta} & \multicolumn{2}{c||}{MKK najboljšega agenta} \\ \cline{2-5}
             & učna   & testna          & učna  & testna                  \\
             \hline
             1        & 91.6\% & 92.1\%          & 0.753 & 0.760                   \\
@@ -91,7 +91,7 @@ Imena razredov v glavah matrik zmot so okrajšana zaradi formatiranja dokumenta.
         Bpv Open  & 2     & 0  & 0  & 0    & 0      & 0  & 0  & 2     \\ \hline
         vsota     & 12500 & 2  & 5  & 1189 & 802    & 0  & 2  & 14500 \\ \hline
     \end{tabular}
-    \caption{Matrika zmot agenta z največjim MCC prvega nabora. Agent ne more napovedati razreda \enquote{Bpv Close}.}
+    \caption{Matrika zmot agenta z največjim MKK prvega nabora. Agent ne more napovedati razreda \enquote{Bpv Close}.}
     \label{tab:statlog_mcc_1}
 \end{table}
 
@@ -107,7 +107,7 @@ Imena razredov v glavah matrik zmot so okrajšana zaradi formatiranja dokumenta.
     \begin{center}
         \includegraphics[width=13cm]{shuttle/1/mcc}
     \end{center}
-    \caption{Graf MCC populacije najboljšega agenta prvega nabora skozi generacije.}
+    \caption{Graf MKK populacije najboljšega agenta prvega nabora skozi generacije.}
     \label{fig:statlog_mcc_1}
 \end{figure}
 
@@ -123,7 +123,7 @@ Imena razredov v glavah matrik zmot so okrajšana zaradi formatiranja dokumenta.
     \begin{center}
         \includegraphics[width=13cm]{shuttle/1/mcc_g}
     \end{center}
-    \caption{Vizualizacija agenta z največjim MCC prvega nabora. Vsebuje 16 povezav.}
+    \caption{Vizualizacija agenta z največjim MKK prvega nabora. Vsebuje 16 povezav.}
     \label{fig:statlog_mcc_1_g}
 \end{figure}
 
@@ -133,7 +133,7 @@ Imena razredov v glavah matrik zmot so okrajšana zaradi formatiranja dokumenta.
     \begin{center}
         \begin{tabular}{|| c | c c || c c ||}
             \hline
-            \multirow{2}{*}{št. zagona} & \multicolumn{2}{c||}{točnost najboljšega agenta} & \multicolumn{2}{c||}{MCC najboljšega agenta} \\ \cline{2-5}
+            \multirow{2}{*}{št. zagona} & \multicolumn{2}{c||}{točnost najboljšega agenta} & \multicolumn{2}{c||}{MKK najboljšega agenta} \\ \cline{2-5}
             & učna   & testna          & učna  & testna                  \\
             \hline
             1        & 87.6\% & 88.1\%          & 0.728 & 0.735                   \\
@@ -186,7 +186,7 @@ Imena razredov v glavah matrik zmot so okrajšana zaradi formatiranja dokumenta.
         Bpv Open  & 2     & 0  & 0  & 0    & 0      & 0  & 0  & 2     \\ \hline
         vsota     & 12395 & 2  & 9  & 1283 & 797    & 6  & 8  & 14500 \\ \hline
     \end{tabular}
-    \caption{Matrika zmot agenta z največjim MCC drugega nabora.}
+    \caption{Matrika zmot agenta z največjim MKK drugega nabora.}
     \label{tab:statlog_mcc_2}
 \end{table}
 
@@ -202,7 +202,7 @@ Imena razredov v glavah matrik zmot so okrajšana zaradi formatiranja dokumenta.
     \begin{center}
         \includegraphics[width=13cm]{shuttle/2/mcc}
     \end{center}
-    \caption{Graf MCC populacije najboljšega agenta drugega nabora skozi generacije.}
+    \caption{Graf MKK populacije najboljšega agenta drugega nabora skozi generacije.}
     \label{fig:statlog_mcc_2}
 \end{figure}
 
@@ -210,7 +210,7 @@ Imena razredov v glavah matrik zmot so okrajšana zaradi formatiranja dokumenta.
     \begin{center}
         \includegraphics[width=13cm]{shuttle/2/acc_g}
     \end{center}
-    \caption{Vizualizacija najbolj točnega agenta drugega nabora. Vsebuje 2 globoki vozlišči in 26 povezav.}
+    \caption{Vizualizacija najbolj točnega agenta drugega nabora. Vsebuje 2 vmesni vozlišči in 26 povezav.}
     \label{fig:statlog_acc_2_g}
 \end{figure}
 
@@ -218,7 +218,7 @@ Imena razredov v glavah matrik zmot so okrajšana zaradi formatiranja dokumenta.
     \begin{center}
         \includegraphics[width=13cm]{shuttle/2/mcc_g}
     \end{center}
-    \caption{Vizualizacija agenta z največjim MCC drugega nabora. Vsebuje 1 globoko vozlišče in 18 povezav.}
+    \caption{Vizualizacija agenta z največjim MKK drugega nabora. Vsebuje 1 vmesno vozlišče in 18 povezav.}
     \label{fig:statlog_mcc_2_g}
 \end{figure}
 
@@ -228,7 +228,7 @@ Imena razredov v glavah matrik zmot so okrajšana zaradi formatiranja dokumenta.
     \begin{center}
         \begin{tabular}{|| c | c c || c c ||}
             \hline
-            \multirow{2}{*}{št. zagona} & \multicolumn{2}{c||}{točnost najboljšega agenta} & \multicolumn{2}{c||}{MCC najboljšega agenta} \\ \cline{2-5}
+            \multirow{2}{*}{št. zagona} & \multicolumn{2}{c||}{točnost najboljšega agenta} & \multicolumn{2}{c||}{MKK najboljšega agenta} \\ \cline{2-5}
             & učna   & testna          & učna  & testna                  \\
             \hline
             1        & 88.6\% & 89.2\%          & 0.755 & 0.762                   \\
@@ -281,7 +281,7 @@ Imena razredov v glavah matrik zmot so okrajšana zaradi formatiranja dokumenta.
         Bpv Open  & 0     & 0  & 0  & 0    & 0      & 0  & 2  & 2     \\ \hline
         vsota     & 12373 & 0  & 9  & 1337 & 775    & 0  & 6  & 14500 \\ \hline
     \end{tabular}
-    \caption{Matrika zmot agenta z največjim MCC tretjega nabora. Agent ne more napovedati razredov \enquote{Fpv Close} in \enquote{Bpv Close}.}
+    \caption{Matrika zmot agenta z največjim MKK tretjega nabora. Agent ne more napovedati razredov \enquote{Fpv Close} in \enquote{Bpv Close}.}
     \label{tab:statlog_mcc_3}
 \end{table}
 
@@ -297,7 +297,7 @@ Imena razredov v glavah matrik zmot so okrajšana zaradi formatiranja dokumenta.
     \begin{center}
         \includegraphics[width=13cm]{shuttle/3/mcc}
     \end{center}
-    \caption{Graf MCC populacije najboljšega agenta tretjega nabora skozi generacije.}
+    \caption{Graf MKK populacije najboljšega agenta tretjega nabora skozi generacije.}
     \label{fig:statlog_mcc_3}
 \end{figure}
 
@@ -305,7 +305,7 @@ Imena razredov v glavah matrik zmot so okrajšana zaradi formatiranja dokumenta.
     \begin{center}
         \includegraphics[width=13cm]{shuttle/3/acc_g}
     \end{center}
-    \caption{Vizualizacija najbolj točnega agenta tretjega nabora. Vsebuje 1 globoko vozlišče in 22 povezav.}
+    \caption{Vizualizacija najbolj točnega agenta tretjega nabora. Vsebuje 1 vmesno vozlišče in 22 povezav.}
     \label{fig:statlog_acc_3_g}
 \end{figure}
 
@@ -313,6 +313,6 @@ Imena razredov v glavah matrik zmot so okrajšana zaradi formatiranja dokumenta.
     \begin{center}
         \includegraphics[width=13cm]{shuttle/3/mcc_g}
     \end{center}
-    \caption{Vizualizacija agenta z največjim MCC tretjega nabora. Vsebuje 2 globoki vozlišči in 27 povezav.}
+    \caption{Vizualizacija agenta z največjim MKK tretjega nabora. Vsebuje 2 vmesni vozlišči in 27 povezav.}
     \label{fig:statlog_mcc_3_g}
 \end{figure}

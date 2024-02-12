@@ -12,7 +12,7 @@
             \hline
             velikost populacije               & 200      & 250      & 350      \\
             \hline
-            največje število globokih vozlišč & 15       & 20       & 40       \\
+            največje število vmesnih vozlišč & 15       & 20       & 40       \\
             \hline
             največje število povezav          & 30       & 50       & 100      \\
             \hline
@@ -36,7 +36,7 @@
     \begin{center}
         \begin{tabular}{|| c | c c || c c ||}
             \hline
-            \multirow{2}{*}{št. zagona} & \multicolumn{2}{c||}{točnost najboljšega agenta} & \multicolumn{2}{c||}{MCC najboljšega agenta} \\ \cline{2-5}
+            \multirow{2}{*}{št. zagona} & \multicolumn{2}{c||}{točnost najboljšega agenta} & \multicolumn{2}{c||}{MKK najboljšega agenta} \\ \cline{2-5}
             & učna   & testna          & učna  & testna                  \\
             \hline
             1        & 71.7\% & 71.4\%          & 0.507 & 0.454                   \\
@@ -83,7 +83,7 @@
         very good    & 0            & 19         & 0    & 0         & 19    \\ \hline
         vsota        & 311          & 207        & 0    & 0         & 518   \\ \hline
     \end{tabular}
-    \caption{Matrika zmot agenta z največjim MCC prvega nabora. Agent lahko napove samo razreda \enquote{nesprejemljivo} in \enquote{sprejemljivo}.}
+    \caption{Matrika zmot agenta z največjim MKK prvega nabora. Agent lahko napove samo razreda \enquote{nesprejemljivo} in \enquote{sprejemljivo}.}
     \label{tab:car_mcc_1}
 \end{table}
 
@@ -99,7 +99,7 @@
     \begin{center}
         \includegraphics[width=13cm]{car/1/mcc}
     \end{center}
-    \caption{Graf MCC populacije najboljšega agenta prvega nabora skozi generacije.}
+    \caption{Graf MKK populacije najboljšega agenta prvega nabora skozi generacije.}
     \label{fig:car_mcc_1}
 \end{figure}
 
@@ -115,7 +115,7 @@
     \begin{center}
         \includegraphics[width=13cm]{car/1/mcc_g}
     \end{center}
-    \caption{Vizualizacija agenta z največjim MCC prvega nabora. Vsebuje 1 globoko vozlišče in 12 povezav.}
+    \caption{Vizualizacija agenta z največjim MKK prvega nabora. Vsebuje 1 vmesno vozlišče in 12 povezav.}
     \label{fig:car_mcc_1_g}
 \end{figure}
 
@@ -125,7 +125,7 @@
     \begin{center}
         \begin{tabular}{|| c | c c || c c ||}
             \hline
-            \multirow{2}{*}{št. zagona} & \multicolumn{2}{c||}{točnost najboljšega agenta} & \multicolumn{2}{c||}{MCC najboljšega agenta} \\ \cline{2-5}
+            \multirow{2}{*}{št. zagona} & \multicolumn{2}{c||}{točnost najboljšega agenta} & \multicolumn{2}{c||}{MKK najboljšega agenta} \\ \cline{2-5}
             & učna   & testna          & učna  & testna                  \\
             \hline
             1        & 76.6\% & \textbf{74.3\%} & 0.502 & 0.470                   \\
@@ -172,7 +172,7 @@
         very good    & 0            & 4          & 0    & 15        & 19    \\ \hline
         vsota        & 278          & 187        & 0    & 53        & 518   \\ \hline
     \end{tabular}
-    \caption{Matrika zmot agenta z največjim MCC drugega nabora. Agent ne more napovedati razreda \enquote{dobro}.}
+    \caption{Matrika zmot agenta z največjim MKK drugega nabora. Agent ne more napovedati razreda \enquote{dobro}.}
     \label{tab:car_mcc_2}
 \end{table}
 
@@ -188,7 +188,7 @@
     \begin{center}
         \includegraphics[width=13cm]{car/2/mcc}
     \end{center}
-    \caption{Graf MCC populacije najboljšega agenta drugega nabora skozi generacije.}
+    \caption{Graf MKK populacije najboljšega agenta drugega nabora skozi generacije.}
     \label{fig:car_mcc_2}
 \end{figure}
 
@@ -196,7 +196,7 @@
     \begin{center}
         \includegraphics[width=13cm]{car/2/acc_g}
     \end{center}
-    \caption{Vizualizacija najbolj točnega agenta drugega nabora. Vsebuje 1 globoko vozlišče in 16 povezav.}
+    \caption{Vizualizacija najbolj točnega agenta drugega nabora. Vsebuje 1 vmesno vozlišče in 16 povezav.}
     \label{fig:car_acc_2_g}
 \end{figure}
 
@@ -204,7 +204,7 @@
     \begin{center}
         \includegraphics[width=13cm]{car/2/mcc_g}
     \end{center}
-    \caption{Vizualizacija agenta z največjim MCC drugega nabora. Vsebuje 13 povezav.}
+    \caption{Vizualizacija agenta z največjim MKK drugega nabora. Vsebuje 13 povezav.}
     \label{fig:car_mcc_2_g}
 \end{figure}
 
@@ -214,7 +214,7 @@
     \begin{center}
         \begin{tabular}{|| c | c c || c c ||}
             \hline
-            \multirow{2}{*}{št. zagona} & \multicolumn{2}{c||}{točnost najboljšega agenta} & \multicolumn{2}{c||}{MCC najboljšega agenta} \\ \cline{2-5}
+            \multirow{2}{*}{št. zagona} & \multicolumn{2}{c||}{točnost najboljšega agenta} & \multicolumn{2}{c||}{MKK najboljšega agenta} \\ \cline{2-5}
             & učna   & testna          & učna  & testna                  \\
             \hline
             1        & 73.6\% & \textbf{73.6\%} & 0.510 & 0.498                   \\
@@ -261,7 +261,7 @@
         very good    & 0            & 10         & 0    & 9         & 19    \\ \hline
         vsota        & 280          & 189        & 0    & 49        & 518   \\ \hline
     \end{tabular}
-    \caption{Matrika zmot agenta z največjim MCC tretjega nabora. Agent ne more napovedati razreda \enquote{dobro}.}
+    \caption{Matrika zmot agenta z največjim MKK tretjega nabora. Agent ne more napovedati razreda \enquote{dobro}.}
     \label{tab:car_mcc_3}
 \end{table}
 
@@ -277,7 +277,7 @@
     \begin{center}
         \includegraphics[width=13cm]{car/3/mcc}
     \end{center}
-    \caption{Graf MCC populacije najboljšega agenta tretjega nabora skozi generacije.}
+    \caption{Graf MKK populacije najboljšega agenta tretjega nabora skozi generacije.}
     \label{fig:car_mcc_3}
 \end{figure}
 
@@ -293,6 +293,6 @@
     \begin{center}
         \includegraphics[width=13cm]{car/3/mcc_g}
     \end{center}
-    \caption{Vizualizacija agenta z največjim MCC drugega nabora. Vsebuje 13 povezav.}
+    \caption{Vizualizacija agenta z največjim MKK drugega nabora. Vsebuje 13 povezav.}
     \label{fig:car_mcc_3_g}
 \end{figure}
