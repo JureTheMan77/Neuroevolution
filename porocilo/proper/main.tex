@@ -39,6 +39,7 @@
     backend=biber,
     style=numeric,
     sorting=nty,
+    maxbibnames=99
 ]{biblatex}
 
 
@@ -518,7 +519,7 @@
     Genetski algoritmi (GA) črpajo navdih iz evolucijskega procesa naravne selekcije.
     Večinoma so uporabljeni za reševanje optimizacijskih in iskalnih problemov, ne zagotavljajo pa optimalnih rešitev.
     Namesto enega rezultata po navadi najdejo nabor rešitev dobre kakovosti, ki so primerne za nadaljnjo
-    uporabo~\cite{inteligentni_sistemi_2010_ga,genetic_algorithm_wiki_2022}.
+    uporabo~\cite{inteligentni_sistemi_2010,genetic_algorithm_wiki_2022}.
     
     V splošnem so GA sestavljeni iz korakov inicializiranja začetne populacije, vzorčenja, križanja, mutiranja in izračuna kakovosti agentov.
     %inicializacijo začetne populacije, vzorčenje, križanje, mutiranje in izračun kakovosti
@@ -533,7 +534,7 @@
             Velikost populacije je poljubna vrednost, tipično proporcionalna kompleksnosti agentov in zahtevnosti problema.}
         \item[Vzorčenje]{je proces izbire podmnožice agentov za kreiranje naslednje populacije.
             Največkrat izberemo agente glede na njihovo kakovost, zagotoviti pa moramo tudi zadostno raznolikost populacije,
-            da ne obtičimo v lokalnih maksimumih. Poznamo več načinov vzorčenja, na primer~\cite{inteligentni_sistemi_2010_evolucijski_model}:
+            da ne obtičimo v lokalnih maksimumih. Poznamo več načinov vzorčenja, na primer~\cite{inteligentni_sistemi_2010}:
             \begin{itemize}
                 \item proporcionalna izbira, kjer je verjetnost izbire agenta odvisna od njegove kakovosti glede na populacijo,
                 \item rangovna izbira, kjer agente sortiramo po kakovosti padajoče in jim priredimo rang glede na pozicijo, verjetnost izbire pa je odvisna od velikosti ranga,
@@ -545,7 +546,7 @@
             Agenta lahko izberemo večkrat.
             Taki agenti imajo po navadi visoko kakovost, kar pomeni večkratno udeležbo v križanju in s tem boljše širjenje kakovostnih genov na potomce.
             Prav tako ni nujno, da zamenjamo vse agente. V naslednjo populacijo lahko prenesemo del osebkov, pri
-            čemer moramo paziti na raznolikost genetskega materiala. Ta koncept imenujemo elitizem~\cite{inteligentni_sistemi_2010_nadomescanje_osebkov}.}
+            čemer moramo paziti na raznolikost genetskega materiala. Ta koncept imenujemo elitizem~\cite{inteligentni_sistemi_2010}.}
         \item[Križanje]{je postopek izmenjave genov med agenti in je odvisen od njihove predstavitve in tega, kakšno informacijo posamezen gen predstavlja.
             Potomce agentov, ki so predstavljeni v vektorskem načinu, lahko ustvarimo tako, da vzamemo prvo polovico genov prvega in drugo polovico genov
             drugega starša. Križanje agentov, ki so predstavljeni z drevesnimi strukturami ali grafi, je težje
@@ -556,7 +557,7 @@
             da se izognemo naključnemu preiskovanju.}
     \end{description}
 
-    Splošna psevdokoda genetskih algoritmov~\cite{inteligentni_sistemi_2010_evolucijsko_racunanje} se nahaja v algoritmu~\ref{alg:ga_splosno}.
+    Splošna psevdokoda genetskih algoritmov~\cite{inteligentni_sistemi_2010} se nahaja v algoritmu~\ref{alg:ga_splosno}.
 
     \begin{algorithm}
         \lstlistingslo{psevdokoda/ga.txt}
@@ -585,7 +586,7 @@
     S pomočjo nevroevolucije lahko dodajamo, odstranjujemo in spreminjamo sestavne dele mrež, da lažje najdemo optimalno topologijo.
 
     Z razliko od konvencionalnih metod strojnega učenja z vzvratnim raz\-šir\-ja\-njem napake, kjer spreminjamo uteži
-    fiksnih mrež s pomočjo gradientnega iskanja~\cite{inteligentni_sistemi_2010_gradient}, lahko tekom evolucije naključno
+    fiksnih mrež s pomočjo gradientnega iskanja~\cite{inteligentni_sistemi_2010}, lahko tekom evolucije naključno
     spreminjamo uteži.\ Na ta način hkrati iščemo najboljšo topologijo in prilagajamo uteži povezav oz.\ treniramo agente.
 
     Uporaba genetskih algoritmov pri iskanju najboljših nevronskih mrež nam dopušča fleksibilnost, v smislu da lahko poleg
@@ -601,10 +602,10 @@
     \end{equation}
     V postopku križanja in mutiranja lahko optimiziramo tudi parameter $a$, ki določa prepustnost negativnih aktivacijskih vrednosti.
 
-    Algoritem NEAT (Neuroevolution of Augmenting Topologies)~\cite{enwiki:1179705451,Iba_2018_neat} je način implementacije nevroevolucije, ki spreminja topologijo in uteži povezav direktno kodiranih mrež.
+    Algoritem NEAT (Neuroevolution of Augmenting Topologies)~\cite{enwiki:1179705451,Iba_2018} je način implementacije nevroevolucije, ki spreminja topologijo in uteži povezav direktno kodiranih mrež.
     Gene označuje z zgodovinskimi markerji in ohranja najdene inovacije, kompleksno topologijo pa postopoma gradi iz preprostih začetnih struktur.
 
-    Obstajajo številne razširitve NEAT algoritma, med katerimi sta HyperNEAT~\cite{Iba_2018_hyper} s prilagoditvami za evolucijo velikih nevronskih mrež,
+    Obstajajo številne razširitve NEAT algoritma, med katerimi sta HyperNEAT~\cite{Iba_2018} s prilagoditvami za evolucijo velikih nevronskih mrež,
     in rtNEAT z evolucijo v realnem času.
 
     %%\section{Naključni gozdovi}\label{sec:nakljucni-gozdovi}
@@ -840,7 +841,7 @@
     Rezultat metode je podmnožica populacije, ki se v koraku križanja napolni do polne kapacitete (razdelek~\ref{sec:krizanje}).
 
     \subsection{Stohastično univerzalno vzorčenje (SUS)}\label{subsec:stohasticno-univerzalno-vzorcenje}
-    Prednost algoritma SUS~\cite{inteligentni_sistemi_2010_sus} je manjša varianca glede na funkcijo kakovosti od metod izbire iz razdelka~\ref{sec:genetski-algoritmi}.
+    Prednost algoritma SUS~\cite{inteligentni_sistemi_2010} je manjša varianca glede na funkcijo kakovosti od metod izbire iz razdelka~\ref{sec:genetski-algoritmi}.
     Zagotavlja verjetnejšo izbiro kakovostnih agentov, hkrati pa dopušča nekaj naključnosti.
     Zaradi teh lastnosti pomaga preprečiti prezgodnjo konvergenco agentov in ohranjati raznolikost.
     V primeru, da želimo obdržati samo polovico populacije, bo SUS večino agentov izbral izmed najboljših 50\%,
@@ -1090,7 +1091,7 @@
                 \draw[->] (d2) -- node[midway, above, sloped, pos=0.5] {0.05, 0/1} (o0);
                 \draw[->] (d2) -- node[midway, above, sloped, pos=0.5] {0.6, 0/1} (o1);
             \end{tikzpicture}
-            \caption{Prvi korak propagiranja.}
+            \caption{Prvi korak propagiranja prvega zapisa testne množice (tabela~\ref{tab:izracun_kakovosti_ucna_mnozica}) skozi preprost acikličen graf (slika~\ref{fig:preprost_aciklicen_graf}).}
             \label{fig:izracun_kakovosti_primer_1}
         \end{figure}
         \item Iz $pendingVertices$ vzamemo $i_0$.\ Njegovo vrednost propagiramo do vozlišča $o_0$ tako,
@@ -1123,7 +1124,7 @@
                 \draw[->] (d2) -- node[midway, above, sloped, pos=0.5] {0.05, 0/1} (o0);
                 \draw[->] (d2) -- node[midway, above, sloped, pos=0.5] {0.6, 0/1} (o1);
             \end{tikzpicture}
-            \caption{Drugi korak.}
+            \caption{Drugi korak propagiranja prvega zapisa testne množice skozi preprost acikličen graf.}
             \label{fig:izracun_kakovosti_primer_2}
         \end{figure}
         \item Iz $pendingVertices$ vzamemo $i_1$.\ Njegovo vrednost propagiramo do vozlišč $d_0$ in $d_1$.
@@ -1154,7 +1155,7 @@
                 \draw[->] (d2) -- node[midway, above, sloped, pos=0.5] {0.05, 0/1} (o0);
                 \draw[->] (d2) -- node[midway, above, sloped, pos=0.5] {0.6, 0/1} (o1);
             \end{tikzpicture}
-            \caption{Tretji korak.}
+            \caption{Tretji korak propagiranja prvega zapisa testne množice skozi preprost acikličen graf.}
             \label{fig:izracun_kakovosti_primer_3}
         \end{figure}
         \item Iz $pendingVertices$ vzamemo $i_2$.\ Njegovo vrednost propagiramo do vozlišča $d_1$.
@@ -1186,7 +1187,7 @@
                 \draw[->] (d2) -- node[midway, above, sloped, pos=0.5] {0.05, 0/1} (o0);
                 \draw[->] (d2) -- node[midway, above, sloped, pos=0.5] {0.6, 0/1} (o1);
             \end{tikzpicture}
-            \caption{Četrti korak.}
+            \caption{Četrti korak propagiranja prvega zapisa testne množice skozi preprost acikličen graf.}
             \label{fig:izracun_kakovosti_primer_4}
         \end{figure}
         \item Iz $pendingVertices$ vzamemo $d_0$.\ Njegovo vrednost propagiramo do vozlišča $d_2$.
@@ -1217,10 +1218,10 @@
                 \draw[->] (d2) -- node[midway, above, sloped, pos=0.5] {0.05, 0/1} (o0);
                 \draw[->] (d2) -- node[midway, above, sloped, pos=0.5] {0.6, 0/1} (o1);
             \end{tikzpicture}
-            \caption{Peti korak.}
+            \caption{Peti korak propagiranja prvega zapisa testne množice skozi preprost acikličen graf.}
             \label{fig:izracun_kakovosti_primer_5}
         \end{figure}
-        \item Iz $pendingVertices$ vzamemo $d_1$.\ Njegovo vrednost propagiramo do vozlišč $d_2$ in $d_3$.
+        \item Iz $pendingVertices$ vzamemo vozlišče $d_1$.\ Njegovo vrednost propagiramo do vozlišč $d_2$ in $d_3$.
         Vozlišča $d_3$ ne shranimo nikamor, ker nima izhodnih povezav, $d_2$ pa se že nahaja v $backupVertices$.
         \begin{flushleft}
             $pendingVertices: prazno$\linebreak
@@ -1248,7 +1249,7 @@
                 \draw[->] (d2) -- node[midway, above, sloped, pos=0.5] {0.05, 0/1} (o0);
                 \draw[->] (d2) -- node[midway, above, sloped, pos=0.5] {0.6, 0/1} (o1);
             \end{tikzpicture}
-            \caption{Šesti korak.}
+            \caption{Šesti korak propagiranja prvega zapisa testne množice skozi preprost acikličen graf.}
             \label{fig:izracun_kakovosti_primer_6}
         \end{figure}
         \item Vrsta $pendingVertices$ je prazna, zato iz množice $backupVertices$ vzamemo vozlišče, ki ima najmanjši seštevek
@@ -1280,7 +1281,7 @@
                 \draw[->] (d2) -- node[midway, above, sloped, pos=0.5] {0.05, 0/1} (o0);
                 \draw[->] (d2) -- node[midway, above, sloped, pos=0.5] {0.6, 0/1} (o1);
             \end{tikzpicture}
-            \caption{Sedmi korak.}
+            \caption{Sedmi korak propagiranja prvega zapisa testne množice skozi preprost acikličen graf.}
             \label{fig:izracun_kakovosti_primer_7}
         \end{figure}
         \item Iz $pendingVertices$ vzamemo $d_2$.\ Njegovo vrednost propagiramo do vozlišč $o_0$ in $o_1$.
@@ -1311,7 +1312,7 @@
                 \draw[->, very thick] (d2) -- node[midway, above, sloped, pos=0.5] {0.05, 1/1} (o0);
                 \draw[->, very thick] (d2) -- node[midway, above, sloped, pos=0.5] {0.6, 1/1} (o1);
             \end{tikzpicture}
-            \caption{Osmi korak.}
+            \caption{Osmi korak propagiranja prvega zapisa testne množice skozi preprost acikličen graf.}
             \label{fig:izracun_kakovosti_primer_8}
         \end{figure}
         \item Indeks izhodnega vozlišča z največjo vrednostjo primerjamo z razredom vrstice testne množice.
@@ -1342,7 +1343,7 @@
                 \draw[->] (d2) -- node[midway, above, sloped, pos=0.5] {0.05, 1/1} (o0);
                 \draw[->] (d2) -- node[midway, above, sloped, pos=0.5] {0.6, 1/1} (o1);
             \end{tikzpicture}
-            \caption{Deveti korak.}
+            \caption{Deveti korak propagiranja prvega zapisa testne množice skozi preprost acikličen graf.}
             \label{fig:izracun_kakovosti_primer_9}
         \end{figure}
         \item Povečamo celico $1,1$ v matriki zmot za $1$.
@@ -1556,7 +1557,7 @@
     Vse podatkovne množice, ki smo jih izbrali, vsebujejo učne primere brez manjkajočih vrednosti, zvezne ali diskretne atribute in najmanj tri razrede.
     Na voljo so na UCI Machine Learning Repository~\cite{Dua:2019}.
     V tem poglavju naprej opišemo podatkovne množice, čemur sledi opis evalvacije (razdelek~\ref{sec:nacrt-poskusov}).
-    Diskusija se nahaja v poglavju~\ref{ch:rezultati}, rezultati testiranja pa v dodatku~\ref{ch:rezultati-testiranja}.
+    Povzetek rezultatov in diskusija se nahajata v poglavju~\ref{ch:rezultati}, podrobni rezultati testiranja pa v dodatku~\ref{ch:rezultati-testiranja}.
 
     \section{Podatkovne množice}\label{sec:podatkovne-mnozice}
     V tem razdelku je opisano:
@@ -1744,10 +1745,11 @@
         \end{itemize}
     \end{enumerate}
 
-    Testiranje smo izvedli še s pristopom naključnih gozdov~\cite{inteligentni_sistemi_2010_random_forest} s programom Orange~\cite{JMLR:demsar13a} po naslednjem postopku:
+    Testiranje smo izvedli še s pristopom naključnih gozdov~\cite{inteligentni_sistemi_2010} iz programa Orange~\cite{JMLR:demsar13a} po naslednjem postopku:
     \begin{enumerate}
-        \item primere podatkovnih množic smo premešali in razdelili na učno in testno v razmerju 70 proti 30 (razen Shuttle),
-        \item število dreves smo izenačili z velikostjo generacij iz naborov parametrov testiranja našega programa (ostale nastavitve smo pustili na privzetih vrednostih),
+        \item primere podatkovnih množic smo premešali in razdelili na učno in testno v razmerju 70 proti 30 (razen Shuttle)
+        \textbf{TODO dešifriraj mentorjev komentar} na enak način, kot je opisano zgoraj,
+        \item število dreves smo nastavili na 100, ostale nastavitve pa pustili na privzetih vrednostih,
         \item na koncu smo primerjali točnost z našim pristopom.
     \end{enumerate}
 
@@ -1755,7 +1757,9 @@
     Vse vrednosti smo zaokrožili na 3 decimalna mesta.
 
 
-    \chapter{Diskusija rezultatov}\label{ch:rezultati}
+    \chapter{Povzetek in diskusija rezultatov}\label{ch:rezultati}
+    \textbf{TODO pomembne povzetke rezultatov vključite v tem razdelku}
+
     Poglavje vsebuje povzetke in diskusijo rezultatov podatkovnih množic, pridobljenih po načrtu razdelka~\ref{sec:nacrt-poskusov}.
     Pri vseh izvedenih poskusih je bil naš cilj preseči točnost večinskega razreda:
     \begin{itemize}
@@ -1764,6 +1768,10 @@
         \item{Car Evaluation (razdelek~\ref{sec:rezultati-car-evaluation}): $70.02\%$}
         \item{Shuttle (razdelek~\ref{sec:rezultati-shuttle}): $79.159\%$}
     \end{itemize}
+    
+    \textbf{TODO komentiranje dobljenih povprečij rezultatov}
+    
+    \textbf{TODO pri vsakem podrazdelku dodaj tabelo s povprečji in standardnim odklonom rezultatov}
 
     \section{Iris}\label{sec:rezultati-iris}
     Iz rezultatov razdelka~\ref{sec:dodatek-iris-test} je razvidno, da generirane nevronske mreže do\-se\-že\-jo visoko točnost pri majhnih velikostih.
@@ -1797,7 +1805,7 @@
 
 
     \section{Wine}\label{sec:rezultati-wine}
-    Zaradi večje kompleksnosti v primerjavi z Iris smo dovolili generiranje večjih mrež skozi več generacij.
+    Zaradi večje kompleksnosti v primerjavi z Iris smo pri tej množici dovolili generiranje večjih mrež skozi več generacij.
 
     V najboljših mrežah te množice je prisoten izrazit vpliv prispevka kompleksnosti.
     V nobenem primeru niso na vrednosti izhodnih vozlišč vplivala vsa vhodna vozlišča.
@@ -1861,18 +1869,20 @@
     Točnost večinskega razreda ($79.159\%$) je bila vedno presežena.
 
     Pristop naključnih gozdov je dosegel točnost $100\%$ (tabela~\ref{tab:rforest_shuttle_result}).
+    
+    \textbf{TODO komentiraj vse rezultate skupaj, kdaj pristop deluje in kdaj ne in zakaj}
 
 
     \chapter{Zaključek}\label{ch:zakljucki-sklep}
     V diplomski nalogi smo napisali program, ki ustvari rekurenčne nevronske mreže za večrazredno klasifikacijo s pomočjo genetskega algoritma.
     Genetski algoritem pri izračunu kakovosti upošteva tudi računsko kompleksnost mrež z nastavljivim inicializacijskim parametrom.
-    Ustvarjene mreže za klasifikacijo podatkovnih množic z enakomerno porazdelitvijo razredov imajo točnost, ki je primerljiva
-    pristopu naključnih gozdov.
-    Pri klasifikaciji množic z neenakomerno porazdelitvijo razredov zaostajajo za zgornjim pristopom, ker se genetski
+    Ustvarjene mreže za klasifikacijo podatkovnih množic z enakomerno porazdelitvijo razredov imajo točnost, ki je primerljiva s
+    pristopom naključnih gozdov.
+    Pri klasifikaciji množic z neenakomerno porazdelitvijo razredov zaostajajo, ker se genetski
     algoritem ujame v lokalnih maksimumih napovedovanja večinskih razredov.
+    \textbf{TODO dodaj povezavo na github}
 
-    \section{Izboljšave}\label{sec:izboljsave}
-    Iz rezultatov testiranja programa sklepamo, da naš pristop izračuna kakovosti ni zadosten za obdržanje nišnih lastnosti
+    Iz rezultatov testiranja programa sklepamo, da naš pristop izračuna kakovosti mrež ne obdrži lastnosti
     nevronskih mrež, ki prispevajo k pravilnem napovedovanju manjšinskih razredov.
     Izračun bi lahko prilagodili tako, da bi v celotni populaciji preverili distribucijo napovedovanja vseh razredov,
     kakovost agentov, ki lahko napovedujejo manjšinske razrede, pa bi sorazmerno povečali.
@@ -1882,7 +1892,7 @@
     Nevronske mreže bi na ta način hkrati vsebovala vmesna vozlišča z različnimi aktivacijskimi funkcijami, kar bi nas
     lahko pripeljalo do boljših rezultatov.
 
-    Namesto najboljšega agenta po zaključku programa bi za napovedovanje lahko uporabili tudi najboljši delež
+    Namesto najboljšega agenta bi za napovedovanje lahko uporabili tudi najboljši delež
     končne populacije.\ Napovedan razred bi nato izbrali na podlagi glasov izbranih agentov, na podoben način kot naključni gozdovi.
 
     \appendix
@@ -1899,7 +1909,7 @@
     %\printbibliography[heading=bibintoc,type=incollection,title={Poglavja v knjigah}]
 
     \emergencystretch=1em
-    \printbibliography[heading=bibintoc,title={Celotna literatura}]
+    \printbibliography[heading=bibintoc,title={Literatura}]
 
 \end{document}
 
