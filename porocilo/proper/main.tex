@@ -447,11 +447,13 @@
     podatkovne množice, izračuna njihovo kakovost na podlagi toč\-no\-sti ali Matthewsovega korelacijskega koeficienta s pribitkom kompleksnosti,
     nato pa izbere najboljših $n$ za naslednjo generacijo.
     Postopek $m$-krat ponovi, nato pa shrani najboljšo nevronsko mrežo.
-    Podrobnosti pristopa so opisane v poglavju~\ref{ch:implementacija-nevroevolucije}.
 
-    Rezultate testiranja (dodatek~\ref{ch:rezultati-testiranja}) smo ovrednotili in primerjali s pristopom naključnih gozdov (poglavje~\ref{ch:rezultati}).
-    
-    \textbf{TODO napovej vsebino vseh poglavij}
+    V diplomski nalogi predstavimo uporabljene tehnologije (pogjavje~\ref{ch:ozadje-problema}), implementacijo teh
+    tehnologij v našem programu (poglavje~\ref{ch:implementacija-nevroevolucije}) in izbrane podatkovne množice ter
+    načrt testiranja programa (poglavje~\ref{ch:evalvacija}).
+    V poglavju~\ref{ch:rezultati} se nahajata diskusija in povzetek rezultatov testiranja, podrobni rezultati pa v dodatku~\ref{ch:rezultati-testiranja}.
+    \textbf{TODO preglej}
+
 
     \chapter{Ozadje problema}\label{ch:ozadje-problema}
     Poglavje zajema razlago tehnologij, ki jih uporabljamo v tem diplomskem delu: nevronske mreže (razdelek~\ref{sec:nevronske-mreze}),
@@ -593,7 +595,7 @@
     \begin{equation}
         f(x)=
         \begin{cases}
-            x & \quad\text{če je x}\ge0\\
+            x & \quad\text{če je } x\ge0\\
             ax & \quad\text{sicer}\\
         \end{cases}
         \label{eq:parametric_relu}
@@ -609,7 +611,6 @@
     %%\section{Naključni gozdovi}\label{sec:nakljucni-gozdovi}
 
     \section{Matthewsov korelacijski koeficient (MKK)}\label{sec:mkk}
-    \textbf{TODO dopolni}
     MKK~\cite{mcc_wiki} je mera asociativnosti dveh ali več spremenljivk.
     V kontekstu matrike zmot so spremenljivke oz.\ pravilni in napovedani razredi pozitivno asociativni, če se večina pravilnih napovedi nahaja na ali blizu diagonale.
     Splošna formula je naslednja, vrne pa vrednosti med $-1$ in $1$:
@@ -624,6 +625,8 @@
         \item $\vec{t}$ število pojavitev vseh razredov in
         \item $\vec{p}$ število napovedi vseh razredov.
     \end{itemize}
+
+    %MKK, poleg točnosti, uporabimo pri izračunu kakovosti agentov (razdelek~\ref{sec:izracun-kakovosti}).
 
 
     \chapter{Implementacija nevroevolucije}\label{ch:implementacija-nevroevolucije}
@@ -661,7 +664,11 @@
     med vozliščema $x_i$ in $y_j$.
     Če je vrednost 0, potem povezava med vozliščema ne obstaja.}.
     
-    \textbf{TODO skica agenta, napoved podrazdelkov}
+    \textbf{TODO skica agenta, napoved podrazdelkov + razlogi zakaj jih potrebujemo}
+
+    V tem razdelku je razložena implementacija usmerjenih grafov (podrazdelek~\ref{subsec:usmerjeni-grafi}),
+    vozlišč (podrazdelek~\ref{subsec:vozlisca}) in povezav (podrazdelek~\ref{subsec:povezave}).
+
 
     \subsection{Usmerjeni grafi}\label{subsec:usmerjeni-grafi}
     Objekti razreda \enquote{Graph} vsebujejo seznam referenc na vsa vhodna, izhodna in vmesna vozlišča ter seznam referenc
@@ -1730,7 +1737,7 @@
         \item program smo pognali desetkrat za vsak nabor parametrov za obe metriki (petkrat na podlagi točnosti in petkrat na podlagi MKK),
         \item izmed vseh zagonov za posamezni nabor smo vizualizirali naj\-bolj\-še\-ga agenta s pomočjo odprtokodnih knjižnic \enquote{force-graph}\cite{Vasturiano}
         in \enquote{json}\cite{Lohmann_JSON_for_Modern_2023}, hkrati pa izdelali graf točnosti oz.\ MKK po generacijah na učni množici,
-        \item na koncu smo za vsak nabor parametrov izračunali standardni odklon točnosti in MKK najboljših agentov po formuli~\cite{enwiki:1168408775}:
+        \item na koncu smo za vsak nabor parametrov izračunali povprečje in standardni odklon točnosti in MKK najboljših agentov po formuli~\cite{enwiki:1168408775}:
         \begin{equation}
             \sigma=\sqrt{\frac{1}{n}\sum_{i=1}^{n}(x_i-\overline{x})^2},
             \label{eq:standardni_odklon}
@@ -1745,8 +1752,8 @@
 
     Testiranje smo izvedli še s pristopom naključnih gozdov~\cite{inteligentni_sistemi_2010} iz programa Orange~\cite{JMLR:demsar13a} po naslednjem postopku:
     \begin{enumerate}
-        \item primere podatkovnih množic smo premešali in razdelili na učno in testno v razmerju 70 proti 30 (razen Shuttle)
-        \textbf{TODO dešifriraj mentorjev komentar} na enak način, kot je opisano zgoraj,
+        \item primere podatkovnih množic smo premešali in razdelili na učno in testno na enak način kot je opisano zgoraj,
+        da smo dobili enaka razbitja,
         \item število dreves smo nastavili na 100, ostale nastavitve pa pustili na privzetih vrednostih,
         \item na koncu smo primerjali točnost z našim pristopom.
     \end{enumerate}
@@ -1801,6 +1808,23 @@
 
     Pristop naključnih gozdov je dosegel točnost $100\%$ (tabela~\ref{tab:rforest_iris_result}).
 
+    \begin{table}[H]
+        \begin{center}
+            \begin{tabular}{|| c | c c || c c ||}
+                \hline
+                \multirow{2}{*}{št. nabora} & \multicolumn{2}{c||}{točnost} & \multicolumn{2}{c||}{MKK} \\ \cline{2-5}
+                & povprečje & $\sigma$ & povprečje & $\sigma$ \\
+                \hline
+                1 & 90.7\%    & 0.043   & 0.897     & 0.040    \\
+                2 & 94.7\%    & 0.017   & 0.916     & 0.025    \\
+                3 & 92.0\%    & 0.084   & 0.898     & 0.046    \\
+                \hline
+            \end{tabular}
+        \end{center}
+        \caption{Povprečne točnosti in MKK po naborih inicializacijskih parametrov s standardnim odklonom.}
+        \label{tab:iris_result_aggregate}
+    \end{table}
+
 
     \section{Wine}\label{sec:rezultati-wine}
     Zaradi večje kompleksnosti v primerjavi z Iris smo pri tej množici dovolili generiranje večjih mrež skozi več generacij.
@@ -1820,6 +1844,23 @@
     točnost večinskega razreda (39.89\%) pa je bila presežena v vseh zagonih.
 
     Pristop naključnih gozdov je dosegel enako točnost (tabela~\ref{tab:rforest_wine_result}).
+
+    \begin{table}[H]
+        \begin{center}
+            \begin{tabular}{|| c | c c || c c ||}
+                \hline
+                \multirow{2}{*}{št. nabora} & \multicolumn{2}{c||}{točnost} & \multicolumn{2}{c||}{MKK} \\ \cline{2-5}
+                & povprečje & $\sigma$ & povprečje & $\sigma$ \\
+                \hline
+                1 & 90.7\%    & 0.043   & 0.897     & 0.040    \\
+                2 & 94.7\%    & 0.017   & 0.916     & 0.025    \\
+                3 & 92.0\%    & 0.084   & 0.898     & 0.046    \\
+                \hline
+            \end{tabular}
+        \end{center}
+        \caption{Povprečne točnosti in MKK po naborih inicializacijskih parametrov s standardnim odklonom.}
+        \label{tab:wine_result_aggregate}
+    \end{table}
 
 
     \section{Car Evaluation}\label{sec:rezultati-car-evaluation}
@@ -1870,6 +1911,9 @@
     
     \textbf{TODO komentiraj vse rezultate skupaj, kdaj pristop deluje in kdaj ne in zakaj}
 
+    \section{Skupni povzetek rezultatov}
+
+
 
     \chapter{Zaključek}\label{ch:zakljucki-sklep}
     V diplomski nalogi smo napisali program, ki ustvari rekurenčne nevronske mreže za večrazredno klasifikacijo s pomočjo genetskega algoritma.
@@ -1878,7 +1922,8 @@
     pristopom naključnih gozdov.
     Pri klasifikaciji množic z neenakomerno porazdelitvijo razredov zaostajajo, ker se genetski
     algoritem ujame v lokalnih maksimumih napovedovanja večinskih razredov.
-    \textbf{TODO dodaj povezavo na github}
+
+    Izvorna koda programa in rezultati poskusov so dostopni na povezavi \url{https://github.com/JureTheMan77/Neuroevolution}.
 
     Iz rezultatov testiranja programa sklepamo, da naš pristop izračuna kakovosti mrež ne obdrži lastnosti
     nevronskih mrež, ki prispevajo k pravilnem napovedovanju manjšinskih razredov.
