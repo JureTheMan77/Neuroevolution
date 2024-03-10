@@ -466,7 +466,7 @@
     aktivacijskih vrednosti vhodnih vozlišč.
     Preprost model vozlišča, predstavljen z diagramom~\ref{fig:diagram-nevrona}, je naslednji~\cite{russell_norvig_2016}:
     \begin{equation}
-        a_j=f(\sum_{i=0}^{n} a_i w_{i,j}),
+        a_j=f(\sum_{i=1}^{n} a_i w_{i,j}),
         \label{eq:neuron_model_splosno}
     \end{equation}
     kjer je:
@@ -480,7 +480,7 @@
 
     \begin{figure}[H]
         \begin{center}
-            \includesvg[width=12cm]{diagram-nevron.svg}
+            \includegraphics[width=12cm]{diagram-nevron}
         \end{center}
         \caption{Diagram nevrona z $n$ vhodnimi povezavami in sigmoidno aktivacijsko funkcijo $f(x) =\frac{1}{1+e^{-x}}$.}
         \label{fig:diagram-nevrona}
