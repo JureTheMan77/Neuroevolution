@@ -520,7 +520,7 @@
     Večinoma so uporabljeni za reševanje optimizacijskih in iskalnih problemov, ne zagotavljajo pa optimalnih rešitev.
     Namesto enega rezultata po navadi najdejo nabor rešitev dobre kakovosti, ki so primerne za nadaljnjo
     uporabo~\cite{inteligentni_sistemi_2010,genetic_algorithm_wiki_2022}.
-    
+
     V splošnem so GA sestavljeni iz korakov inicializiranja začetne populacije, vzorčenja, križanja, mutiranja in izračuna kakovosti agentov.
     %inicializacijo začetne populacije, vzorčenje, križanje, mutiranje in izračun kakovosti
     \begin{description}
@@ -663,7 +663,7 @@
     V primeru predstavitve nevronskih mrež s tako podatkovno strukturo vrednost posameznega elementa pomeni utež povezave
     med vozliščema $x_i$ in $y_j$.
     Če je vrednost 0, potem povezava med vozliščema ne obstaja.}.
-    
+
     \textbf{TODO skica agenta, napoved podrazdelkov + razlogi zakaj jih potrebujemo}
 
     V tem razdelku je razložena implementacija usmerjenih grafov (podrazdelek~\ref{subsec:usmerjeni-grafi}),
@@ -908,7 +908,7 @@
     \section{Mutiranje}\label{sec:mutiranje}
     Po vsakem končanem postopku križanja na podlagi parametra \enquote{delež mutiranih potomcev} izračunamo delež potomcev,
     ki jim bomo mutirali.
-    Izbira potomcev za mutacijo in tip mutacije sta naključna. 
+    Izbira potomcev za mutacijo in tip mutacije sta naključna.
     Vzorčenih agentov nikoli ne mutiramo.
 
     Implementirali smo šest različnih tipov mutacij z enako možnostjo izbire:
@@ -1773,10 +1773,8 @@
         \item{Car Evaluation (razdelek~\ref{sec:rezultati-car-evaluation}): $70.02\%$}
         \item{Shuttle (razdelek~\ref{sec:rezultati-shuttle}): $79.159\%$}
     \end{itemize}
-    
+
     \textbf{TODO komentiranje dobljenih povprečij rezultatov}
-    
-    \textbf{TODO pri vsakem podrazdelku dodaj tabelo s povprečji in standardnim odklonom rezultatov}
 
     \section{Iris}\label{sec:rezultati-iris}
     Iz rezultatov razdelka~\ref{sec:dodatek-iris-test} je razvidno, da generirane nevronske mreže do\-se\-že\-jo visoko točnost pri majhnih velikostih.
@@ -1806,7 +1804,7 @@
     metriko MKK (tabela~\ref{tab:iris_mcc_3}).
     Točnost večinskega razreda ($33\%$) je bila presežena pri vseh zagonih.
 
-    Pristop naključnih gozdov je dosegel točnost $100\%$ (tabela~\ref{tab:rforest_iris_result}).
+    Pristop naključnih gozdov je dosegel točnost $100\%$ (tabela~\ref{tab:rforest_iris_cm}).
 
     \begin{table}[H]
         \begin{center}
@@ -1815,13 +1813,13 @@
                 \multirow{2}{*}{št. nabora} & \multicolumn{2}{c||}{točnost} & \multicolumn{2}{c||}{MKK} \\ \cline{2-5}
                 & povprečje & $\sigma$ & povprečje & $\sigma$ \\
                 \hline
-                1 & 90.7\%    & 0.043   & 0.897     & 0.040    \\
-                2 & 94.7\%    & 0.017   & 0.916     & 0.025    \\
-                3 & 92.0\%    & 0.084   & 0.898     & 0.046    \\
+                1 & 90.7\%    & 0.043    & 0.897     & 0.040    \\
+                2 & 94.7\%    & 0.017    & 0.916     & 0.025    \\
+                3 & 92.0\%    & 0.084    & 0.898     & 0.046    \\
                 \hline
             \end{tabular}
         \end{center}
-        \caption{Povprečne točnosti in MKK po naborih inicializacijskih parametrov s standardnim odklonom.}
+        \caption{Povprečne točnosti in MKK s standardnim odklonom množice Iris.}
         \label{tab:iris_result_aggregate}
     \end{table}
 
@@ -1843,7 +1841,7 @@
     Prvi nabor parametrov z metriko MKK je ustvaril najboljšo mrežo s $96.2\%$ točnostjo (slika~\ref{fig:wine_mcc_1_g}),
     točnost večinskega razreda (39.89\%) pa je bila presežena v vseh zagonih.
 
-    Pristop naključnih gozdov je dosegel enako točnost (tabela~\ref{tab:rforest_wine_result}).
+    Pristop naključnih gozdov je dosegel enako točnost (tabela~\ref{tab:rforest_wine_cm}).
 
     \begin{table}[H]
         \begin{center}
@@ -1852,14 +1850,14 @@
                 \multirow{2}{*}{št. nabora} & \multicolumn{2}{c||}{točnost} & \multicolumn{2}{c||}{MKK} \\ \cline{2-5}
                 & povprečje & $\sigma$ & povprečje & $\sigma$ \\
                 \hline
-                1 & 90.7\%    & 0.043   & 0.897     & 0.040    \\
-                2 & 94.7\%    & 0.017   & 0.916     & 0.025    \\
-                3 & 92.0\%    & 0.084   & 0.898     & 0.046    \\
+                1 & 84.2\%    & 0.042    & 0.810     & 0.090    \\
+                2 & 81.1\%    & 0.096    & 0.740     & 0.076    \\
+                3 & 87.6\%    & 0.054    & 0.841     & 0.054    \\
                 \hline
             \end{tabular}
         \end{center}
-        \caption{Povprečne točnosti in MKK po naborih inicializacijskih parametrov s standardnim odklonom.}
-        \label{tab:wine_result_aggregate}
+        \caption{Povprečne točnosti in MKK s standardnim odklonom množice Wine.}
+        \label{tab:random-forest-wine-test}
     \end{table}
 
 
@@ -1893,8 +1891,24 @@
     Najboljša mreža je bila ustvarjena z drugim naborom parametrov z metriko MKK, doseže pa $75.9\%$ točnost (slika~\ref{fig:car_mcc_2_g}).
     Točnost večinskega razreda ($70.02\%$) je bila večinoma presežena.
 
-    Pristop naključnih gozdov je dosegel precej večjo točnost $95.9\%$ s 300 drevesi (tabela~\ref{tab:rforest_car_result}).
+    Pristop naključnih gozdov je dosegel precej večjo točnost $95.9\%$ s 300 drevesi (tabela~\ref{tab:rforest_car_cm}).
 
+    \begin{table}[H]
+        \begin{center}
+            \begin{tabular}{|| c | c c || c c ||}
+                \hline
+                \multirow{2}{*}{št. nabora} & \multicolumn{2}{c||}{točnost} & \multicolumn{2}{c||}{MKK} \\ \cline{2-5}
+                & povprečje & $\sigma$ & povprečje & $\sigma$ \\
+                \hline
+                1 & 72.0\%    & 0.012    & 0.452     & 0.032    \\
+                2 & 71.7\%    & 0.020    & 0.498     & 0.045    \\
+                3 & 72.1\%    & 0.010    & 0.494     & 0.028    \\
+                \hline
+            \end{tabular}
+        \end{center}
+        \caption{Povprečne točnosti in MKK s standardnim odklonom množice Car Evaluation.}
+        \label{tab:random-forest-car-test}
+    \end{table}
 
     \section{Shuttle}\label{sec:rezultati-shuttle}
     Rezultati vsebujejo značilnosti testiranj programa na zgornjih treh množicah.
@@ -1907,8 +1921,25 @@
     Najboljša agenta sta bila ustvarjena s tretjim naborom parametrov, in sicer oba s točnostjo $93\%$ (sliki~\ref{fig:statlog_acc_3_g} in~\ref{fig:statlog_mcc_3_g}).
     Točnost večinskega razreda ($79.159\%$) je bila vedno presežena.
 
-    Pristop naključnih gozdov je dosegel točnost $100\%$ (tabela~\ref{tab:rforest_shuttle_result}).
-    
+    Pristop naključnih gozdov je dosegel točnost $100\%$ (tabela~\ref{tab:rforest_shuttle_cm}).
+
+    \begin{table}[H]
+        \begin{center}
+            \begin{tabular}{|| c | c c || c c ||}
+                \hline
+                \multirow{2}{*}{št. nabora} & \multicolumn{2}{c||}{točnost} & \multicolumn{2}{c||}{MKK} \\ \cline{2-5}
+                & povprečje & $\sigma$ & povprečje & $\sigma$ \\
+                \hline
+                1 & 91.1\%    & 0.012    & 0.760     & 0.003    \\
+                2 & 89.3\%    & 0.022    & 0.699     & 0.072    \\
+                3 & 90.5\%    & 0.015    & 0.746     & 0.046    \\
+                \hline
+            \end{tabular}
+        \end{center}
+        \caption{Povprečne točnosti in MKK s standardnim odklonom množice Shuttle.}
+        \label{tab:random-forest-shuttle-test}
+    \end{table}
+
     \textbf{TODO komentiraj vse rezultate skupaj, kdaj pristop deluje in kdaj ne in zakaj}
 
     \section{Skupni povzetek rezultatov}
