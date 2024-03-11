@@ -457,7 +457,8 @@
 
     \chapter{Ozadje problema}\label{ch:ozadje-problema}
     Poglavje zajema razlago tehnologij, ki jih uporabljamo v tem diplomskem delu: nevronske mreže (razdelek~\ref{sec:nevronske-mreze}),
-    genetske algoritme (razdelek~\ref{sec:genetski-algoritmi}) in nevroevolucijo (razdelek~\ref{sec:nevroevolucija}).
+    genetske algoritme (razdelek~\ref{sec:genetski-algoritmi}), nevroevolucijo (razdelek~\ref{sec:nevroevolucija}) in
+    Matthewsov korelacijski koeficient (razdelek~\ref{sec:mkk}).
 
     \section{Nevronske mreže}\label{sec:nevronske-mreze}
     Nevronske mreže (NN) so množice povezanih vozlišč oziroma \enquote{nevronov}.
@@ -491,7 +492,7 @@
 
     \begin{figure}[H]
         \begin{center}
-            \includesvg[width=12cm]{diagram-mreza.svg}
+            \includesvg[width=10cm]{diagram-mreza.svg}
         \end{center}
         \caption{Diagram nevronske mreže s štirimi vhodnimi vozlišči $i$, $n$ vmesnimi vozlišči $d$ in tremi izhodnimi vozlišči $o$.}
         \label{fig:diagram-mreze}
@@ -664,11 +665,41 @@
     med vozliščema $x_i$ in $y_j$.
     Če je vrednost 0, potem povezava med vozliščema ne obstaja.}.
 
-    \textbf{TODO skica agenta, napoved podrazdelkov + razlogi zakaj jih potrebujemo}
+    V tem razdelku je opisana implementacija:
+    \begin{itemize}
+        \item usmerjenih grafov (podrazdelek~\ref{subsec:usmerjeni-grafi}), ki hranijo vsa vozlišča in povezave posameznih agentov,
+        \item vhodnih, vmesnih in izhodnih vozlišč (podrazdelek~\ref{subsec:vozlisca}), ki vsebujejo reference do vhodnih
+        in izhodnih povezav ter aktivacijsko funkcijo, in
+        \item povezav (podrazdelek~\ref{subsec:povezave}), vsaka od katerih hrani referenco do enega izvornega in
+        ponornega vozlišča, utež za manipuliranje rezultata aktivacijske funkcije izvora ter zgornjo mejo števila prečkanj.
+    \end{itemize}
 
-    V tem razdelku je razložena implementacija usmerjenih grafov (podrazdelek~\ref{subsec:usmerjeni-grafi}),
-    vozlišč (podrazdelek~\ref{subsec:vozlisca}) in povezav (podrazdelek~\ref{subsec:povezave}).
-
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance={25mm}, thin, main/.style = {draw, circle}]
+            \node[main] (i0) {$i_0$};
+            \node[main] (i1) [below of=i0] {$i_1$};
+            \node[main] (i2) [below of=i1] {$i_2$};
+            \node[main] (d0) [right of=i0] {$d_0$};
+            \node[main] (d1) [right of=i1] {$d_1$};
+            \node[main] (d2) [right of=d1] {$d_2$};
+            \node[main] (o0) [above right of=d2] {$o_0$};
+            \node[main] (o1) [below right of=d2] {$o_1$};
+            \draw[->] (i0) -- node[midway, above, sloped, pos=0.5] {0.02, 1} (d0);
+            \draw[->] (i1) -- node[midway, above, sloped, pos=0.5] {0.41, 1} (d1);
+            \draw[->] (i2) -- node[midway, above, sloped, pos=0.5] {0.11, 1} (d1);
+            \draw[->] (i2) -- node[midway, above, sloped, pos=0.5] {0.36, 1} (o1);
+            \draw[->, very thick] (d0) -- node[midway, above, sloped, pos=0.5] {0.58, 5} (d2);
+            \draw[->, very thick] (d2) -- node[midway, above, sloped, pos=0.5] {0.23, 5} (d1);
+            \draw[->, very thick] (d1) -- node[midway, above, sloped, pos=0.5] {0.08, 5} (d0);
+            \draw[->] (d2) -- node[midway, above, sloped, pos=0.5] {0.34, 1} (o0);
+            \draw[->] (d2) -- node[midway, above, sloped, pos=0.5] {1.00, 1} (o1);
+        \end{tikzpicture}
+        \caption{Primer agenta z rekurenčno nevronsko mrežo s tremi vhodnimi vozlišči $i$, tremi vmesnimi vozlišči $d$ in
+        dvema izhodnima vozliščema $o$. Prvo število na povezavah je utež, drugo pa največje število prečkanj. Vozlišča
+            $d_0$, $d_1$ in $d_2$ tvorijo cikel.}
+        \label{fig:skica_agenta}
+    \end{figure}
 
     \subsection{Usmerjeni grafi}\label{subsec:usmerjeni-grafi}
     Objekti razreda \enquote{Graph} vsebujejo seznam referenc na vsa vhodna, izhodna in vmesna vozlišča ter seznam referenc
@@ -769,9 +800,33 @@
     \end{itemize}
 
     V grafih dopuščamo obstoj \enquote{mirujočih} povezav, ki so povezane na mirujoča vmesna vozlišča.
-    Posledično dopuščamo obstoj \enquote{mirujočih struktur}, ki ne vplivajo na vrednosti izhodnih vozlišč,
+    Posledično dopuščamo obstoj \enquote{mirujočih struktur} (slika~\ref{fig:mirujoca_struktura}), ki ne vplivajo na vrednosti izhodnih vozlišč,
     lahko pa postanejo aktivne v koraku mutiranja in križanja.
     Eno nepovezano vmesno vozlišče lahko razumemo kot najmanjšo možno mirujočo strukturo.
+
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance={25mm}, thin, main/.style = {draw, circle}]
+            \node[main] (i0) {$i_0$};
+            \node[main] (i1) [below of=i0] {$i_1$};
+            \node[main] (i2) [below of=i1] {$i_2$};
+            \node[main, very thick] (d0) [right of=i0] {$d_0$};
+            \node[main, very thick] (d1) [right of=i1] {$d_1$};
+            \node[main, very thick] (d2) [right of=d1] {$d_2$};
+            \node[main] (o0) [above right of=d2] {$o_0$};
+            \node[main] (o1) [below right of=d2] {$o_1$};
+            \draw[->, very thick] (i0) -- node[midway, above, sloped, pos=0.5] {0.02, 1} (d0);
+            \draw[->, very thick] (i1) -- node[midway, above, sloped, pos=0.5] {0.41, 1} (d1);
+            \draw[->, very thick] (i2) -- node[midway, above, sloped, pos=0.5] {0.11, 1} (d1);
+            \draw[->] (i2) -- node[midway, above, sloped, pos=0.5] {0.36, 1} (o1);
+            \draw[->, very thick] (d0) -- node[midway, above, sloped, pos=0.5] {0.58, 5} (d2);
+            \draw[->, very thick] (d2) -- node[midway, above, sloped, pos=0.5] {0.23, 5} (d1);
+            \draw[->, very thick] (d1) -- node[midway, above, sloped, pos=0.5] {0.08, 5} (d0);
+        \end{tikzpicture}
+        \caption{Primer agenta z mirujočo strukturo. Nevronski mreži slike~\ref{fig:skica_agenta} smo odstranili povezavi
+        med $d_2$ in $o_0$ ter $o_1$. Posledično na vrednost izhodnih vozlišč vpliva samo $i_2$.}
+        \label{fig:mirujoca_struktura}
+    \end{figure}
 
 
     \section{Populacija}\label{sec:populacija}
