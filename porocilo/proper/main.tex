@@ -392,8 +392,7 @@
     program pa poleg prilagajanja uteži išče tudi najboljšo topologijo za dano podatkovno množico, pri čemer upošteva
     kompleksnost ustvarjenih mrež.
     Točnosti ustvarjenih mrež pri klasifikaciji podatkovnih množic z enakomerno porazdelitvijo razredov je primerljiva
-    s pristopom naključnih gozdov.
-    Pri klasifikaciji množic z neenakomernimi porazdelitvami pa naša rešitev zaostaja.
+    s pristopom naključnih gozdov, pri klasifikaciji množic z neenakomernimi porazdelitvami pa naša rešitev zaostaja.
 
     \bigskip
 
@@ -452,7 +451,7 @@
     V diplomski nalogi predstavimo uporabljene tehnologije (pogjavje~\ref{ch:ozadje-problema}), implementacijo teh
     tehnologij v našem programu (poglavje~\ref{ch:implementacija-nevroevolucije}) in izbrane podatkovne množice ter
     načrt testiranja programa (poglavje~\ref{ch:evalvacija}).
-    V poglavju~\ref{ch:rezultati} se nahajajo diskusija in povzetek rezultatov testiranja, podrobni rezultati pa v dodatku~\ref{ch:rezultati-testiranja}.
+    V poglavju~\ref{ch:rezultati} se nahajajo diskusija in povzetek rezultatov testiranja, podrobni rezultati pa so predstavljeni v dodatku~\ref{ch:rezultati-testiranja}.
 
 
     \chapter{Ozadje problema}\label{ch:ozadje-problema}
@@ -516,6 +515,7 @@
         \label{fig:diagram-rekurencne-mreze}
     \end{figure}
 
+    \newpage
     \section{Genetski algoritmi}\label{sec:genetski-algoritmi}
     Genetski algoritmi (GA) črpajo navdih iz evolucijskega procesa naravne selekcije.
     Večinoma so uporabljeni za reševanje optimizacijskih in iskalnih problemov, ne zagotavljajo pa optimalnih rešitev.
@@ -611,6 +611,7 @@
 
     %%\section{Naključni gozdovi}\label{sec:nakljucni-gozdovi}
 
+    \newpage
     \section{Matthewsov korelacijski koeficient}\label{sec:mkk}
     Matthewsov korelacijski koeficient (MKK)~\cite{mcc_wiki} je mera asociativnosti dveh ali več spremenljivk.
     V kontekstu matrike zmot so spremenljivke oz.\ pravilni in napovedani razredi pozitivno asociativni, če se večina pravilnih napovedi nahaja na ali blizu diagonale.
@@ -676,13 +677,13 @@
 
     \begin{figure}[H]
         \centering
-        \begin{tikzpicture}[node distance={25mm}, thin, main/.style = {draw, circle}]
+        \begin{tikzpicture}[node distance={30mm}, thin, main/.style = {draw, circle}]
             \node[main] (i0) {$i_0$};
             \node[main] (i1) [below of=i0] {$i_1$};
             \node[main] (i2) [below of=i1] {$i_2$};
-            \node[main] (d0) [right of=i0] {$d_0$};
-            \node[main] (d1) [right of=i1] {$d_1$};
-            \node[main] (d2) [right of=d1] {$d_2$};
+            \node[main, very thick] (d0) [right of=i0] {$d_0$};
+            \node[main, very thick] (d1) [right of=i1] {$d_1$};
+            \node[main, very thick] (d2) [right of=d1] {$d_2$};
             \node[main] (o0) [above right of=d2] {$o_0$};
             \node[main] (o1) [below right of=d2] {$o_1$};
             \draw[->] (i0) -- node[midway, above, sloped, pos=0.5] {0.02, 1} (d0);
@@ -697,7 +698,7 @@
         \end{tikzpicture}
         \caption{Primer agenta z rekurenčno nevronsko mrežo s tremi vhodnimi vozlišči $i$, tremi vmesnimi vozlišči $d$ in
         dvema izhodnima vozliščema $o$. Prvo število na povezavah je utež, drugo pa največje število prečkanj. Vozlišča
-            $d_0$, $d_1$ in $d_2$ tvorijo cikel.}
+            $d_0$, $d_1$ in $d_2$ tvorijo cikel (odebeljeno).}
         \label{fig:skica_agenta}
     \end{figure}
 
@@ -806,7 +807,7 @@
 
     \begin{figure}[H]
         \centering
-        \begin{tikzpicture}[node distance={25mm}, thin, main/.style = {draw, circle}]
+        \begin{tikzpicture}[node distance={30mm}, thin, main/.style = {draw, circle}]
             \node[main] (i0) {$i_0$};
             \node[main] (i1) [below of=i0] {$i_1$};
             \node[main] (i2) [below of=i1] {$i_2$};
@@ -823,7 +824,7 @@
             \draw[->, very thick] (d2) -- node[midway, above, sloped, pos=0.5] {0.23, 5} (d1);
             \draw[->, very thick] (d1) -- node[midway, above, sloped, pos=0.5] {0.08, 5} (d0);
         \end{tikzpicture}
-        \caption{Primer agenta z mirujočo strukturo. Nevronski mreži slike~\ref{fig:skica_agenta} smo odstranili povezavi
+        \caption{Primer agenta z mirujočo strukturo (odebeljeno). Nevronski mreži slike~\ref{fig:skica_agenta} smo odstranili povezavi
         med $d_2$ in $o_0$ ter $o_1$. Posledično na vrednost izhodnih vozlišč vpliva samo $i_2$.}
         \label{fig:mirujoca_struktura}
     \end{figure}
@@ -932,6 +933,8 @@
         \item Vstopi v zanko, ki izbira agente glede na njihovo širino na številskem traku (slika~\ref{fig:sus}).
         Koda zanke je predstavljena v algoritmu~\ref{alg:sus}.
     \end{enumerate}
+
+    \newpage
 
     \begin{algorithm}[H]
         \lstlistingslo{psevdokoda/stochastic.txt}
@@ -1065,11 +1068,15 @@
         \item $c$ prispevek kompleksnosti.
     \end{itemize}
 
+    \pagebreak
+
     Negativni prispevek povzroči, da bodo v koraku vzorčenja (razdelek~\ref{sec:vzorcenje}) bolj pogosto izbrani tisti agenti, ki imajo večjo točnost oz.
     MKK in imajo hkrati manj kompleksen sprehod.
 
     Prispevek kompleksnosti doda pribitek za mirujoče strukture (podrazdelek~\ref{subsec:povezave}), ki so povezane na vsaj eno vhodno vozlišče.
     Strukture, ki so z algoritmom propagiranja nedosegljive, ne vplivajo na kakovost agentov.
+
+    \newpage
 
     \subsection{Primer izračuna kakovosti}\label{subsec:primer-izracuna-kakovosti}
     Za lažjo predstavo algoritma vzemimo zapis izmišljene učne množice z atributi A, B in C ter dvema razredoma in ga propagirajmo skozi preprost acikličen graf.
@@ -1097,7 +1104,7 @@
 
     \begin{figure}[H]
         \centering
-        \begin{tikzpicture}[node distance={25mm}, thin, main/.style = {draw, circle}]
+        \begin{tikzpicture}[node distance={30mm}, thin, main/.style = {draw, circle}]
             \node[main] (i0) {$i_0$};
             \node[main] (i1) [below of=i0] {$i_1$};
             \node[main] (i2) [below of=i1] {$i_2$};
@@ -1122,6 +1129,8 @@
         \label{fig:preprost_aciklicen_graf}
     \end{figure}
 
+    \newpage
+
     \begin{enumerate}
         \item Vhodnim vozliščem nastavimo vrednosti, ki so enake atributom zapisa učne množice.
         Shranimo jih v $pendingVertices$.
@@ -1131,7 +1140,7 @@
         \end{flushleft}
         \begin{figure}[H]
             \centering
-            \begin{tikzpicture}[font=\scriptsize, node distance={22mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
+            \begin{tikzpicture}[node distance={30mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
                 \node[thicc] (i0) {$5.7$};
                 \node[thicc] (i1) [below of=i0] {$2.8$};
                 \node[thicc] (i2) [below of=i1] {$4.2$};
@@ -1154,6 +1163,7 @@
             \caption{Prvi korak propagiranja prvega zapisa testne množice (tabela~\ref{tab:izracun_kakovosti_ucna_mnozica}) skozi preprost acikličen graf (slika~\ref{fig:preprost_aciklicen_graf}).}
             \label{fig:izracun_kakovosti_primer_1}
         \end{figure}
+        \newpage
         \item Iz $pendingVertices$ vzamemo $i_0$.\ Njegovo vrednost propagiramo do vozlišča $o_0$ tako,
         da $5.7$ pomnožimo z utežjo povezave $0.03$, zmnožek pa prištejemo trenutni vrednosti $o_0$.
         Število prečkanj povezave povečamo za $1$.
@@ -1164,7 +1174,7 @@
         \end{flushleft}
         \begin{figure}[H]
             \centering
-            \begin{tikzpicture}[font=\scriptsize, node distance={22mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
+            \begin{tikzpicture}[node distance={30mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
                 \node[main] (i0) {$5.7$};
                 \node[main] (i1) [below of=i0] {$2.8$};
                 \node[main] (i2) [below of=i1] {$4.2$};
@@ -1187,6 +1197,7 @@
             \caption{Drugi korak propagiranja prvega zapisa testne množice skozi preprost acikličen graf.}
             \label{fig:izracun_kakovosti_primer_2}
         \end{figure}
+        \newpage
         \item Iz $pendingVertices$ vzamemo $i_1$.\ Njegovo vrednost propagiramo do vozlišč $d_0$ in $d_1$.
         Vozlišče $d_0$ dodamo v $pendingVertices$, $d_1$ pa v $backupVertices$, ker njegove povezave z $i_2$ še nismo obravnavali.
         \begin{flushleft}
@@ -1195,7 +1206,7 @@
         \end{flushleft}
         \begin{figure}[H]
             \centering
-            \begin{tikzpicture}[font=\scriptsize, node distance={22mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
+            \begin{tikzpicture}[node distance={30mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
                 \node[main] (i0) {$5.7$};
                 \node[main] (i1) [below of=i0] {$2.8$};
                 \node[main] (i2) [below of=i1] {$4.2$};
@@ -1218,6 +1229,7 @@
             \caption{Tretji korak propagiranja prvega zapisa testne množice skozi preprost acikličen graf.}
             \label{fig:izracun_kakovosti_primer_3}
         \end{figure}
+        \newpage
         \item Iz $pendingVertices$ vzamemo $i_2$.\ Njegovo vrednost propagiramo do vozlišča $d_1$.
         Tokrat $d_1$ shranimo v $pendingVertices$, ker je število prečkanj vseh njegovih vhodnih povezav enako meji.
         Pobrišemo ga iz $backupVertices$.
@@ -1227,7 +1239,7 @@
         \end{flushleft}
         \begin{figure}[H]
             \centering
-            \begin{tikzpicture}[font=\scriptsize, node distance={22mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
+            \begin{tikzpicture}[node distance={30mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
                 \node[main] (i0) {$5.7$};
                 \node[main] (i1) [below of=i0] {$2.8$};
                 \node[main] (i2) [below of=i1] {$4.2$};
@@ -1250,6 +1262,7 @@
             \caption{Četrti korak propagiranja prvega zapisa testne množice skozi preprost acikličen graf.}
             \label{fig:izracun_kakovosti_primer_4}
         \end{figure}
+        \newpage
         \item Iz $pendingVertices$ vzamemo $d_0$.\ Njegovo vrednost propagiramo do vozlišča $d_2$.
         Vozlišče $d_2$ shranimo v $backupVertices$.
         \begin{flushleft}
@@ -1258,7 +1271,7 @@
         \end{flushleft}
         \begin{figure}[H]
             \centering
-            \begin{tikzpicture}[font=\scriptsize, node distance={22mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
+            \begin{tikzpicture}[node distance={30mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
                 \node[main] (i0) {$5.7$};
                 \node[main] (i1) [below of=i0] {$2.8$};
                 \node[main] (i2) [below of=i1] {$4.2$};
@@ -1281,6 +1294,7 @@
             \caption{Peti korak propagiranja prvega zapisa testne množice skozi preprost acikličen graf.}
             \label{fig:izracun_kakovosti_primer_5}
         \end{figure}
+        \newpage
         \item Iz $pendingVertices$ vzamemo vozlišče $d_1$.\ Njegovo vrednost propagiramo do vozlišč $d_2$ in $d_3$.
         Vozlišča $d_3$ ne shranimo nikamor, ker nima izhodnih povezav, $d_2$ pa se že nahaja v $backupVertices$.
         \begin{flushleft}
@@ -1289,7 +1303,7 @@
         \end{flushleft}
         \begin{figure}[H]
             \centering
-            \begin{tikzpicture}[font=\scriptsize, node distance={22mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
+            \begin{tikzpicture}[node distance={30mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
                 \node[main] (i0) {$5.7$};
                 \node[main] (i1) [below of=i0] {$2.8$};
                 \node[main] (i2) [below of=i1] {$4.2$};
@@ -1312,6 +1326,7 @@
             \caption{Šesti korak propagiranja prvega zapisa testne množice skozi preprost acikličen graf.}
             \label{fig:izracun_kakovosti_primer_6}
         \end{figure}
+        \newpage
         \item Vrsta $pendingVertices$ je prazna, zato iz množice $backupVertices$ vzamemo vozlišče, ki ima najmanjši seštevek
         preostalih prečkanj vhodnih povezav.
         V tem primeru v $pendingVertices$ prestavimo $d_2$.
@@ -1321,7 +1336,7 @@
         \end{flushleft}
         \begin{figure}[H]
             \centering
-            \begin{tikzpicture}[font=\scriptsize, node distance={22mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
+            \begin{tikzpicture}[node distance={30mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
                 \node[main] (i0) {$5.7$};
                 \node[main] (i1) [below of=i0] {$2.8$};
                 \node[main] (i2) [below of=i1] {$4.2$};
@@ -1344,6 +1359,7 @@
             \caption{Sedmi korak propagiranja prvega zapisa testne množice skozi preprost acikličen graf.}
             \label{fig:izracun_kakovosti_primer_7}
         \end{figure}
+        \newpage
         \item Iz $pendingVertices$ vzamemo $d_2$.\ Njegovo vrednost propagiramo do vozlišč $o_0$ in $o_1$.
         $PendingVertices$ in $backupVertices$ sta prazni, zato zaključimo s postopkom.
         \begin{flushleft}
@@ -1352,7 +1368,7 @@
         \end{flushleft}
         \begin{figure}[H]
             \centering
-            \begin{tikzpicture}[font=\scriptsize, node distance={22mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
+            \begin{tikzpicture}[node distance={30mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
                 \node[main] (i0) {$5.7$};
                 \node[main] (i1) [below of=i0] {$2.8$};
                 \node[main] (i2) [below of=i1] {$4.2$};
@@ -1375,6 +1391,7 @@
             \caption{Osmi korak propagiranja prvega zapisa testne množice skozi preprost acikličen graf.}
             \label{fig:izracun_kakovosti_primer_8}
         \end{figure}
+        \newpage
         \item Indeks izhodnega vozlišča z največjo vrednostjo primerjamo z razredom vrstice testne množice.
         Največja vrednost se nahaja v $o_1$, kar pomeni, da je napoved grafa pravilna.
         \begin{flushleft}
@@ -1383,7 +1400,7 @@
         \end{flushleft}
         \begin{figure}[H]
             \centering
-            \begin{tikzpicture}[font=\scriptsize, node distance={22mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
+            \begin{tikzpicture}[node distance={30mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
                 \node[main] (i0) {$5.7$};
                 \node[main] (i1) [below of=i0] {$2.8$};
                 \node[main] (i2) [below of=i1] {$4.2$};
@@ -1432,7 +1449,7 @@
         \item[A: 6.6, B:5.8, C: 2.2]{Pravilen razred: $0$
             \begin{figure}[H]
                 \centering
-                \begin{tikzpicture}[font=\scriptsize, node distance={22mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
+                \begin{tikzpicture}[node distance={30mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
                     \node[main] (i0) {$6.6$};
                     \node[main] (i1) [below of=i0] {$5.8$};
                     \node[main] (i2) [below of=i1] {$2.2$};
@@ -1471,10 +1488,11 @@
                 \caption{Stanje matrike zmot po propagaciji druge vrstice izmišljene učne množice. Povečamo celico 0,1.}
                 \label{tab:izracun_kakovosti_cm_2}
             \end{table}}
+        \newpage
         \item[A: 3.6, B:5.3, C: 3.5]{Pravilen razred: $0$
             \begin{figure}[H]
                 \centering
-                \begin{tikzpicture}[font=\scriptsize, node distance={22mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
+                \begin{tikzpicture}[node distance={30mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
                     \node[main] (i0) {$3.6$};
                     \node[main] (i1) [below of=i0] {$5.3$};
                     \node[main] (i2) [below of=i1] {$3.5$};
@@ -1513,10 +1531,11 @@
                 \caption{Stanje matrike zmot po propagaciji tretje vrstice izmišljene učne množice. Povečamo celico 0,1.}
                 \label{tab:izracun_kakovosti_cm_3}
             \end{table}}
+        \newpage
         \item[A: 3.8, B:8, C: 6.8]{Pravilen razred: $1$
             \begin{figure}[H]
                 \centering
-                \begin{tikzpicture}[font=\scriptsize, node distance={22mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
+                \begin{tikzpicture}[node distance={30mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
                     \node[main] (i0) {$3.8$};
                     \node[main] (i1) [below of=i0] {$8$};
                     \node[main] (i2) [below of=i1] {$6.8$};
@@ -1555,10 +1574,11 @@
                 \caption{Stanje matrike zmot po propagaciji četrte vrstice izmišljene učne množice. Povečamo celico 1,1.}
                 \label{tab:izracun_kakovosti_cm_4}
             \end{table}}
+        \newpage
         \item[A: 3.5, B:7.4, C: 9.8]{Pravilen razred: $0$
             \begin{figure}[H]
                 \centering
-                \begin{tikzpicture}[font=\scriptsize, node distance={22mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
+                \begin{tikzpicture}[node distance={30mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
                     \node[main] (i0) {$3.5$};
                     \node[main] (i1) [below of=i0] {$7.4$};
                     \node[main] (i2) [below of=i1] {$9.8$};
@@ -1599,6 +1619,8 @@
             \end{table}}
     \end{description}
 
+    \newpage
+
     Na podlagi matrike zmot lahko izračunamo točnost in MKK napovedi testne množice.
     \begin{equation}
         \text{ACC}=\frac{c}{s}=\frac{2}{5}=40\%\label{eq:tocnost_primer}
@@ -1615,10 +1637,11 @@
     \chapter{Evalvacija}\label{ch:evalvacija}
     To poglavje pokriva način ovrednotenja programa na podatkovnih množicah Iris, Wine, Car Evaluation in Shuttle ter predstavitev rezultatov.
     Vse podatkovne množice, ki smo jih izbrali, vsebujejo učne primere brez manjkajočih vrednosti, zvezne ali diskretne atribute in najmanj tri razrede.
-    Na voljo so na UCI Machine Learning Repository~\cite{Dua:2019}.
+    Na voljo so na UCI Machine Learning Repository~\cite{uci}.
     V tem poglavju naprej opišemo podatkovne množice, čemur sledi opis evalvacije (razdelek~\ref{sec:nacrt-poskusov}).
     Povzetek rezultatov in diskusija se nahajajo v poglavju~\ref{ch:rezultati}, podrobni rezultati testiranja pa v dodatku~\ref{ch:rezultati-testiranja}.
 
+    \newpage
     \section{Podatkovne množice}\label{sec:podatkovne-mnozice}
     V tem razdelku je opisano:
     \begin{itemize}
@@ -1629,7 +1652,7 @@
     \end{itemize}
 
     \subsection{Iris}\label{subsec:iris}
-    Ta podatkovna množica~\cite{misc_iris_53} je najenostavnejša izmed izbranih.
+    Ta podatkovna množica je najenostavnejša izmed izbranih.
     Vsebuje 150 učnih primerov s štirimi atributi, ki predstavljajo širino in dolžino (v centimetrih) cvetnih in čašnih
     listov cvetlic v rodu \enquote{iris} oz.\ perunik.
     Vsak razred predstavlja svojo vrsto perunike:
@@ -1654,8 +1677,9 @@
         \label{tab:iris_opis}
     \end{table}
 
+    \newpage
     \subsection{Wine}\label{subsec:wine}
-    Učni primeri te množice~\cite{misc_wine_109} vsebujejo rezultate kemične analize vin, ki so bila pridelana iz grozdja
+    Učni primeri te množice vsebujejo rezultate kemične analize vin, ki so bila pridelana iz grozdja
     treh različnih kultivarjev v isti regiji Italije.
     Imajo naslednjih trinajst zveznih atributov:
     \begin{itemize}
@@ -1690,7 +1714,7 @@
     \end{table}
 
     \subsection{Car Evaluation}\label{subsec:car-evaluation}
-    Cilj množice Car Evaluation~\cite{misc_car_evaluation_19} je predvideti primernost 1728 avtomobilov oz.\ kako dobro kupčijo predstavljajo.
+    Cilj množice Car Evaluation je predvideti primernost 1728 avtomobilov oz.\ kako dobro kupčijo predstavljajo.
     Učni primeri vsebujejo šest diskretnih atributov:
     \begin{itemize}
         \item nakupna cena avtomobila,
@@ -1701,7 +1725,7 @@
         \item stopnja varnosti.
     \end{itemize}
 
-    Cilj je klasificirati primere v štiri razrede, ki med seboj niso enakomerno porazdeljeni.
+    Cilj je klasificirati primere v štiri neenakomerno porazdeljene razrede.
 
     \begin{table}[H]
         \centering
@@ -1734,9 +1758,8 @@
         \label{tab:car_predobdelava}
     \end{table}
 
-
     \subsection{Shuttle}\label{subsec:statlog-shuttle}
-    Ta množica~\cite{misc_statlog_shuttle_148} je najbolj kompleksna izmed izbranih.
+    Ta množica je najbolj kompleksna izmed izbranih.
     Vsebuje 58,000 dnev\-ni\-ških zapisov Space-shuttlovega računalnika, ki so zelo neenakomerno porazdeljeni med sedem razredov.
     Vsebuje devet zveznih atributov.\ Prvi je \enquote{čas}, ostali pa niso poimenovani.
     Razredi so naslednji:
@@ -1780,6 +1803,8 @@
         \caption{Porazdelitev razredov učne in testne množice Shuttle.}
         \label{tab:shuttle_opis}
     \end{table}
+
+    \newpage
 
     \section{Načrt poskusov}\label{sec:nacrt-poskusov}
     %%"/home/jure/CLionProjects/Neuroevolution/datasets/car/car.data" 250 100 300 2 true 0.1 125 true -0.000 -0.000 100 MKK
@@ -2015,6 +2040,8 @@
         \label{tab:shuttle_result_aggregate}
     \end{table}
 
+    \newpage
+
     \section{Skupni povzetek rezultatov}\label{sec:skupni-povzetek-rezultatov}
     Naš pristop je na podatkovnih množicah z enakomerno porazdelitvijo razredov (Iris in Wine) zmožen napovedati vse
     razrede z visoko točnostjo.
@@ -2022,18 +2049,17 @@
     Vzrok je dodelitev premajhne kakovosti agentom z nišnimi lastnostmi in njihova posledična odstranitev iz populacij.
 
     Generirane nevronske mreže so majhne.\ Na primer, točnost $97.8\%$ smo pri množici Iris dosegli s petimi povezavami brez vmesnih vozlišč, točnost $93\%$ pri
-    največji množici Shuttle pa z 22 povezavami in enim globokim vozliščem (slika~\ref{fig:wine_acc_2_g}).
+    največji množici Shuttle pa z 22 povezavami in enim vmesnim vozliščem (slika~\ref{fig:wine_acc_2_g}).
 
     Pogosto se zgodi, da ustvarjeni grafi ne vsebujejo sktruktur, ki bi povezale vsa vhodna vozlišča z izhodnimi, kljub temu pa dosežejo visoko kvaliteto.
-    Primer je najtočnejši agent tretjega nabora množice Wine, ki uporabi le 7 od 13 vhodnih vozlišč.
+    Primer je najtočnejši agent tretjega nabora množice Wine, ki uporabi le 7 od 13 vhodnih vozlišč (slika~\ref{fig:wine_acc_3_g}).
 
-    Za naš pristop so značilni \enquote{preboji} kakovosti, kjer velika večina populacije obtiči v lokalnem minimumu,
+    Za naš pristop so značilni \enquote{preboji} kakovosti, kjer velika večina populacije obtiči v lokalnem maksimumu,
     nato pa se kakovostne podstrukture grafov hitro prenesejo v slabše agente.
-    Lahko se tudi zgodi, da do tega preboja ne pride do dodeljenega števila generacij, posledično pa ima najboljši agent nizko kvaliteto.
+    Lahko se tudi zgodi, da do tega preboja ne pride do dodeljenega števila generacij oz.\ zaključka programa, posledično pa ima najboljši agent nizko kvaliteto.
 
     S pomočjo metrike MKK smo generirali agente s kvaliteto, ki je primerljiva agentom metrike točnosti.
     To pomeni tudi, da samo s pomočjo te metrike nismo bili uspešni pri ohranjanju agentov z nišnimi lastnostmi.
-    Razlika pa je v tem, da je konvergenca populacije velikokrat počasnejša.
 
 
     \chapter{Zaključek}\label{ch:zakljucki-sklep}
