@@ -179,7 +179,7 @@ int main(int argc, char *argv[]) {
                       ", Matthews correlation coefficient: " +
                       std::to_string(fittestAgent->getMatthewsCorrelationCoefficient()));
 
-        std::ofstream jsonFullFile("/Users/admin/Documents/Neuroevolution/visualization/graphFull.json");
+        std::ofstream jsonFullFile("graphFull.json");
         jsonFullFile << fittestAgent->getGraph()->toForceGraphJson();
         jsonFullFile.close();
 
@@ -217,7 +217,7 @@ int main(int argc, char *argv[]) {
                                                               pop.getNumberOfOutputs());
     logging::logs(bestMcm.toString(pop.getOutputLabels()));
     bestAgent->getGraph()->reset();
-    std::ofstream jsonFullFile("/Users/admin/Documents/Neuroevolution/visualization/graphFull.json");
+    std::ofstream jsonFullFile("graphFull.json");
     jsonFullFile << bestAgent->getGraph()->toForceGraphJson();
     jsonFullFile.close();
 
@@ -232,7 +232,7 @@ int main(int argc, char *argv[]) {
 
 
     auto json = minimizedBestAgent->getGraph()->toForceGraphJson();
-    std::ofstream jsonFile("/Users/admin/Documents/Neuroevolution/visualization/graph.json");
+    std::ofstream jsonFile("graph.json");
     jsonFile << json;
     jsonFile.close();
 
