@@ -363,7 +363,7 @@
                  \textbf{NEAT}    & Neuroevolution of Augmenting Topologies & nevroevolucija razširjajočih topologij \\
                  \textbf{NN}      & neural network                          & nevronska mreža                        \\
                  \textbf{ReLU}    & rectified linear unit                   & usmerjena linearna enota               \\
-                 \textbf{RF}      & random forest                           & naključni gozd                         \\
+                 \textbf{RF}      & random forests                          & naključni gozdovi                       \\
                  \textbf{SUS}     & stochastic universal sampling           & stohastično univerzalno vzorčenje      \\
 %  \dots & \dots & \dots \\
     \end{tabular}
@@ -452,8 +452,7 @@
     V diplomski nalogi predstavimo uporabljene tehnologije (pogjavje~\ref{ch:ozadje-problema}), implementacijo teh
     tehnologij v našem programu (poglavje~\ref{ch:implementacija-nevroevolucije}) in izbrane podatkovne množice ter
     načrt testiranja programa (poglavje~\ref{ch:evalvacija}).
-    V poglavju~\ref{ch:rezultati} se nahajata diskusija in povzetek rezultatov testiranja, podrobni rezultati pa v dodatku~\ref{ch:rezultati-testiranja}.
-    \textbf{TODO preglej}
+    V poglavju~\ref{ch:rezultati} se nahajajo diskusija in povzetek rezultatov testiranja, podrobni rezultati pa v dodatku~\ref{ch:rezultati-testiranja}.
 
 
     \chapter{Ozadje problema}\label{ch:ozadje-problema}
@@ -746,7 +745,7 @@
         \item[Izhodna vozlišča (oznaka $o$)]{Tako kot vhodna vozlišča, tudi izhodna vsebujejo dodatno besedilno labelo, ki predstavlja
         ustrezen razred podatkovne mno\-ži\-ce.\ Logike dodajanja \textbf{izhodnih} povezav ne implementirajo.
         Njihova aktivacijska funkcija je nespremenjena, ker je v koraku izračuna kakovosti pomembna samo največja
-        vrednost vseh izhodnih vozlišč grafa. }
+        vrednost izhodnih vozlišč grafa. }
     \end{description}
 
     V grafih dopuščamo obstoj \enquote{mirujočih} vmesnih vozlišč, ki ne vplivajo na vrednosti izhodnih vozlišč.
@@ -1051,7 +1050,7 @@
         \item $c$ število vseh pravilnih napovedi.
     \end{itemize}
 
-    Kakovosti nato prištejemo oz.\ odštejemo prispevek inicializacijskega parametra \enquote{prispevek kompleksnosti} na naslednji način:
+    Kakovosti prištejemo oz.\ odštejemo prispevek inicializacijskega parametra \enquote{prispevek kompleksnosti} na naslednji način:
     \begin{equation}
         \text{Kakovost}=
         \begin{cases}
@@ -1618,7 +1617,7 @@
     Vse podatkovne množice, ki smo jih izbrali, vsebujejo učne primere brez manjkajočih vrednosti, zvezne ali diskretne atribute in najmanj tri razrede.
     Na voljo so na UCI Machine Learning Repository~\cite{Dua:2019}.
     V tem poglavju naprej opišemo podatkovne množice, čemur sledi opis evalvacije (razdelek~\ref{sec:nacrt-poskusov}).
-    Povzetek rezultatov in diskusija se nahajata v poglavju~\ref{ch:rezultati}, podrobni rezultati testiranja pa v dodatku~\ref{ch:rezultati-testiranja}.
+    Povzetek rezultatov in diskusija se nahajajo v poglavju~\ref{ch:rezultati}, podrobni rezultati testiranja pa v dodatku~\ref{ch:rezultati-testiranja}.
 
     \section{Podatkovne množice}\label{sec:podatkovne-mnozice}
     V tem razdelku je opisano:
@@ -1856,15 +1855,14 @@
 
     Najboljšo točnost $97.8\%$ z eno napačno napovedjo so dosegli vsi najboljši agenti posameznih naborov parametrov, razen v tretjem naboru z
     metriko MKK (tabela~\ref{tab:iris_mcc_3}).
+    Točnost večinskega razreda ($33\%$) je bila presežena pri vseh zagonih.
 
     Povprečna točnost se je med prvim in drugim naborom povečala, standardni odklon pa zmanjšal.
     Najboljši agent drugega zagona s tretjim naborom parametrov je dosegel točnost $75.6\%$, kar je znižalo povprečno točnost
     in povečalo standardni odklon.
 
-    Točnost večinskega razreda ($33\%$) je bila presežena pri vseh zagonih.
-
     Pristop RF je dosegel točnost $94.8\%$ (tabela~\ref{tab:rforest_iris_cm} in~\ref{tab:iris_result_aggregate}), kar je
-    primerljivo z našim pristopom.
+    primerljivo z našim.
     Od naših najtočnejših agentov se razlikuje v enem napačno napovedanem primeru.
 
     \begin{table}[H]
@@ -1995,7 +1993,7 @@
     Skozi nabore se je največja točnost rahlo povečala, povprečna pa je ostala bolj ali manj enaka.
     Enako velja pri metriki MKK.
     Padec povprečnega MKK se je zgodil pri drugem naboru (tabela~\ref{tab:statlog_result_2}), kjer sta dva agenta dosegla relativno nizko kvaliteto ($0.604$ in $0.622$)
-    glede na ostale tri zagone.
+    glede na ostale tri.
 
     Pristop RF je dosegel večjo točnost $100\%$ (tabela~\ref{tab:rforest_shuttle_cm} in~\ref{tab:shuttle_result_aggregate}).
 
@@ -2029,7 +2027,7 @@
     Pogosto se zgodi, da ustvarjeni grafi ne vsebujejo sktruktur, ki bi povezale vsa vhodna vozlišča z izhodnimi, kljub temu pa dosežejo visoko kvaliteto.
     Primer je najtočnejši agent tretjega nabora množice Wine, ki uporabi le 7 od 13 vhodnih vozlišč.
 
-    Značilni za naš pristop so \enquote{preboji} v kakovosti, kjer velika večina populacije obtiči v lokalnem minimumu,
+    Za naš pristop so značilni \enquote{preboji} kakovosti, kjer velika večina populacije obtiči v lokalnem minimumu,
     nato pa se kakovostne podstrukture grafov hitro prenesejo v slabše agente.
     Lahko se tudi zgodi, da do tega preboja ne pride do dodeljenega števila generacij, posledično pa ima najboljši agent nizko kvaliteto.
 

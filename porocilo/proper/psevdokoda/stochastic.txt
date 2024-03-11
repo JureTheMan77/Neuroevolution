@@ -1,4 +1,6 @@
-double pointer = nakljucni_zacetni_odmik;
+// nastavitev kazalca z naključnim začetnim odmikom
+double pointer = zacetni_odmik;
+// zaporedna številka agenta v populaciji
 int counter = 0;
 // izberemo prvega agenta populacije
 double cumulativeFitness = this->population.at(0)->getFitness();
