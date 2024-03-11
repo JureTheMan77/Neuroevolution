@@ -1997,7 +1997,7 @@
     Padec povprečnega MKK se je zgodil pri drugem naboru (tabela~\ref{tab:statlog_result_2}), kjer sta dva agenta dosegla relativno nizko kvaliteto ($0.604$ in $0.622$)
     glede na ostale tri zagone.
 
-    Pristop RF je dosegel točnost $100\%$ (tabela~\ref{tab:rforest_shuttle_cm} in~\ref{tab:shuttle_result_aggregate}).
+    Pristop RF je dosegel večjo točnost $100\%$ (tabela~\ref{tab:rforest_shuttle_cm} in~\ref{tab:shuttle_result_aggregate}).
 
     \begin{table}[H]
         \begin{center}
@@ -2018,7 +2018,24 @@
     \end{table}
 
     \section{Skupni povzetek rezultatov}\label{sec:skupni-povzetek-rezultatov}
-    \textbf{TODO komentiraj vse rezultate skupaj, kdaj pristop deluje in kdaj ne in zakaj}
+    Naš pristop je na podatkovnih množicah z enakomerno porazdelitvijo razredov (Iris in Wine) zmožen napovedati vse
+    razrede z visoko točnostjo.
+    V kolikor je porazdelitev neenakomerna (Car Evaluation in Shuttle), pa vseh manjšinskih razredov ni zmožen napovedovati.
+    Vzrok je dodelitev premajhne kakovosti agentom z nišnimi lastnostmi in njihova posledična odstranitev iz populacij.
+
+    Generirane nevronske mreže so majhne.\ Na primer, točnost $97.8\%$ smo pri množici Iris dosegli s petimi povezavami brez vmesnih vozlišč, točnost $93\%$ pri
+    največji množici Shuttle pa z 22 povezavami in enim globokim vozliščem (slika~\ref{fig:wine_acc_2_g}).
+
+    Pogosto se zgodi, da ustvarjeni grafi ne vsebujejo sktruktur, ki bi povezale vsa vhodna vozlišča z izhodnimi, kljub temu pa dosežejo visoko kvaliteto.
+    Primer je najtočnejši agent tretjega nabora množice Wine, ki uporabi le 7 od 13 vhodnih vozlišč.
+
+    Značilni za naš pristop so \enquote{preboji} v kakovosti, kjer velika večina populacije obtiči v lokalnem minimumu,
+    nato pa se kakovostne podstrukture grafov hitro prenesejo v slabše agente.
+    Lahko se tudi zgodi, da do tega preboja ne pride do dodeljenega števila generacij, posledično pa ima najboljši agent nizko kvaliteto.
+
+    S pomočjo metrike MKK smo generirali agente s kvaliteto, ki je primerljiva agentom metrike točnosti.
+    To pomeni tudi, da samo s pomočjo te metrike nismo bili uspešni pri ohranjanju agentov z nišnimi lastnostmi.
+    Razlika pa je v tem, da je konvergenca populacije velikokrat počasnejša.
 
 
     \chapter{Zaključek}\label{ch:zakljucki-sklep}
