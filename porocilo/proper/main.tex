@@ -450,9 +450,9 @@
     Postopek $m$-krat ponovi, nato pa shrani najboljšo nevronsko mrežo.
 
     V diplomski nalogi predstavimo uporabljene tehnologije (pogjavje~\ref{ch:ozadje-problema}), implementacijo teh
-    tehnologij v našem programu (poglavje~\ref{ch:implementacija-nevroevolucije}) in izbrane podatkovne množice ter
+    tehnologij v našem programu (poglavje~\ref{ch:implementacija-nevroevolucije}), izbrane podatkovne množice in
     načrt testiranja programa (poglavje~\ref{ch:evalvacija}).
-    V poglavju~\ref{ch:rezultati} se nahajajo diskusija in povzetek rezultatov testiranja, podrobni rezultati pa so predstavljeni v dodatku~\ref{ch:rezultati-testiranja}.
+    V poglavju~\ref{ch:rezultati} se nahajajo diskusija in povzetek rezultatov testiranja, podrobni rezultati pa so predstavljeni v dodatku.
 
 
     \chapter{Ozadje problema}\label{ch:ozadje-problema}
@@ -616,7 +616,7 @@
     \section{Matthewsov korelacijski koeficient}\label{sec:mkk}
     Matthewsov korelacijski koeficient (MKK)~\cite{mcc_wiki} je mera asociativnosti dveh ali več spremenljivk.
     V kontekstu matrike zmot so spremenljivke oz.\ pravilni in napovedani razredi pozitivno asociativni, če se večina pravilnih napovedi nahaja na ali blizu diagonale.
-    Splošna formula je naslednja, vrne pa vrednosti med $-1$ in $1$:
+    Splošna formula je naslednja:
     \begin{equation}
         \text{MKK}={\frac {cs-{\vec {t}}\cdot {\vec {p}}}{{\sqrt {s^{2}-{\vec {p}}\cdot {\vec {p}}}}{\sqrt {s^{2}-{\vec {t}}\cdot {\vec {t}}}}}}\:,
         \label{eq:mcc}
@@ -629,7 +629,9 @@
         \item $\vec{p}$ število napovedi vseh razredov.
     \end{itemize}
 
-    %MKK, poleg točnosti, uporabimo pri izračunu kakovosti agentov (razdelek~\ref{sec:izracun-kakovosti}).
+    Zgornja formula vrne vrednosti med $-1$ in $1$, kjer $-1$ kaže na popolno nesoglasje med napovedjo in pravim razredom,
+    $1$ pa povsem pravilno napoved.
+    Rezultat $0$ nam pove, da je naš model ekvivalenten naključnemu napovedovanju.
 
 
     \chapter{Implementacija nevroevolucije}\label{ch:implementacija-nevroevolucije}
@@ -678,7 +680,7 @@
 
     \begin{figure}[H]
         \centering
-        \begin{tikzpicture}[node distance={30mm}, thin, main/.style = {draw, circle}]
+        \begin{tikzpicture}[node distance={35mm}, thin, main/.style = {draw, circle}]
             \node[main] (i0) {$i_0$};
             \node[main] (i1) [below of=i0] {$i_1$};
             \node[main] (i2) [below of=i1] {$i_2$};
@@ -808,7 +810,7 @@
 
     \begin{figure}[H]
         \centering
-        \begin{tikzpicture}[node distance={30mm}, thin, main/.style = {draw, circle}]
+        \begin{tikzpicture}[node distance={33mm}, thin, main/.style = {draw, circle}]
             \node[main] (i0) {$i_0$};
             \node[main] (i1) [below of=i0] {$i_1$};
             \node[main] (i2) [below of=i1] {$i_2$};
@@ -1075,7 +1077,29 @@
     MKK in imajo hkrati manj kompleksen sprehod.
 
     Prispevek kompleksnosti doda pribitek za mirujoče strukture (podrazdelek~\ref{subsec:povezave}), ki so povezane na vsaj eno vhodno vozlišče.
-    Strukture, ki so z algoritmom propagiranja nedosegljive, ne vplivajo na kakovost agentov.
+    Strukture, ki so z algoritmom propagiranja nedosegljive (slika~\ref{fig:skica_agenta_nedosegljiva_globoka_struktura}), ne vplivajo na kakovost agentov.
+
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance={35mm}, thin, main/.style = {draw, circle}]
+            \node[main] (i0) {$i_0$};
+            \node[main] (i1) [below of=i0] {$i_1$};
+            \node[main] (i2) [below of=i1] {$i_2$};
+            \node[main, very thick] (d0) [right of=i0] {$d_0$};
+            \node[main, very thick] (d1) [right of=i1] {$d_1$};
+            \node[main, very thick] (d2) [right of=d1] {$d_2$};
+            \node[main] (o0) [above right of=d2] {$o_0$};
+            \node[main] (o1) [below right of=d2] {$o_1$};
+            \draw[->] (i2) -- node[midway, above, sloped, pos=0.5] {0.36, 1} (o1);
+            \draw[->, very thick] (d0) -- node[midway, above, sloped, pos=0.5] {0.58, 5} (d2);
+            \draw[->, very thick] (d2) -- node[midway, above, sloped, pos=0.5] {0.23, 5} (d1);
+            \draw[->, very thick] (d1) -- node[midway, above, sloped, pos=0.5] {0.08, 5} (d0);
+            \draw[->, very thick] (d2) -- node[midway, above, sloped, pos=0.5] {0.34, 1} (o0);
+            \draw[->, very thick] (d2) -- node[midway, above, sloped, pos=0.5] {1.00, 1} (o1);
+        \end{tikzpicture}
+        \caption{Primer agenta z nedosegljivo mirujočo strukturo (odebeljeno).}
+        \label{fig:skica_agenta_nedosegljiva_globoka_struktura}
+    \end{figure}
 
     \newpage
 
@@ -1105,7 +1129,7 @@
 
     \begin{figure}[H]
         \centering
-        \begin{tikzpicture}[node distance={30mm}, thin, main/.style = {draw, circle}]
+        \begin{tikzpicture}[node distance={35mm}, thin, main/.style = {draw, circle}]
             \node[main] (i0) {$i_0$};
             \node[main] (i1) [below of=i0] {$i_1$};
             \node[main] (i2) [below of=i1] {$i_2$};
@@ -1130,8 +1154,6 @@
         \label{fig:preprost_aciklicen_graf}
     \end{figure}
 
-    \newpage
-
     \begin{enumerate}
         \item Vhodnim vozliščem nastavimo vrednosti, ki so enake atributom zapisa učne množice.
         Shranimo jih v $pendingVertices$.
@@ -1141,7 +1163,7 @@
         \end{flushleft}
         \begin{figure}[H]
             \centering
-            \begin{tikzpicture}[node distance={30mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
+            \begin{tikzpicture}[node distance={35mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
                 \node[thicc] (i0) {$5.7$};
                 \node[thicc] (i1) [below of=i0] {$2.8$};
                 \node[thicc] (i2) [below of=i1] {$4.2$};
@@ -1175,7 +1197,7 @@
         \end{flushleft}
         \begin{figure}[H]
             \centering
-            \begin{tikzpicture}[node distance={30mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
+            \begin{tikzpicture}[node distance={35mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
                 \node[main] (i0) {$5.7$};
                 \node[main] (i1) [below of=i0] {$2.8$};
                 \node[main] (i2) [below of=i1] {$4.2$};
@@ -1207,7 +1229,7 @@
         \end{flushleft}
         \begin{figure}[H]
             \centering
-            \begin{tikzpicture}[node distance={30mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
+            \begin{tikzpicture}[node distance={35mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
                 \node[main] (i0) {$5.7$};
                 \node[main] (i1) [below of=i0] {$2.8$};
                 \node[main] (i2) [below of=i1] {$4.2$};
@@ -1240,7 +1262,7 @@
         \end{flushleft}
         \begin{figure}[H]
             \centering
-            \begin{tikzpicture}[node distance={30mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
+            \begin{tikzpicture}[node distance={35mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
                 \node[main] (i0) {$5.7$};
                 \node[main] (i1) [below of=i0] {$2.8$};
                 \node[main] (i2) [below of=i1] {$4.2$};
@@ -1272,7 +1294,7 @@
         \end{flushleft}
         \begin{figure}[H]
             \centering
-            \begin{tikzpicture}[node distance={30mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
+            \begin{tikzpicture}[node distance={35mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
                 \node[main] (i0) {$5.7$};
                 \node[main] (i1) [below of=i0] {$2.8$};
                 \node[main] (i2) [below of=i1] {$4.2$};
@@ -1304,7 +1326,7 @@
         \end{flushleft}
         \begin{figure}[H]
             \centering
-            \begin{tikzpicture}[node distance={30mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
+            \begin{tikzpicture}[node distance={35mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
                 \node[main] (i0) {$5.7$};
                 \node[main] (i1) [below of=i0] {$2.8$};
                 \node[main] (i2) [below of=i1] {$4.2$};
@@ -1337,7 +1359,7 @@
         \end{flushleft}
         \begin{figure}[H]
             \centering
-            \begin{tikzpicture}[node distance={30mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
+            \begin{tikzpicture}[node distance={35mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
                 \node[main] (i0) {$5.7$};
                 \node[main] (i1) [below of=i0] {$2.8$};
                 \node[main] (i2) [below of=i1] {$4.2$};
@@ -1369,7 +1391,7 @@
         \end{flushleft}
         \begin{figure}[H]
             \centering
-            \begin{tikzpicture}[node distance={30mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
+            \begin{tikzpicture}[node distance={35mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
                 \node[main] (i0) {$5.7$};
                 \node[main] (i1) [below of=i0] {$2.8$};
                 \node[main] (i2) [below of=i1] {$4.2$};
@@ -1401,7 +1423,7 @@
         \end{flushleft}
         \begin{figure}[H]
             \centering
-            \begin{tikzpicture}[node distance={30mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
+            \begin{tikzpicture}[node distance={35mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
                 \node[main] (i0) {$5.7$};
                 \node[main] (i1) [below of=i0] {$2.8$};
                 \node[main] (i2) [below of=i1] {$4.2$};
@@ -1450,7 +1472,7 @@
         \item[A: 6.6, B:5.8, C: 2.2]{Pravilen razred: $0$
             \begin{figure}[H]
                 \centering
-                \begin{tikzpicture}[node distance={30mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
+                \begin{tikzpicture}[node distance={35mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
                     \node[main] (i0) {$6.6$};
                     \node[main] (i1) [below of=i0] {$5.8$};
                     \node[main] (i2) [below of=i1] {$2.2$};
@@ -1493,7 +1515,7 @@
         \item[A: 3.6, B:5.3, C: 3.5]{Pravilen razred: $0$
             \begin{figure}[H]
                 \centering
-                \begin{tikzpicture}[node distance={30mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
+                \begin{tikzpicture}[node distance={35mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
                     \node[main] (i0) {$3.6$};
                     \node[main] (i1) [below of=i0] {$5.3$};
                     \node[main] (i2) [below of=i1] {$3.5$};
@@ -1536,7 +1558,7 @@
         \item[A: 3.8, B:8, C: 6.8]{Pravilen razred: $1$
             \begin{figure}[H]
                 \centering
-                \begin{tikzpicture}[node distance={30mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
+                \begin{tikzpicture}[node distance={35mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
                     \node[main] (i0) {$3.8$};
                     \node[main] (i1) [below of=i0] {$8$};
                     \node[main] (i2) [below of=i1] {$6.8$};
@@ -1579,7 +1601,7 @@
         \item[A: 3.5, B:7.4, C: 9.8]{Pravilen razred: $0$
             \begin{figure}[H]
                 \centering
-                \begin{tikzpicture}[node distance={30mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
+                \begin{tikzpicture}[node distance={35mm}, thin, main/.style = {draw, circle}, thicc/.style = {draw, circle, very thick}]
                     \node[main] (i0) {$3.5$};
                     \node[main] (i1) [below of=i0] {$7.4$};
                     \node[main] (i2) [below of=i1] {$9.8$};
@@ -1825,9 +1847,9 @@
         \end{equation}
         kjer je:
         \begin{itemize}
-            \item $n$ število zagonov programa,
-            \item $x_i$ vrednost točnosti ali MKK i-tega zagona,
-            \item $\overline{x}$ povprečje točnosti ali MKK.
+            \vspace{-0.2cm}\item $n$ število zagonov programa,
+            \vspace{-0.2cm}\item $x_i$ vrednost točnosti ali MKK i-tega zagona,
+            \vspace{-0.2cm}\item $\overline{x}$ povprečje točnosti ali MKK.
         \end{itemize}
     \end{enumerate}
 
@@ -1880,7 +1902,7 @@
     na potomce v samo nekaj generacijah, npr.\ celotne podstrukture grafov.
 
     Najboljšo točnost $97.8\%$ z eno napačno napovedjo so dosegli vsi najboljši agenti posameznih naborov parametrov, razen v tretjem naboru z
-    metriko MKK (tabela~\ref{tab:iris_mcc_3}).
+    metriko MKK (tabela~\ref{tab:iris_result_3}).
     Točnost večinskega razreda ($33\%$) je bila presežena pri vseh zagonih.
 
     Povprečna točnost se je med prvim in drugim naborom povečala, standardni odklon pa zmanjšal.
@@ -2064,7 +2086,7 @@
 
 
     \chapter{Zaključek}\label{ch:zakljucki-sklep}
-    V diplomski nalogi smo napisali program, ki ustvari rekurenčne nevronske mreže za večrazredno klasifikacijo s pomočjo genetskega algoritma.
+    V diplomski nalogi smo razvili program, ki ustvari rekurenčne nevronske mreže za večrazredno klasifikacijo s pomočjo genetskega algoritma.
     Genetski algoritem pri izračunu kakovosti upošteva tudi računsko kompleksnost mrež z nastavljivim inicializacijskim parametrom.
     Ustvarjene mreže za klasifikacijo podatkovnih množic z enakomerno porazdelitvijo razredov imajo točnost, ki je primerljiva s
     pristopom naključnih gozdov.
